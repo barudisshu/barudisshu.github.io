@@ -732,6 +732,13 @@
 
   
   <url>
+    <loc>http://galudisu.info/tags/teamcity/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://galudisu.info/tags/auth/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
@@ -739,14 +746,7 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/cassandra/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/ceph/</loc>
+    <loc>http://galudisu.info/tags/elasticsearch/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -781,7 +781,21 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/teamcity/</loc>
+    <loc>http://galudisu.info/tags/ceph/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/cassandra/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/flink/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -809,21 +823,14 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/docker-keycloak/</loc>
+    <loc>http://galudisu.info/tags/hadoop/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/elasticsearch/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/flink/</loc>
+    <loc>http://galudisu.info/tags/gitlab-zh/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -851,28 +858,7 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/gitlab-zh/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/hadoop/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/ideal/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/idea/</loc>
+    <loc>http://galudisu.info/tags/docker-keycloak/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -880,6 +866,13 @@
   
   <url>
     <loc>http://galudisu.info/tags/jdk/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/study/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -900,7 +893,21 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/study/</loc>
+    <loc>http://galudisu.info/tags/idea/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/ideal/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/mongo/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -921,13 +928,6 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/hexo/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://galudisu.info/tags/akka/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
@@ -942,7 +942,7 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/mongo/</loc>
+    <loc>http://galudisu.info/tags/hexo/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -956,7 +956,42 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/5g/</loc>
+    <loc>http://galudisu.info/tags/ubuntu/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/mysql-lvs/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/react/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/typescript/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/scala-shapeless-typeclass/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/scala-type-level/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -991,7 +1026,7 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/ubuntu/</loc>
+    <loc>http://galudisu.info/tags/5g/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1005,21 +1040,7 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/react-redux-webpack-hot/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/react/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/typescript/</loc>
+    <loc>http://galudisu.info/tags/youtrack/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1033,21 +1054,7 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/scala-shapeless-typeclass/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/youtrack/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/scala-type-level/</loc>
+    <loc>http://galudisu.info/tags/react-redux-webpack-hot/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1068,7 +1075,14 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/mysql-lvs/</loc>
+    <loc>http://galudisu.info/tags/ga-ml-scala/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/probabilistic/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1089,20 +1103,6 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/ga-ml-scala/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/probabilistic/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://galudisu.info/tags/gentoo/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
@@ -1117,14 +1117,14 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/ddd-shard/</loc>
+    <loc>http://galudisu.info/tags/scala-future/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/akka-ddd-cqrs/</loc>
+    <loc>http://galudisu.info/tags/scala-magent-implicits-typeclasses/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1138,14 +1138,14 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/scala-future/</loc>
+    <loc>http://galudisu.info/tags/akka-ddd-cqrs/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/scala-magent-implicits-typeclasses/</loc>
+    <loc>http://galudisu.info/tags/ddd-shard/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1189,6 +1189,13 @@
 
   
   <url>
+    <loc>http://galudisu.info/categories/ci/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://galudisu.info/categories/oauth2/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
@@ -1197,13 +1204,6 @@
   
   <url>
     <loc>http://galudisu.info/categories/devOps/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/categories/ci/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1231,14 +1231,14 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/categories/beginning/</loc>
+    <loc>http://galudisu.info/categories/scala/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://galudisu.info/categories/scala/</loc>
+    <loc>http://galudisu.info/categories/beginning/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1252,13 +1252,6 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/categories/sql/</loc>
-    <lastmod>2021-08-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://galudisu.info/categories/react/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
@@ -1266,7 +1259,14 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/categories/future/</loc>
+    <loc>http://galudisu.info/categories/sql/</loc>
+    <lastmod>2021-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/categories/akka/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1280,7 +1280,7 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/categories/akka/</loc>
+    <loc>http://galudisu.info/categories/future/</loc>
     <lastmod>2021-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
