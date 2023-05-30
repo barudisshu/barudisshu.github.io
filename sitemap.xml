@@ -1031,20 +1031,6 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/certificate/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/ssl/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://galudisu.info/tags/gitlab/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -1067,6 +1053,20 @@
   
   <url>
     <loc>http://galudisu.info/tags/harbor/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/certificate/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://galudisu.info/tags/ssl/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1304,6 +1304,13 @@
   </url>
   
   <url>
+    <loc>http://galudisu.info/tags/postgreSQL/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://galudisu.info/tags/react-redux/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -1319,13 +1326,6 @@
   
   <url>
     <loc>http://galudisu.info/tags/react/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://galudisu.info/tags/postgreSQL/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1458,14 +1458,14 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/scala-future/</loc>
+    <loc>http://galudisu.info/tags/scala-magent-implicits-typeclasses/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://galudisu.info/tags/scala-magent-implicits-typeclasses/</loc>
+    <loc>http://galudisu.info/tags/scala-future/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1481,14 +1481,14 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/categories/k8s/</loc>
+    <loc>http://galudisu.info/categories/devOps/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://galudisu.info/categories/devOps/</loc>
+    <loc>http://galudisu.info/categories/k8s/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1572,14 +1572,14 @@
   </url>
   
   <url>
-    <loc>http://galudisu.info/categories/future/</loc>
+    <loc>http://galudisu.info/categories/akka-http/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://galudisu.info/categories/akka-http/</loc>
+    <loc>http://galudisu.info/categories/future/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

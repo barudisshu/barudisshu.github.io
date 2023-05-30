@@ -1,10 +1,10 @@
 <!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>kubernetes 设计理念及主要概念之Service(三)</title>
-<link rel="stylesheet" href="../css/layout.css">
-<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="../css/vendors/rabbit-lyrics.css">
-<link rel="shortcut icon" href="../../../../../img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
-</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">kubernetes 设计理念及主要概念之Service(三)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2019-02-06</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="../../../../../tags/kubernetes/">kubernetes</a></p></div><div class="article-content"><h2><span id="服务发现与负载均衡">服务发现与负载均衡</span></h2>
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">kubernetes 设计理念及主要概念之Service(三)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2019-02-06</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/kubernetes/">kubernetes</a></p></div><div class="article-content"><h2><span id="服务发现与负载均衡">服务发现与负载均衡</span></h2>
 <p>Kubernetes提供有服务发现和负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。</p>
 <p>目前，Kubernetes中的负载均衡大致可以分为以下几种机制，每种机制都有其特定的应用场景：</p>
 <ul>
@@ -149,7 +149,7 @@ var disqus_url = 'http://galudisu.info/2019/02/06/kubernetes/kubernetes-03-theor
 
 <link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
 
-<script src="../js/base.js"></script>
+<script src="/js/base.js"></script>
 
-<script src="../js/rabbit-lyrics.js"></script>
+<script src="/js/rabbit-lyrics.js"></script>
 </div></body></html>
