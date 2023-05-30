@@ -13,10 +13,10 @@
 <p>GraphQL很少被用到，本章仅作简单介绍和使用。</p>
 <span id="more"></span>
 <p>GraphQL是由Facebook开源的web API数据读写语言。它允许客户端，在一个请求中返回指定的数据内容。</p>
-<h2 id="GraphQL-query-and-mutation-syntax"><a class="header-anchor" href="#GraphQL-query-and-mutation-syntax">¶</a>GraphQL query and mutation syntax</h2>
+<h2><span id="graphql-query-and-mutation-syntax">GraphQL query and mutation syntax</span></h2>
 <p>首先介绍一下语法。</p>
-<h3 id="Reading-GraphQL-data"><a class="header-anchor" href="#Reading-GraphQL-data">¶</a>Reading GraphQL data</h3>
-<h3 id="Basic-query"><a class="header-anchor" href="#Basic-query">¶</a>Basic query</h3>
+<h3><span id="reading-graphql-data">Reading GraphQL data</span></h3>
+<h3><span id="basic-query">Basic query</span></h3>
 <ol>
 <li>首先打开 .</li>
 </ol>
@@ -37,7 +37,7 @@
 <li>从文档得知，我们还可以添加额外的查询字段：</li>
 </ol>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">query <span class="punctuation">&#123;</span></span><br><span class="line">  viewer <span class="punctuation">&#123;</span></span><br><span class="line">  name</span><br><span class="line">  avatarUrl</span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="Returning-nested-data"><a class="header-anchor" href="#Returning-nested-data">¶</a>Returning nested data</h3>
+<h3><span id="returning-nested-data">Returning nested data</span></h3>
 <p>复杂一点，我们希望查询github的start和issue的数量并返回。</p>
 <ol>
 <li>首先输入下面查询：</li>
@@ -59,7 +59,7 @@
 </ol>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  repository(owner<span class="punctuation">:</span> <span class="string">&quot;facebook&quot;</span><span class="punctuation">,</span> name<span class="punctuation">:</span><span class="string">&quot;react&quot;</span>) <span class="punctuation">&#123;</span></span><br><span class="line">    name</span><br><span class="line">    description</span><br><span class="line">    stargazers <span class="punctuation">&#123;</span></span><br><span class="line">      stars<span class="punctuation">:</span>totalCount</span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">    issues(last<span class="punctuation">:</span> <span class="number">5</span>) <span class="punctuation">&#123;</span></span><br><span class="line">      edges <span class="punctuation">&#123;</span></span><br><span class="line">        node <span class="punctuation">&#123;</span></span><br><span class="line">          id</span><br><span class="line">          title</span><br><span class="line">          url</span><br><span class="line">          publishedAt</span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 <p>这里的查询用<code>edges</code>和<code>node</code>包装了结构，用于cursor-based的分页。</p>
-<h3 id="Query-parameters"><a class="header-anchor" href="#Query-parameters">¶</a>Query parameters</h3>
+<h3><span id="query-parameters">Query parameters</span></h3>
 <p>前面的查询是以硬编码的方式，我们希望定义变量查询。</p>
 <ol>
 <li>我们可以在<code>query</code>关键字后面添加查询变量。这些参数需要声明它的类型、变量名。其中变量名要以<code>$</code>开头。类型后要带<code>!</code>。如下：</li>
@@ -69,7 +69,7 @@
 <li>在执行之前，我们需要在<strong>Query Variables</strong>面板添加变量入参：</li>
 </ol>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;org&quot;</span><span class="punctuation">:</span> <span class="string">&quot;facebook&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;repo&quot;</span><span class="punctuation">:</span> <span class="string">&quot;react&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="Writing-GraphQL-data"><a class="header-anchor" href="#Writing-GraphQL-data">¶</a>Writing GraphQL data</h3>
+<h3><span id="writing-graphql-data">Writing GraphQL data</span></h3>
 <p>GraphQL的数据写入需要创建<code>mutation</code>。</p>
 <ol>
 <li>要给github的repo加星，首先需要获得<code>id</code>.</li>
@@ -98,12 +98,12 @@
 <ol start="5">
 <li>执行之后发现star数增加了</li>
 </ol>
-<h2 id="Using-axios-as-a-GraphQL-client"><a class="header-anchor" href="#Using-axios-as-a-GraphQL-client">¶</a>Using axios as a GraphQL client</h2>
-<h3 id="Getting-a-GitHub-personal-access-token"><a class="header-anchor" href="#Getting-a-GitHub-personal-access-token">¶</a>Getting a GitHub personal access token</h3>
+<h2><span id="using-axios-as-a-graphql-client">Using axios as a GraphQL client</span></h2>
+<h3><span id="getting-a-github-personal-access-token">Getting a GitHub personal access token</span></h3>
 <p>在此之前，首先需要到GitHub获取一个token。</p>
-<h3 id="Creating-our-app"><a class="header-anchor" href="#Creating-our-app">¶</a>Creating our app</h3>
+<h3><span id="creating-our-app">Creating our app</span></h3>
 <p>(略)</p>
-<h3 id="Querying-the-GraphQL-server"><a class="header-anchor" href="#Querying-the-GraphQL-server">¶</a>Querying the GraphQL server</h3>
+<h3><span id="querying-the-graphql-server">Querying the GraphQL server</span></h3>
 <p>现在有了TypeScript版的React应用了，下面使用<code>axios</code>来进行GraphQL的查询：</p>
 <ol>
 <li>在<code>Header.tsx</code>，创建两个接口表示GraphQL查询的返回数据：</li>
@@ -143,9 +143,9 @@
 <p>回到运行的页面，可以看到我们的头像和标题。</p>
 <p>我们发现，所有的GraphQL的请求都是HTTP POST，所有请求都指向同一个地址，请求的参数不是在URL地址，而是来源于请求体。因此，当我们使用诸如<code>axios</code>这种HTTP标准库会觉得怪怪的。</p>
 <p>我们希望有一种更自然的方式。</p>
-<h2 id="Using-Apollo-GraphQL-client"><a class="header-anchor" href="#Using-Apollo-GraphQL-client">¶</a>Using Apollo GraphQL client</h2>
+<h2><span id="using-apollo-graphql-client">Using Apollo GraphQL client</span></h2>
 <p>Apollo是一个用于交互GraphQL服务端的客户端库。相比<code>axios</code>它有更多的优势，譬如对数据的读写缓存。</p>
-<h3 id="Installing-Apollo-client"><a class="header-anchor" href="#Installing-Apollo-client">¶</a>Installing Apollo client</h3>
+<h3><span id="installing-apollo-client">Installing Apollo client</span></h3>
 <ol>
 <li>首先安装相应的包：</li>
 </ol>
@@ -163,9 +163,9 @@
 <li>还需要确保编译时，应该包含<code>es2015</code>和<code>esNext</code>的依赖库。在<code>tsconfig.json</code>添加<code>lib</code>中:</li>
 </ol>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;es5&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;lib&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;es2015&quot;</span><span class="punctuation">,</span> <span class="string">&quot;dom&quot;</span><span class="punctuation">,</span> <span class="string">&quot;esnext&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        ...</span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    ...</span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="Migrating-from-axios-to-Apollo"><a class="header-anchor" href="#Migrating-from-axios-to-Apollo">¶</a>Migrating from axios to Apollo</h3>
+<h3><span id="migrating-from-axios-to-apollo">Migrating from axios to Apollo</span></h3>
 <p>迁移到apollo上。</p>
-<h3 id="Adding-an-Apollo-provider"><a class="header-anchor" href="#Adding-an-Apollo-provider">¶</a>Adding an Apollo provider</h3>
+<h3><span id="adding-an-apollo-provider">Adding an Apollo provider</span></h3>
 <p>首先从<code>App.tsx</code>入手，将会定义我们的Apollo客户端，并_提供_给<code>App</code>所有子组件下使用。</p>
 <ol>
 <li>在<code>App.tsx</code>，导入依赖：</li>
@@ -180,7 +180,7 @@
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">ApolloProvider</span> <span class="attr">client</span>=<span class="string">&#123;client&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;App&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">header</span> <span class="attr">className</span>=<span class="string">&quot;App-header&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Header</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">ApolloProvider</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>现在<code>ApolloClient</code>已经设置好了，下面开始交互内容。</p>
-<h3 id="Using-the-query-component-to-query-GraphQL"><a class="header-anchor" href="#Using-the-query-component-to-query-GraphQL">¶</a>Using the query component to query GraphQL</h3>
+<h3><span id="using-the-query-component-to-query-graphql">Using the query component to query GraphQL</span></h3>
 <p>我们现在使用<code>Query</code>组件来获取GitHub的名字和头像，替换掉<code>axios</code>代码：</p>
 <ol>
 <li>导入下面依赖，并删掉原来的<code>axios</code>：</li>
@@ -214,7 +214,7 @@
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">GetViewerQuery</span> <span class="attr">query</span>=<span class="string">&#123;GET_VIEWER&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        &#123;(&#123; data, loading, error&#125;) =&gt; &#123;</span></span><br><span class="line"><span class="language-xml">            if (error) &#123;</span></span><br><span class="line"><span class="language-xml">                return <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;viewer&quot;</span>&gt;</span>&#123;error.toString()&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span>;</span></span><br><span class="line"><span class="language-xml">                ...</span></span><br><span class="line"><span class="language-xml">            &#125;</span></span><br><span class="line"><span class="language-xml">        &#125;&#125;</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">GetViewerQuery</span>&gt;</span></span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <p>Apollo的实现非常优雅。它可以确保<code>Query</code>组件在正确的位置获取得到对应的数据。</p>
-<h3 id="Adding-a-repository-search-component"><a class="header-anchor" href="#Adding-a-repository-search-component">¶</a>Adding a repository search component</h3>
+<h3><span id="adding-a-repository-search-component">Adding a repository search component</span></h3>
 <p>根据已有的查询功能，我们希望有一个搜索repository的选框。</p>
 <ol>
 <li>首先创建一个<code>RepoSearch.tsx</code>，导入相应的依赖：</li>
@@ -236,7 +236,7 @@
 <li>添加到<code>ApolloClient</code>下面：</li>
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">ApolloProvider</span> client=&#123;client&#125;&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;App&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">header</span> <span class="attr">className</span>=<span class="string">&quot;App-header&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">Header</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">RepoSearch</span> <span class="attr">client</span>=<span class="string">&#123;client&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">ApolloProvider</span>&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="Implementing-the-search-form"><a class="header-anchor" href="#Implementing-the-search-form">¶</a>Implementing the search form</h3>
+<h3><span id="implementing-the-search-form">Implementing the search form</span></h3>
 <p>实现一个表单，允许用户输入组织名和仓储名：</p>
 <ol>
 <li>在<code>RepoSearch.tsx</code>，定义搜索字段接口：</li>
@@ -263,7 +263,7 @@
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">handleSearch</span> = (<span class="params">e: React.FormEvent&lt;HTMLFormElement&gt;</span>) =&gt; &#123;</span><br><span class="line">  e.<span class="title function_">preventDefault</span>();</span><br><span class="line">  <span class="comment">// TODO - make GraphQL query</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>至此，表单的创建已经完成。</p>
-<h3 id="Implementing-the-search-query"><a class="header-anchor" href="#Implementing-the-search-query">¶</a>Implementing the search query</h3>
+<h3><span id="implementing-the-search-query">Implementing the search query</span></h3>
 <p>现在的关键问题是，如何查询。</p>
 <ol>
 <li>首先创建返回接口：</li>
@@ -311,7 +311,7 @@
 <li>处理异常信息：</li>
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">handleSearch</span> = (<span class="params">e: React.FormEvent&lt;HTMLFormElement&gt;</span>) =&gt; &#123;</span><br><span class="line">  e.<span class="title function_">preventDefault</span>();</span><br><span class="line"></span><br><span class="line">  <span class="title function_">setSearchError</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  props.<span class="property">client</span></span><br><span class="line">    .<span class="property">query</span>&lt;<span class="title class_">IQueryResult</span>&gt;(...)</span><br><span class="line">    .<span class="title function_">then</span>(...)</span><br><span class="line">    .<span class="title function_">catch</span>(<span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="title function_">setSearchError</span>(error.<span class="property">message</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="Rendering-the-result"><a class="header-anchor" href="#Rendering-the-result">¶</a>Rendering the result</h3>
+<h3><span id="rendering-the-result">Rendering the result</span></h3>
 <p>既然数据已经获取到了，需要将数据展现出来：</p>
 <ol>
 <li>渲染github点赞部分：</li>
@@ -329,7 +329,7 @@
 <li>添加<code>App.css</code>样式：</li>
 </ol>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.repo-search</span> <span class="selector-tag">h4</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Implementing-a-mutation-with-Apollo"><a class="header-anchor" href="#Implementing-a-mutation-with-Apollo">¶</a>Implementing a mutation with Apollo</h3>
+<h3><span id="implementing-a-mutation-with-apollo">Implementing a mutation with Apollo</span></h3>
 <p>我们可以在React中使用GraphQL的<code>mutation</code>。</p>
 <ol>
 <li>首先导入<code>Mutation</code>组件：</li>
@@ -359,9 +359,9 @@
 <li>处理错误信息：</li>
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="function">(<span class="params">addStar, &#123; loading, error&#125;</span>) =&gt;</span> (</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">disabled</span>=<span class="string">&#123;loading&#125;</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> addStar()&#125;&gt;</span></span><br><span class="line"><span class="language-xml">      &#123;loading? &quot;Adding ...&quot;: &quot;Star!&quot;&#125;</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    &#123;error &amp;&amp; <span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;error.toString()&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span>&#125;</span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">)&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Working-with-cached-data-in-Apollo"><a class="header-anchor" href="#Working-with-cached-data-in-Apollo">¶</a>Working with cached data in Apollo</h2>
+<h2><span id="working-with-cached-data-in-apollo">Working with cached data in Apollo</span></h2>
 <p>前面发现点击按钮后，数据并没有刷新，需要清理掉浏览器的缓存数据。</p>
-<h3 id="Clearing-the-caching-using-refetchQueries"><a class="header-anchor" href="#Clearing-the-caching-using-refetchQueries">¶</a>Clearing the caching using refetchQueries</h3>
+<h3><span id="clearing-the-caching-using-refetchqueries">Clearing the caching using refetchQueries</span></h3>
 <p>每次发生<code>mutation</code>操作时，需要清理掉缓存信息。一种方式是使用<code>refetchQueries</code>：</p>
 <ol>
 <li><code>refetchQueries</code>接收一个数组对象，该对象的查询变量会被从缓存中删除。</li>
@@ -371,7 +371,7 @@
 <li>如果给一个repo点赞，点赞的数字并没有立即更新。然而，点击<code>Search</code>按钮后才更新。</li>
 </ol>
 <p>因此，数据也并没有立即更新，这种方式也不是很好，用户体验不太理想。</p>
-<h3 id="Updating-the-cache-after-a-Mutation"><a class="header-anchor" href="#Updating-the-cache-after-a-Mutation">¶</a>Updating the cache after a Mutation</h3>
+<h3><span id="updating-the-cache-after-a-mutation">Updating the cache after a Mutation</span></h3>
 <p>幸运的是，<code>Mutation</code>组件还有另外一个方法<code>update</code>，我们可以对缓存信息进行更新。</p>
 <ol>
 <li>删掉之前的<code>refetchQueries</code>。</li>
@@ -396,7 +396,7 @@
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">update=&#123;<span class="function"><span class="params">cache</span> =&gt;</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">        cache.<span class="title function_">writeQuery</span>(...);</span><br><span class="line">		<span class="title function_">setRepo</span>(newData);</span><br><span class="line">       &#125;&#125;</span><br></pre></td></tr></table></figure>
 <p>这样，当给某个repo点赞，可以看到数据立即刷新了。</p>
-<h2 id="Summary"><a class="header-anchor" href="#Summary">¶</a>Summary</h2>
+<h2><span id="summary">Summary</span></h2>
 <p>GraphQL目前不是很少用，虽然某些情况下很灵活，提供了树形结构的数据。查询和返回结构一致。只有一个请求地址。请求方法只有一个POST。查询参数灵活多变。</p>
 <p>这里还介绍了<code>Apollo</code>客户端的实现，相比于<code>axios</code>。只需要在顶层组件实现一个<code>provider</code>即可，类似于Router的实现。</p>
 <p>还介绍了<code>Mutation</code>组件的实现，以及对内存的处理。</p>
@@ -405,14 +405,14 @@
 </div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2019/11/27/react-ts/chapter_a_Interacting_with_GraphQL_APIs/';
 var disqus_title = '第十章 GraphQL接口交互';
-var disqus_url = 'http://galudisu.info/2019/11/27/react-ts/chapter_a_Interacting_with_GraphQL_APIs/';
+var disqus_url = 'https://galudisu.info/2019/11/27/react-ts/chapter_a_Interacting_with_GraphQL_APIs/';
 (function () {
   var dsq = document.createElement('script');
   dsq.type = 'text/javascript';
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="http://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

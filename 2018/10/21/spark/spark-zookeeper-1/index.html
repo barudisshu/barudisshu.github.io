@@ -5,11 +5,11 @@
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">CentOS 7.5 搭建Zookeeper集群与命令行操作</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-10-21</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/zookeeper/">zookeeper</a></p></div><div class="article-content"><span id="more"></span>
-<h2 id="分布式安装部署"><a class="header-anchor" href="#分布式安装部署">¶</a>分布式安装部署</h2>
+<h2><span id="分布式安装部署">分布式安装部署</span></h2>
 <p>官网首页：<a target="_blank" rel="noopener" href="https://zookeeper.apache.org/">https://zookeeper.apache.org/</a><br>
 下载地址：<a target="_blank" rel="noopener" href="http://mirror.bit.edu.cn/apache/zookeeper/">http://mirror.bit.edu.cn/apache/zookeeper/</a></p>
 <p><img src="/img/spark/zookeeper-releases.png" alt="zookeeper-release"></p>
-<h3 id="集群规划"><a class="header-anchor" href="#集群规划">¶</a>集群规划</h3>
+<h3><span id="集群规划">集群规划</span></h3>
 <p>在node1，node2和node3三个节点上部署zookeeper，三个节点都已安装jdk。</p>
 <table>
 <thead>
@@ -37,7 +37,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="解压安装"><a class="header-anchor" href="#解压安装">¶</a>解压安装</h3>
+<h3><span id="解压安装">解压安装</span></h3>
 <ol>
 <li>解压zookeeper按转包到<code>/opt/</code>目录下</li>
 </ol>
@@ -54,12 +54,12 @@
 <li>覆盖zookeeper的安装配置</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br></pre></td></tr></table></figure>
-<h3 id="配置zoo-cfg文件"><a class="header-anchor" href="#配置zoo-cfg文件">¶</a>配置zoo.cfg文件</h3>
+<h3><span id="配置zoocfg文件">配置zoo.cfg文件</span></h3>
 <p>具体配置，修改dateDir，添加日志存放目录</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/opt/zookeeper/data</span><br><span class="line">dataLogDir=/opt/zookeeper/logs</span><br></pre></td></tr></table></figure>
 <p>末尾增加如下配置</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server.1=spark-node1:2888:3888</span><br><span class="line">server.2=spark-node2:2888:3888</span><br><span class="line">server.3=spark-node3:2888:3888</span><br></pre></td></tr></table></figure>
-<h3 id="集群配置"><a class="header-anchor" href="#集群配置">¶</a>集群配置</h3>
+<h3><span id="集群配置">集群配置</span></h3>
 <ol>
 <li>在<code>/opt/zookeeper/data</code>目录下创建一个myid的文件</li>
 </ol>
@@ -74,7 +74,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r zookeeper*/ xxx@spark-node2:/opt/</span><br><span class="line">scp -r zookeeper*/ xxx@spark-node3:/opt/</span><br></pre></td></tr></table></figure>
 <p>并修改spark-node2，spark-node3中myid文件中内容为2、3</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo 2 &gt; myid</span><br><span class="line">echo 3 &gt; myid</span><br></pre></td></tr></table></figure>
-<h3 id="启动集群"><a class="header-anchor" href="#启动集群">¶</a>启动集群</h3>
+<h3><span id="启动集群">启动集群</span></h3>
 <ol>
 <li>分别启动zookeeper</li>
 </ol>
@@ -87,11 +87,11 @@
 <li>停止zookeeper</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/zkServer.sh stop</span><br></pre></td></tr></table></figure>
-<h3 id="加入Systemd管理"><a class="header-anchor" href="#加入Systemd管理">¶</a>加入Systemd管理</h3>
+<h3><span id="加入systemd管理">加入Systemd管理</span></h3>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/zookeeper.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Zookeeper service</span><br><span class="line">After=syslog.target etwork.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">Environment=ZOO_LOG_DIR=/opt/zookeeper/data/logs</span><br><span class="line">ExecStart=/opt/zookeeper/bin/zkServer.sh start</span><br><span class="line">ExecStop=/opt/zookeeper/bin/zkServer.sh stop</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<h3 id="配置环境变量"><a class="header-anchor" href="#配置环境变量">¶</a>配置环境变量</h3>
+<h3><span id="配置环境变量">配置环境变量</span></h3>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/profile</span><br><span class="line">export ZOOKEEPER_HOME=/opt/zookeeper-3.4.12 </span><br><span class="line">export PATH=$PATH:$ZOOKEEPER_HOME/bin</span><br></pre></td></tr></table></figure>
-<h3 id="zoo-cfg配置参数解读"><a class="header-anchor" href="#zoo-cfg配置参数解读">¶</a>zoo.cfg配置参数解读</h3>
+<h3><span id="zoocfg配置参数解读">zoo.cfg配置参数解读</span></h3>
 <p>Server.A=B:C:D。</p>
 <p>A是一个数字，表示这个是第几号服务器；</p>
 <p>B是这个服务器的ip地址；</p>
@@ -118,7 +118,7 @@
 <p>保存内存数据库快照信息的位置，如果没有其他说明，更新的事务日志也保存到数据库。</p>
 <p>5)clientPort=2181：客户端连接端口</p>
 <p>监听客户端连接的端口</p>
-<h2 id="客户端命令行操作"><a class="header-anchor" href="#客户端命令行操作">¶</a>客户端命令行操作</h2>
+<h2><span id="客户端命令行操作">客户端命令行操作</span></h2>
 <ol>
 <li>启动客户端</li>
 </ol>
@@ -203,14 +203,14 @@
 </div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2018/10/21/spark/spark-zookeeper-1/';
 var disqus_title = 'CentOS 7.5 搭建Zookeeper集群与命令行操作';
-var disqus_url = 'http://galudisu.info/2018/10/21/spark/spark-zookeeper-1/';
+var disqus_url = 'https://galudisu.info/2018/10/21/spark/spark-zookeeper-1/';
 (function () {
   var dsq = document.createElement('script');
   dsq.type = 'text/javascript';
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="http://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

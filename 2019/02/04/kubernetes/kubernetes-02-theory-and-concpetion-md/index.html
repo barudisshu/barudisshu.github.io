@@ -6,7 +6,7 @@
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">kubernetes 设计理念及主要概念之Pod(二)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2019-02-04</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/kubernetes/">kubernetes</a></p></div><div class="article-content"><p>Kubernetes使用共享网络将多个物理机或虚拟机汇集到一个集群中，在各服务器之间进行通信，该集群时配置Kubernetes的所有组件、功能和工作负载的物理平台。集群中一台服务器(或高可用部署中的一组服务器)作为Master，负责管理整个集群，其余作为Worker Node，集群中的主机可以是物理服务器，也可以是虚拟机(包括云VPS)。</p>
 <span id="more"></span>
-<h2 id="集群概念"><a class="header-anchor" href="#集群概念">¶</a>集群概念</h2>
+<h2><span id="集群概念">集群概念</span></h2>
 <ol>
 <li>Master节点</li>
 </ol>
@@ -15,12 +15,12 @@
 <li>Node节点</li>
 </ol>
 <p>Node节点属于Worker节点，由多个主机构建。Worker节点不暴露任何信息，不对外开发接口。</p>
-<h2 id="主要概念"><a class="header-anchor" href="#主要概念">¶</a>主要概念</h2>
+<h2><span id="主要概念">主要概念</span></h2>
 <p>Kubernetes由很多技术概念，同时对应很多API对象，API对象是k8s集群中的管理操作单元。</p>
 <p>每个API对象都有3大类属性：元数据metadat、规范spec和状态status。元数据是用来表示API对象的，每个对象至少有3个元数据：namespace、name和uid；除此之外还有各种各样的标签label是用来标识和匹配不同的对象。规范spec描述了用户期望k8s集群中的分布式系统达到的理想状态(desired State)，状态status描述了系统实际当前达到的状态(Status)。</p>
 <p>k8s中的API对象设计理念之一，是所有操作都是声明式的(Declarative)。所以你会发现会有很多yaml配置。声明式操作在分布式系统中的好处是稳定，不怕丢失操作或运行多次。</p>
 <p>下面简述一些常见的API对象。</p>
-<h2 id="Pod"><a class="header-anchor" href="#Pod">¶</a>Pod</h2>
+<h2><span id="pod">Pod</span></h2>
 <p>Pod是k8s的最小调度单元，同一个Pod中的容器共享网络名称空间和存储资源，这些容器可经本地回环节口lo直接通信，但彼此又在Mount、User及PID等名称空间上保持隔离。</p>
 <p>特性：</p>
 <ul>
@@ -111,7 +111,7 @@
 <p>从v1.7开始，可以通过<code>pod.Spec.HostAliases</code>来增加hosts内容，如，</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">hostaliases-pod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">hostAliases:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">ip:</span> <span class="string">&quot;127.0.0.1&quot;</span></span><br><span class="line">    <span class="attr">hostnames:</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">&quot;foo.local&quot;</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">&quot;bar.local&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">ip:</span> <span class="string">&quot;10.1.2.3&quot;</span></span><br><span class="line">    <span class="attr">hostnames:</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">&quot;foo.remote&quot;</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">&quot;bar.remote&quot;</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">cat-hosts</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">busybox</span></span><br><span class="line">	<span class="attr">command:</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">cat</span></span><br><span class="line">	<span class="attr">args:</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">&quot;/etc/hosts&quot;</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">kubectl logs hostaliases-pod</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Kubernetes-managed hosts file.</span></span><br><span class="line">127.0.0.1	localhost</span><br><span class="line">::1	localhost ip6-localhost ip6-loopback</span><br><span class="line">fe00::0	ip6-localnet</span><br><span class="line">fe00::0	ip6-mcastprefix</span><br><span class="line">fe00::1	ip6-allnodes</span><br><span class="line">fe00::2	ip6-allrouters</span><br><span class="line">10.244.1.35	hostaliases-pod</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Entries added by HostAliases.</span></span><br><span class="line">127.0.0.1	foo.local	bar.local</span><br><span class="line">10.1.2.3	foo.remote	bar.remote</span><br></pre></td></tr></table></figure>
-<h2 id="Namespace"><a class="header-anchor" href="#Namespace">¶</a>Namespace</h2>
+<h2><span id="namespace">Namespace</span></h2>
 <p>Namespace是对一组资源和对象的抽象集合，比如可以用来将系统内部的对象划分为不同的项目组或用户组。常见的pods，services，replication controller和deployments等都是属于某一个namespace的(默认是default)，而node，persistentVolumes等则不属于任何namespace。</p>
 <p>Namespace常用来隔离不同的用户，比如Kubernetes自带的服务一般运行在<code>kube-system namespace</code>中。</p>
 <ol>
@@ -138,7 +138,7 @@
 <li>PersistentVolumes是不属于任何namespace的，但PersistentVolumeClaim是属于某个特定namespace的</li>
 <li>Events是否属于namespace取决于产生events的对象</li>
 </ul>
-<h2 id="Node"><a class="header-anchor" href="#Node">¶</a>Node</h2>
+<h2><span id="node">Node</span></h2>
 <p>Node是Pod真正运行的主机，可以是物理机，也可以是虚拟机。为了管理Pod，每个Node节点上至少运行container runtime(比如docker或rkt)、<code>kubelet</code>和<code>kube-proxy</code>服务。</p>
 <p><img src="/img/kubernetes/module_03_nodes.svg" alt="nodes"></p>
 <ol>
@@ -178,14 +178,14 @@
 </div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2019/02/04/kubernetes/kubernetes-02-theory-and-concpetion-md/';
 var disqus_title = 'kubernetes 设计理念及主要概念之Pod(二)';
-var disqus_url = 'http://galudisu.info/2019/02/04/kubernetes/kubernetes-02-theory-and-concpetion-md/';
+var disqus_url = 'https://galudisu.info/2019/02/04/kubernetes/kubernetes-02-theory-and-concpetion-md/';
 (function () {
   var dsq = document.createElement('script');
   dsq.type = 'text/javascript';
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="http://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

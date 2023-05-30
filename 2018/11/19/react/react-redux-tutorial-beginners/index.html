@@ -13,22 +13,22 @@
 <p>Last but not least I didn’t know how to glue <strong>React and Redux together</strong>.</p>
 <p>During those days I started writing my own React Redux tutorial and since then I learned a lot.</p>
 <p>I taught myself the Redux fundamentals by writting this guide. I hope it’ll be useful for all those learning React and Redux.</p>
-<h2 id="React-Redux-tutorial-who-this-guide-is-for"><a class="header-anchor" href="#React-Redux-tutorial-who-this-guide-is-for">¶</a>React Redux tutorial: who this guide is for</h2>
+<h2><span id="react-redux-tutorial-who-this-guide-is-for">React Redux tutorial: who this guide is for</span></h2>
 <p>The following React Redux guide is exactly what you’re looking for if:</p>
 <ul>
 <li>you have a good grasp of Javascript: ES6, and React</li>
 <li>you’re looking forward to learn Redux in the most simple way</li>
 </ul>
-<h2 id="React-Redux-tutorial-what-you-will-learn"><a class="header-anchor" href="#React-Redux-tutorial-what-you-will-learn">¶</a>React Redux tutorial: what you will learn</h2>
+<h2><span id="react-redux-tutorial-what-you-will-learn">React Redux tutorial: what you will learn</span></h2>
 <p>In the following guide you will learn:</p>
 <ul>
 <li>what is Redux</li>
 <li>how to use Redux with React</li>
 </ul>
-<h2 id="React-Redux-tutorial-a-minimal-React-development-environment"><a class="header-anchor" href="#React-Redux-tutorial-a-minimal-React-development-environment">¶</a>React Redux tutorial: a minimal React development environment</h2>
+<h2><span id="react-redux-tutorial-a-minimal-react-development-environment">React Redux tutorial: a minimal React development environment</span></h2>
 <p>Before starting off <strong>make sure you have a React development environment ready to roll.</strong></p>
 <p>To make one you can follow this tutorial of mine: How to set up React, webpack, and Babel or you can also use create-react-app.</p>
-<h2 id="React-Redux-tutorial-what-is-the-state"><a class="header-anchor" href="#React-Redux-tutorial-what-is-the-state">¶</a>React Redux tutorial: what is the state?</h2>
+<h2><span id="react-redux-tutorial-what-is-the-state">React Redux tutorial: what is the state?</span></h2>
 <p>To <strong>understand what is Redux</strong> you must first understand what is the <strong>state</strong>.</p>
 <p>If you have ever worked with React the term state should be no surprise to you.</p>
 <p>I guess you already wrote some <strong>stateful React component</strong>:</p>
@@ -51,7 +51,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> state = &#123;</span><br><span class="line">  <span class="attr">buttonClicked</span>: <span class="string">&#x27;yes&#x27;</span>,</span><br><span class="line">  <span class="attr">modalOpen</span>: <span class="string">&#x27;yes&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>How do you <strong>keep track of those things in JavaScript</strong> besides storing the state in an object?</p>
 <p>Is there <strong>a library that can help use tracking the state</strong>?</p>
-<h2 id="React-Redux-tutorial-what-problem-does-Redux-solve"><a class="header-anchor" href="#React-Redux-tutorial-what-problem-does-Redux-solve">¶</a>React Redux tutorial: what problem does Redux solve?</h2>
+<h2><span id="react-redux-tutorial-what-problem-does-redux-solve">React Redux tutorial: what problem does Redux solve?</span></h2>
 <p>A typical JavaScript application is full of states. And you didn’t even know.</p>
 <p>Here are some examples of state:</p>
 <ul>
@@ -77,7 +77,7 @@
 <p>Also with Redux the <strong>logic for fetching and managing the state</strong> <strong>lives outside React</strong>.</p>
 <p>The benefits of this approach might be not so evident. Things will look clear as soon as you’ll get your feet wet with Redux.</p>
 <p>In the next section we’ll see why you should learn Redux and when to use Redux within your applications.</p>
-<h2 id="React-Redux-tutorial-should-I-learn-Redux"><a class="header-anchor" href="#React-Redux-tutorial-should-I-learn-Redux">¶</a>React Redux tutorial: should I learn Redux?</h2>
+<h2><span id="react-redux-tutorial-should-i-learn-redux">React Redux tutorial: should I learn Redux?</span></h2>
 <p>Are you trying to learn Redux but you’re going nowhere?</p>
 <p>Redux literally scares most beginners. But that shouldn’t be your case.</p>
 <p><strong>Redux is not that hard</strong>. The key is: don’t rush learning Redux just because.</p>
@@ -101,7 +101,7 @@
 <p>I advise not doing so.</p>
 <p>The same with Redux.</p>
 <p>You should <strong>learn the patterns for managing UI state because they will be invaluable in your career</strong>.</p>
-<h2 id="React-Redux-tutorial-should-I-use-Redux"><a class="header-anchor" href="#React-Redux-tutorial-should-I-use-Redux">¶</a>React Redux tutorial: should I use Redux?</h2>
+<h2><span id="react-redux-tutorial-should-i-use-redux">React Redux tutorial: should I use Redux?</span></h2>
 <p>Using Redux or Flux (or Mobx) for state management is up to you.</p>
 <p>Maybe you need none of these libraries. They have a cost: they add another layer of abstraction to your application.</p>
 <p>But I prefer thinking about <strong>Redux as an investment</strong>, not as a cost.</p>
@@ -129,7 +129,7 @@
 <li>the Redux fundamental principles</li>
 <li>Redux alongside with React</li>
 </ul>
-<h2 id="React-Redux-tutorial-getting-to-know-the-Redux-store"><a class="header-anchor" href="#React-Redux-tutorial-getting-to-know-the-Redux-store">¶</a>React Redux tutorial: getting to know the Redux store</h2>
+<h2><span id="react-redux-tutorial-getting-to-know-the-redux-store">React Redux tutorial: getting to know the Redux store</span></h2>
 <p>Actions. Reducers. I kind of knew about them. But one thing wasn’t clear to me: <strong>how were all the moving parts glued together</strong>?</p>
 <p>Were there some minions or what?</p>
 <p>In Redux there are no minions (unfortunately).</p>
@@ -152,7 +152,7 @@
 <p>So what does exactly a reducer do?</p>
 <p>In Redux <strong>reducers produce the state</strong>. The state is not something you create by hand.</p>
 <p>Armed with that knowledge let’s move on to our first Redux reducer.</p>
-<h2 id="React-Redux-tutorial-getting-to-know-Redux-reducers"><a class="header-anchor" href="#React-Redux-tutorial-getting-to-know-Redux-reducers">¶</a>React Redux tutorial: getting to know Redux reducers</h2>
+<h2><span id="react-redux-tutorial-getting-to-know-redux-reducers">React Redux tutorial: getting to know Redux reducers</span></h2>
 <p>While an initial state is useful for <a target="_blank" rel="noopener" href="https://redux.js.org/docs/recipes/ServerRendering.html">SSR</a>, in Redux <strong>the state must return entirely from reducers</strong>.</p>
 <p>Cool but what’s a reducer?</p>
 <p><strong>A reducer is just a Javascript function</strong>. A reducer <strong>takes two parameters: the current state</strong> and an <strong>action</strong> (more about actions soon).</p>
@@ -168,7 +168,7 @@
 <p>I promised to keep this guide as simple as possibile. That’s why our first reducer is a silly one: it returns the initial state without doing anything else.</p>
 <p>Notice how the initial state is passed as a <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters">default parameter</a>.</p>
 <p>In the next section we’ll add an action to the mix. That’s where things will become interesting.</p>
-<h2 id="React-Redux-tutorial-getting-to-know-Redux-actions"><a class="header-anchor" href="#React-Redux-tutorial-getting-to-know-Redux-actions">¶</a>React Redux tutorial: getting to know Redux actions</h2>
+<h2><span id="react-redux-tutorial-getting-to-know-redux-actions">React Redux tutorial: getting to know Redux actions</span></h2>
 <p>Redux reducers are without doubt the most important concept in Redux. <strong>Reducers produce the state of the application</strong>.</p>
 <p>But <strong>how does a reducer know when to produce the next state</strong>?</p>
 <p>The second principle of Redux says the <strong>only way to change the state is by sending a signal to the store</strong>.This signal is an <strong>action. “Dispatching an action”</strong> is the process of sending out a signal.</p>
@@ -195,7 +195,7 @@
 <p>Now open up again <code>src/js/actions/index.js</code> and update the action to use action types:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/actions/index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="variable constant_">ADD_ARTICLE</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../constants/action-types&quot;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">addArticle</span> = article =&gt; (&#123; <span class="attr">type</span>: <span class="variable constant_">ADD_ARTICLE</span>, <span class="attr">payload</span>: article &#125;);</span><br></pre></td></tr></table></figure>
 <p>We’re one step closer to have a working Redux application. Let’s refactor our reducer!</p>
-<h2 id="React-Redux-tutorial-refactoring-the-reducer"><a class="header-anchor" href="#React-Redux-tutorial-refactoring-the-reducer">¶</a>React Redux tutorial: refactoring the reducer</h2>
+<h2><span id="react-redux-tutorial-refactoring-the-reducer">React Redux tutorial: refactoring the reducer</span></h2>
 <p>Before moving forward let’s recap the main Redux concepts:</p>
 <ul>
 <li>the <strong>Redux store</strong> is like a brain: it’s in charge for <strong>orchestrating all the moving parts</strong> in Redux</li>
@@ -228,7 +228,7 @@
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;presets&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;env&quot;</span><span class="punctuation">,</span> <span class="string">&quot;react&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;transform-object-rest-spread&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 <p><strong>Redux protip</strong>: the reducer will grow as your app will become bigger. You can split a big reducer into separate functions and combine them with <a target="_blank" rel="noopener" href="https://redux.js.org/docs/api/combineReducers.html">combineReducers</a></p>
 <p>In the next section we’ll play with Redux from the console. Hold tight!</p>
-<h2 id="React-Redux-tutorial-Redux-store-methods"><a class="header-anchor" href="#React-Redux-tutorial-Redux-store-methods">¶</a>React Redux tutorial: Redux store methods</h2>
+<h2><span id="react-redux-tutorial-redux-store-methods">React Redux tutorial: Redux store methods</span></h2>
 <p>This will be super quick, I promise.</p>
 <p>I want you to play with the brower’s console for gaining a quick understanding of how Redux works.</p>
 <p>Redux itself is a small library (2KB). The <a target="_blank" rel="noopener" href="https://redux.js.org/docs/api/Store.html">Redux store exposes a simple API</a> for managing the state. The most important methods are:</p>
@@ -276,7 +276,7 @@
 </ul>
 <p>That’s everything you need to know for getting started with Redux.</p>
 <p>Once you feel confident head over the next section. We’ll go straight to connecting React with Redux!</p>
-<h2 id="React-Redux-tutorial-connecting-React-with-Redux"><a class="header-anchor" href="#React-Redux-tutorial-connecting-React-with-Redux">¶</a>React Redux tutorial: connecting React with Redux</h2>
+<h2><span id="react-redux-tutorial-connecting-react-with-redux">React Redux tutorial: connecting React with Redux</span></h2>
 <p>After learning Redux I realized it wasn’t so complex.</p>
 <p>I knew how to access the current state with <a target="_blank" rel="noopener" href="https://redux.js.org/docs/api/Store.html#getState">getState</a>.</p>
 <p>I knew how to dispatch an action with <a target="_blank" rel="noopener" href="https://redux.js.org/docs/api/Store.html#dispatch">dispatch</a></p>
@@ -294,7 +294,7 @@
 <li>a Form component for adding new articles</li>
 </ul>
 <p>(The application is a toy and it does nothing serious other than displaying a list and a form for adding new items. Nonetheless it’s still a good starting point for learning Redux)</p>
-<h2 id="React-Redux-tutorial-react-redux"><a class="header-anchor" href="#React-Redux-tutorial-react-redux">¶</a>React Redux tutorial: react-redux</h2>
+<h2><span id="react-redux-tutorial-react-redux">React Redux tutorial: react-redux</span></h2>
 <p><a target="_blank" rel="noopener" href="https://redux.js.org/docs/basics/UsageWithReact.html">react-redux</a> is a Redux binding for React. It’s a small library for connecting Redux and React in an efficient way.</p>
 <p>The most important method you’ll work with is connect</p>
 <p>What does react-redux’s connect do? Unsurprisingly it <a target="_blank" rel="noopener" href="https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options">connects</a> a React component with the Redux store.</p>
@@ -307,7 +307,7 @@
 <p><strong>What does mapDispatchToProps</strong> do in react-redux? mapDispatchToProps does something similar, but for actions. <strong>mapDispatchToProps connects Redux actions to React props</strong>. This way a connected React component will be able to dispatch actions.</p>
 <p>Is everything clear? If not, stop and take your time to re-read the guide. I know it’s a lot to learn and it requires time. Don’t worry if you don’t get Redux right know. It will click sooner or later.</p>
 <p>In the next section we’ll finally get our hands dirty!</p>
-<h2 id="React-Redux-tutorial-App-component-and-Redux-store"><a class="header-anchor" href="#React-Redux-tutorial-App-component-and-Redux-store">¶</a>React Redux tutorial: App component and Redux store</h2>
+<h2><span id="react-redux-tutorial-app-component-and-redux-store">React Redux tutorial: App component and Redux store</span></h2>
 <p>We saw that mapStateToProps connects a portion of the Redux state to the props of a React component. You may wonder: is this enough for connecting Redux with React? No, it’s not.</p>
 <p>To start off <strong>connecting Redux with React we’re going to use [Provider[(<a target="_blank" rel="noopener" href="https://github.com/reactjs/react-redux/blob/master/docs/api.md#provider-store">https://github.com/reactjs/react-redux/blob/master/docs/api.md#provider-store</a>)</strong>.</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/reactjs/react-redux/blob/master/docs/api.md#provider-store">Provider</a> is an high order component coming from react-redux.</p>
@@ -325,7 +325,7 @@
 <p>Take moment and look at the component without the markup:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">List</span> <span class="keyword">from</span> <span class="string">&quot;./List&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">App</span> = (<span class="params"></span>) =&gt; (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">List</span> /&gt;</span></span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">App</span>;</span><br></pre></td></tr></table></figure>
 <p>then move on to createing <strong>List</strong>.</p>
-<h2 id="React-Redux-tutorial-List-component-and-Redux-state"><a class="header-anchor" href="#React-Redux-tutorial-List-component-and-Redux-state">¶</a>React Redux tutorial: List component and Redux state</h2>
+<h2><span id="react-redux-tutorial-list-component-and-redux-state">React Redux tutorial: List component and Redux state</span></h2>
 <p>We have done nothing special so far.</p>
 <p>But our new component, List, will interact with the Redux store.</p>
 <p>A brief recap: the key for connecting a React component with Redux is <a target="_blank" rel="noopener" href="https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options">connect</a>.</p>
@@ -345,7 +345,7 @@
 <p>Still confused? I was too. Understanding how connect works will take some time. Fear not, the road to learn Redux is paved with “ah-ha” moments.</p>
 <p>I suggest taking a break for exploring both connect and mapStateToProps.</p>
 <p>Once you’re confident about them head over the next section!</p>
-<h2 id="React-Redux-tutorial-Form-component-and-Redux-actions"><a class="header-anchor" href="#React-Redux-tutorial-Form-component-and-Redux-actions">¶</a>React Redux tutorial: Form component and Redux actions</h2>
+<h2><span id="react-redux-tutorial-form-component-and-redux-actions">React Redux tutorial: Form component and Redux actions</span></h2>
 <p>The Form component we’re going to create is a bit more complex than List. It’s a form for adding new items to our application.</p>
 <p>Plus it is a <strong>stateful component</strong>.</p>
 <p>A stateful component in React is a component carrying its own local state</p>
@@ -379,27 +379,27 @@
 <p>The <strong>List component on the left is connected to the Redux store</strong>. It will re-render whenever you add a new item.</p>
 <p><img src="/img/react/react-redux-tutorial-demo-gif.gif" alt="redux-action"></p>
 <p>Whoaaa!</p>
-<h2 id="React-Redux-tutorial-wrapping-up"><a class="header-anchor" href="#React-Redux-tutorial-wrapping-up">¶</a>React Redux tutorial: wrapping up</h2>
+<h2><span id="react-redux-tutorial-wrapping-up">React Redux tutorial: wrapping up</span></h2>
 <p>I hope you’ll learn something from this guide. I tried my best to keep things as simple as possibile. I would love to hear your feedback in the comments below!</p>
 <p>Redux has a lot of boilerplate and moving parts. Don’t get discouraged. Pick Redux, play with it and take your time to absorb all the concepts.</p>
 <p>I went from zero to understanding Redux by small steps. You can do it too!</p>
 <p>Also, take your time to investigate why and if you should use Redux in your application.</p>
 <p>Either way think of Redux as an investment: learning it is 100% worthwile.</p>
-<h2 id="React-Redux-tutorial-Redux-DevTools"><a class="header-anchor" href="#React-Redux-tutorial-Redux-DevTools">¶</a>React Redux tutorial: Redux DevTools</h2>
+<h2><span id="react-redux-tutorial-redux-devtools">React Redux tutorial: Redux DevTools</span></h2>
 <p>You will find the interesting tool from <a target="_blank" rel="noopener" href="https://cloud.githubusercontent.com/assets/7957859/18002950/aacb82fc-6b93-11e6-9ae9-609862c18302.png">here</a>.</p>
 <p>It’s very useful for inspect redux concept like <strong>Action</strong>, <strong>State</strong>, and can always replay the actions!</p>
 <p><img src="/img/react/redux-devTools.png" alt="redux-devtool"></p>
 </div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2018/11/19/react/react-redux-tutorial-beginners/';
 var disqus_title = 'React Redux Tutorial for Beginners - The Definitive Guide(2018)';
-var disqus_url = 'http://galudisu.info/2018/11/19/react/react-redux-tutorial-beginners/';
+var disqus_url = 'https://galudisu.info/2018/11/19/react/react-redux-tutorial-beginners/';
 (function () {
   var dsq = document.createElement('script');
   dsq.type = 'text/javascript';
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="http://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

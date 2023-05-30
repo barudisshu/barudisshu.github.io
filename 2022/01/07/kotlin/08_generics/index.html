@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
-</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">泛型</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2022-01-07</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/kotlin/">kotlin</a></p></div><div class="article-content"><h2 id="主要内容"><a class="header-anchor" href="#主要内容">¶</a>主要内容</h2>
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">泛型</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2022-01-07</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/kotlin/">kotlin</a></p></div><div class="article-content"><h2><span id="主要内容">主要内容</span></h2>
 <ol>
 <li>泛型函数和类的声明</li>
 <li>类型擦除(erasure)和具现(reified)</li>
@@ -12,7 +12,7 @@
 </ol>
 <p>kotlin的泛型类型并不属于类型系统上的实现，而是尽量往Java方向兼容。所以实现形式上很多概念是等价的。</p>
 <span id="more"></span>
-<h2 id="Generic-type-parameters"><a class="header-anchor" href="#Generic-type-parameters">¶</a>Generic type parameters</h2>
+<h2><span id="generic-type-parameters">Generic type parameters</span></h2>
 <p>泛型指允许你定义的类型有 <em>泛型参数(type parameters)</em> 。当一个该类型的实例被创建了，类型参数被替代为指定的类型称之为 <em>type arguments</em> 。</p>
 <p>Kotlin的类型参数在编译器中可自动推断类型，</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> authors = listOf(<span class="string">&quot;Dmitry&quot;</span>, <span class="string">&quot;Svetlana&quot;</span>)</span><br></pre></td></tr></table></figure>
@@ -22,7 +22,7 @@
 <blockquote>
 <p><strong>NOTE</strong> 和Java不同，Kotlin要求类型参数要么显式指定，要么由编译器推导。但泛型是从JDK1.5才出现，为了兼容旧的版本，它允许你使用泛型类型时，可以不指定类型参数，叫做——原生类型(raw type)。例如，Java中使用List时，可以不指定类型参数。但Kotlin不同于Java，最开始的版本就提供泛型支持，它是不支持raw type的，泛型参数必须显式指定。</p>
 </blockquote>
-<h3 id="Generic-functions-and-properties"><a class="header-anchor" href="#Generic-functions-and-properties">¶</a>Generic functions and properties</h3>
+<h3><span id="generic-functions-and-properties">Generic functions and properties</span></h3>
 <p>当你编写的函数包含List集合时，需要处理泛型参数以使得List对所有类型都生效，这种带有泛型参数的函数称为 <em>泛型函数(generic function)</em>。</p>
 <p>以标准库中的泛型函数<code>slice</code>为例，</p>
 <p><img src="/img/kotlin-in-action/chapter09/Figure_09_01.png" alt="Figure 9.1"></p>
@@ -39,7 +39,7 @@
 <p>常规的属性(non-extension)不能有类型参数。因为一个类不能同时存储不同的类型值，因此声明一个泛型非扩展属性没有任何意义。你可以尝试这样做，但编译器报告错误：</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> &lt;T&gt; x: T = TODO()</span><br><span class="line">ERROR: type parameter of a property must be used <span class="keyword">in</span> its receiver type</span><br></pre></td></tr></table></figure>
 </blockquote>
-<h3 id="Declaring-generic-classes"><a class="header-anchor" href="#Declaring-generic-classes">¶</a>Declaring generic classes</h3>
+<h3><span id="declaring-generic-classes">Declaring generic classes</span></h3>
 <p>和Java一样，Kotlin可以使用尖括号来声明泛型类或接口，一旦声明泛型类后，就可以在该类的body内使用该泛型参数。</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">List</span>&lt;<span class="type">T</span>&gt; &#123;  <span class="comment">// The List interface defines a type parameter T.</span></span><br><span class="line">  <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">get</span><span class="params">(index: <span class="type">Int</span>)</span></span>: T  <span class="comment">// T can be used as a regular type in an interface or a class.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>泛型类的继承也和Java一致，</p>
@@ -47,7 +47,7 @@
 <p><code>StringList</code>继承泛型了，声明了具体的类型参数，不再是泛型类，而是具体类；<code>ArrayList</code>执行了泛型参数并传递给父类泛型参数，自身作为泛型类实现。</p>
 <p>一个类也可以引用自身作为泛型参数，例如<code>Comparable</code>接口，</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Comparable</span>&lt;<span class="type">T</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">compareTo</span><span class="params">(other: <span class="type">T</span>)</span></span>: <span class="built_in">Int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">String</span>: <span class="type">Comparable</span>&lt;<span class="type">String</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">override</span> compareTo(other: String): <span class="built_in">Int</span> = <span class="comment">/*...*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Type-parameter-constraints"><a class="header-anchor" href="#Type-parameter-constraints">¶</a>Type parameter constraints</h3>
+<h3><span id="type-parameter-constraints">Type parameter constraints</span></h3>
 <p>Kotlin的类型约束用法和Java无异。只不过是写法上的区别。</p>
 <p>要声明一个约束，需要在类型参数后带上冒号(😃，再跟着指定的边界类型，</p>
 <p><img src="/img/kotlin-in-action/chapter09/Figure_09_02.png" alt="Figure 9.2"></p>
@@ -64,7 +64,7 @@
 <p>很少的情况下需要对同一个类型参数指定多个上界的，你需要稍微使用不同的语法。例如，</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> <span class="title">ensureTrailingPeriod</span><span class="params">(seq: <span class="type">T</span>)</span></span></span><br><span class="line">		<span class="keyword">where</span> T: CharSequence, T: Appendable &#123;</span><br><span class="line">  <span class="keyword">if</span>(!seq.endsWith(<span class="string">&#x27;.&#x27;</span>)) &#123;  <span class="comment">// Calls an extension function defined for the CharSequence interface</span></span><br><span class="line">    seq.append(<span class="string">&#x27;.&#x27;</span>)  <span class="comment">// Calls the method from the Appendable interface</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">val</span> helloWorld = StringBuilder(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">&gt;&gt;&gt; ensureTrailingPeriod(helloWorld)</span><br><span class="line">&gt;&gt;&gt; println(helloWorld)</span><br><span class="line">Hello World.</span><br></pre></td></tr></table></figure>
 <p>这个例子中，使用的泛型类型必须同时继承<code>CharSequence</code>和<code>Appendable</code>接口。意味着可以对其进行访问(<code>endsWith</code>)和修改(<code>append</code>)操作。</p>
-<h3 id="Making-type-parameters-non-null"><a class="header-anchor" href="#Making-type-parameters-non-null">¶</a>Making type parameters non-null</h3>
+<h3><span id="making-type-parameters-non-null">Making type parameters non-null</span></h3>
 <p>如果你声明一个泛型类或函数，任何类型参数，包括可空，可以被替换为它自身的类型参数。实际上，一个类型参数如果不指定上界的话，它的上界则为<code>Any?</code>。考虑如下例子：</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Processor</span>&lt;<span class="type">T</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">process</span><span class="params">(value: <span class="type">T</span>)</span></span> &#123;</span><br><span class="line">    value?.hashCode()  <span class="comment">// &quot;value&quot; is nullable, so you have to use a safe call.</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>函数<code>process</code>的参数<code>value</code>是可空的，尽管<code>T</code>没有标记上问号。这种情况下<code>Processor</code>类可以传入可用类型来替换<code>T</code>：</p>
@@ -74,9 +74,9 @@
 <p><code>&lt;T: Any&gt;</code>约束确保了<code>T</code>类型总是不为空的参数类型。传入可空参数将发生编译错误：</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="keyword">val</span> nullableStringProcessor = Processor&lt;String?&gt;()</span><br><span class="line">Error: Type argument <span class="keyword">is</span> not within its bounds: should be subtype of <span class="string">&#x27;Any&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>目前为止，Kotlin的基本泛型语法和Java类似。下面讨论运行时泛型的行为。</p>
-<h2 id="Generics-at-runtime-erased-and-reified-type-parameters"><a class="header-anchor" href="#Generics-at-runtime-erased-and-reified-type-parameters">¶</a>Generics at runtime: erased and reified type parameters</h2>
+<h2><span id="generics-at-runtime-erased-and-reified-type-parameters">Generics at runtime: erased and reified type parameters</span></h2>
 <p>你可能已经知道，JVM上的泛型通过 <em>类型擦除(type erasure)</em> 实现，意味着一个泛型类的一个实例的类型参数在运行时是不保留的。我们将讨论Kotlin的类型确保的实际意义，以及如何应对<code>inline</code>函数的限制。你可以声明一个<code>inline</code>函数，这样它的类型参数不会被擦除<strong>erased</strong>(或，在Kotlin术语中，叫具现化<strong>reified</strong>)。</p>
-<h3 id="Generics-at-runtime-type-checks-and-casts"><a class="header-anchor" href="#Generics-at-runtime-type-checks-and-casts">¶</a>Generics at runtime: type checks and casts</h3>
+<h3><span id="generics-at-runtime-type-checks-and-casts">Generics at runtime: type checks and casts</span></h3>
 <p>和Java一样，Kotlin的泛型也是运行时擦除的。意味着一个泛型类的实例不会携带创建时的类型参数信息。例如，如果你创建了一个<code>List&lt;String&gt;</code>，里面放了一堆字符串，在运行时你将只能看到它是一个<code>List</code>。没有任何可能区分到它的实际包含的元素类型(当然，你可以获取到它的元素，校验它的类型，但不会给你任何保障，因为其它元素可能有不同类型)。</p>
 <p>考虑如下代码并运行，</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list1: List&lt;String&gt; = listOf(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> list2: List&lt;<span class="built_in">Int</span>&gt; = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
@@ -97,7 +97,7 @@
 <p>这里可以校验<code>c</code>是否是<code>List&lt;Int&gt;</code>，因为编译期已经确定了该集合类型。</p>
 <p>通常，Kotlin编译期会处理好哪些类型是危险的(禁止<code>is</code>校验和抛出<code>as</code>转换的告警)。你仅需要知道告警的含义并理解操作是否是安全的。</p>
 <p>前面提及到Kotlin有办法可以指定类型参数，但仅允许在<code>inline</code>内联函数使用。下面看看是怎么做到的。</p>
-<h3 id="Declaring-functions-with-reified-type-parameters"><a class="header-anchor" href="#Declaring-functions-with-reified-type-parameters">¶</a>Declaring functions with reified type parameters</h3>
+<h3><span id="declaring-functions-with-reified-type-parameters">Declaring functions with reified type parameters</span></h3>
 <p>前面提到，Kotlin的泛型和Java一样，都是运行期擦除的，意味着如果一个泛型类的实例，在实例被创建时无法得知它的类型参数。泛型函数也一样。当你调用一个泛型函数时，无法在调用时决定body的类型参数：</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> <span class="title">isA</span><span class="params">(value: <span class="type">Any</span>)</span></span> = value <span class="keyword">is</span> T</span><br><span class="line">ERROR: Cannot check <span class="keyword">for</span> instance of erased type: T</span><br></pre></td></tr></table></figure>
 <p>通常这是正确的，但有一种情况可以避免这种限制：内联函数。内联函数的类型参数可以具现化，意味着你可以引用到运行期的真实的类型参数。</p>
@@ -118,7 +118,7 @@
 </blockquote>
 <p>内联函数可以有多个具现化参数类型，也可以没有。因为内联函数带来性能提供的唯一前提是函数的入参是一个lambda表达式，但这里的<code>filterIsInstance</code>没有任何入参。这种情况下，<code>inline</code>函数并不是作为性能提升的原因；相反，用于类型参数具现化。</p>
 <p>为了确保良好的性能，你仍然需要关注<code>inline</code>函数编译后的内存占用大小。如果函数变得太大，最好重构提取出不依赖reified类型参数的非内联部分函数。</p>
-<h3 id="Replacing-class-references-with-reified-type-parameters"><a class="header-anchor" href="#Replacing-class-references-with-reified-type-parameters">¶</a>Replacing class references with reified type parameters</h3>
+<h3><span id="replacing-class-references-with-reified-type-parameters">Replacing class references with reified type parameters</span></h3>
 <p>具现化类型参数的一个常规用法是为<code>java.lang.Class</code>构建API适配器。例如来自JDK的API是<code>ServiceLoader</code>，接收一个<code>java.lang.Class</code>作为接口或抽象类作为参数并返回该类的一个实例。我们看看具现化类型参数如何调用实现。</p>
 <p>要使用Java API类<code>ServiceLoader</code>，可以如下调用：</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> serviceImpl = ServiceLoader.load(Service::<span class="keyword">class</span>.java)</span><br></pre></td></tr></table></figure>
@@ -133,7 +133,7 @@
 <p>如果你是Android开发者，你可能发现另外一个更相似的例子：showing activities. 取代<code>java.lang.Class</code>进行传递，你可以使用具现化类型参数：</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;<span class="keyword">reified</span> T : Activity&gt;</span></span></span><br><span class="line">        Context.startActivity() &#123;  <span class="comment">// The type parameter is marked as &quot;reified&quot;.</span></span><br><span class="line">  <span class="keyword">val</span> intent = Intent(<span class="keyword">this</span>, T::<span class="keyword">class</span>.java)  <span class="comment">// Accesses the class of the type parameter as T::class</span></span><br><span class="line">  startActivity(intent)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">startActivity&lt;DetailActivity&gt;()  <span class="comment">// Invokes the method to show an activity</span></span><br></pre></td></tr></table></figure>
 </blockquote>
-<h3 id="Restrictions-on-reified-type-parameters"><a class="header-anchor" href="#Restrictions-on-reified-type-parameters">¶</a>Restrictions on reified type parameters</h3>
+<h3><span id="restrictions-on-reified-type-parameters">Restrictions on reified type parameters</span></h3>
 <p>尽管具现化类型参数非常有用，但它有某些限制。某些继承了这些概念，其它的特性则取决于当前的实现又获取在将来的Kotlin版本不加约束。</p>
 <p>更具体来说，下面是如何使用一个具现化类型参数：</p>
 <ul>
@@ -150,9 +150,9 @@
 <li>Mark type parameters of classes, properties, or non-inline functions as <code>reified</code></li>
 </ul>
 <p>最后一个约束导致一个有趣的结果：因为具现化类型参数仅能被用于内联函数，使用一个具现化类型参数意味着函数连着所有传入的lambda都是被内联的。如果由于使用方式导致lambda不被内联，或者由于性能的原因不希望其被内联，你可以使用<code>noinline</code>修改器比较不让其内联。</p>
-<h2 id="Variance-generics-and-subtyping"><a class="header-anchor" href="#Variance-generics-and-subtyping">¶</a>Variance: generics and subtyping</h2>
+<h2><span id="variance-generics-and-subtyping">Variance: generics and subtyping</span></h2>
 <p><em>协变(variance)</em> 的概念描述同一个基础类型在不同类型参数如何关联：例如，<code>List&lt;String&gt;</code>和<code>List&lt;Any&gt;</code>。首先我们将描述为什么这种关联关系的重要性，以及在Kotlin中如何表述。理解协变是编写泛型类或函数的本质：它帮助你创建API不强制用户以不方便的方式打破他们的类型安全期望。</p>
-<h3 id="Why-variance-exists-passing-an-argument-to-a-function"><a class="header-anchor" href="#Why-variance-exists-passing-an-argument-to-a-function">¶</a>Why variance exists: passing an argument to a function</h3>
+<h3><span id="why-variance-exists-passing-an-argument-to-a-function">Why variance exists: passing an argument to a function</span></h3>
 <p>假设你有一个函数接收一个<code>List&lt;Any&gt;</code>作为参数。传递<code>List&lt;String&gt;</code>类型变量给该函数是安全的吗？当然是安全的，因为<code>String</code>类继承自<code>Any</code>。但当<code>Any</code>和<code>String</code>变为<code>List</code>接口的类型参数时，语义不再清晰。</p>
 <p>例如，考虑一个函数打印内容到控制台。</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printContents</span><span class="params">(list: <span class="type">List</span>&lt;<span class="type">Any</span>&gt;)</span></span> &#123;</span><br><span class="line">   println(list.joinToString())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; printContents(listOf(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;bac&quot;</span>))</span><br><span class="line">abc, bac</span><br></pre></td></tr></table></figure>
@@ -163,7 +163,7 @@
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="keyword">val</span> strings = mutableListOf(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;bac&quot;</span>)</span><br><span class="line">&gt;&gt;&gt; addAnswer(strings)  <span class="comment">// If this line compiled...</span></span><br><span class="line">&gt;&gt;&gt; println(strings.maxBy &#123; it.length &#125;)  <span class="comment">// ...you&#x27;d get an exception at runtime.</span></span><br><span class="line">ClassCastException: Integer cannot be cast to String</span><br></pre></td></tr></table></figure>
 <p>你声明一个<code>string</code>的类型<code>MutableList&lt;String&gt;</code>变量。然后传递给该函数。如果编译器接收它，你便可以在该list添加一个整数，当尝试访问这个list的内容这将导致运行时异常。正因如此，该调用无法编译。这个例子展示了传递一个<code>MutableList&lt;String&gt;</code>作为参数但却受到一个<code>MutableList&lt;Any&gt;</code>是不安全的；Kotlin编译器禁止这样做。</p>
 <p>由于类型的不一致性，添加或替换list中的元素是不安全的。其它行为则是安全的。在Kotlin中，如果接口正确可以很好控制。</p>
-<h3 id="Classes-types-and-subtypes"><a class="header-anchor" href="#Classes-types-and-subtypes">¶</a>Classes, types, and subtypes</h3>
+<h3><span id="classes-types-and-subtypes">Classes, types, and subtypes</span></h3>
 <p>某些情况下<code>type</code>和<code>class</code>是等价的，某些情况下不是。</p>
 <p>在非泛型类中，类名可以直接用作类型。例如，<code>var x: String</code>直接声明的变量的类型就是<code>String</code>类，并且也可以声明为可空类型，<code>var x: String?</code>。</p>
 <p>在泛型类中，要获得有效的类型，需要在运行时替换真实的类型，譬如<code>List</code>不是一个类型(它是一个类)，但下列的情况是有效的类型：<code>List&lt;Int&gt;</code>、<code>List&lt;String?&gt;</code>、<code>List&lt;List&lt;String&gt;&gt;</code>，等等。每个泛型类产生一个可能的无限类型。</p>
@@ -177,7 +177,7 @@
 <p>非空类型是可空类型的子类型，反之则不是，因为没有包含关系。</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> s: String = <span class="string">&quot;abc&quot;</span></span><br><span class="line"><span class="keyword">val</span> t: String? = s  <span class="comment">// This assignment is legal because String is a subtype of String?.</span></span><br></pre></td></tr></table></figure>
 <p>诸如<code>MutableList</code>这样的泛型类，它的类型参数是不可变的，对于两个不同的类型A和B，<code>MutableList&lt;A&gt;</code>不是<code>MutableList&lt;B&gt;</code>的子类型或父类型。在Java中，所有类型都是不可变的(invariant)。</p>
-<h3 id="Covariance-preserved-subtyping-relation"><a class="header-anchor" href="#Covariance-preserved-subtyping-relation">¶</a>Covariance: preserved subtyping relation</h3>
+<h3><span id="covariance-preserved-subtyping-relation">Covariance: preserved subtyping relation</span></h3>
 <p>泛型类的协变类遵循下面规则：<code>Producer&lt;A&gt;</code>是<code>Producer&lt;B&gt;</code>的子类型当<code>A</code> 是<code>B</code>的子类型。它是 <em>子类型保留的(subtyping is preserved)</em> 。例如，<code>Producer&lt;Cat&gt;</code>是<code>Producer&lt;Animal&gt;</code>的子类型，因为<code>Cat</code>是<code>Animal</code>的子类型。</p>
 <p>在Kotlin 中声明一个类成为协变类，使用<code>out</code>关键字在类型参数前：</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Producer</span>&lt;<span class="type">out T</span>&gt; &#123; <span class="comment">// This class is declared as covariant on T.</span></span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">produce</span><span class="params">()</span></span>: T</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -207,7 +207,7 @@
 <p>你可以在构造参数使用<code>val</code>或<code>var</code>关键字，也可以声明一个getter和setter(mutable)。因此，类型参数用在<code>out</code>位置作为只读属性，同时在<code>out</code>和<code>in</code>位置则作为一个可变(mutable)属性：</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Herd</span>&lt;<span class="type">T: Animal</span>&gt;(<span class="keyword">var</span> leadAnimal: T, vararge animals: T) &#123; ... &#125;</span><br></pre></td></tr></table></figure>
 <p>现在可以令<code>Herd</code>对<code>T</code>协变，因为<code>leadAnimal</code>属性是private的。</p>
-<h3 id="Contravariance-reversed-subtyping-relation"><a class="header-anchor" href="#Contravariance-reversed-subtyping-relation">¶</a>Contravariance: reversed subtyping relation</h3>
+<h3><span id="contravariance-reversed-subtyping-relation">Contravariance: reversed subtyping relation</span></h3>
 <p><em>逆变(contravariance)</em> 可以认为是协变(covariance)的镜像：对于逆变类，子类型关联的是它的类型参数的子类型的反面。我们以一个例子开始：<code>Comparator</code>接口。该接口定义一个方法，<code>compare</code>，比较两个对象：</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Comparator</span>&lt;<span class="type">in T</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">compare</span><span class="params">(e1: <span class="type">T</span>, e2: <span class="type">T</span>)</span></span>: <span class="built_in">Int</span> &#123; .. &#125;  <span class="comment">// Uses T in &quot;in&quot; positions</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到该接口的唯一方法仅消费<code>T</code>类型。意味着<code>T</code>仅被用于<code>in</code>位置，因此它的声明前面是<code>in</code>关键字。</p>
@@ -250,7 +250,7 @@
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">enumerateCats</span><span class="params">(f: (<span class="type">Cat</span>) -&gt; <span class="type">Number</span>)</span></span> &#123; ... &#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> Animal.<span class="title">getIndex</span><span class="params">()</span></span>: <span class="built_in">Int</span> = ...</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; enumerateCats(Animal::getIndex)  <span class="comment">// This code is legal in Kotlin. Animal is a supertype of Cat, and Int is a subtype Of Number.</span></span><br></pre></td></tr></table></figure>
 <p>下图为其subtyping relationship。</p>
 <p><img src="/img/kotlin-in-action/chapter09/Figure_09_08.png" alt="Figure 9.8"></p>
-<h3 id="Use-site-variance-specifying-variance-for-type-occurrences"><a class="header-anchor" href="#Use-site-variance-specifying-variance-for-type-occurrences">¶</a>Use-site variance: specifying variance for type occurrences</h3>
+<h3><span id="use-site-variance-specifying-variance-for-type-occurrences">Use-site variance: specifying variance for type occurrences</span></h3>
 <p>在类的声明上指定其可变性的能力会变得很方便，因为修改会作用到该类的使用的任何地方。这叫做 <em>declaration-site variance</em> 。如果你熟悉Java的通配符类型(<code>? extends</code> 和 <code>? super</code>)，你会意识到Java处理可变性的差异。在Java中，每次你都可以使用子类型或超类型来替代。这叫做 <em>use-site variance</em> 。</p>
 <blockquote>
 <p><strong>Declaration-site variance in Kotlin vs. Java wildcards</strong></p>
@@ -273,7 +273,7 @@
 <p>类似的情况也出现在逆变类型上。我们可以使用<code>in</code>可变修改器表明该值是作为一个消费者，消费的类型将被反转(reversed)替换为父类型。如下，</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> <span class="title">copyData</span><span class="params">(source: <span class="type">MutableList</span>&lt;<span class="type">T</span>&gt;,</span></span></span><br><span class="line"><span class="params"><span class="function">				destination: <span class="type">MutableList</span>&lt;<span class="type">in</span> <span class="type">T</span>&gt;)</span></span> &#123;  <span class="comment">// Allows the destination element type to be a supertype of the source element type</span></span><br><span class="line">  <span class="keyword">for</span> (item <span class="keyword">in</span> source) &#123;</span><br><span class="line">    destination.add(item)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>注意</strong>：use-site variance的声明在Kotlin是跟Java的通配类型对应的。<code>MutableList&lt;out T&gt;</code>在Kotlin等同于Java的<code>MutableList&lt;? extends T&gt;</code>。<code>in</code>投影<code>MutableList&lt;in T&gt;</code>等同于<code>MutableList&lt;? super T&gt;</code>。</p>
-<h3 id="Star-projection-using-instead-of-a-type-argument"><a class="header-anchor" href="#Star-projection-using-instead-of-a-type-argument">¶</a>Star projection: using * instead of a type argument</h3>
+<h3><span id="star-projection-using-instead-of-a-type-argument">Star projection: using * instead of a type argument</span></h3>
 <p>讨论类型检查和转换的时候，曾提及过 <em>star-projection</em> 这一语法用来告知 <em>no information about a generic argument</em> 。就是无法知道类型参数的信息。例如<code>List&lt;*&gt;</code>，就是包含未知元素类型的集合。</p>
 <p>首先注意，<code>MutableList&lt;*&gt;</code>不是<code>MutableList&lt;Any?&gt;</code>(这很重要因为这里的<code>MutableList&lt;T&gt;</code>是不可变的<code>T</code>)。一个<code>MutableList&lt;Any?&gt;</code>告诉了你它包含的元素是任意类型。然而，<code>MutableList&lt;*&gt;</code>包含的元素是一个<strong>特定</strong>的元素，但我不清楚它是什么。这种特定的元素类型可能是<code>String</code>，也可能是其它，这样写的代码仅包含该特定类型的元素。因为你不知道类型是什么，你不能把任意东西都放进去，这会侵犯原来类型的代码调用。但可以从list获取元素，因为你知道所有存储于该list的元素，它都是<code>Any?</code>的子类型，</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="keyword">val</span> list: MutableList&lt;Any?&gt; = mutableListOf(<span class="string">&#x27;a&#x27;</span>, <span class="number">1</span>, <span class="string">&quot;qwe&quot;</span>)</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">val</span> chars = mutableListOf(<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>)</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">val</span> unknownElements: MutableList&lt;*&gt; =  <span class="comment">// MutableList&lt;*&gt; isn&#x27;t the same as MutableList&lt;Any?&gt;.</span></span><br><span class="line">			<span class="keyword">if</span> (Random().nextBoolean()) list <span class="keyword">else</span> chars</span><br><span class="line">&gt;&gt;&gt; unknownElements.add(<span class="number">42</span>)  <span class="comment">// The compiler forbids you to call this method.</span></span><br><span class="line">Error: Out-projected type <span class="string">&#x27;MutableList&lt;*&gt;&#x27;</span> prohibits the use of <span class="string">&#x27;fun add(element: E): Boolean&#x27;</span></span><br><span class="line">&gt;&gt;&gt; println(unknownElements.first())  <span class="comment">// It&#x27;s safe to get elements: first() returns an element of the Any? type.</span></span><br></pre></td></tr></table></figure>
@@ -302,7 +302,7 @@
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; println(Validators[String::<span class="keyword">class</span>].validate(<span class="number">42</span>))  <span class="comment">// Now the &quot;get&quot; method returns an instance of FieldValidator&lt;String&gt;.</span></span><br><span class="line">Error: The integer literal does not conform to the expected type String</span><br></pre></td></tr></table></figure>
 <p>严格来说，这是一种设计模式，并不算是Kotlin的特性内容。实现这种模式可以非常容易地对自定义泛型类型进行扩展。将unsafe的代码进行本地化分离避免误用。</p>
 <p>Java的泛型和协变性通常被认为是该语言最棘手的部分。在Kotlin中，在Kotlin中我们尽最大努力使其易于理解和易于使用，同时有保留对Java的互操作性。</p>
-<h2 id="Summary"><a class="header-anchor" href="#Summary">¶</a>Summary</h2>
+<h2><span id="summary">Summary</span></h2>
 <ul>
 <li>Kotlin的泛型和Java的泛型非常相似：你可以以同样的方式声明泛型函数或类。</li>
 <li>在Java，泛型类型的类型参数(type parameter)仅存在于编译期。</li>
@@ -319,14 +319,14 @@
 </div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2022/01/07/kotlin/08_generics/';
 var disqus_title = '泛型';
-var disqus_url = 'http://galudisu.info/2022/01/07/kotlin/08_generics/';
+var disqus_url = 'https://galudisu.info/2022/01/07/kotlin/08_generics/';
 (function () {
   var dsq = document.createElement('script');
   dsq.type = 'text/javascript';
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="http://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

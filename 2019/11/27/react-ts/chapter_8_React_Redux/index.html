@@ -13,8 +13,8 @@
 <li>Connecting our React App to the store</li>
 <li>Managing state with use Reducer</li>
 </ul>
-<h2 id="Principles-and-key-concepts"><a class="header-anchor" href="#Principles-and-key-concepts">¶</a>Principles and key concepts</h2>
-<h3 id="Principles"><a class="header-anchor" href="#Principles">¶</a>Principles</h3>
+<h2><span id="principles-and-key-concepts">Principles and key concepts</span></h2>
+<h3><span id="principles">Principles</span></h3>
 <p>Redux的三大原则：</p>
 <ul>
 <li><strong>Single source of truth</strong>：意味着整个项目的状态被存储在一个单一对象。在一个真实应用系统中，这个对象很可能包含了一个复杂的内嵌对象树。</li>
@@ -22,7 +22,7 @@
 <li><strong>Changes are made with pure functions</strong>：那些能够改变状态的函数被称为“<code>reducer</code>”。</li>
 </ul>
 <p>接下来的环节，会深入介绍action和reducer以及消息的store内容。</p>
-<h3 id="Key-concepts"><a class="header-anchor" href="#Key-concepts">¶</a>Key concepts</h3>
+<h3><span id="key-concepts">Key concepts</span></h3>
 <p>Redux内存活的整个应用的状态被称为一个<code>store</code>。状态被存储在一个JavaScript对象中，形式如下：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  products<span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span> id<span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span> name<span class="punctuation">:</span> <span class="string">&quot;Table&quot;</span><span class="punctuation">,</span> ...<span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span>...<span class="punctuation">&#125;</span><span class="punctuation">,</span> ...<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  productsLoading<span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  currentProduct<span class="punctuation">:</span> <span class="punctuation">&#123;</span> id<span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span> xname<span class="punctuation">:</span> <span class="string">&quot;Chair&quot;</span><span class="punctuation">,</span> ... <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  basket<span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span> product<span class="punctuation">:</span> <span class="punctuation">&#123;</span> id<span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span> xname<span class="punctuation">:</span> <span class="string">&quot;Chair&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span> quantity<span class="punctuation">:</span> <span class="number">1</span> <span class="punctuation">&#125;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span>;</span><br></pre></td></tr></table></figure>
 <p>状态不会包含有任何函数、setter或者getter。它就是一个简单的JavaScript对象。</p>
@@ -46,7 +46,7 @@
 <li>reducer返回新的(更新的)状态</li>
 </ul>
 <p>你会注意action和reducer都不是TypeScript类型的。下面开始实战。</p>
-<h2 id="Installing-Redux"><a class="header-anchor" href="#Installing-Redux">¶</a>Installing Redux</h2>
+<h2><span id="installing-redux">Installing Redux</span></h2>
 <p>在使用Redux之前，需要安装依赖项。另外还需要安装一个库<code>redux-thunk</code>，以实现异步的ation:</p>
 <ol>
 <li>安装redux,</li>
@@ -64,12 +64,12 @@
 <li>安装<code>redux-thunk</code>，</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn add redux-thunk</span><br><span class="line">yarn add -D @types/redux-thunk</span><br></pre></td></tr></table></figure>
-<h2 id="Creating-actions"><a class="header-anchor" href="#Creating-actions">¶</a>Creating actions</h2>
+<h2><span id="creating-actions">Creating actions</span></h2>
 <p>这里将沿用前面章节使用的代码，将Redux集成到产品页面上。本小节，我们会创建action获取产品内容。以及使用另外一个action更改新的状态。</p>
 <p>在此之前，首先在<code>ProductsData.ts</code>创建一个假的API，</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getProducts = <span class="keyword">async</span> (): <span class="title class_">Promise</span>&lt;<span class="title class_">IProduct</span>[]&gt; =&gt; &#123;</span><br><span class="line">  <span class="keyword">await</span> <span class="title function_">wait</span>(<span class="number">1000</span>);</span><br><span class="line">  <span class="keyword">return</span> products;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>该函数异步等待返回的产品信息。</p>
-<h3 id="Creating-state-and-action-types"><a class="header-anchor" href="#Creating-state-and-action-types">¶</a>Creating state and action types</h3>
+<h3><span id="creating-state-and-action-types">Creating state and action types</span></h3>
 <p>下面使用Redux来增强React shop。首先，创建一些state类型，以及action类型。</p>
 <ol>
 <li>在<code>src</code>文件夹创建一个新的文件<code>ProductsTypes.ts</code>，</li>
@@ -102,7 +102,7 @@
 <p>这里的state将包含了一组商品信息，以及商品是否正在加载。</p>
 <p>注意到属性前面引入了<code>readonly</code>关键字。它帮助我们避免对状态的直接修改。</p>
 <p>有了state和action的类型后，接下来创建一些具体的action。</p>
-<h3 id="Creating-actions-v2"><a class="header-anchor" href="#Creating-actions-v2">¶</a>Creating actions</h3>
+<h3><span id="creating-actions">Creating actions</span></h3>
 <p>本小节，将创建两个action。获取商品的action，商品处于加载的action。</p>
 <ol>
 <li>创建一个<code>ProductsActions.ts</code>文件，</li>
@@ -160,7 +160,7 @@
 <li>最后一步dispatch 要求的action。</li>
 </ul>
 <p>目前创建了好几个action了，接下来创建相应的reducer。</p>
-<h3 id="Creating-reducers"><a class="header-anchor" href="#Creating-reducers">¶</a>Creating reducers</h3>
+<h3><span id="creating-reducers">Creating reducers</span></h3>
 <p>一个reducer，就是一个传入给定的action，产生新的state的一个函数。因此，这个函数在当前state，接收了一个action，返回新的state。</p>
 <ol>
 <li>在<code>src</code>目录新建文件<code>ProductsReducer.ts</code>：</li>
@@ -188,7 +188,7 @@
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (action.<span class="property">type</span>) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="title class_">ProductsActionTypes</span>.<span class="property">LOADING</span>: &#123;</span><br><span class="line">	<span class="keyword">return</span> &#123;</span><br><span class="line">		...state,</span><br><span class="line">		<span class="attr">productsLoading</span>: <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">case</span> <span class="title class_">ProductsActionTypes</span>.<span class="property">GETALL</span>: &#123;</span><br><span class="line">	<span class="keyword">return</span> &#123;</span><br><span class="line">		...state,</span><br><span class="line">		<span class="attr">products</span>: action.<span class="property">products</span>,</span><br><span class="line">		<span class="attr">productsLoading</span>: <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们为每个action实现了对应的reducer，合并旧的state，并返回一个新的state。</p>
 <p>这样，我们的第一个reducer完成了。接下来创建我们的store。</p>
-<h3 id="Creating-a-store"><a class="header-anchor" href="#Creating-a-store">¶</a>Creating a store</h3>
+<h3><span id="creating-a-store">Creating a store</span></h3>
 <p>本小节，将创建一个store，用于存放我们的state并管理这些action和reducer：</p>
 <ol>
 <li>新建文件<code>Store.tsx</code>文件，导入相应的需要的组件。</li>
@@ -226,9 +226,9 @@
 <li>Redux中的函数<code>createStore</code>，我们传入定义的reducer以及Redux Thunk中间件，传递<code>undefined</code>作为初始化状态。</li>
 </ul>
 <p>接下来，如何连接到我们创建的store？</p>
-<h2 id="Connecting-our-React-app-to-the-store"><a class="header-anchor" href="#Connecting-our-React-app-to-the-store">¶</a>Connecting our React app to the store</h2>
+<h2><span id="connecting-our-react-app-to-the-store">Connecting our React app to the store</span></h2>
 <p>在本小节，我们将<code>Products</code>页面连接到store。第一件要做的工作室添加React Redux的<code>Provider</code>组件。</p>
-<h3 id="Adding-the-store-Provider-component"><a class="header-anchor" href="#Adding-the-store-Provider-component">¶</a>Adding the store Provider component</h3>
+<h3><span id="adding-the-store-provider-component">Adding the store Provider component</span></h3>
 <p><code>Provider</code>组件可以在它任意下层的组件传递store。因此，本小节，需要将<code>Provider</code>添加到组件的最高层级，这样其它组件都可以访问。</p>
 <ol>
 <li>打开原先的<code>index.tsx</code>，导入<code>Provider</code>。</li>
@@ -260,8 +260,8 @@
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = <span class="title function_">configureStore</span>();</span><br><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">Root</span> <span class="attr">store</span>=<span class="string">&#123;store&#125;</span> /&gt;</span></span>, <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;root&quot;</span>) <span class="keyword">as</span> <span class="title class_">HTMLElement</span>);</span><br></pre></td></tr></table></figure>
 <p>首先通过<code>configureStore</code>函数创建了全局的store，并将它传递给<code>Root</code>组件。</p>
 <p>这样一来，所有组件都已经连接到了这个store。接下来，需要需要在其它子层组件中对其进行连接。</p>
-<h3 id="Connecting-components-to-the-store"><a class="header-anchor" href="#Connecting-components-to-the-store">¶</a>Connecting components to the store</h3>
-<h4 id="Connecting-ProductsPage-to-the-store"><a class="header-anchor" href="#Connecting-ProductsPage-to-the-store">¶</a>Connecting ProductsPage to the store</h4>
+<h3><span id="connecting-components-to-the-store">Connecting components to the store</span></h3>
+<h4><span id="connecting-productspage-to-the-store">Connecting ProductsPage to the store</span></h4>
 <p>首先连接的组件是<code>ProductsPage</code>,</p>
 <p>下面开始对其进行重构，</p>
 <ol>
@@ -329,7 +329,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
 <p>我们会发现页面的行为并没有跟原来的有差异。唯一不同的是state现在由Redux store进行管理。</p>
 <p>接下来的小节，我们将商品页面添加加载进度条。</p>
-<h3 id="Connecting-ProductsPage-to-the-loading-store-state"><a class="header-anchor" href="#Connecting-ProductsPage-to-the-loading-store-state">¶</a>Connecting ProductsPage to the loading store state</h3>
+<h3><span id="connecting-productspage-to-the-loading-store-state">Connecting ProductsPage to the loading store state</span></h3>
 <p>本小节将添加一个加载进度条。在此之前，需要将商品信息进行萃取。然后添加<code>withLoader</code>HOC到组件中：</p>
 <ol>
 <li>首先为抽取的组件创建一个新文件<code>ProductsList.tsx</code>：</li>
@@ -367,7 +367,7 @@
 <p>现在，我们的<code>Products</code>页面已经接入到Redux store。下个小节会将`Product也接入到store中。</p>
 </li>
 </ol>
-<h3 id="Adding-product-stte-and-actions-to-the-store"><a class="header-anchor" href="#Adding-product-stte-and-actions-to-the-store">¶</a>Adding product stte and actions to the store</h3>
+<h3><span id="adding-product-stte-and-actions-to-the-store">Adding product stte and actions to the store</span></h3>
 <p>要将<code>ProductPage</code>组件连接到Redux存储中，需要创建额外的state，表示商品是否被添加到购物车。另外，需要额外的action和reducer，来表述获取商品、添加到购物篮的行为。</p>
 <ol>
 <li>首先，在<code>ProductsTypes.ts</code>添加相应的state，表述“当前”商品：</li>
@@ -406,7 +406,7 @@
 <li>在<code>productReducer</code>函数中，添加相应新的分支语句：</li>
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (action.<span class="property">type</span>) &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">case</span> <span class="title class_">ProductsActionTypes</span>.<span class="property">GETSINGLE</span>: &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        <span class="attr">currentProduct</span>: action.<span class="property">product</span>,</span><br><span class="line">        <span class="attr">productsLoading</span>: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Adding-basket-state-and-actions-to-the-store"><a class="header-anchor" href="#Adding-basket-state-and-actions-to-the-store">¶</a>Adding basket state and actions to the store</h3>
+<h3><span id="adding-basket-state-and-actions-to-the-store">Adding basket state and actions to the store</span></h3>
 <p>这里需要为购物篮添加状态管理。</p>
 <ol>
 <li>首先，创建一个新文件<code>BasketTypes.ts</code>，内容如下：</li>
@@ -439,7 +439,7 @@
 </ol>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> rootReducer = combineReducers&lt;<span class="title class_">IApplicationState</span>&gt;(&#123;</span><br><span class="line">  <span class="attr">basket</span>: basketReducer,</span><br><span class="line">  <span class="attr">products</span>: productsReducer</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>现在可以从Store连接到<code>ProductPage</code>组件了。</p>
-<h3 id="Connecting-ProductPage-to-the-store"><a class="header-anchor" href="#Connecting-ProductPage-to-the-store">¶</a>Connecting ProductPage to the store</h3>
+<h3><span id="connecting-productpage-to-the-store">Connecting ProductPage to the store</span></h3>
 <ol>
 <li>首先在<code>ProductPage.tsx</code>导入相应的组件：</li>
 </ol>
@@ -484,7 +484,7 @@
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect (</span><br><span class="line">  mapStateToProps,</span><br><span class="line">  mapDispatchToProps</span><br><span class="line">)(<span class="title class_">ProductPage</span>);</span><br></pre></td></tr></table></figure>
 <p>现在回到页面App，尝试点击按钮，添加商品到购物篮看看效果，已添加的商品，再次进入商品的页面时，添加按钮会消失。</p>
-<h3 id="Creating-and-connecting-BasketSummary-to-the-store"><a class="header-anchor" href="#Creating-and-connecting-BasketSummary-to-the-store">¶</a>Creating and connecting BasketSummary to the store</h3>
+<h3><span id="creating-and-connecting-basketsummary-to-the-store">Creating and connecting BasketSummary to the store</span></h3>
 <p>在该小节，我们将创建新的组件<code>BasketSummary</code>。它会显示购物篮中商品的个数，并显示在右上角。</p>
 <ol>
 <li>首先创建一个新的文件<code>BasketSummary.tsx</code>，内容如下：</li>
@@ -516,7 +516,7 @@
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">connect</span>(mapStateToProps)(<span class="title function_">withRouter</span>(<span class="title class_">Header</span>));</span><br></pre></td></tr></table></figure>
 <p>现在<code>Header</code>组件消费<code>BasketSummary</code>组件信息，并连接到store中。尝试在页面中添加商品信息，可以看到数字增加了。</p>
-<h2 id="Managing-state-with-useReducer"><a class="header-anchor" href="#Managing-state-with-useReducer">¶</a>Managing state with useReducer</h2>
+<h2><span id="managing-state-with-usereducer">Managing state with useReducer</span></h2>
 <p>Redux对于状态管理带来很大的帮助。但如果仅仅为了管理存在的单一组件的状态，则显得有点笨重。显然，我们，单一的组件直接使用<code>setState(for class compoents)</code>或<code>useState(for function compoents)</code>就可以了。然而，对于复杂的组件状态会怎样？有一大堆的state信息，并且这些state的交互可能涉及很多操作，某些甚至可能是异步的。</p>
 <p>在本小节，我们将探索使用<code>useReduder</code>函数来管理这些状态的方法。我们的例子将尽量人性化和简单，以理解这种管理方法。</p>
 <p>我们希望添加一个_<code>Like</code>_ 按钮到*<code>Product</code>* 页面。用户可以多次点击这个like按钮。<code>Product</code>组件会跟踪点击这个按钮的次数、最后一次like的时间，并显示。</p>
@@ -567,7 +567,7 @@
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">reducer</span> = (<span class="params">state: ILikeState = initialLikeState, action: LikeAction</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.<span class="property">type</span>) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="title class_">LikeAtionTypes</span>.<span class="property">LIKE</span>:</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        <span class="attr">likes</span>: state.<span class="property">likes</span> + <span class="number">1</span>,</span><br><span class="line">        <span class="attr">lastLike</span>: action.<span class="property">now</span> </span><br><span class="line">      &#125;;</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>该实现方式和实现action、reducer相似，不同的是所有操作都在一个组件内实现。</p>
-<h2 id="Summary"><a class="header-anchor" href="#Summary">¶</a>Summary</h2>
+<h2><span id="summary">Summary</span></h2>
 <p>下面是几个关键点：</p>
 <ul>
 <li>枚举类型的action type，在引用时能给我们更好的提示。</li>
@@ -586,14 +586,14 @@
 </div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2019/11/27/react-ts/chapter_8_React_Redux/';
 var disqus_title = '第八章 React Redux';
-var disqus_url = 'http://galudisu.info/2019/11/27/react-ts/chapter_8_React_Redux/';
+var disqus_url = 'https://galudisu.info/2019/11/27/react-ts/chapter_8_React_Redux/';
 (function () {
   var dsq = document.createElement('script');
   dsq.type = 'text/javascript';
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="http://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

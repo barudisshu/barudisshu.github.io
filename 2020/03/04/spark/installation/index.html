@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Spark 3.0 集群搭建教程</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2020-03-04</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/spark/">spark</a></p></div><div class="article-content"><span id="more"></span>
-<h2 id="先决条件"><a class="header-anchor" href="#先决条件">¶</a>先决条件</h2>
+<h2><span id="先决条件">先决条件</span></h2>
 <p>在部署Spark之前，请确认集群的每个节点都符合以下条件：</p>
 <ol>
 <li>已安装Java 1.8.x或以上版本（推荐1.8版本）</li>
@@ -13,22 +13,22 @@
 <li>已部署Hadoop（如果只是部署Standalone Cluster则不需要Hadoop）</li>
 </ol>
 <p>如果你已经按照<a href="/2020/03/04/hadoop/installation">Hadoop集群搭建教程</a>成功建立了Hadoop集群，那么以上条件均已满足。</p>
-<h3 id="下载Spark二进制文件"><a class="header-anchor" href="#下载Spark二进制文件">¶</a>下载Spark二进制文件</h3>
+<h3><span id="下载spark二进制文件">下载Spark二进制文件</span></h3>
 <p>在Spark的<a target="_blank" rel="noopener" href="https://spark.apache.org/downloads.html">下载页面</a>中有多个版本可以选择，因为之前选择了Hadoop 2.7.7版本，所以这里选择与之对应的 <a target="_blank" rel="noopener" href="https://www.apache.org/dyn/closer.lua/spark/spark-3.0.0/spark-3.0.0-bin-without-hadoop.tgz">Pre-built with user-provided Apache Hadoop</a>版本，Scala版本选择最新的2.12。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">wget wget https://mirrors.tuna.tsinghua.edu.cn/apache/spark/spark-3.0.0/spark-3.0.0-bin-without-hadoop.tgz</span><br><span class="line">tar -xzvf spark-3.0.0-bin-without-hadoop.tgz</span><br></pre></td></tr></table></figure>
-<h3 id="配置Spark环境变量"><a class="header-anchor" href="#配置Spark环境变量">¶</a>配置Spark环境变量</h3>
+<h3><span id="配置spark环境变量">配置Spark环境变量</span></h3>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Spark environment</span></span><br><span class="line">export SPARK_HOME=/opt/spark-3.0.0-bin-without-hadoop</span><br><span class="line">export PATH=$PATH:$&#123;SPARK_HOME&#125;/bin</span><br></pre></td></tr></table></figure>
-<h4 id="spark-env-sh"><a class="header-anchor" href="#spark-env-sh">¶</a><a target="_blank" rel="noopener" href="http://spark-env.sh">spark-env.sh</a></h4>
+<h4><span id="spark-envsh"></span></h4>
 <p>因为我们下载的是不带hadoop依赖jar的spark版本，所以需要在spark中指定hadoop的classpath</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">配置文件spark-env.sh：</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## in conf/spark-env.sh ###</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">If <span class="string">&#x27;hadoop&#x27;</span> binary is on your PATH</span></span><br><span class="line">export SPARK_DIST_CLASSPATH=$(hadoop classpath)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">With explicit path to <span class="string">&#x27;hadoop&#x27;</span> binary</span></span><br><span class="line">export SPARK_DIST_CLASSPATH=$(/path/to/hadoop/bin/hadoop classpath)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Passing a Hadoop configuration directory</span></span><br><span class="line">export SPARK_DIST_CLASSPATH=$(hadoop --config /path/to/configs classpath)</span><br></pre></td></tr></table></figure>
 <p>这里在最后一行添加：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export HADOOP_CONF_DIR=$&#123;HADOOP_HOME&#125;/etc/hadoop</span><br><span class="line">export SPARK_DIST_CLASSPATH=$(/opt/hadoop-2.7.7/bin/hadoop classpath)</span><br></pre></td></tr></table></figure>
-<h3 id="slaves"><a class="header-anchor" href="#slaves">¶</a>slaves</h3>
+<h3><span id="slaves">slaves</span></h3>
 <p>向slaves文件写入slave节点的host/IP地址</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">huawei-02</span><br><span class="line">huawei-03</span><br></pre></td></tr></table></figure>
-<h3 id="将配置好的Spark分发到其它节点"><a class="header-anchor" href="#将配置好的Spark分发到其它节点">¶</a>将配置好的Spark分发到其它节点</h3>
+<h3><span id="将配置好的spark分发到其它节点">将配置好的Spark分发到其它节点</span></h3>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r /opt/spark-3.0.0-bin-without-hadoop huawei-02:/opt/spark-3.0.0-bin-without-hadoop</span><br><span class="line">scp -r /opt/spark-3.0.0-bin-without-hadoop huawei-03:/opt/spark-3.0.0-bin-without-hadoop</span><br></pre></td></tr></table></figure>
-<h3 id="启动Spark"><a class="header-anchor" href="#启动Spark">¶</a>启动Spark</h3>
+<h3><span id="启动spark">启动Spark</span></h3>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./opt/spark-3.0.0=bin-without-hadoop/sbin/start-all.sh</span><br></pre></td></tr></table></figure>
 <p>打开浏览器，输入<code>[主机]:8080</code> 出现下面节点则表示启动成功了。</p>
 <p><img src="/img/spark/spark-master.png" alt="spark cluster"></p>
@@ -37,7 +37,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br><span class="line">export LD_LIBRARY_PATH=$HADOOP_HOME/lib/native/:$LD_LIBRARY_PATH</span><br></pre></td></tr></table></figure>
 <p>source一下就解决了。</p>
 <p>查看<code>sbin</code>目录，可以看到spark提供了几种启动方式.</p>
-<h3 id="Spark-的三种启动方式"><a class="header-anchor" href="#Spark-的三种启动方式">¶</a>Spark 的三种启动方式</h3>
+<h3><span id="spark-的三种启动方式">Spark 的三种启动方式</span></h3>
 <p>Spark最主要资源管理方式按排名为Hadoop Yarn, Apache Standalone 和Mesos。在单机使用时，Spark还可以采用最基本的local模式。</p>
 <p>目前Apache Spark支持三种分布式部署方式，分别是standalone、spark on mesos和 spark on YARN，其中，第一种类似于MapReduce 1.0所采用的模式，内部实现了容错性和资源管理，后两种则是未来发展的趋势，部分容错性和资源管理交由统一的资源管理系统完成：让Spark运行在一个通用的资源管理系统之上，这样可以与其他计算框架，比如MapReduce，公用一个集群资源，最大的好处是降低运维成本和提高资源利用率（资源按需分配）。本文将介绍这三种部署方式，并比较其优缺点。</p>
 <ol>
@@ -79,14 +79,14 @@ spark on yarn 的支持两种模式：</p>
 </div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2020/03/04/spark/installation/';
 var disqus_title = 'Spark 3.0 集群搭建教程';
-var disqus_url = 'http://galudisu.info/2020/03/04/spark/installation/';
+var disqus_url = 'https://galudisu.info/2020/03/04/spark/installation/';
 (function () {
   var dsq = document.createElement('script');
   dsq.type = 'text/javascript';
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="http://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2023 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
