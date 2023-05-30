@@ -1,0 +1,10 @@
+.tag-main {
+  padding: 20px 0 40px;
+}
+.tag-main .tag-article-link {
+  color: #2a7e65;
+  margin-left: 1.8em;
+}
+.tag-main .tag-article-link:hover {
+  text-decoration-color: #9bd5b3;
+}
