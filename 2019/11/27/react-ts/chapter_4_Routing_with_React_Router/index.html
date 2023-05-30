@@ -17,12 +17,12 @@
 <li>动画转换</li>
 <li>lazy loading 路由</li>
 </ul>
-<h2><span id="安装路由">安装路由</span></h2>
+<h2 id="安装路由"><a class="header-anchor" href="#安装路由">¶</a>安装路由</h2>
 <p>将React Router添加进项目中，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add react-router-dom</span><br></pre></td></tr></table></figure>
 <p>以及将TypeScript版本的React Router添加到devDependency的开发依赖中，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add -D @types/react-router-dom</span><br></pre></td></tr></table></figure>
-<h2><span id="声明路由">声明路由</span></h2>
+<h2 id="声明路由"><a class="header-anchor" href="#声明路由">¶</a>声明路由</h2>
 <p>在页面我们需要使用<code>BrowserRouter</code>和<code>Route</code>组件。<code>BrowserRouter</code>是top-level组件，会寻找下层的<code>Route</code>组件以决定不同的页面路径。</p>
 <p>在引入<code>BrowserRouter</code>和<code>Route</code>之前，首先创建两个页面，</p>
 <ol>
@@ -72,9 +72,9 @@
 <ol start="12">
 <li>目前页面上是什么也没有看到的，需要我们在浏览器直接输入地址，“<code>/products</code>”，或者访问另一个页面&quot;<code>/admin</code>&quot;,</li>
 </ol>
-<h2><span id="创建路由向导">创建路由向导</span></h2>
+<h2 id="创建路由向导"><a class="header-anchor" href="#创建路由向导">¶</a>创建路由向导</h2>
 <p>非常幸运的是，React Router有一些组件提供了向导的功能。</p>
-<h3><span id="using-the-link-component">Using the Link component</span></h3>
+<h3 id="Using-the-Link-component"><a class="header-anchor" href="#Using-the-Link-component">¶</a>Using the Link component</h3>
 <p>使用<code>Link</code>组件实现向导功能，</p>
 <ol>
 <li>创建一个<code>Header.tsx</code>文件，包含以下内容，</li>
@@ -96,7 +96,7 @@
 <li>加入导航，</li>
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">Router</span>&gt;</span><br><span class="line">	<span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">		<span class="tag">&lt;<span class="name">Header</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">		<span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/products&quot;</span> <span class="attr">component</span>=<span class="string">&#123;ProductsPage&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">		<span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/admin&quot;</span> <span class="attr">component</span>=<span class="string">&#123;AdminPage&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">Router</span>&gt;</span><br></pre></td></tr></table></figure>
-<h2><span id="使用navlink组件">使用NavLink组件</span></h2>
+<h2 id="使用NavLink组件"><a class="header-anchor" href="#使用NavLink组件">¶</a>使用NavLink组件</h2>
 <p>React Router还提供了另外一个组件用于页面链接，称为<code>NavLink</code>。下面我们用<code>NavLink</code>重构一下原来的<code>Header</code>组件，</p>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">NavLink</span> &#125; <span class="keyword">from</span> <span class="string">&quot;react-router-dom&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> logo <span class="keyword">from</span> <span class="string">&quot;./logo.svg&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Header</span>: <span class="title class_">React</span>.<span class="property">SFC</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;<span class="name">header</span> <span class="attr">className</span>=<span class="string">&quot;header&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&#123;logo&#125;</span> <span class="attr">className</span>=<span class="string">&quot;header-logo&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;logo&quot;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">h1</span> <span class="attr">className</span>=<span class="string">&quot;header-title&quot;</span>&gt;</span>React Shop<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">nav</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">NavLink</span> <span class="attr">to</span>=<span class="string">&quot;/products&quot;</span> <span class="attr">className</span>=<span class="string">&quot;header-link&quot;</span>&gt;</span>Products<span class="tag">&lt;/<span class="name">NavLink</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">NavLink</span> <span class="attr">to</span>=<span class="string">&quot;/admin&quot;</span> <span class="attr">className</span>=<span class="string">&quot;header-link&quot;</span>&gt;</span>Admin<span class="tag">&lt;/<span class="name">NavLink</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">Header</span>;</span><br></pre></td></tr></table></figure>
 <ol start="2">
@@ -108,7 +108,7 @@
 </ol>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="selector-class">.header-link-active</span> &#123;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">#ebebeb</span> solid <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>因此，<code>NavLink</code>主要让我们导航带上样式功能。</p>
-<h3><span id="路由参数">路由参数</span></h3>
+<h3 id="路由参数"><a class="header-anchor" href="#路由参数">¶</a>路由参数</h3>
 <p>路由参数是路径变量的部分，用于决定目标组件的渲染逻辑。</p>
 <p>我们需要添加另外一个页面，来展示商品的描述内容和价格，我们想要让页面导向使用&quot;<code>/products/&#123;id&#125;</code>&quot;路径，其中<code>id</code>对应商品ID。</p>
 <ol>
@@ -172,7 +172,7 @@
 <li>补充CSS样式，</li>
 </ol>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.product-list-item</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">	<span class="attribute">text-decoration</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3><span id="handling-not-found-routes">Handling not found routes</span></h3>
+<h3 id="Handling-not-found-routes"><a class="header-anchor" href="#Handling-not-found-routes">¶</a>Handling not found routes</h3>
 <p>如果用户输入的路径不存在怎么处理？例如，我们尝试键入&quot;/tools&quot;，但路由中没有找到任何匹配的路由，我们希望提示该路径不存在。</p>
 <ol>
 <li>首先创建一个新的文件<code>NotFoundPage.tsx</code>，</li>
@@ -196,9 +196,9 @@
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">Switch</span>&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Route</span> <span class="attr">exact</span>=<span class="string">&#123;true&#125;</span> <span class="attr">path</span>=<span class="string">&quot;/products&quot;</span> <span class="attr">component</span>=<span class="string">&#123;ProductsPage&#125;</span> /&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/products/:id&quot;</span> <span class="attr">component</span>=<span class="string">&#123;ProductPage&#125;</span> /&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/admin&quot;</span> <span class="attr">component</span>=<span class="string">&#123;AdminPage&#125;</span> /&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Route</span> <span class="attr">component</span>=<span class="string">&#123;NotFoundPage&#125;</span> /&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">Switch</span>&gt;</span><br></pre></td></tr></table></figure>
 <p><code>Switch</code>组件仅渲染第一个匹配到的<code>Route</code>组件。在我们案例中，当找不到页面是，第一个匹配到的就是<code>NotFoundPage</code>，这样就解决了我们的问题。</p>
-<h2><span id="实现页面重定向">实现页面重定向</span></h2>
+<h2 id="实现页面重定向"><a class="header-anchor" href="#实现页面重定向">¶</a>实现页面重定向</h2>
 <p>页面重定向使用了<code>Redirect</code>组件实现</p>
-<h3><span id="simple-redirect">Simple redirect</span></h3>
+<h3 id="Simple-redirect"><a class="header-anchor" href="#Simple-redirect">¶</a>Simple redirect</h3>
 <p>如果我们访问<code>/</code>路径，我们注意到它是个not found页面。我们希望当路径是<code>/</code>时，重定向到<code>/products</code>。</p>
 <ol>
 <li>首先，需要在<code>Routes.tsx</code>导入<code>Redirect</code>组件，</li>
@@ -208,7 +208,7 @@
 <li>然后使用<code>Redirect</code>组件进行重定向，</li>
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">Switch</span>&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Redirect</span> <span class="attr">exact</span>=<span class="string">&#123;true&#125;</span> <span class="attr">from</span>=<span class="string">&quot;/&quot;</span> <span class="attr">to</span>=<span class="string">&quot;/products&quot;</span> /&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Route</span> <span class="attr">exact</span>=<span class="string">&#123;true&#125;</span> <span class="attr">path</span>=<span class="string">&quot;/products&quot;</span> <span class="attr">component</span>=<span class="string">&#123;ProductsPage&#125;</span> /&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/products/:id&quot;</span> <span class="attr">component</span>=<span class="string">&#123;ProductPage&#125;</span> /&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/admin&quot;</span> <span class="attr">component</span>=<span class="string">&#123;AdminPage&#125;</span> /&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Route</span> <span class="attr">component</span>=<span class="string">&#123;NotFoundPage&#125;</span> /&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">Switch</span>&gt;</span><br></pre></td></tr></table></figure>
-<h3><span id="conditional-redirect">Conditional redirect</span></h3>
+<h3 id="Conditional-redirect"><a class="header-anchor" href="#Conditional-redirect">¶</a>Conditional redirect</h3>
 <p>另外我们可以用<code>Redirect</code>组件对为授权用户进行保护访问。例如，我们的shop例子中，我们仅确保登录用户可以访问我们的<code>Admin</code>页面。</p>
 <ol>
 <li>创建一个<code>LoginPage</code>路由，</li>
@@ -234,7 +234,7 @@
 <li>如果我们将<code>loggedIn</code>状态修改为true，我们就可以再次访问我们的Admin页面了，</li>
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [loggedIn, setLoggedIn] = <span class="title class_">React</span>.<span class="title function_">useState</span>(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
-<h2><span id="query-parameters">Query parameters</span></h2>
+<h2 id="Query-parameters"><a class="header-anchor" href="#Query-parameters">¶</a>Query parameters</h2>
 <p>查询参数是URL地址的一部分，例如&quot;<code>/products?search=redux</code>&quot;。让我们实现一个商品查询功能。</p>
 <ol>
 <li>在原来的<code>ProductsPage.tsx</code>中，添加一个状态变量<code>search</code>，</li>
@@ -297,7 +297,7 @@
 <li>另外我们需要用<code>withRouter</code>包装<code>Header</code>暴露接口，以使<code>this.props.history</code>可以生效，</li>
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">withRouter</span>(<span class="title class_">Hader</span>);</span><br></pre></td></tr></table></figure>
-<h3><span id="route-prompts">Route prompts</span></h3>
+<h3 id="Route-prompts"><a class="header-anchor" href="#Route-prompts">¶</a>Route prompts</h3>
 <p><code>react-router-dom</code>组件中还有一个<code>Prompt</code>组件，顾名思义就是弹出框…</p>
 <ol>
 <li>我们希望用户离开商品页面时，如果没有购物，则弹出提示，首先，在<code>ProductPage.tsx</code>中导入<code>Prompt</code>组件，</li>
@@ -307,7 +307,7 @@
 <li>添加对应触发条件即可，</li>
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div className=<span class="string">&quot;page-container&quot;</span>&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Prompt</span> <span class="attr">when</span>=<span class="string">&#123;!this.state.added&#125;</span> <span class="attr">message</span>=<span class="string">&#123;this.navAwayMessage&#125;</span> /&gt;</span></span></span><br><span class="line">  ...</span><br><span class="line">    <span class="keyword">private</span> navAwayMessage = <span class="function">() =&gt;</span> <span class="string">&quot;Are you sure you leave without buying this product?&quot;</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2><span id="nested-routes">Nested routes</span></h2>
+<h2 id="Nested-routes"><a class="header-anchor" href="#Nested-routes">¶</a>Nested routes</h2>
 <p>内嵌路由就是在某一个一级URL下渲染多个组件。</p>
 <p>譬如我们想要创建一个3层渲染，</p>
 <ul>
@@ -371,7 +371,7 @@
 <li>再次运行，进入到<code>Admin</code>页面，点击<code>Products</code>… 点击<code>Users</code>…</li>
 </ol>
 <p>因此，如果需要实现内嵌路由，需要用到<code>NavLink</code>或<code>Link</code>组件，以及使用<code>Route</code>组件渲染这些内容。</p>
-<h2><span id="animated-transitions">Animated transitions</span></h2>
+<h2 id="Animated-transitions"><a class="header-anchor" href="#Animated-transitions">¶</a>Animated transitions</h2>
 <p>本小节将给不同的导航添加动画。我们会使用<code>react-transition-group</code>中的<code>TransitionGroup</code>和<code>CSSTransition</code>组件，步骤如下，</p>
 <ol>
 <li>首先安装对应这些包，</li>
@@ -423,7 +423,7 @@
 </ol>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">Route</span> path=<span class="string">&quot;/admin&quot;</span>&gt;</span><br><span class="line">&#123;loggedIn ? (</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">Suspense</span> <span class="attr">fallback</span>=<span class="string">&#123;</span>&lt;<span class="attr">div</span> <span class="attr">className</span>=<span class="string">&quot;pagecontainer&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">Loading...<span class="tag">&lt;/<span class="name">div</span>&gt;</span>&#125;&gt;</span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">AdminPage</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">Suspense</span>&gt;</span></span></span><br><span class="line">) : (</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">Redirect</span> <span class="attr">to</span>=<span class="string">&quot;/login&quot;</span> /&gt;</span></span></span><br><span class="line">)&#125;</span><br><span class="line">&lt;/<span class="title class_">Route</span>&gt;</span><br></pre></td></tr></table></figure>
 <p><code>Suspense</code>组件会在<code>AdminPage</code>被加载时，展示这个<code>div</code>部分内容。有点说明的是，组件加载非常快，可能实际浏览器看了没效果，需要进入<strong>Network</strong>选择<strong>Slow 3G</strong>网络环境模式。刷新页面便可看到出现Loading…</p>
-<h2><span id="总结">总结</span></h2>
+<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
 <p>React Router给我们一套全面的组件管理导航页。最先学习的是底层组件<code>Router</code>，它会查找下游的<code>Route</code>组件并根据路径进行渲染。</p>
 <p><code>Link</code>组件让我们在应用中链接到不同的页面。我们学习了<code>NavLinke</code>和<code>Link</code>相似，但提供了对不同激活路径的样式功能。因此<code>NavLink</code>最大好处用在侧边栏或标头横幅，<code>Link</code>用在内嵌页面跳转。</p>
 <p><code>RouteComponentProps</code>是一种泛型类型，它提供了访问路径参数的能力。我们还发现了React Router并不能解析路径参数，但可以使用本地的JavaScript的<code>URLSearchParams</code>实现。</p>

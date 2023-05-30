@@ -8,14 +8,14 @@
 <p>GitLab 是一个用于仓库管理系统的开源项目。使用Git作为代码管理工具，并在此基础上搭建起来的web服务。 在GitLab的官方网站上面对Ubuntu的支持也是很好的，有比较详尽的安装指南。 在介绍postfix的地方有少部分的坑，本文抛砖引玉，解决一些我遇到的坑。 本文主要针对Ubuntu 16.04，介绍如何安装Gitlab。其他的Ubuntu可以作为一个参考。</p>
 </blockquote>
 <span id="more"></span>
-<h3><span id="安装需要的库和软件">安装需要的库和软件</span></h3>
+<h3 id="安装需要的库和软件"><a class="header-anchor" href="#安装需要的库和软件">¶</a>安装需要的库和软件</h3>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install curl openssh-server ca-certificates postfix</span><br></pre></td></tr></table></figure>
 <p>postfix用来发送邮件，由于需要发送验证邮件，所以需要装这个，这里官方推荐postfix。</p>
-<h3><span id="添加gitlab的包并进行安装">添加Gitlab的包并进行安装</span></h3>
+<h3 id="添加Gitlab的包并进行安装"><a class="header-anchor" href="#添加Gitlab的包并进行安装">¶</a>添加Gitlab的包并进行安装</h3>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash</span><br><span class="line">sudo apt-get install gitlab-ce</span><br></pre></td></tr></table></figure>
 <p>除了上述安装脚本的方式，你还可以下载直接安装。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -LJO https://packages.gitlab.com/gitlab/gitlab-ce/packages/ubuntu/xenial/gitlab-ce-XXX.deb/download</span><br><span class="line">dpkg -i gitlab-ce-XXX.deb</span><br></pre></td></tr></table></figure>
-<h3><span id="配置和启动gitlab">配置和启动Gitlab</span></h3>
+<h3 id="配置和启动Gitlab"><a class="header-anchor" href="#配置和启动Gitlab">¶</a>配置和启动Gitlab</h3>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/gitlab/gitlab.rb</span><br></pre></td></tr></table></figure>
 <ol>
 <li>修改外部链接</li>
@@ -39,9 +39,9 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx[&#x27;listen_addresses&#x27;] = [&#x27;192.168.2.248&#x27;]</span><br><span class="line">nginx[&#x27;listen_port&#x27;] = 10080</span><br></pre></td></tr></table></figure>
 <p>配置完成后，执行下面命令使变更生效。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
-<h3><span id="访问gitlab">访问Gitlab</span></h3>
+<h3 id="访问Gitlab"><a class="header-anchor" href="#访问Gitlab">¶</a>访问Gitlab</h3>
 <p>在浏览器输入 <a target="_blank" rel="noopener" href="http://192.168.2.248:10080">http://192.168.2.248:10080</a> 即可访问。首次登录需要为root管理员设置密码。</p>
-<h3><span id="汉化教程">汉化教程</span></h3>
+<h3 id="汉化教程"><a class="header-anchor" href="#汉化教程">¶</a>汉化教程</h3>
 <p>请先使用官方包安装或升级完成，确认当前版本。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cat /opt/gitlab/embedded/service/gitlab-rails/VERSION</span><br></pre></td></tr></table></figure>
 <p>假设当前版本为<code>v9.0.0</code>，并确认汉化版本库是否包含该版本的汉化标签(<code>-zh</code>结尾)，也就是是否包含<code>v9.0.0-zh</code>。如果版本相同，首先在本地<code>clone</code>仓库。</p>
@@ -58,7 +58,7 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="https://gitlab.com/larryli/gitlab/wikis/home">https://gitlab.com/larryli/gitlab/wikis/home</a></li>
 </ul>
-<h3><span id="参考官网">参考官网</span></h3>
+<h3 id="参考官网"><a class="header-anchor" href="#参考官网">¶</a>参考官网</h3>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://about.gitlab.com/downloads/#ubuntu1604">https://about.gitlab.com/downloads/#ubuntu1604</a></li>
 </ul>

@@ -13,12 +13,12 @@
 <li>访问5044端口</li>
 </ul>
 <span id="more"></span>
-<h2><span id="安装">安装</span></h2>
+<h2 id="安装"><a class="header-anchor" href="#安装">¶</a>安装</h2>
 <p>先从docker上面拉取下来：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull sebp/elk</span><br></pre></td></tr></table></figure>
-<h3><span id="指定版本拉取">指定版本拉取</span></h3>
+<h3 id="指定版本拉取"><a class="header-anchor" href="#指定版本拉取">¶</a>指定版本拉取</h3>
 <p>对于例如Elasticsearch 1.7.3，Logstash 1.5.5，和Kibana 4.1.2版本，可以组合为<code>E1L1K41</code>，因此，可以使用<code>sudo docker pull sebp/elk:E1L1K4</code>进行拉取。</p>
-<h2><span id="部署">部署</span></h2>
+<h2 id="部署"><a class="header-anchor" href="#部署">¶</a>部署</h2>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk sebp/elk</span><br></pre></td></tr></table></figure>
 <p>该命令包含下列端口，</p>
 <ul>

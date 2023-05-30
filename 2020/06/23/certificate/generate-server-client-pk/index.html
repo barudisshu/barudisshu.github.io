@@ -6,7 +6,7 @@
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">如何生成测试用服务端和客户端证书</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2020-06-23</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/certificate/">certificate<span class="tag">, </span></a><a class="tag-link" href="/tags/ssl/">ssl</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/k8s/">k8s</a></p></div><div class="article-content"><p>由于项目开发需要实现服务端和客户端的SSL双向认证，需要用到测试数据验证，下面介绍生成证书的步骤。</p>
 <span id="more"></span>
-<h2><span id="生成ca根证书">生成CA根证书</span></h2>
+<h2 id="生成CA根证书"><a class="header-anchor" href="#生成CA根证书">¶</a>生成CA根证书</h2>
 <ol>
 <li>生成一个CA的私钥</li>
 </ol>
@@ -15,7 +15,7 @@
 <li>根据CA的私钥，生成一份自签名的CA根证书</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">generate self-signed ca certificate</span></span><br><span class="line">openssl req -new -x509 -nodes -days 365000 -key ca.key -out ca.crt \</span><br><span class="line">  -subj &quot;/C=cn/ST=Guangdong/L=Guangzhou/O=Cplier, Inc./OU=cplier/CN=cplier.com/emailAddress=galudisu@cplier.com&quot;</span><br></pre></td></tr></table></figure>
-<h2><span id="生成服务端证书">生成服务端证书</span></h2>
+<h2 id="生成服务端证书"><a class="header-anchor" href="#生成服务端证书">¶</a>生成服务端证书</h2>
 <ol>
 <li>生成服务端私钥</li>
 </ol>
@@ -28,7 +28,7 @@
 <li>使用前面生成的CA根证书对服务端的CSR签名，生成服务端证书</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">generate server certificate</span></span><br><span class="line">openssl x509 -req -days 365000 \</span><br><span class="line">  -in server.csr -out server.crt \</span><br><span class="line">  -CA ca.crt -CAkey ca.key -CAcreateserial</span><br></pre></td></tr></table></figure>
-<h2><span id="生成客户端证书">生成客户端证书</span></h2>
+<h2 id="生成客户端证书"><a class="header-anchor" href="#生成客户端证书">¶</a>生成客户端证书</h2>
 <ol>
 <li>生成客户端私钥</li>
 </ol>
@@ -41,14 +41,14 @@
 <li>使用前面生成的CA根证书对客户端的CSR签名，生成客户端证书</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">generate client certificate</span></span><br><span class="line">openssl x509 -req -days 365000 \</span><br><span class="line">  -in client.csr -out client.crt \</span><br><span class="line">  -CA ca.crt -CAkey ca.key -CAcreateserial</span><br></pre></td></tr></table></figure>
-<h2><span id="检查生成的服务端和客户端证书">检查生成的服务端和客户端证书</span></h2>
+<h2 id="检查生成的服务端和客户端证书"><a class="header-anchor" href="#检查生成的服务端和客户端证书">¶</a>检查生成的服务端和客户端证书</h2>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">openssl verify -CAfile ca.crt ca.crt server.crt </span><br><span class="line">openssl verify -CAfile ca.crt ca.crt client.crt </span><br><span class="line"></span><br><span class="line">openssl x509 -noout -text -in server.crt</span><br><span class="line">openssl x509 -noout -text -in client.crt</span><br></pre></td></tr></table></figure>
-<h2><span id="生成pkcs8格式证书">生成PKCS8格式证书</span></h2>
+<h2 id="生成PKCS8格式证书"><a class="header-anchor" href="#生成PKCS8格式证书">¶</a>生成PKCS8格式证书</h2>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs8 -topk8 -in server.key -out pkcs8_server.key</span><br><span class="line">openssl pkcs8 -topk8 -in client.key -out pkcs8_client.key</span><br></pre></td></tr></table></figure>
-<h2><span id="生成trustore">生成trustore</span></h2>
+<h2 id="生成trustore"><a class="header-anchor" href="#生成trustore">¶</a>生成trustore</h2>
 <p>因为服务端和客户端使用同一个CA签发的证书，所以在此服务端和客户端使用同一个truststore就可以了，即truststore只包含一个此CA证书信息。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">generate server/client truststore</span></span><br><span class="line">keytool -import -noprompt -file ca.crt \</span><br><span class="line">  -keystore truststore.jks -storepass cplier</span><br></pre></td></tr></table></figure>
-<h2><span id="生成服务端keystore">生成服务端keystore</span></h2>
+<h2 id="生成服务端keystore"><a class="header-anchor" href="#生成服务端keystore">¶</a>生成服务端keystore</h2>
 <ol>
 <li>生成服务端的P12格式证书</li>
 </ol>
@@ -57,7 +57,7 @@
 <li>生成服务端的JKS格式证书</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">generate server jks</span></span><br><span class="line">keytool -importkeystore \</span><br><span class="line">  -srckeystore server.p12 -srcstoretype PKCS12 \</span><br><span class="line">  -destkeystore server.keystore.jks \</span><br><span class="line">  -srcstorepass server \</span><br><span class="line">  -deststorepass server</span><br></pre></td></tr></table></figure>
-<h2><span id="生成客户端keystore">生成客户端keystore</span></h2>
+<h2 id="生成客户端keystore"><a class="header-anchor" href="#生成客户端keystore">¶</a>生成客户端keystore</h2>
 <ol>
 <li>生成客户端的P12格式证书</li>
 </ol>
@@ -66,9 +66,9 @@
 <li>生成客户端的JKS格式证书</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">generate client jks</span></span><br><span class="line">keytool -importkeystore \</span><br><span class="line">  -srckeystore client.p12 -srcstoretype PKCS12 \</span><br><span class="line">  -destkeystore client.keystore.jks \</span><br><span class="line">  -srcstorepass client \</span><br><span class="line">  -deststorepass client</span><br></pre></td></tr></table></figure>
-<h2><span id="验证jks证书的内容">验证JKS证书的内容</span></h2>
+<h2 id="验证JKS证书的内容"><a class="header-anchor" href="#验证JKS证书的内容">¶</a>验证JKS证书的内容</h2>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">keytool --list -keystore client.jks -storepass client</span><br><span class="line">keytool --list -keystore server.jks -storepass server</span><br><span class="line">keytool --list -keystore truststore.jks -storepass cplier</span><br></pre></td></tr></table></figure>
-<h2><span id="更改访问主机域名">更改访问主机域名</span></h2>
+<h2 id="更改访问主机域名"><a class="header-anchor" href="#更改访问主机域名">¶</a>更改访问主机域名</h2>
 <p>前面步骤中，生成的服务端和客户端的证书里面配置了证书subject的CN域为<code>sever</code>和<code>client</code>，在SSL验证主机名的时候要求主机的名字必须是<code>server</code>和<code>client</code>，否则SSL验证会报失败。</p>
 <p>这个结果就是这个证书必须在主机名为<code>server/client</code>的机器上使用，不能在其它机器上使用。这个限制可不好，所以SSL标准定义了证书扩展属性SAN(Subject Alternative Name)，这是SSL 标准 x509 中定义的一个扩展，可以扩展此证书支持的域名，使得一个证书可以支持多个不同域名的解析。</p>
 <p>具体怎么操作：</p>
@@ -84,13 +84,13 @@
 <li>如果不想修改openssl.cnf,也可以直接使用命令行的方式</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">step 2.2: generate server certificate signing request</span></span><br><span class="line">openssl req -new -nodes -days 365000 -key server.key -out server.csr \</span><br><span class="line">  -subj &quot;/C=cn/ST=Guangdong/L=Guangzhou/O=Cplier, Inc./OU=cplier/CN=server.cplier.com/emailAddress=galudisu@cplier.com&quot; \</span><br><span class="line">  -reqexts SAN \</span><br><span class="line">  -config &lt;(cat /etc/pki/tls/openssl.cnf &lt;(printf &quot;\n[SAN]\nsubjectAltName=DNS:*.kafka.example.com,DNS:*.example.com&quot;))</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">step 2.3: generate server certificate</span></span><br><span class="line">openssl x509 -req -days 365000 \</span><br><span class="line">  -in server.csr -out server.crt \</span><br><span class="line">  -CA ca.crt -CAkey ca.key -CAcreateserial \</span><br><span class="line">  -extensions SAN \</span><br><span class="line">  -extfile &lt;(cat /etc/pki/tls/openssl.cnf &lt;(printf &quot;[SAN]\nsubjectAltName=DNS:*.kafka.example.com,DNS:*.example.com&quot;))</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">step 3.2: generate client certificate signing request</span></span><br><span class="line">openssl req -new -nodes -days 365000 -key client.key -out client.csr \</span><br><span class="line">  -subj &quot;/C=cn/ST=Guangdong/L=Guangzhou/O=Cplier, Inc./OU=cplier/CN=client.cplier.com/emailAddress=galudisu@cplier.com&quot; \</span><br><span class="line">  -reqexts SAN \</span><br><span class="line">  -config &lt;(cat /etc/pki/tls/openssl.cnf &lt;(printf &quot;\n[SAN]\nsubjectAltName=DNS:*.kafka.example.com,DNS:*.example.com&quot;))</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">step 3.3: generate client certificate</span></span><br><span class="line">openssl x509 -req -days 365000 -in client.csr -out client.crt \</span><br><span class="line">  -CA ca.crt -CAkey ca.key -CAcreateserial \</span><br><span class="line">  -extensions SAN \</span><br><span class="line">  -extfile &lt;(cat /etc/pki/tls/openssl.cnf &lt;(printf &quot;[SAN]\nsubjectAltName=DNS:*.kafka.example.com,DNS:*.example.com&quot;))</span><br></pre></td></tr></table></figure>
-<h2><span id="椭圆算法ec的证书签名">椭圆算法(EC)的证书签名</span></h2>
+<h2 id="椭圆算法-EC-的证书签名"><a class="header-anchor" href="#椭圆算法-EC-的证书签名">¶</a>椭圆算法(EC)的证书签名</h2>
 <p>标准上除了定义RSA的签名算法，还有ECDSA(又叫EC)、DSA、PKCS8和PKCS8加密这几种。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">openssl ecparam  -name secp256k1 -genkey</span><br><span class="line"></span><br><span class="line">-----BEGIN EC PARAMETERS-----</span><br><span class="line">BgUrgQQACg==</span><br><span class="line">-----END EC PARAMETERS-----</span><br><span class="line">-----BEGIN EC PRIVATE KEY-----</span><br><span class="line">MHQCAQEEIKYV1xoz6smkpdMksfgI8/3465V02UZdaKj4JSH30bBhoAcGBSuBBAAK</span><br><span class="line">oUQDQgAEO1O+/xRGEVJgBEAOQorBveXPTQS3c7MA+9R+HEMP7TkscI9FONPclcRb</span><br><span class="line">5sXZJjYHNYWhvxuXdGl8QrFVRIVBYg==</span><br><span class="line">-----END EC PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
 <p><code>ecparam</code>是一个椭圆参数，用于实现私钥的生成，它是一个可选性。</p>
-<h2><span id="如何在客户端发起ssl的请求">如何在客户端发起SSL的请求</span></h2>
-<h3><span id="https-连接">https 连接</span></h3>
-<h3><span id="http2-连接请求">http2 连接请求</span></h3>
+<h2 id="如何在客户端发起SSL的请求"><a class="header-anchor" href="#如何在客户端发起SSL的请求">¶</a>如何在客户端发起SSL的请求</h2>
+<h3 id="https-连接"><a class="header-anchor" href="#https-连接">¶</a>https 连接</h3>
+<h3 id="http2-连接请求"><a class="header-anchor" href="#http2-连接请求">¶</a>http2 连接请求</h3>
 <ol>
 <li>GET</li>
 </ol>
@@ -100,7 +100,7 @@
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">curl -k -vvvv \</span><br><span class="line"> -H &quot;Accept: application/json&quot; \</span><br><span class="line"> -H &quot;Content-Type: application/json; charset=UTF-8&quot; \</span><br><span class="line"> -d &#x27;&#123;&quot;framework&quot;:&quot;netty&quot;&#125;&#x27; \</span><br><span class="line"> -L \</span><br><span class="line"> --http2-prior-knowledge \</span><br><span class="line"> --output - \</span><br><span class="line"> --cert client.crt \</span><br><span class="line"> --key pkcs8_client.key \</span><br><span class="line"> --cacert ca.crt \</span><br><span class="line"> https://127.0.0.1:8443/</span><br></pre></td></tr></table></figure>
 <p>Use <code>output</code> to print response message:</p>
-<h3><span id="dtls-连接请求">dtls 连接请求</span></h3>
+<h3 id="dtls-连接请求"><a class="header-anchor" href="#dtls-连接请求">¶</a>dtls 连接请求</h3>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl s_server -CAfile ca.crt -cert server.crt -key pkcs8_server.key -dtls -accept 4739 -verify_return_error -Verify 1</span><br><span class="line">openssl s_client -dtls -CAfile ca.crt -cert client.crt -key pkcs8_client.key -connect 127.0.0.1:4739 -debug</span><br></pre></td></tr></table></figure>
 <p>For windows just using wireshark to capture packet, for linux please type:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i lo -s 0 -w tcpdump.pcap -n udp port 4739 -X</span><br></pre></td></tr></table></figure>

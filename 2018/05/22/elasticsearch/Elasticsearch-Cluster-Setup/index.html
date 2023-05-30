@@ -6,7 +6,7 @@
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Elasticsearch集群安装配置</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-05-22</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/elasticsearch/">elasticsearch</a></p></div><div class="article-content"><p>官方搭建步骤写得比较简单，因此遵循官方的指引<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html">安装</a>。</p>
 <span id="more"></span>
-<h2><span id="设置es占用内存">设置ES占用内存</span></h2>
+<h2 id="设置ES占用内存"><a class="header-anchor" href="#设置ES占用内存">¶</a>设置ES占用内存</h2>
 <p>在默认情况下，ES只允许本地访问api接口，如果我们希望在另外一台机器上访问ES的接口的话，需要配置主机地址：<br>
 /data/elasticsearch-6.2.4&gt; vim config/elasticsearch.yml</p>
 <p>#network.host: 192.168.0.1<br>
@@ -54,7 +54,7 @@ max number of threads [1024] for user [elasticsearch] is too low, increase to at
 <p>以.deb安装包方式安装时，会提示找不到配置文件。添加软连接：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /etc/elasticsearch /usr/share/elasticsearch/config</span><br></pre></td></tr></table></figure>
 <p>重启服务。</p>
-<h2><span id="脑裂split-brain">脑裂(split brain)</span></h2>
+<h2 id="脑裂-split-brain"><a class="header-anchor" href="#脑裂-split-brain">¶</a>脑裂(split brain)</h2>
 <p>单机测试开发的时候, 其实一个节点就够了. 上线, 使用两个节点, 目的是利用es本身的特性做到高可用.</p>
 <p>但是两个节点是远远不够的. 启动后, 集群会选举一个master, 一切ok. 但是如果存在网络问题或者某个节点无响应(负载过高), 就会认为对方dead了, 然后两个节点自动选举为master, 在后续建索引的时候造成数据不一致.</p>
 <p>两个节点防脑裂的配置, minimum_master_nodes决定了选主需要的最少节点数, N/2+1, 两个节点即2</p>
