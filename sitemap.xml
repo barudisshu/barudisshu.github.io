@@ -1262,13 +1262,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/ubuntu/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/tags/5g/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -1298,6 +1291,13 @@
   
   <url>
     <loc>https://galudisu.info/tags/scala-fp/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/ubuntu/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1381,6 +1381,27 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/tags/pid/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/ga-ml-scala/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/probabilistic/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/tags/ddata/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -1402,27 +1423,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/ga-ml-scala/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/pid/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/probabilistic/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/tags/gentoo/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -1430,14 +1430,14 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/ddd-shard/</loc>
+    <loc>https://galudisu.info/tags/akka-scala-pattern/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/akka-scala-pattern/</loc>
+    <loc>https://galudisu.info/tags/ddd-shard/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1572,13 +1572,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/categories/future/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/categories/akka-http/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -1594,6 +1587,13 @@
   
   <url>
     <loc>https://galudisu.info/categories/akka/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/categories/future/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
