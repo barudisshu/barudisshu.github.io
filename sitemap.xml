@@ -1031,6 +1031,20 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/tags/certificate/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/ssl/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/tags/gitlab/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -1053,20 +1067,6 @@
   
   <url>
     <loc>https://galudisu.info/tags/harbor/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/certificate/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/ssl/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1262,6 +1262,13 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/tags/ubuntu/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/tags/5g/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -1291,13 +1298,6 @@
   
   <url>
     <loc>https://galudisu.info/tags/scala-fp/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/ubuntu/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1430,14 +1430,14 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/akka-scala-pattern/</loc>
+    <loc>https://galudisu.info/tags/ddd-shard/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/ddd-shard/</loc>
+    <loc>https://galudisu.info/tags/akka-scala-pattern/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1481,14 +1481,14 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/categories/devOps/</loc>
+    <loc>https://galudisu.info/categories/k8s/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://galudisu.info/categories/k8s/</loc>
+    <loc>https://galudisu.info/categories/devOps/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
