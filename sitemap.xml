@@ -1031,20 +1031,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/certificate/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/ssl/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/tags/gitlab/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -1067,6 +1053,20 @@
   
   <url>
     <loc>https://galudisu.info/tags/harbor/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/certificate/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/ssl/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1381,27 +1381,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/pid/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/ga-ml-scala/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/probabilistic/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/tags/ddata/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -1417,6 +1396,27 @@
   
   <url>
     <loc>https://galudisu.info/tags/akka-typed/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/ga-ml-scala/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/pid/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/probabilistic/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1481,14 +1481,14 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/categories/k8s/</loc>
+    <loc>https://galudisu.info/categories/devOps/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://galudisu.info/categories/devOps/</loc>
+    <loc>https://galudisu.info/categories/k8s/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1572,6 +1572,13 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/categories/future/</loc>
+    <lastmod>2023-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/categories/akka-http/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -1587,13 +1594,6 @@
   
   <url>
     <loc>https://galudisu.info/categories/akka/</loc>
-    <lastmod>2023-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/categories/future/</loc>
     <lastmod>2023-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
