@@ -2,6 +2,222 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://galudisu.info/2023/01/21/rust/beginning/chapter21_Drops,%20Moves,%20and%20Copies/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/14/rust/beginning/chapter14_Using%20Changeable%20Strings/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/19/rust/beginning/chapter19_Object-Oriented%20Programming/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/17/rust/beginning/chapter17_IO%20and%20Error%20Handling/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/18/rust/beginning/chapter18_Using%20Traits/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/02/rust/beginning/chapter02_Doing%20Arithmetic/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/08/rust/beginning/chapter08_Using%20Heterogeneous%20Data%20Structures/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/23/rust/beginning/chapter23_More%20About%20Lifetimes/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/06/rust/beginning/chapter06_Using%20Primitive%20Types/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/04/rust/beginning/chapter04_Controlling%20Execution%20Flow/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/15/rust/beginning/chapter15_Ranges%20and%20Slices/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/20/rust/beginning/chapter20_Standard%20Library%20Collections/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/05/rust/beginning/chapter05_Using%20Data%20Sequences/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/12/rust/beginning/chapter12_Data%20Implementation/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/16/rust/beginning/chapter16_Using%20Iterators/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/07/rust/beginning/chapter07_Enumerating%20%20Cases/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/09/rust/beginning/chapter09_Defining%20Functions/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/03/rust/beginning/chapter03_Naming%20Objects/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/11/rust/beginning/chapter11_Allocating%20Memory/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/10/rust/beginning/chapter10_Defining%20Generic%20Functions%20and%20Structs/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/13/rust/beginning/chapter13_Defining%20Closures/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/22/rust/beginning/chapter22_Borrowing%20and%20Lifetimes/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2023/01/01/rust/beginning/chapter01_Printing%20on%20the%20Terminal/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2020/01/03/akka/typed/akka-typed/</loc>
+    
+    <lastmod>2023-06-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/2022/01/07/kotlin/08_generics/</loc>
     
     <lastmod>2023-05-30</lastmod>
@@ -587,15 +803,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2020/01/03/akka/typed/akka-typed/</loc>
-    
-    <lastmod>2022-09-15</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/2019/11/27/react-ts/chapter_2_TypeScript_3/</loc>
     
     <lastmod>2022-09-15</lastmod>
@@ -1003,7 +1210,7 @@
 
   <url>
     <loc>https://galudisu.info/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -1011,462 +1218,469 @@
   
   <url>
     <loc>https://galudisu.info/tags/auth/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/cassandra/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/ceph/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/gitlab/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/k8s/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/jenkins/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/harbor/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/certificate/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/ssl/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/teamcity/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/fibers-coroutine-goroutine/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/docker/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/docker-elk/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/docker-keycloak/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/elasticsearch/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/flink/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/scala/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/game/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/gentoo-linux/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/gitlab-zh/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/hadoop/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/ideal/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/idea/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/jdk/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/jira/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/kotlin/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/kubernetes/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/study/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/git/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/highlight/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/hexo/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/akka/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/actor/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/mongo/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/audio/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/mysql-lvs/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/5g/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/cap/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/circuit-breaker-reactivemanifesto/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/cqrs/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/scala-fp/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/ubuntu/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/postgreSQL/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/react-redux/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/react-redux-webpack-hot/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/react/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/typescript/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/scala-shapeless-typeclass/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/scala-type-level/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/slick-hikariCP/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/spark/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/zookeeper/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/youtrack/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/ddata/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/akka-streaming/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/akka-typed/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/ga-ml-scala/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/pid/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/probabilistic/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/gentoo/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/akka-scala-pattern/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/ddd-shard/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/akka-ddd-cqrs/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/ddd/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/scala-future/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/tags/scala-magent-implicits-typeclasses/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/rust/</loc>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -1475,126 +1689,126 @@
   
   <url>
     <loc>https://galudisu.info/categories/oauth2/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/devOps/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/k8s/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/ci/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/docker/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/algorithm/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/ubuntu/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/git/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/beginning/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/scala/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/php/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/sql/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/react/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/learning/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/future/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/akka-http/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/streaming/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://galudisu.info/categories/akka/</loc>
-    <lastmod>2023-05-30</lastmod>
+    <lastmod>2023-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
