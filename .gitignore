@@ -1,15 +1,22 @@
-### Hugo template
-# Generated files by hugo
-/public/
-/resources/_gen/
-/assets/jsconfig.json
-hugo_stats.json
+*~
+/_site/
+/.bundle/
+/.jekyll-cache/
+/Gemfile.lock
 
-# Executable may be added to repository
-hugo.exe
-hugo.darwin
-hugo.linux
+# Jekyll cache
+.jekyll-cache
+_site
 
-# Temporary lock file while building
-/.hugo_build.lock
+# RubyGems
+*.gem
 
+# NPM dependencies
+node_modules
+package-lock.json
+
+# IDE configurations
+.idea
+.vscode
+
+# Misc
