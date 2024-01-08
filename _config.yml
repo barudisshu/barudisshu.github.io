@@ -142,18 +142,6 @@ lychee:
   #  - { platform: youtube,        user_url: "https://www.youtube.com/jekyll" }
 
 
-sass:
-  style: compressed
-
-compress_html:
-  clippings: all
-  comments: all
-  endings: all
-  profile: false
-  blanklines: false
-  ignore:
-    envs: [development]
-
 # uncomment baseurl if you want to publish the site to a subfolder
 #baseurl: /blog
 exclude:
