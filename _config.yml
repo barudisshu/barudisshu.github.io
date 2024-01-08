@@ -11,6 +11,8 @@ description: >-
 # Build settings
 
 url: "https://barudisshu.github.io"
+baseurl: barudisshu.github.io
+
 theme: "lychee"
 
 github:
