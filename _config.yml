@@ -13,7 +13,7 @@ description: >-
 url: "https://barudisshu.github.io"
 
 # If you clone the Lychee repo and build locally, use this setting.
-#theme: "lychee"
+theme: "lychee"
 
 # As of November 2023, GitHub Pages still uses Lychee 2.5.1 (https://pages.github.com/versions/).
 # If you want to use the latest Lychee version on GitHub Pages, use the following setting and
