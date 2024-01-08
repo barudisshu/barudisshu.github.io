@@ -1,4 +1,4 @@
-= Sample Page
+= Asciidoc Jekyll
 :page-permalink: /sample/
 :url-asciidoctor: https://asciidoctor.org
 :experimental:
