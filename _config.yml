@@ -146,6 +146,8 @@ exclude:
   - Rakefile
   - .idea
 asciidoc: { }
+keep_files:
+  - images
 asciidoctor:
   base_dir: :docdir
   safe: unsafe
@@ -153,4 +155,5 @@ asciidoctor:
     icons: font
     idseparator: _
     stylesdir: css
+    imagedir: /images
     source-highlighter: coderay
