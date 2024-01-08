@@ -74,13 +74,6 @@ avatar: assets/img/favicons/favicon-circle.svg
 # boolean type, the global switch for TOC in posts.
 toc: true
 
-plugins:
-  - asciidoctor-diagram
-  - asciidoctor-latex
-  - jekyll-asciidoc
-  - jekyll-feed
-  - jekyll-seo-tag
-
 # Theme-specific settings
 
 # Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets

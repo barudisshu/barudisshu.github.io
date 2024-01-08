@@ -34,11 +34,6 @@ jobs:
     - name: Setup Graphviz
       uses: ts-graphviz/setup-graphviz@v1
 
-    - name: compile mermaid
-      uses: thesis/asciidoctor-action@v1
-      with:
-        files: "*.adoc **/*.adoc"
-
     - name: Generate Site
       run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
       env:
