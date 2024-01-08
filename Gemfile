@@ -4,7 +4,7 @@ source "https://rubygems.org"
 gemspec
 
 group :jekyll_plugins do
-  gem 'asciidoctor-diagram', '~> 1.5.4'
+  gem 'asciidoctor-diagram', '~> 2.2', '>= 2.2.14'
   gem 'jekyll-asciidoc', '~> 3.0.1'
   gem 'jekyll-feed'
   gem 'jekyll-archives'
