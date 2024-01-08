@@ -1,0 +1,135 @@
+// Placeholder to allow defining custom styles that override everything else.
+// (Use `_sass/lychee/custom-variables.scss` to override variable defaults)
+
+%btn-post-nav {
+  width: 50%;
+  position: relative;
+  border-color: #e8e8e8;
+}
+
+
+%btn-share-hovor {
+  color: #0d6efd !important;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.col-12 {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+.post-navigation {
+
+  .btn-outline-primary {
+    color: #0d6efd;
+    border-color: #0d6efd;
+
+    &:hover {
+      color: #fff;
+      background-color: #0d6efd;
+      border-color: #0d6efd;
+    }
+    &.disabled {
+      width: 50%;
+      position: relative;
+      border-color: #e8e8e8;
+    }
+  }
+
+  .btn {
+
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    border: 1px solid rgb(232, 232, 232);
+    @extend %btn-post-nav;
+
+    &:not(:hover) {
+      color: #0056b2;
+    }
+
+    &:hover {
+      &:not(.disabled)::before {
+        color: whitesmoke;
+      }
+    }
+
+    &.disabled {
+      @extend %btn-post-nav;
+
+      pointer-events: auto;
+      cursor: not-allowed;
+      background: none;
+      color: gray;
+      opacity: .65;
+    }
+
+    &.btn-outline-primary.disabled:focus {
+      box-shadow: none;
+    }
+
+    &::before {
+      color: #757575;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      content: attr(aria-label);
+    }
+
+    &:first-child {
+      border-radius: 0.225rem 0 0 0.225rem;
+      left: 0.5px;
+    }
+
+    &:last-child {
+      border-radius: 0 0.225rem 0.225rem 0;
+      right: 0.5px;
+    }
+  }
+
+  p {
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+    margin-top: 0.3rem;
+    white-space: normal;
+  }
+} /* .post-navigation */
+
+@media (hover: hover) {
+  .post-navigation {
+    .btn,
+    .btn::before {
+      transition: all 0.35s ease-in-out;
+    }
+  }
+}
+
+/* Hide SideBar and TOC */
+@media all and (max-width: 849px) {
+  .post-navigation {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+}
+
