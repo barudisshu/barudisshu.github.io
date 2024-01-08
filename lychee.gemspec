@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "jekyll", ">= 3.5", "< 5.0"
   spec.add_runtime_dependency "coderay", ">= 1.1.0"
+  spec.add_runtime_dependency "pygments.rb", "~> 2.4.0"
   spec.add_runtime_dependency "rake-jekyll", "~> 1.1.0"
   spec.add_runtime_dependency "jekyll-paginate", "~> 1.1"
   spec.add_runtime_dependency "jekyll-redirect-from", "~> 0.16"
