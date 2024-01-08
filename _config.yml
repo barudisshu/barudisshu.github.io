@@ -2,7 +2,13 @@ title: Lychee
 author:
   name: barudisshu
   email: galudisu@gmail.com
-description: A Jekyll blog.
+
+# The `>` after `description:` means to ignore line-breaks until next key.
+# If you want to omit the line-break after the end of text, use `>-` instead.
+description: >-
+  A lycheel, responsive and feature-rich Jekyll theme for technical writing.
+
+# Build settings
 
 url: "https://barudisshu.github.io"
 theme: "lychee"
