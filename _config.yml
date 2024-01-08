@@ -76,6 +76,7 @@ toc: true
 
 plugins:
   - asciidoctor-diagram
+  - asciidoctor-latex
   - jekyll-asciidoc
   - jekyll-feed
   - jekyll-seo-tag
