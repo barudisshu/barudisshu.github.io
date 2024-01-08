@@ -1,3 +1,18 @@
+PATH
+  remote: .
+  specs:
+    lychee (3.0.0.dev)
+      coderay (>= 1.1.0)
+      jekyll (>= 4.3, < 5.0)
+      jekyll-archives (~> 2.2)
+      jekyll-feed (~> 0.17)
+      jekyll-include-cache (~> 0.2)
+      jekyll-paginate (~> 1.1)
+      jekyll-redirect-from (~> 0.16)
+      jekyll-seo-tag (~> 2.8)
+      jekyll-sitemap (~> 1.4)
+      rake-jekyll (~> 1.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -88,17 +103,11 @@ PLATFORMS
 
 DEPENDENCIES
   asciidoctor-diagram (~> 1.5.4)
-  coderay (>= 1.1.0)
-  jekyll (>= 4.3, < 5.0)
-  jekyll-archives (~> 2.2)
+  bundler
+  jekyll-archives
   jekyll-asciidoc (~> 3.0.1)
-  jekyll-feed (~> 0.17)
-  jekyll-include-cache (~> 0.2)
-  jekyll-paginate (~> 1.1)
-  jekyll-redirect-from (~> 0.16)
-  jekyll-seo-tag (~> 2.8)
-  jekyll-sitemap (~> 1.4)
-  rake-jekyll (~> 1.1.0)
+  jekyll-feed
+  lychee!
 
 BUNDLED WITH
    2.5.3
