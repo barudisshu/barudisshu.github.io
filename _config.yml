@@ -2,24 +2,10 @@ title: Lychee
 author:
   name: barudisshu
   email: galudisu@gmail.com
-
-# The `>` after `description:` means to ignore line-breaks until next key.
-# If you want to omit the line-break after the end of text, use `>-` instead.
-description: >-
-  A lycheel, responsive and feature-rich Jekyll theme for technical writing.
-
-# Build settings
+description: A Jekyll blog.
 
 url: "https://barudisshu.github.io"
-
-# If you clone the Lychee repo and build locally, use this setting.
 theme: "lychee"
-
-# As of November 2023, GitHub Pages still uses Lychee 2.5.1 (https://pages.github.com/versions/).
-# If you want to use the latest Lychee version on GitHub Pages, use the following setting and
-# add a line comment on "theme: lychee" above.
-#remote_theme: jekyll/lychee
-
 
 github:
   username: barudisshu # change to your github username
@@ -48,44 +34,12 @@ google_site_verification: # fill in to your verification string
 google_analytics:
   id: # fill in your Google Analytics ID
 
-# Prefer color scheme setting.
-#
-# Note: Keep empty will follow the system prefer color by default,
-# and there will be a toggle to switch the theme between dark and light
-# on the bottom left of the sidebar.
-#
-# Available options:
-#
-#     light  - Use the light color scheme
-#     dark   - Use the dark color scheme
-#
-theme_mode: # [light|dark]
-
-# The CDN endpoint for images.
-# Notice that once it is assigned, the CDN url
-# will be added to all image (site avatar & posts' images) paths starting with '/'
-#
-# e.g. 'https://cdn.com'
-img_cdn:
-
 # the avatar on sidebar, support local or CORS resources
 avatar: assets/img/favicons/favicon-circle.svg
 
 # boolean type, the global switch for TOC in posts.
 toc: true
 
-# Theme-specific settings
-
-# Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets
-assets:
-  self_host:
-    enabled: true # boolean, keep empty means false
-    # specify the Jekyll environment, empty means both
-    # only works if `assets.self_host.enabled` is 'true'
-    env: # [development|production]
-
-pwa:
-  enabled: true # the option for PWA feature
 
 # Enable pagination
 paginate: 10
