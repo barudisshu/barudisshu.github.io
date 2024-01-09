@@ -27,7 +27,7 @@
 
 .post-navigation {
 
-  .btn-outline-primary {
+  .nav-outline-primary {
     color: #0d6efd;
     border-color: #0d6efd;
 
@@ -43,7 +43,7 @@
     }
   }
 
-  .btn {
+  .nav {
 
     display: inline-block;
     font-weight: 400;
@@ -84,7 +84,7 @@
       opacity: .65;
     }
 
-    &.btn-outline-primary.disabled:focus {
+    &.nav-outline-primary.disabled:focus {
       box-shadow: none;
     }
 
@@ -116,8 +116,8 @@
 
 @media (hover: hover) {
   .post-navigation {
-    .btn,
-    .btn::before {
+    .nav,
+    .nav::before {
       transition: all 0.35s ease-in-out;
     }
   }
