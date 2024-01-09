@@ -19,10 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
       with:
         token: ${{ secrets.CI_TOKEN }}
-        submodules: true
+        submodules: recursive
 
     - name: Install Ruby and Jekyll
       uses: ruby/setup-ruby@8575951200e472d5f2d95c625da0c7bec8217c42
