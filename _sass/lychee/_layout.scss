@@ -205,6 +205,11 @@
   flex: 1 0 auto;
 }
 
+.page-content-nav {
+  padding: $spacing-unit 0;
+  flex-direction: column;
+}
+
 .page-heading {
   @include relative-font-size(2);
 }

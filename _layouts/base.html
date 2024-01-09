@@ -8,21 +8,28 @@
     {%- include header.html -%}
 
     <main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        {{ content }}
-
+      <div class="wrapper page-wrapper">
         <div class="row">
-          <!-- tail -->
-          <div id="tail-wrapper" class="col-12">
-            {% for _include in layout.tail_includes %}
-            {% assign _include_path = _include | append: '.html' %}
-            {% include {{ _include_path }} lang=lang %}
-            {% endfor %}
-          </div>
+        {{ content }}
         </div>
       </div>
 
     </main>
+
+    <div class="page-content-nav">
+    <div class="wrapper page-wrapper">
+      <div class="row">
+        <!-- tail -->
+        <div id="tail-wrapper" class="col-12">
+          {% for _include in layout.tail_includes %}
+          {% assign _include_path = _include | append: '.html' %}
+          {% include {{ _include_path }} lang=lang %}
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+    </div>
 
     {%- include footer.html -%}
     {%- include mathjax.html -%}
