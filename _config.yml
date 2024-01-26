@@ -118,3 +118,4 @@ asciidoctor:
     stylesdir: css
     imagedir: /images
     source-highlighter: coderay
+    coderay-css: style
