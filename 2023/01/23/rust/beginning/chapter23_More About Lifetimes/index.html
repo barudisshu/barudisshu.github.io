@@ -12,7 +12,7 @@
 <li>为什么包含指向泛型参数的结构体需要生命周期边界(协变、逆协变)</li>
 </ul>
 <span id="more"></span>
-<h2><span id="lifetime-elision">Lifetime Elision</span></h2>
+<h2 id="Lifetime-Elision"><a class="header-anchor" href="#Lifetime-Elision">¶</a>Lifetime Elision</h2>
 <p>上一章节，我们看到每个函数签名，都必须确定引用返回值，即要么是<code>'static</code>的lifetime specifier，要么是关联的函数参数的lifetime specifier。</p>
 <p>有时避免编写这种烦人的注解。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> <span class="title class_">Tr</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">f</span>(x: &amp;<span class="type">u8</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">u8</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -28,7 +28,7 @@
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> <span class="title class_">Tr</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">f</span>&lt;<span class="symbol">&#x27;a</span>&gt;(x: &amp;<span class="symbol">&#x27;a</span> <span class="type">u8</span>) <span class="punctuation">-&gt;</span> (&amp;<span class="type">u8</span>, &amp;<span class="symbol">&#x27;a</span> <span class="type">f64</span>, <span class="type">bool</span>, &amp;<span class="symbol">&#x27;static</span> <span class="type">Vec</span>&lt;<span class="type">String</span>&gt;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里的返回值包含三个引用：第一个没有指定，第二字段有<code>'a</code>，第三个用了<code>'static</code>生命周期指示器。然而，参数中仍然仅有一个引用，因此返回的第一个字段的引用有一个隐式<code>'a</code>生命周期指示器。</p>
 <p>这种省略机制称为“<strong>lifetime elision</strong>”。为了简化语法，生命周期指示器遇到这种仅有一个非静态(non-static)值时，可以 <strong>删去(elided)</strong> 。</p>
-<h2><span id="lifetime-elision-with-object-oriented-programming">Lifetime Elision with Object-Oriented Programming</span></h2>
+<h2 id="Lifetime-Elision-with-Object-Oriented-Programming"><a class="header-anchor" href="#Lifetime-Elision-with-Object-Oriented-Programming">¶</a>Lifetime Elision with Object-Oriented Programming</h2>
 <p>考虑下面：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> <span class="title class_">Tr</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">f</span>(&amp;<span class="keyword">self</span>, y: &amp;<span class="type">u8</span>) <span class="punctuation">-&gt;</span> (&amp;<span class="type">u8</span>, &amp;<span class="type">f64</span>, <span class="type">bool</span>, &amp;<span class="type">Vec</span>&lt;<span class="type">String</span>&gt;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>因为参数有两个引用，所以前面的规则不起作用。然而，当一个方法返回某些引用时，多数情况下这些引用会租借当前的对象，即由<code>&amp;self</code>指向的值。因此，为了简化表达式，前面的代码被看做是下面的等价：</p>
@@ -37,7 +37,7 @@
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> <span class="title class_">Tr</span> &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">f</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="keyword">self</span>, y: &amp;<span class="symbol">&#x27;a</span> <span class="type">u8</span>) <span class="punctuation">-&gt;</span> (&amp;<span class="type">u8</span>, &amp;<span class="symbol">&#x27;a</span> <span class="type">f64</span>, <span class="type">bool</span>, &amp;<span class="type">Vec</span>&lt;<span class="type">String</span>&gt;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里，tuple中第二个字段指向的对象，存活时间必须要少于<code>y</code>指向的对象，以及第一个字段和第四个字段指向的对象，存活时间必须要少于<code>self</code>指向的对象。</p>
 <p>当然，这个规则同样作用于<code>&amp;mut self</code>参数。</p>
-<h2><span id="the-need-of-lifetime-specifiers-for-structs">The Need of Lifetime Specifiers for Structs</span></h2>
+<h2 id="The-Need-of-Lifetime-Specifiers-for-Structs"><a class="header-anchor" href="#The-Need-of-Lifetime-Specifiers-for-Structs">¶</a>The Need of Lifetime Specifiers for Structs</h2>
 <p>上一个章节中，我们看到这种代码是有效的：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">x</span>: <span class="type">i32</span> = <span class="number">12</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_y</span>: &amp;<span class="type">i32</span> = &amp;x;</span><br></pre></td></tr></table></figure>
 <p>这是因为，尽管<code>_y</code>持有对<code>x</code>的引用，它存活少于<code>x</code>。</p>
@@ -62,7 +62,7 @@
 <p>为了让编程者避免需要分析<code>create_s</code>函数来得知对象的声明周期是否合法，有必要有更进一步的生命周期注解(lifetime annotations)。</p>
 <p>因此，类似于函数，仅是对于结构体函数，必须显式指定它们字段的每个引用的生命周期。</p>
 <p>这解析了上面代码中，形式上看起来是有效的代码片段，实际上会产生“missing lifetime specifier”的编译错误。</p>
-<h2><span id="possible-lifetime-specifiers-for-structs">Possible Lifetime Specifiers for Structs</span></h2>
+<h2 id="Possible-Lifetime-Specifiers-for-Structs"><a class="header-anchor" href="#Possible-Lifetime-Specifiers-for-Structs">¶</a>Possible Lifetime Specifiers for Structs</h2>
 <p>实际上，对于一个结构体的引用字段的生命周期，Rust编译器仅允许两种可能：</p>
 <ul>
 <li>该字段仅指向静态对象(static objects)。</li>
@@ -88,7 +88,7 @@
 <p><code>_S3</code>的声明是不合法的，因为生命周期指示器<code>'a</code>没有作为<code>S</code>的一个参数。</p>
 <p><code>_S4</code>的声明是不合法的，因为参数<code>'a</code>没用被用于结构体内。</p>
 <p>相反，最后两个结构体的声明是有效的。<code>_S5</code>包含一个静态对象引用。而<code>_S6</code>包含包含的引用总是存活长于结构体自身。</p>
-<h2><span id="other-uses-of-lifetime-specifiers">Other Uses of Lifetime Specifiers</span></h2>
+<h2 id="Other-Uses-of-Lifetime-Specifiers"><a class="header-anchor" href="#Other-Uses-of-Lifetime-Specifiers">¶</a>Other Uses of Lifetime Specifiers</h2>
 <p>我们知道，当定义一个包含引用的结构体类型时，生命周期指示器是必要的。对于元组-结构体类型也一样。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">TS</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="type">u8</span>);</span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">E</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt; &#123;</span><br><span class="line">    _A(&amp;<span class="symbol">&#x27;a</span> <span class="type">u8</span>),</span><br><span class="line">    _B,</span><br><span class="line">    _C(<span class="type">bool</span>, &amp;<span class="symbol">&#x27;b</span> <span class="type">f64</span>, <span class="type">char</span>),</span><br><span class="line">    _D(&amp;<span class="symbol">&#x27;static</span> <span class="type">str</span>),</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">byte</span> = <span class="number">34</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_ts</span> = <span class="title function_ invoke__">TS</span>(&amp;byte);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_e</span> = E::_A(&amp;byte);</span><br></pre></td></tr></table></figure>
 <p>这段代码是有效的，以及移除任何一个lifetime specifier，都会产生“missing lifetime specifier”错误。</p>

@@ -11,10 +11,10 @@
 <li>打印多行</li>
 </ul>
 <span id="more"></span>
-<h2><span id="adding-integer-numbers">Adding Integer Numbers</span></h2>
+<h2 id="Adding-Integer-Numbers"><a class="header-anchor" href="#Adding-Integer-Numbers">¶</a>Adding Integer Numbers</h2>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; + &#123;&#125; = &#123;&#125;&quot;</span>, <span class="number">34</span>, <span class="number">80</span>, <span class="number">80</span> + <span class="number">34</span>);</span><br></pre></td></tr></table></figure>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, (<span class="number">23</span> - <span class="number">6</span>) <span class="number">5</span> <span class="number">5</span> + <span class="number">20</span> * <span class="number">30</span> / (<span class="number">3</span> + <span class="number">4</span>));</span><br></pre></td></tr></table></figure>
-<h2><span id="floating-point-arithmetic">Floating-Point Arithmetic</span></h2>
+<h2 id="Floating-Point-Arithmetic"><a class="header-anchor" href="#Floating-Point-Arithmetic">¶</a>Floating-Point Arithmetic</h2>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;The sum is &#123;&#125;&quot;</span>, <span class="number">80.3</span> + <span class="number">24.8</span>);       <span class="comment">// the sum is 115.1</span></span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;The sum is &#123;&#125;&quot;</span>, <span class="number">80.3</span> + <span class="number">34.9</span>);       <span class="comment">// the sum is 115.9999999  浮点值计算，参考计算机二进制表示法 </span></span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, (<span class="number">23</span>. - <span class="number">6</span>.) % <span class="number">5</span>. + <span class="number">20</span>. * <span class="number">30</span>. / (<span class="number">3</span>. + <span class="number">4</span>.));  <span class="comment">// the print is 87.71428571428571</span></span><br></pre></td></tr></table></figure>
 <p>为什么？</p>
 <p>在数字字面量后面加一个 <code>.</code>后，它将被转换为浮点型字面量，值不变。优先级和整数四则运算相同，尽管除法有不同的结果。</p>
@@ -32,14 +32,14 @@
 <p>最后，<code>%</code>操作，表示模数(modulo)，更接近的释义是取余(remainder)。数学中的取余操作对负数有不同的行为。在Rust中<code>%</code>和C相同。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, -<span class="number">12</span> % <span class="number">10</span>, -<span class="number">1.2</span> % <span class="number">1</span>.);</span><br></pre></td></tr></table></figure>
 <p>输出为： “-2 -0.1999999999999996”</p>
-<h2><span id="sequences-of-statements">Sequences of Statements</span></h2>
+<h2 id="Sequences-of-Statements"><a class="header-anchor" href="#Sequences-of-Statements">¶</a>Sequences of Statements</h2>
 <p>Rust推崇下面的习惯：</p>
 <ul>
 <li>函数内4个空格的缩进；</li>
 <li>避免语句内连续的空格；</li>
 <li>不超过80 columns的宽度，尽可能将长语句拆分为几行。</li>
 </ul>
-<h2><span id="breaking-literal-strings">Breaking Literal Strings</span></h2>
+<h2 id="Breaking-Literal-Strings"><a class="header-anchor" href="#Breaking-Literal-Strings">¶</a>Breaking Literal Strings</h2>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, <span class="string">&quot;This&quot;</span></span><br><span class="line">    <span class="string">&quot;is not allowed&quot;</span>);</span><br></pre></td></tr></table></figure>
 <p>上述在Rust中不能像C那样并列，该语句是不合法的。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, <span class="string">&quot;These</span></span><br><span class="line"><span class="string">    are</span></span><br><span class="line"><span class="string">    three lines&quot;</span>);</span><br></pre></td></tr></table></figure>

@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
-</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">rust基础入门[01] - Printing on the Terminal</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-01</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-content"><h2><span id="hello-world">Hello, World!</span></h2>
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">rust基础入门[01] - Printing on the Terminal</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-01</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-content"><h2 id="Hello-World"><a class="header-anchor" href="#Hello-World">¶</a>Hello, World!</h2>
 <p>学习如何在终端输出：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">print!</span>(<span class="string">&quot;Hello, world!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>运行将输出 <code>&quot;Hello, world!&quot;</code>，上述包含8个语法，</p>
@@ -21,13 +21,13 @@
 <p>字符串字面量(literal string)中的，“string” 表示 “有限字符序列，可能包含空格和符号”。字面量(“literal”)表示 “源代码直接标识的值”。字符串(literal string) 就是 “源代码中具体指示的有限序列字符”。</p>
 <p><code>print</code>宏在接收到参数时，插入代码并打印到终端。</p>
 <p>Rust区分大小写。</p>
-<h2><span id="printing-combinations-of-literal-strings">Printing Combinations of Literal Strings</span></h2>
+<h2 id="Printing-Combinations-of-Literal-Strings"><a class="header-anchor" href="#Printing-Combinations-of-Literal-Strings">¶</a>Printing Combinations of Literal Strings</h2>
 <p>与其使用单一的字符字面量，你可以打印多个。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;!&quot;</span>, <span class="string">&quot;Hello&quot;</span>, <span class="string">&quot;world&quot;</span>);</span><br></pre></td></tr></table></figure>
 <p>在这里，<code>&#123;&#125;</code>称为占位符。它跟C语言类似。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s, %s!&quot;</span>, <span class="string">&quot;Hello&quot;</span>, <span class="string">&quot;world&quot;</span>);</span><br></pre></td></tr></table></figure>
 <p>占位符的个数必须跟参数对应，否则出现编译错误。相反，C语言并不会提升为编译错误，而是让编译的程序崩溃。</p>
-<h2><span id="printing-serveral-lines-of-text">Printing Serveral Lines of Text</span></h2>
+<h2 id="Printing-Serveral-Lines-of-Text"><a class="header-anchor" href="#Printing-Serveral-Lines-of-Text">¶</a>Printing Serveral Lines of Text</h2>
 <p>一个语句可以打印多行</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;First line\nSecond line\nThird line\n&quot;</span>);</span><br></pre></td></tr></table></figure>
 <p>输出：</p>
@@ -36,11 +36,11 @@ Second line<br>
 Third line</p>
 <p>可以使用另外一个宏，<code>println</code>，它表示换行输出。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;text of the line&quot;</span>);</span><br></pre></td></tr></table></figure>
-<h2><span id="printing-integer-numbers">Printing Integer Numbers</span></h2>
+<h2 id="Printing-Integer-Numbers"><a class="header-anchor" href="#Printing-Integer-Numbers">¶</a>Printing Integer Numbers</h2>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;My number: &#123;&#125;&quot;</span>, <span class="number">140</span>);</span><br></pre></td></tr></table></figure>
 <p>下面输出和上述等价。因为 000140 将被转换为二进制格式，0被忽略。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;My number: &#123;&#125;&quot;</span>, <span class="number">000140</span>);</span><br></pre></td></tr></table></figure>
-<h2><span id="command-line-script">Command-Line Script</span></h2>
+<h2 id="Command-Line-Script"><a class="header-anchor" href="#Command-Line-Script">¶</a>Command-Line Script</h2>
 <p><code>rustc</code>命令有一个缺陷：它按顺序打印出所有错误。当你的代码包含很多语法错误时，编译器会打印大量的错误信息，你需要回滚到最先开始的那段。</p>
 <p>面对这种情况，可以使用命令行脚本的方式：</p>
 <p>在Linux系统，你可以：</p>
@@ -51,7 +51,7 @@ Third line</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs main.rs</span><br></pre></td></tr></table></figure>
 <p>它将错误信息，通过管道 <code>|</code> 交由命令 <code>more</code>处理。最终变为一个Linux文本处理。</p>
 <p>注意，<code>rs</code>命令会跟系统(freeBSD Unix)中的 <code>reshape a data array</code>命令冲突。建议改名。</p>
-<h2><span id="comments">Comments</span></h2>
+<h2 id="Comments"><a class="header-anchor" href="#Comments">¶</a>Comments</h2>
 <p>Rust 的注释包含有：</p>
 <ul>
 <li>单行注释： 以 <code>//</code>开头</li>

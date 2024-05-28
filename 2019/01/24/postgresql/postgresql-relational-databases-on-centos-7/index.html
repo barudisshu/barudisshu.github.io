@@ -6,14 +6,14 @@
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">CentOS 7 安装、配置、使用PostgreSQL及PostGIS</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2019-01-24</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/postgreSQL/">postgreSQL</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/sql/">sql</a></p></div><div class="article-content"><p>实际开发过程有两种安装方式，一种是编译安装；一种是包安装方式。编译安装需要cmake，gcc以及编译所需要的各种devel，这里仅介绍包安装方式。</p>
 <span id="more"></span>
-<h2><span id="从centos仓储安装">从CentOS仓储安装</span></h2>
+<h2 id="从CentOS仓储安装"><a class="header-anchor" href="#从CentOS仓储安装">¶</a>从CentOS仓储安装</h2>
 <p>CentOS 7仓储装载有PostgreSQL版本<code>9.2.15</code>，你可以直接通过仓储安装：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install postgresql-server postgresql-contrib</span><br></pre></td></tr></table></figure>
 <p>初始化数据库，启动PostgreSQL：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo postgresql-setup initdb</span><br><span class="line">sudo systemctl start postgresql</span><br></pre></td></tr></table></figure>
 <p>将PostgreSQL加入Systemd中：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable postgresql</span><br></pre></td></tr></table></figure>
-<h2><span id="指定仓库的版本">指定仓库的版本</span></h2>
+<h2 id="指定仓库的版本"><a class="header-anchor" href="#指定仓库的版本">¶</a>指定仓库的版本</h2>
 <p>作为替代，你可以从Postgres仓储安装最新版本，目前CentOS7可用的最高PostgresSQL版本是<code>9.6.3</code>，但需要提供RPM-based的安装方式。</p>
 <blockquote>
 <p>注意：Postgres指定版本后，版本信息会包含在配置目录中。例如<code>/var/lib/pgsql</code>会变成<code>/var/lib/pgsql/9.6</code>。这对于system units也一样，<code>systemctl status postgresql</code>会变成<code>systemctl status postgresql-9.6</code>。</p>
@@ -28,7 +28,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/pgsql-9.6/bin/postgresql96-setup initdb</span><br><span class="line">sudo systemctl start postgresql-9.6</span><br></pre></td></tr></table></figure>
 <p>加入boot自启：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable postgresql-9.6</span><br></pre></td></tr></table></figure>
-<h2><span id="配置用户信息-数据库">配置用户信息、数据库</span></h2>
+<h2 id="配置用户信息、数据库"><a class="header-anchor" href="#配置用户信息、数据库">¶</a>配置用户信息、数据库</h2>
 <p>默认地，PostgreSQL为Linux创建了一个无home目录的用户<code>postgres</code>，用于访问数据库软件目录。</p>
 <blockquote>
 <p>小心：<br>
@@ -42,13 +42,13 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su - postgres</span><br><span class="line">psql -d template1 -c &quot;ALTER USER postgres WITH PASSWORD &#x27;newpassword&#x27;;&quot;</span><br></pre></td></tr></table></figure>
 <p>注意这里的<code>postgres</code>用户不同于Linux的那个<code>postgres</code>用户。Linux的<code>postgres</code>是用于访问数据库，这个PostgreSQL用户是负责该数据库的管理任务处理。</p>
 <p>上面设置的密码被用于通过网络访问数据库。本机方式使用的<code>peer</code>授权。本章最后介绍如何实现远程访问。</p>
-<h2><span id="postgresql-shell">PostgreSQL Shell</span></h2>
+<h2 id="PostgreSQL-Shell"><a class="header-anchor" href="#PostgreSQL-Shell">¶</a>PostgreSQL Shell</h2>
 <p>PostgreSQL client shell允许你在数据库处理SQL命令。首先登录<code>postgres</code>用户，进入shell：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql postgres</span><br></pre></td></tr></table></figure>
 <p>首先会登录<code>postgres</code>数据库，prompt信息类似于：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">psql (9.2.15)</span><br><span class="line">Type &quot;help&quot; for help.</span><br><span class="line"></span><br><span class="line">postgres=#</span><br></pre></td></tr></table></figure>
 <p>最后一行，<code>postgres=#</code>标示了当前数据库的名称。要查看可用命令，输入<code>\h</code>。退出当前shell，输入<code>\q</code>。</p>
-<h2><span id="数据库工作">数据库工作</span></h2>
+<h2 id="数据库工作"><a class="header-anchor" href="#数据库工作">¶</a>数据库工作</h2>
 <p>首先，你可以使用<code>createdb</code>命令创建数据库。例如以<code>postgres</code>用户身份创建一个<code>mytestdb</code>数据库：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createdb mytestdb</span><br></pre></td></tr></table></figure>
 <p>也可以为该数据库指派角色关系。例如，指派一个<code>examplerole</code>角色：</p>
@@ -67,7 +67,7 @@
 <p>数据数据库用<code>dropdb</code>命令，例如：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dropdb mytestdb</span><br></pre></td></tr></table></figure>
 <p>注意，删除的数据库不能恢复。</p>
-<h2><span id="表">表</span></h2>
+<h2 id="表"><a class="header-anchor" href="#表">¶</a>表</h2>
 <p>创建一个<code>employees</code>的表：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE employees (employee_id int, first_name varchar, last_name varchar);</span><br></pre></td></tr></table></figure>
 <p>插入一条记录：</p>
@@ -104,7 +104,7 @@
 <p>查询数据库和标准SQL一样，例如</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT last_name,employee_id FROM employees;</span><br><span class="line"></span><br><span class="line">last_name | employee_id</span><br><span class="line">-----------+-------------</span><br><span class="line">Doe       |           1</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
 <p>更多查询选项，可以点击<a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/9.2/static/sql-select.html">这里</a></p>
-<h2><span id="角色">角色</span></h2>
+<h2 id="角色"><a class="header-anchor" href="#角色">¶</a>角色</h2>
 <p>PostgreSQL通过<strong>roles</strong>授权数据库访问，表示某种权限。另外，角色可以由其它一系列角色创建，类似于“group”。PostgreSQL的角色是全局的，所以你不需要为同一个角色创建两次以访问不同数据库。</p>
 <p>创建角色通过<code>createuser</code>命令，例如创建一个<code>examplerole</code>的角色，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createuser examplerole --pwprompt</span><br></pre></td></tr></table></figure>
@@ -126,10 +126,10 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">postgres=# \du</span><br><span class="line">                             List of roles</span><br><span class="line">Role name   |                   Attributes                   | Member of</span><br><span class="line">-------------+------------------------------------------------+-----------</span><br><span class="line">examplerole | Create DB                                      | &#123;&#125;</span><br><span class="line">group       |                                                | &#123;&#125;</span><br><span class="line">postgres    | Superuser, Create role, Create DB, Replication | &#123;&#125;</span><br></pre></td></tr></table></figure>
 <p>删除角色，使用<code>dropuser</code>命令，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dropuser examplerole</span><br></pre></td></tr></table></figure>
-<h2><span id="peer-authentication">Peer Authentication</span></h2>
+<h2 id="Peer-Authentication"><a class="header-anchor" href="#Peer-Authentication">¶</a>Peer Authentication</h2>
 <p>PostgreSQL默认使用对等授权(peer authentication)的方式进行连接。意味着，如何当前授权的本地系统用户和PostgreSQL角色用户名匹配，则授予连接。所以你需要同时创建一个相同的Linux用户和一个对应的PostgreSQL角色。例如，刚刚创建了<code>examplerole</code>角色，Linux中需要创建一个<code>examplerole</code>，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo adduser examplerole &amp;&amp; passwd examplerole</span><br></pre></td></tr></table></figure>
-<h2><span id="secure-postgresql">Secure PostgreSQL</span></h2>
+<h2 id="Secure-PostgreSQL"><a class="header-anchor" href="#Secure-PostgreSQL">¶</a>Secure PostgreSQL</h2>
 <p>PostgreSQL默认使用的peer authentication方式，限制了仅能通过本地访问，它的配置信息在<code>/var/lib/pgsql/dta/pg_hba.conf</code>中，</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># &quot;local&quot; is for Unix domain socket connections only</span><br><span class="line">local    all        all             peer</span><br></pre></td></tr></table></figure>
 <p>将<code>peer</code>替换为<code>md5</code>，以允许通过MD5哈希密码方式访问。</p>
@@ -148,7 +148,7 @@
 <p>或干脆关闭防火墙，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop firewalld</span><br><span class="line">sudo systemctl disable firewalld</span><br></pre></td></tr></table></figure>
 <p>重启postgresql即可。</p>
-<h2><span id="安装postgis">安装PostGIS</span></h2>
+<h2 id="安装PostGIS"><a class="header-anchor" href="#安装PostGIS">¶</a>安装PostGIS</h2>
 <p>PostGIS可以由CentOS仓储安装，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install postgis.x86_64 postgis-client.x86_64 postgis-debuginfo.x86_64 postgis-devel.x86_64 postgis-docs.x86_64 postgis-utils.x86_64</span><br></pre></td></tr></table></figure>
 <p>查看PostGI相关文件是否安装成功：</p>

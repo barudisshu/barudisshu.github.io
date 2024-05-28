@@ -16,7 +16,7 @@
 <li>插件机制保证扩展性</li>
 </ul>
 <span id="more"></span>
-<h2><span id="kubernetes架构">Kubernetes架构</span></h2>
+<h2 id="Kubernetes架构"><a class="header-anchor" href="#Kubernetes架构">¶</a>Kubernetes架构</h2>
 <p>Kubernetes主要由以下几个核心组件组成：</p>
 <ul>
 <li>etcd保存了整个集群的状态；</li>
@@ -27,10 +27,10 @@
 <li>Container runtime负责镜像管理以及Pod和容器的真正运行(CRI)；</li>
 <li>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡</li>
 </ul>
-<h2><span id="kubeadm-113-安装高可用-kubernetes-v1131-集群">Kubeadm 1.13 安装高可用 kubernetes v1.13.1 集群</span></h2>
+<h2 id="Kubeadm-1-13-安装高可用-kubernetes-v1-13-1-集群"><a class="header-anchor" href="#Kubeadm-1-13-安装高可用-kubernetes-v1-13-1-集群">¶</a>Kubeadm 1.13 安装高可用 kubernetes v1.13.1 集群</h2>
 <p><img src="/img/kubernetes/dashboard.png" alt="kubernetes-dashboard"></p>
 <p>先上图给个肯定信心。</p>
-<h2><span id="部署">部署</span></h2>
+<h2 id="部署"><a class="header-anchor" href="#部署">¶</a>部署</h2>
 <p>以CentOS7为基础，搭建一个Master主机和三个Node主机，各个Node主机的配置方式基本相同。</p>
 <ul>
 <li>OS: CentOS 7.5 x86_64</li>
@@ -69,7 +69,7 @@
 </tbody>
 </table>
 <p>这里需要使用常规的域名格式，因为后面需要为集群配置Kubernetes Dashboard要求有SSL数字签名。</p>
-<h2><span id="系统配置">系统配置</span></h2>
+<h2 id="系统配置"><a class="header-anchor" href="#系统配置">¶</a>系统配置</h2>
 <p>配置host，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/hosts</span><br><span class="line">192.168.50.71	master	master.kubernetes.io</span><br><span class="line">192.168.50.72	node1	node01.kubernetes.io</span><br><span class="line">192.168.50.73	node2	node02.kubernetes.io</span><br><span class="line">192.168.50.74	node3	node03.kubernetes.io</span><br></pre></td></tr></table></figure>
 <p>关闭防火墙，选择iptable加入端口或禁用防火墙服务两种方式。这里简单起见，禁用防火墙：</p>
@@ -90,18 +90,18 @@
 <p>修改文件权限，并加载内核模块，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x /etc/sysconfig/modules/ipvs.modules</span><br><span class="line">sudo /etc/sysconfig/modules/ipvs.modules</span><br></pre></td></tr></table></figure>
 <p>注意该步骤不是必须的，因为ipvs仅负责负载均衡相关任务，它无法完成kube-proxy中的包过滤机SNAT等功能，这些仍需要由iptables实现。也就是说，如果条件不满足，即使kube-proxy开启了ipvs模式，也会回退到iptables模式。</p>
-<h2><span id="安装docker">安装Docker</span></h2>
+<h2 id="安装Docker"><a class="header-anchor" href="#安装Docker">¶</a>安装Docker</h2>
 <p>Docker的安装可以参考阿里云的docker-ce的安装方法，目前Kubernetes推荐的最新支持的docker版本为18.06，注意不要使用不兼容的版本。</p>
 <p>如果你有阿里云账号，可以参考<a target="_blank" rel="noopener" href="https://cr.console.aliyun.com/cn-hangzhou/mirrors">镜像加速器</a>方法。</p>
 <p>另外，如果想通过外网访问Docker，可以在Systemd加入启动参数配置sock进行访问</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /lib/systemd/system/docker.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">...</span><br><span class="line">ExecStart=/usr/bin/dockerd -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375</span><br></pre></td></tr></table></figure>
 <p>其它细节可以参考阿里docker相关文档。</p>
-<h2><span id="配置外网访问ss">配置外网访问SS</span></h2>
+<h2 id="配置外网访问SS"><a class="header-anchor" href="#配置外网访问SS">¶</a>配置外网访问SS</h2>
 <p>首先，你得先有一个SS，<a target="_blank" rel="noopener" href="http://xn--k8s-628d2hjq96ozubb9tvvf3u9geh9blx1ac9a.gcr.io">因为大陆内目前访问不了k8s.gcr.io</a>。虽然有人做了镜像同步，对同步的镜像进行retag也是可行的方式，但我有SS！！</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install python-pip epel-release -y</span><br><span class="line">sudo pip install shadowsocks</span><br><span class="line">cat &gt; /etc/shadowsocks.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">&quot;server&quot;:&quot;xx.xx.xx.xx&quot;,</span><br><span class="line">&quot;server_port&quot;: 443,</span><br><span class="line">&quot;local_port&quot;: 1080,</span><br><span class="line">&quot;password&quot;:&quot;xxx&quot;,</span><br><span class="line">&quot;timeout&quot;:600,</span><br><span class="line">&quot;method&quot;:&quot;aes-256-cfb&quot;</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo sslocal -c /etc/shadowsocks.json -d start</span><br></pre></td></tr></table></figure>
 <p>SS主要是配给Docker用的，编辑<code>/lib/systemd/system/docker.service</code>文件，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Environment=&quot;HTTP_PROXY=socks5://127.0.0.1:1080/&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=socks5://127.0.0.1:1080/&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=localhost,127.0.0.0/8,guqcep47.mirror.aliyuncs.com&quot;</span><br></pre></td></tr></table></figure>
-<h2><span id="kubeletkubeadmkubectl安装">kubelet，kubeadm，kubectl安装</span></h2>
+<h2 id="kubelet，kubeadm，kubectl安装"><a class="header-anchor" href="#kubelet，kubeadm，kubectl安装">¶</a>kubelet，kubeadm，kubectl安装</h2>
 <p>首先要设定组件的仓储，编辑<code>/etc/yum.repos.d/kubernetes.repo</code>，内容如下，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">repo_gpgcheck=1</span><br><span class="line">gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br></pre></td></tr></table></figure>
 <p>执行如下命令安装程序包，</p>
@@ -110,7 +110,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KUBELET_EXTRA_ARGS=&quot;--fail-swap-on=false&quot;</span><br></pre></td></tr></table></figure>
 <p>加入启动服务，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start kubelet</span><br><span class="line">sudo systemctl enable kubelet</span><br></pre></td></tr></table></figure>
-<h2><span id="集群初始化">集群初始化</span></h2>
+<h2 id="集群初始化"><a class="header-anchor" href="#集群初始化">¶</a>集群初始化</h2>
 <p>集群初始化动作需要在Master进行，然后在其它Node节点使用<code>join</code>加入，所以这里的命令行需要在各个主机单独敲命令了。</p>
 <p>有两种初始化方式，一种是命令带参数方式；另一种是使用配置文件，两种方式是等效的，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo kubeadm init --kubernetes-version=v1.13.2 --pod-network-cidr=10.244.0.0/16 --service-cidr=10.96.0.0/12 --apiserver-advertise-address=0.0.0.0 --ignore-preflight-errors=Swap</span><br></pre></td></tr></table></figure>
@@ -155,7 +155,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl drain NODE_ID --delete-local-data --force --ignore-daemonsets</span><br><span class="line">kubectl delete node NODE_ID</span><br></pre></td></tr></table></figure>
 <p>重置节点，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubeadm reset</span><br></pre></td></tr></table></figure>
-<h2><span id="部署高可用coredns">部署高可用CoreDNS</span></h2>
+<h2 id="部署高可用CoreDNS"><a class="header-anchor" href="#部署高可用CoreDNS">¶</a>部署高可用CoreDNS</h2>
 <p>默认安装的CoreDNS存在单点问题。在Master节点查看<code>kubectl get pods -n kube-system -owide</code>分布如下，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods -n kube-system -owide </span><br><span class="line">NAME                                           READY   STATUS              RESTARTS   AGE   IP              NODE                   NOMINATED NODE   READINESS GATES</span><br><span class="line">coredns-86c58d9df4-6j2m6                       0/1     ContainerCreating   0          90m   &lt;none&gt;          master.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">coredns-86c58d9df4-glvnp                       0/1     ContainerCreating   0          90m   &lt;none&gt;          master.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">etcd-master.kubernetes.io                      1/1     Running             2          89m   192.168.50.71   master.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-apiserver-master.kubernetes.io            1/1     Running             2          89m   192.168.50.71   master.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-controller-manager-master.kubernetes.io   1/1     Running             2          89m   192.168.50.71   master.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-flannel-ds-amd64-czh7z                    1/1     Running             0          80m   192.168.50.73   node02.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-flannel-ds-amd64-gcqkk                    1/1     Running             0          80m   192.168.50.74   node03.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-flannel-ds-amd64-lk5dw                    1/1     Running             0          81m   192.168.50.72   node01.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-flannel-ds-amd64-xp5xf                    0/1     PodInitializing     0          83m   192.168.50.71   master.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-proxy-b82sn                               1/1     Running             0          80m   192.168.50.73   node02.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-proxy-ql6hp                               1/1     Running             0          81m   192.168.50.72   node01.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-proxy-sh87s                               1/1     Running             0          80m   192.168.50.74   node03.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-proxy-w2kv4                               0/1     ContainerCreating   0          90m   192.168.50.71   master.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-scheduler-master.kubernetes.io            1/1     Running             2          89m   192.168.50.71   master.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
 <p>删除原来的单点CoreDNS，</p>
@@ -167,7 +167,7 @@
 <p>再次查看分布，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods -n kube-system -owide</span><br><span class="line">NAME                                           READY   STATUS    RESTARTS   AGE    IP              NODE                   NOMINATED NODE   READINESS GATES</span><br><span class="line">coredns-6c67f849c7-jhqhj                       1/1     Running   0          3m6s   10.244.1.3      node01.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">coredns-6c67f849c7-kxtkw                       1/1     Running   0          3m6s   10.244.3.4      node03.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">etcd-master.kubernetes.io                      1/1     Running   2          102m   192.168.50.71   master.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-apiserver-master.kubernetes.io            1/1     Running   2          102m   192.168.50.71   master.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-controller-manager-master.kubernetes.io   1/1     Running   2          102m   192.168.50.71   master.kubernetes.io   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
 <p>CoreDNS的Pod落在节点node1和node3上了。</p>
-<h2><span id="安装dashboard">安装dashboard</span></h2>
+<h2 id="安装dashboard"><a class="header-anchor" href="#安装dashboard">¶</a>安装dashboard</h2>
 <p>Kubernetes dashboard的安装也是在pod上的，所以要在所有节点执行，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.1</span><br></pre></td></tr></table></figure>
 <p>下载官方推荐的部署文件，</p>

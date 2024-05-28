@@ -8,7 +8,7 @@
 <p>Cassandra支持不停机的线性扩展机器的方式，增加Read和Write的吞吐量。</p>
 <p>每个Cassandra节点在集群中会有相同的角色。数据被分布在各个集群节点上。Cassandra支持复制和多数据中心冗余复制，故障转移，灾难恢复。</p>
 <span id="more"></span>
-<h2><span id="单节点">单节点</span></h2>
+<h2 id="单节点"><a class="header-anchor" href="#单节点">¶</a>单节点</h2>
 <p>Apache Cassandra要求系统预先安装Java：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository -y ppa:webupd8team/java</span><br></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get -y install oracle-java8-installer</span><br></pre></td></tr></table></figure>
@@ -54,7 +54,7 @@
 <p>现在可以使用<code>cqlsh</code>进行数据库查询了：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cqlsh</span><br></pre></td></tr></table></figure>
 <p>出现提示说明cassandra的单机节点部署成功了！</p>
-<h2><span id="docker搭配的多节点">docker搭配的多节点</span></h2>
+<h2 id="docker搭配的多节点"><a class="header-anchor" href="#docker搭配的多节点">¶</a>docker搭配的多节点</h2>
 <p>架设环境：3台host(192.168.0.1, 192.168.0.2, 192.168.0.3)<br>
 情境：3台独立VM，各架设一个cassandra node，组成cassandra cluster。第1，2台host的node设为seed</p>
 <p>下载cassandra image</p>
@@ -83,7 +83,7 @@
 <p>回到 cassandra-1，cassandra-2 查询：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cqlsh:test_keyspace&gt; select * from test_table;</span><br><span class="line"></span><br><span class="line">id | name</span><br><span class="line">----+----------</span><br><span class="line"> 1 | Doraemon</span><br><span class="line"></span><br><span class="line">(1 rows)</span><br></pre></td></tr></table></figure>
 <p>如果3个node查询得到一样的数据，就代表成功啦~</p>
-<h2><span id="二进制部署">二进制部署</span></h2>
+<h2 id="二进制部署"><a class="header-anchor" href="#二进制部署">¶</a>二进制部署</h2>
 <p>除了上面介绍的两种安装方式，本人推荐以压缩包方式部署。</p>
 <ol>
 <li>JDK安装</li>
@@ -117,12 +117,12 @@
 <li>查看集群状态</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/nodetool status</span><br><span class="line">./bin/nodetool describecluster</span><br></pre></td></tr></table></figure>
-<h2><span id="多节点">多节点</span></h2>
+<h2 id="多节点"><a class="header-anchor" href="#多节点">¶</a>多节点</h2>
 <p>cassandra默认有两种启动模式， local和remote模式，可以在<code>/etc/cassandra-env.sh</code>中查看和修改。默认使用local模式。要想通过nodetool命令连接本机节点时，要更改为remote模式。</p>
 <p>添加<code>LOCAL_JMX=false</code>和修改 <code>-Dcom.sun.management.jmxremote.authenticate=false</code>，当然你可以开启加密方式。配置如下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_JMX=false</span><br><span class="line">if [ &quot;x$LOCAL_JMX&quot; = &quot;x&quot; ]; then</span><br><span class="line">    LOCAL_JMX=yes</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Specifies the default port over <span class="built_in">which</span> Cassandra will be available <span class="keyword">for</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">JMX connections.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">For security reasons, you should not expose this port to the internet.  Firewall it <span class="keyword">if</span> needed.</span></span><br><span class="line">JMX_PORT=&quot;7199&quot;</span><br><span class="line">if [ &quot;$LOCAL_JMX&quot; = &quot;yes&quot; ]; then</span><br><span class="line">  JVM_OPTS=&quot;$JVM_OPTS -Dcassandra.jmx.local.port=$JMX_PORT&quot;</span><br><span class="line">  JVM_OPTS=&quot;$JVM_OPTS -Dcom.sun.management.jmxremote.authenticate=false&quot;</span><br><span class="line">else</span><br><span class="line">  JVM_OPTS=&quot;$JVM_OPTS -Dcassandra.jmx.remote.port=$JMX_PORT&quot;</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash"><span class="keyword">if</span> ssl is enabled the same port cannot be used <span class="keyword">for</span> both jmx and rmi so either</span></span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">pick another value <span class="keyword">for</span> this property or comment out to use a random port (though see CASSANDRA-7087 <span class="keyword">for</span> origins)</span></span><br><span class="line">  JVM_OPTS=&quot;$JVM_OPTS -Dcom.sun.management.jmxremote.rmi.port=$JMX_PORT&quot;</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">turn on JMX authentication. See below <span class="keyword">for</span> further options</span></span><br><span class="line">  JVM_OPTS=&quot;$JVM_OPTS -Dcom.sun.management.jmxremote.authenticate=false&quot;</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">jmx ssl options</span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Dcom.sun.management.jmxremote.ssl=true&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Dcom.sun.management.jmxremote.ssl.need.client.auth=true&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Dcom.sun.management.jmxremote.ssl.enabled.protocols=&lt;enabled-protocols&gt;&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Dcom.sun.management.jmxremote.ssl.enabled.cipher.suites=&lt;enabled-cipher-suites&gt;&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Djavax.net.ssl.keyStore=/path/to/keystore&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Djavax.net.ssl.keyStorePassword=&lt;keystore-password&gt;&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Djavax.net.ssl.trustStore=/path/to/truststore&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Djavax.net.ssl.trustStorePassword=&lt;truststore-password&gt;&quot;</span></span></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 <p>修改配置，重启OK。</p>
-<h2><span id="replication策略">Replication策略</span></h2>
+<h2 id="Replication策略"><a class="header-anchor" href="#Replication策略">¶</a>Replication策略</h2>
 <p>Cassandra在多个节点存储replica来确保可靠性和容错性。Replication策略决定了replica保存到哪些节点。</p>
 <p>replica的总数由replication factor控制。replication factor 1表示一行数据，只会有一个replica，被保存在唯一一个节点上。replication factor 2表示一行数据有两个副本，每个副本保存在不同的节点上。所有的replica同等重要；没有主次replica之分。一般的规则是，replication factor不应该超过集群里的节点数量。不过，可以先增大replication factor，再添加更多节点。如果replication factor配置超过节点数量，写操作会被拒绝。读操作不受影响。</p>
 <p>Cassandra内置了两种类型的replication策略：</p>
@@ -151,7 +151,7 @@
 <li><code>RackInferringSnitch</code>：通过本机IP地址判断节点数据哪个数据中心哪个rack。IP第2段相同为同一个数据中心，IP第3段相同为一个Rack。如下图：</li>
 </ul>
 <p><img src="/img/cassandra/rack-inferring-snitch.jpg" alt="分段rack"></p>
-<h2><span id="安装mx4j集群监控">安装MX4J集群监控</span></h2>
+<h2 id="安装MX4J集群监控"><a class="header-anchor" href="#安装MX4J集群监控">¶</a>安装MX4J集群监控</h2>
 <p>cassandra监控有许多方案，DataStax的Opscenter是比较耗的监控解决方案。可惜Opscenter6.0版本后已经不再支持开源cassandra版本。Opscenter5.x版本支持到cassandra2.1。最好使用cassandra自身支持的<a target="_blank" rel="noopener" href="http://mx4j.sourceforge.net/">MX4J</a>进行监控。</p>
 <p>解压后将mx4j-tools.jar拷贝到cassandra的安装目录的lib文件夹下</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unzip mx4j-3.0.2.zip</span><br><span class="line">cp mx4j-3.0.2/lib/mx4j-tools.jar apache-cassandra-3.11.1/lib/</span><br></pre></td></tr></table></figure>

@@ -13,7 +13,7 @@
 </ul>
 <span id="more"></span>
 <p>用于不同类型的分组对象。本章最后，会介绍一些代码风格的规约。</p>
-<h2><span id="the-tuples">The Tuples</span></h2>
+<h2 id="The-Tuples"><a class="header-anchor" href="#The-Tuples">¶</a>The Tuples</h2>
 <p>数组和向量可以包含多个条目元素，每个条目必须是相同类型。如果你希望一个对象存储不同类型的几个子对象，可以如下实现：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">data</span> = (<span class="number">10000000</span>, <span class="number">183.19</span>, <span class="string">&#x27;Q&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">copy_of_data</span> = data;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;, &#123;&#125;&quot;</span>, data.<span class="number">0</span>, copy_of_data.<span class="number">1</span>, data.<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
 <p>结果将打印：“10000000, 183.19, Q”。</p>
@@ -37,7 +37,7 @@
 实际上，可以参考<a target="_blank" rel="noopener" href="https://github.com/AndrewScull/rust/blob/1cc8b6ec664f30b43f75551e95299d943c8a4e6a/src/libcore/tuple.rs">源码</a>得知，tuple在宏中，满足<code>&lt;expr&gt;.&lt;integer&gt;</code>，后面的数字被看做identifier处理了。<br>
 可以参考<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rfcs/blob/master/text/0184-tuple-accessors.md">rfc</a>这样设计的原因。</p>
 </blockquote>
-<h2><span id="the-structs">The Structs</span></h2>
+<h2 id="The-Structs"><a class="header-anchor" href="#The-Structs">¶</a>The Structs</h2>
 <p>Tuple在条目较少时比较好用。当字段过多了，会带来一些障碍：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">data</span> = (<span class="number">10</span>, <span class="string">&#x27;x&#x27;</span>, <span class="number">12</span>, <span class="number">183.19</span>, <span class="string">&#x27;Q&#x27;</span>, <span class="literal">false</span>, -<span class="number">9</span>);</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, data.<span class="number">2</span> + data.<span class="number">6</span>);</span><br></pre></td></tr></table></figure>
 <p>上述代码，并不能一眼看出输出结果是3。另外，任何tuple字段是按顺序定义的，当类型足够多时，会变得难于阅读：</p>
@@ -61,7 +61,7 @@
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SomeData</span> &#123;</span><br><span class="line">	integer: <span class="type">i32</span>,</span><br><span class="line">	fractional: <span class="type">f32</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">data</span> = SomeData &#123;</span><br><span class="line">	integer: <span class="number">10</span>,</span><br><span class="line">	fractional: <span class="number">183.19</span>,</span><br><span class="line">&#125;;</span><br><span class="line">data.fractional = <span class="number">8.2</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;， &#123;&#125;&quot;</span>, data.fractional, data.integer);</span><br></pre></td></tr></table></figure>
 <p>结果将输出：“8.2，10”。</p>
 <p>和tuple一样，strcut也可以是空。</p>
-<h2><span id="the-tuple-structs">The Tuple-Structs</span></h2>
+<h2 id="The-Tuple-Structs"><a class="header-anchor" href="#The-Tuple-Structs">¶</a>The Tuple-Structs</h2>
 <p>到目前为止，有两类结构化的容器：</p>
 <ul>
 <li>tuple，类型没有名称，不能提前声明，字段没有名称；</li>
@@ -72,7 +72,7 @@
 <p>这种结构感觉很别扭，因为是用圆括号作语句块，并且没有指定字段的名称，初始化像struct，访问字段方式像tuple。</p>
 <p>区别于tuple和struct，<code>tuple-structs</code>这种结构不能为空。</p>
 <p>实际应用中，tuple-struct并不常用。</p>
-<h2><span id="lexical-convertions">Lexical Convertions</span></h2>
+<h2 id="Lexical-Convertions"><a class="header-anchor" href="#Lexical-Convertions">¶</a>Lexical Convertions</h2>
 <p>到目前为止，我们认识了一部分Rust结构体(不是全部！)，接下来要阐述一些词法规则。这些规则是如此根深蒂固，甚至于违反这些规则会令编译器抛出警告。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> MAXIMUM_POWER: <span class="type">u16</span> = <span class="number">600</span>;</span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">VehicleKind</span> &#123;</span><br><span class="line">	Motorcycle,</span><br><span class="line">	Car,</span><br><span class="line">	Truck,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">VehicleData</span> &#123;</span><br><span class="line">	kind: VehicleKind,</span><br><span class="line">	registration_year: <span class="type">u16</span>,</span><br><span class="line">	registration_month: <span class="type">u8</span>,</span><br><span class="line">	power: <span class="type">u16</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">vehicle</span> = VehicleData &#123;</span><br><span class="line">	kind: VehicleKind::Car,</span><br><span class="line">	registration_year: <span class="number">2003</span>,</span><br><span class="line">	registration_month: <span class="number">11</span>,</span><br><span class="line">	power: <span class="number">120</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">if</span> vehicle.power &gt; MAXIMUM_POWER &#123;</span><br><span class="line">	<span class="built_in">println!</span>(<span class="string">&quot;Too powerful&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上述例子阐述了一些规则要求：</p>

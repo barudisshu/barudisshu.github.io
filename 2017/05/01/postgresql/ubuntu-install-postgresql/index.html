@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
-</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Ubuntu下安装postgreSQL</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-05-01</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/postgreSQL/">postgreSQL</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/sql/">sql</a></p></div><div class="article-content"><h3><span id="安装并配置并设置远程登录用户名和密码">安装并配置，并设置远程登录用户名和密码</span></h3>
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Ubuntu下安装postgreSQL</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-05-01</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/postgreSQL/">postgreSQL</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/sql/">sql</a></p></div><div class="article-content"><h3 id="安装并配置，并设置远程登录用户名和密码"><a class="header-anchor" href="#安装并配置，并设置远程登录用户名和密码">¶</a>安装并配置，并设置远程登录用户名和密码</h3>
 <ol>
 <li>安装postgreSQL</li>
 </ol>
@@ -28,7 +28,7 @@
 <li>设置postgreSQL系统用户的密码</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres passwd</span><br></pre></td></tr></table></figure>
-<h3><span id="实现远程访问">实现远程访问</span></h3>
+<h3 id="实现远程访问"><a class="header-anchor" href="#实现远程访问">¶</a>实现远程访问</h3>
 <ol>
 <li>修改数据库配置</li>
 </ol>
@@ -44,7 +44,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/postgresql restart</span><br></pre></td></tr></table></figure>
 <p>防火墙添加信任</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 5432 -j ACCEPT</span><br></pre></td></tr></table></figure>
-<h3><span id="内部登录管理数据库-新建数据库-用户和密码">内部登录，管理数据库、新建数据库、用户和密码</span></h3>
+<h3 id="内部登录，管理数据库、新建数据库、用户和密码"><a class="header-anchor" href="#内部登录，管理数据库、新建数据库、用户和密码">¶</a>内部登录，管理数据库、新建数据库、用户和密码</h3>
 <p>登录postgreSQL数据库</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql -U postgres -h 127.0.0.1</span><br></pre></td></tr></table></figure>
 <p>创建新用户，单不给建数据库权限</p>
@@ -54,7 +54,7 @@
 </ul>
 <p>建立数据库，并指定所有者</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres=#create database &quot;xxx_db&quot; with owner = &quot;shana&quot;;</span><br></pre></td></tr></table></figure>
-<h3><span id="外部登录管理数据库-新建数据库-用户和密码">外部登录，管理数据库、新建数据库、用户和密码</span></h3>
+<h3 id="外部登录，管理数据库、新建数据库、用户和密码"><a class="header-anchor" href="#外部登录，管理数据库、新建数据库、用户和密码">¶</a>外部登录，管理数据库、新建数据库、用户和密码</h3>
 <p>在外部命令行管理命令，创建用户pencil</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres createuser -D -P pencil</span><br></pre></td></tr></table></figure>
 <ul>

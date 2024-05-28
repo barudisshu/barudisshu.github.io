@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">CentOS 7 搭建Spark2.3.1分布式集群</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-10-26</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/spark/">spark</a></p></div><div class="article-content"><span id="more"></span>
-<h2><span id="下载安装包">下载安装包</span></h2>
+<h2 id="下载安装包"><a class="header-anchor" href="#下载安装包">¶</a>下载安装包</h2>
 <ol>
 <li>官方下载</li>
 </ol>
@@ -57,7 +57,7 @@
 </tr>
 </tbody>
 </table>
-<h2><span id="集群安装">集群安装</span></h2>
+<h2 id="集群安装"><a class="header-anchor" href="#集群安装">¶</a>集群安装</h2>
 <ol>
 <li>解压缩</li>
 </ol>
@@ -91,7 +91,7 @@
 </ol>
 <p>所有节点均要配置</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 spark]$ sudo vim /etc/profile</span><br><span class="line"></span><br><span class="line">export SPARK_HOME=/opt/spark</span><br><span class="line">export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin</span><br><span class="line">[xxx@spark-node1 spark]$ source /etc/profile</span><br></pre></td></tr></table></figure>
-<h2><span id="启动集群">启动集群</span></h2>
+<h2 id="启动集群"><a class="header-anchor" href="#启动集群">¶</a>启动集群</h2>
 <ol>
 <li>启动ZooKeeper集群</li>
 </ol>
@@ -113,7 +113,7 @@
 <li>查看进程</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 spark]$ jps</span><br><span class="line">2368 JobHistoryServer</span><br><span class="line">2928 Jps</span><br><span class="line">2227 DFSZKFailoverController</span><br><span class="line">2533 Master</span><br><span class="line">2006 JournalNode</span><br><span class="line">1512 NodeManager</span><br><span class="line">1610 NameNode</span><br><span class="line">1820 DataNode</span><br><span class="line"></span><br><span class="line">[xxx@spark-node2 spark]$ jps</span><br><span class="line">2256 DFSZKFailoverController</span><br><span class="line">1651 NameNode</span><br><span class="line">2435 Worker</span><br><span class="line">2101 JournalNode</span><br><span class="line">2854 Jps</span><br><span class="line">1576 NodeManager</span><br><span class="line">1209 ResourceManager</span><br><span class="line">1835 DataNode</span><br><span class="line"></span><br><span class="line">[xxx@spark-node3 spark]$ jps</span><br><span class="line">1796 DataNode</span><br><span class="line">2436 Jps</span><br><span class="line">1900 JournalNode</span><br><span class="line">1613 NodeManager</span><br><span class="line">2095 Worker</span><br></pre></td></tr></table></figure>
-<h2><span id="验证集群ha">验证集群HA</span></h2>
+<h2 id="验证集群HA"><a class="header-anchor" href="#验证集群HA">¶</a>验证集群HA</h2>
 <ol>
 <li>看Web页面Master状态</li>
 </ol>
@@ -136,11 +136,11 @@
 <li>主备切换过程中不影响已经在集群中运行的Application。因为Spark是粗粒度资源调度。</li>
 </ul>
 <p><img src="/img/spark/spark-ha.png" alt="spark-ha"></p>
-<h2><span id="集群提交命令方式">集群提交命令方式</span></h2>
+<h2 id="集群提交命令方式"><a class="header-anchor" href="#集群提交命令方式">¶</a>集群提交命令方式</h2>
 <ol>
 <li>Standalone模式</li>
 </ol>
-<h3><span id="standalone-client">Standalone-client</span></h3>
+<h3 id="Standalone-client"><a class="header-anchor" href="#Standalone-client">¶</a>Standalone-client</h3>
 <ol>
 <li>提交命令</li>
 </ol>
@@ -164,7 +164,7 @@
 <li>总结</li>
 </ol>
 <p>client模式使用于测试调试程序。Driver进程是在客户端启动的，这里的客户端就是指提交应用程序的当前节点。在Driver端可以看到task执行的情况。生产环境下不能使用client模式，是因为：假设要提交100个Application到集群运行，Driver每次都会在client端启动，那么就会导致客户端100次网卡流量暴增的问题。</p>
-<h3><span id="standalone-cluster">Standalone-cluster</span></h3>
+<h3 id="Standalone-cluster"><a class="header-anchor" href="#Standalone-cluster">¶</a>Standalone-cluster</h3>
 <ol>
 <li>提交命令</li>
 </ol>
@@ -190,7 +190,7 @@
 <ol start="2">
 <li>Yarn模式</li>
 </ol>
-<h3><span id="yarn-client">yarn-client</span></h3>
+<h3 id="yarn-client"><a class="header-anchor" href="#yarn-client">¶</a>yarn-client</h3>
 <ol>
 <li>提交命令</li>
 </ol>
@@ -224,7 +224,7 @@
 <li>给NodeManager发送消息启动Executor</li>
 </ul>
 <p>注意：ApplicationMaster有launchExecutor和申请资源的功能，并没有作业调度的功能。</p>
-<h3><span id="yarn-cluster">yarn-cluster</span></h3>
+<h3 id="yarn-cluster"><a class="header-anchor" href="#yarn-cluster">¶</a>yarn-cluster</h3>
 <ol>
 <li>提交命令</li>
 </ol>
@@ -258,7 +258,7 @@
 <li>任务调度</li>
 </ul>
 <p>停止集群任务命令: <code>yarn application -kill applicationID</code></p>
-<h2><span id="配置历史服务器">配置历史服务器</span></h2>
+<h2 id="配置历史服务器"><a class="header-anchor" href="#配置历史服务器">¶</a>配置历史服务器</h2>
 <ol>
 <li>临时配置</li>
 </ol>
@@ -274,7 +274,7 @@
 <p>启动HistorySever：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./start-history-server.sh</span><br></pre></td></tr></table></figure>
 <p>访问HistoryServer: spark-node1:18080，之后所有提交的应用程序运行状况都会被记录。</p>
-<h2><span id="加入systemd">加入Systemd</span></h2>
+<h2 id="加入Systemd"><a class="header-anchor" href="#加入Systemd">¶</a>加入Systemd</h2>
 <p>和前面ZooKeeper、HA的配置一样，将Spark的启动加入Systemd，让系统自动维护。在<code>/usr/lib/systemd/system/spark.serivce</code>加入</p>
 <p>因为用了ZooKeeper集群做统一化管理，只需要master节点加入service即可。</p>
 <p>spark-node1:</p>

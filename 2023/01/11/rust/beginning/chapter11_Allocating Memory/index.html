@@ -11,7 +11,7 @@
 <li>引用和Box的区别</li>
 </ul>
 <span id="more"></span>
-<h2><span id="the-various-kinds-of-allocation">The Various Kinds of Allocation</span></h2>
+<h2 id="The-Various-Kinds-of-Allocation"><a class="header-anchor" href="#The-Various-Kinds-of-Allocation">¶</a>The Various Kinds of Allocation</h2>
 <p>要理解Rust语言，也可以说其它系统语言，例如C语言，对于理解内存分配是重要的，例如静态分配(static allocation)，栈分配(stack allocation)，堆分配(heap allocation)。</p>
 <p>本章完全致力于该类问题。另外，我们将看到四种内存分配：</p>
 <ul>
@@ -21,7 +21,7 @@
 <li>In the heap</li>
 </ul>
 <p>在C或C<ins>语言，静态分配指的是全局变量和使用<code>static</code>关键字声明的变量；栈分配是所有non-static本地变量，以及函数参数；堆分配则是调用了C语言标准库<code>malloc</code>函数的，或C</ins>操作符的。</p>
-<h2><span id="linear-addressing">Linear Addressing</span></h2>
+<h2 id="Linear-Addressing"><a class="header-anchor" href="#Linear-Addressing">¶</a>Linear Addressing</h2>
 <p>任何计算机硬件，有一块可读和可写内存，即RAM，它由一系列长字节构成，由它们的地址访问。内存第一个字节位置为0，最后一个字节的位置等于内存长度减一。</p>
 <p>为了简明起见，目前有两种类型的计算机：</p>
 <pre><code>- 同一时刻单一线程，该进程直接使用物理内存地址。这称为“实时内存系统(real-memory systems)”。
@@ -38,7 +38,7 @@
 <p>当然，如果程序使用内存太过随意，操作系统需要花费大量时间来做mapping，导致处理的巨大下降，甚至会由于内存不足而中断。</p>
 <p>因此，在现代计算机中，都是单进程和多进程集于一身，每个进程“看到”它自己的内存像字节数组一样。一种是真实内存，一种是虚拟内存，但无论它是一个连续地址空间(contiguours address space)，或通常所说的“线性地址(linear addressing)”。区别于旧的计算机系统，现在计算机使用了一个“分段(segmented)”地址空间，编程者使用起来更麻烦。</p>
 <p>所有这些都是为了曾清，在一个虚拟内存系统中，操作系统对内存分配管理的操作，是由虚拟内存到真实内存的映射。尽管现在还没有讨论跟多关于内存的分配，我们这里将内存分配定义为：由进程“发现”了驻留内存的一个片段，并关联这个片段到一个对象的操作。</p>
-<h2><span id="static-allocation">Static Allocation</span></h2>
+<h2 id="Static-Allocation"><a class="header-anchor" href="#Static-Allocation">¶</a>Static Allocation</h2>
 <p>尽管，有各种各样的内存分配机制。</p>
 <p>最简单的内存分配机制是静态分配(static allocation)。根据这种机制，编译器决定了程序的每个对象需要多少个字节，以及安全地从地址空间获取相应的字节序列。因此，每个变量的地址在编译期确定。下面是一些例子：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> _A: <span class="type">u32</span> = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">static</span> _B: <span class="type">i32</span> = -<span class="number">1_000_000</span>;</span><br><span class="line"><span class="keyword">static</span> _C: <span class="type">f64</span> = <span class="number">5.7e10</span>;</span><br><span class="line"><span class="keyword">static</span> _D: <span class="type">u8</span> = <span class="number">200</span>;</span><br></pre></td></tr></table></figure>
@@ -58,7 +58,7 @@
 <p>典型地，<code>static</code>变量的修改是不安全的(unsafe)。</p>
 <p>因此，在Rust中，<code>static</code>使用得不是特别多。</p>
 <p>然后，静态分配被广泛用于其他两种数据：所有可执行二进制代码(executable binary code)，以及所有字符串字面量。</p>
-<h2><span id="stack-allocation">Stack Allocation</span></h2>
+<h2 id="Stack-Allocation"><a class="header-anchor" href="#Stack-Allocation">¶</a>Stack Allocation</h2>
 <p>由于静态分配的不足，Rust将对象指派到“stack”里面，每次使用<code>let</code>关键字声明变量，每次一个参数被传递给一个函数调用。这里所谓的“stack”是每个进程地址空间的片段。</p>
 <p>实际上，每个线程也有一个stack，而不是每个进程都有一个stack。如果操作系统支持线程，则每个程序运行，一个进程被创建，一个线程会被创建并在该进程内部运行。之后，在同一个进程内部，可以创建和启动其它线程。每一次一个线程被创建(包含进程的主线程)，会请求操作系分配一份地址空间片段，它是线程的stack。在真实内存系统(裸机)中，仅会有一个stack被创建用于执行程序。</p>
 <p>每个线程保留栈末端的地址。典型地，值较高的一端被认为是堆栈的底部，值较低的一端被认为是堆栈的顶部。</p>
@@ -255,7 +255,7 @@
 <p>当<code>f1</code>再一次被调用，SP变成了<code>base - 16</code>，因为它按前一次的大小递减了8个字节。</p>
 <p>当<code>f1</code>、<code>f2</code>和<code>main</code>函数结束后，SP递增，先变成<code>base - 8</code>，然后<code>base - 4</code>，然后<code>base</code>。</p>
 <p>最后两列展示了，在函数<code>f1</code>中，参数<code>x1</code>的值总是SP - 4；以及本地变量<code>y1</code>的值总是SP自身。</p>
-<h2><span id="limitations-of-stack-allocation">Limitations of Stack Allocation</span></h2>
+<h2 id="Limitations-of-Stack-Allocation"><a class="header-anchor" href="#Limitations-of-Stack-Allocation">¶</a>Limitations of Stack Allocation</h2>
 <p>栈分配非常高效和方便，但有一些局限：</p>
 <ul>
 <li>栈的大小通常有限。它的大小由操作系统决定，并可以由某些程序压缩，但在数量级上，只有几兆的字节。</li>
@@ -280,7 +280,7 @@
 <p>最后的输出信息可能会是“83 0”。</p>
 <p>第一个数表明了递归执行了多少次，以及表示多少个数组被分配在内存。如果输出的数字是83，意味着超过8.3百万的字节被分配在栈空间上。</p>
 <p>第二个数，表示数组的第一个元素，这里仅做一个可能的编译优化。事实上，如果变量<code>a</code>没有被读取，编译器会抛出一个告警，这个告警表示可以移除它，以提高程序性能。</p>
-<h2><span id="heap-allocation">Heap Allocation</span></h2>
+<h2 id="Heap-Allocation"><a class="header-anchor" href="#Heap-Allocation">¶</a>Heap Allocation</h2>
 <p>可惜的是栈溢出会让程序崩溃，仍然有很多内存没被使用。堆分配带来了转机：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> SIZE: <span class="type">usize</span> = <span class="number">100_00</span>;</span><br><span class="line"><span class="keyword">const</span> N_ARRAY: <span class="type">usize</span> = <span class="number">1_000_000</span>;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">create_array</span>() <span class="punctuation">-&gt;</span> <span class="type">Box</span>&lt;[<span class="type">u8</span>; SIZE]&gt; &#123; <span class="type">Box</span>:: <span class="title function_ invoke__">new</span>([<span class="number">0u8</span>; SIZE]) &#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">recursive_func</span>(n: <span class="type">usize</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> <span class="variable">a</span> = <span class="title function_ invoke__">create_array</span>();</span><br><span class="line">	<span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, N_ARRAY - n + <span class="number">1</span>, a[<span class="number">0</span>]);</span><br><span class="line">	<span class="keyword">if</span> n &gt; <span class="number">1</span> &#123; <span class="title function_ invoke__">recursive_func</span>(n - <span class="number">1</span>) &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">recursive_func</span>(N_ARRARY);</span><br></pre></td></tr></table></figure>
 <p>尽管最后程序还是由于栈溢出或内存不足导致了崩溃，比起先前的程序打印了更多的行，这意味着已经成功分配了更多的内存。</p>
@@ -288,7 +288,7 @@
 <p>在Rust中，不仅可以装箱(box)数组，你可以装箱更多的对象。Rust标准包含有泛型结构类型<code>Box&lt;T&gt;</code>。类型为<code>Box&lt;T&gt;</code>的对象，是另外真实对象的一个引用，泛型<code>T</code>即为所引用的对象，它被放置在内存的“<code>堆(heap)</code>”，区别于静态区域和栈。</p>
 <p>函数<code>crreate_array</code>的函数体是<code>Box::new([0u8; SIZE])</code>。该表达式表示一个新函数声明的调用在<code>Box</code>范围内。该函数接受一个SIZE字节数组的参数，参数全部为0.该<code>Box::new</code>函数的行为和目的，是将一个对象分配在堆(heap)，这个堆需要足够大，以容纳接收参数的拷贝，这些接收的参数从新分配的对象复制，并返回对象的地址。</p>
 <p>因此，栈空间上占领的，仅是变量<code>a</code>的指针。实际的数组被分配在堆上。实际上<code>Box::new</code>函数将数组临时挂在栈上，一旦函数返回即对其进行回收。这样一来，stack就上可以容纳一个百万字节的数组实例了。</p>
-<h2><span id="heap-management">Heap Management</span></h2>
+<h2 id="Heap-Management"><a class="header-anchor" href="#Heap-Management">¶</a>Heap Management</h2>
 <p>让我们看看堆内存如何管理的。</p>
 <p>当一段程序开始，它的堆几乎为空(或非常小)。</p>
 <p>任何时刻，堆上的每个字节可能有两种状态：“驻留，reserved”(又名，“used”)，“释放，free”(又名，“unused”)</p>
@@ -298,7 +298,7 @@
 <p>堆管理的一个严重问题是可能有碎片(fragment)。如果一个<code>f64</code>类型值为百万，被分配在一个堆中，那么这个堆必须至少大于8MB。如果内存偶数位的对象从堆中回收，便有一半百万的释放空间，将近4MB，交错有一半百万的存储空间。有许多空闲的空间，如果需要分配一个对象字节大于9MB，这些空间不够用，你需要再一次扩大堆空间。</p>
 <p>另外，在堆内存搜索一个足够大空间的幼稚算法会很浪费。有足够聪明的搜索算法可以提升堆分配的性能，但会导致堆回收更耗费。</p>
 <p>因此，栈分配总是比堆分配高效的多，不论是时间效率还是内存空间上。堆分配仅当最后一个对象回收时，这种行为和栈类似地情况下，才接近栈的效率。当然，这种需求在程序来说不允许这种分配模式。</p>
-<h2><span id="the-behavior-of-box">The Behavior of Box</span></h2>
+<h2 id="The-Behavior-of-Box"><a class="header-anchor" href="#The-Behavior-of-Box">¶</a>The Behavior of Box</h2>
 <p>如我们所说，对于任何类型的<code>Box&lt;T&gt;</code>变量，只要包含该变量的函数被调用，一个指针会被指派在栈上。相反，堆分配出现在仅当<code>Box::new</code>被调用时。因此，<code>Box&lt;T&gt;</code>的分配会出现在两个地方：一是指针，二是其引用对象。</p>
 <p>类似地，内存回收也出现在两个地方。一是包含该变量的函数中止，栈上的指针回收；二是堆空间对象的回收，堆的回收可能会比栈提前很多。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">f</span>(p: &amp;<span class="type">f64</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> <span class="variable">a</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(*p);</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">let</span> <span class="variable">b</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line">		<span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;:?&#125;&quot;</span>, *a, *b);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">let</span> <span class="variable">c</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(<span class="literal">true</span>);</span><br><span class="line">	<span class="built_in">print!</span>(<span class="string">&quot; &#123;&#125; &#123;&#125;&quot;</span>, a, c);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">f</span>(&amp;<span class="number">3.4</span>);</span><br></pre></td></tr></table></figure>
@@ -312,10 +312,10 @@
 <p>最后，<code>main</code>函数结束，未命名的3.4值对象从栈空间释放。</p>
 <p>这里这样做看似毫无意义，但值得的是，如果几个变量都声明在同一个范围(scope)，它们会按照声明的相反顺序退出范围。在我们的例子中，<code>a</code>在<code>c</code>之前，因此<code>a</code>会在<code>c</code>之后退出。这导致了堆空间上<code>a</code>的引用的释放，会发生在<code>c</code>引用释放之后。这样做的好处是，堆的效率，等同于栈，因为堆顶的地址总是先被释放掉。</p>
 <p>注意这里没有回收函数的调用。实际上Rust语言和它的标准库没有任何释放空间、回收内存的函数调用。这主要为了防止忘记调用它们。</p>
-<h2><span id="similarity-with-c-and-c">Similarity with C and C++</span></h2>
+<h2 id="Similarity-with-C-and-C"><a class="header-anchor" href="#Similarity-with-C-and-C">¶</a>Similarity with C and C++</h2>
 <p>在C和C<ins>中你可以使用堆空间。在C语言，你可以用<code>malloc</code>、<code>calloc</code>和<code>realloc</code>函数在堆空间指派一个buffer，以及用<code>free</code>函数释放指派的buffer。另外，在C</ins>语言，在堆空间可以分别用<code>new</code>和<code>new[]</code>给一个对象或一个数组对象进行分配。以及分别<code>delete</code>和<code>delete[]</code>对于<code>new</code>和<code>new[]</code>的操作进行回收。</p>
 <p>实际上，Rust的<code>Box&lt;T&gt;</code>泛型结构类型，跟上面堆分配方式有很大出入。自2011年，标准C++出现了一个和<code>Box&lt;T&gt;</code>十分类似地类型，<code>unique_ptr&lt;T&gt;</code>类模板。就是所谓的“智能指针(smart pointer)”，它和<code>Box&lt;T&gt;</code>类似，在堆空间分配对象，退出范围后回收。</p>
-<h2><span id="boxing-and-unboxing">Boxing and Unboxing</span></h2>
+<h2 id="Boxing-and-Unboxing"><a class="header-anchor" href="#Boxing-and-Unboxing">¶</a>Boxing and Unboxing</h2>
 <p>因此，对于给定泛型类型<code>T</code>，<code>Box&lt;T&gt;</code>和<code>&amp;T</code>都是一类引用。让我们看它们如何交互：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">7</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">a_box</span>: <span class="type">Box</span>&lt;<span class="type">i32</span>&gt;;</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">a_ref</span>: &amp;<span class="type">i32</span> = &amp;a;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;;&quot;</span>, a, *a_ref);</span><br><span class="line">a_box = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(a + <span class="number">2</span>);</span><br><span class="line">a_ref = &amp;*a_box;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot; &#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>, a, *a_ref, *a_box);</span><br></pre></td></tr></table></figure>
 <p>结果输出：“7 7; 7 9 9 ”。</p>
@@ -332,7 +332,7 @@
 <p>结果打印：“<code>7 7; 7 7 9; 7 7 7</code>”。</p>
 <p>这里的<code>a_box</code>是可变的，<code>a_ref</code>是不可变的。</p>
 <p>倒数第二条语句重新指派了box。概念上，堆上的回收，紧跟着相同类型对象的一次分配，只是值不同，行为类似于栈top的处理。</p>
-<h2><span id="register-allocation">Register Allocation</span></h2>
+<h2 id="Register-Allocation"><a class="header-anchor" href="#Register-Allocation">¶</a>Register Allocation</h2>
 <p>在汇编语言(assembly language)，有时也包括C语言，会用到“寄存器分配(processor register allocation)”的概念。在Rust中没有这个概念，因为它约束于具体的计算机硬件架构。然而，代码优化器可以将栈分配的对象地址，转移到寄存器，只要程序得出的结果等价即可。因此，源码层面上出现的是栈对象的分配，在机器码层面上可能是对象在寄存器的分配。这当然依赖于目标的架构，因为寄存器越多，指派到寄存上的变量也就越多。</p>
 <p>寄存器分配通常跟开发者无瓜葛。但如果使用源码级调试高度优化程序的内存时，你会发现寄存器分配的变量不见了。因此，当调试时，你应该告知编译器生成非优化的(non-optimized)执行代码，除非你想直接调试机器码。</p>
 </div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
