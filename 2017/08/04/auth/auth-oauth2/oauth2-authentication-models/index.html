@@ -48,7 +48,7 @@
 <li><code>refresh_token</code>: 表示更新令牌，用来获取下一次的访问令牌，可选项。</li>
 <li><code>scope</code>: 表示权限范围，可选。</li>
 </ul>
-<img src="/assert/puml/b599008d6242e0f76aa033110635790f2dc09d06ee4f7e0d3776cf4dce176109.svg"/>
+<img src="/assert/puml/0bc7d5f8fa8855a4b519539e8bb1c2da2417aaeacd4460750a886f8e0006cedd.svg"/>
 <p>具体分三步：</p>
 <ol>
 <li>带领用户访问认证URL</li>
@@ -78,7 +78,7 @@
 <p>B步骤中，认证服务器向客户端发送访问令牌，下面是一个例子。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: application/json;charset=UTF-8</span><br><span class="line">Cache-Control: no-store</span><br><span class="line">Pragma: no-cache</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;access_token&quot;:&quot;2YotnFZFEjr1zCsicMWpAA&quot;,</span><br><span class="line">  &quot;token_type&quot;:&quot;example&quot;,</span><br><span class="line">  &quot;expires_in&quot;:3600,</span><br><span class="line">  &quot;example_parameter&quot;:&quot;example_value&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这种模式明确告诉我们，认证的主体是客户端，我们对这种方式进行完善。</p>
-<img src="/assert/puml/1ed2f6ae7db6cff115ddade2718bb47bb60c08ec6b9c649e81333025833cfbf0.svg"/>
+<img src="/assert/puml/319918dd7378cfb0afcf0a4f8a9d692ae3ae6e9dd5273d7dc94ee49f2d362ef1.svg"/>
 <ol>
 <li>User首先在客户端平台进行一系列注册管理行为，得到当前用户相应的<code>client_id</code>、<code>client_secret</code>、<code>scope</code>。</li>
 <li>此时，客户端(Client)<br>
@@ -120,7 +120,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 302 Found</span><br><span class="line">Location: http://example.com/cb#access_token=2YotnFZFEjr1zCsicMWpAA</span><br><span class="line">          &amp;state=xyz&amp;token_type=example&amp;expires_in=3600</span><br></pre></td></tr></table></figure>
 <p>在上面的例子中，认证服务器用HTTP头信息的Location栏，指定浏览器重定向的网址。注意，在这个网址的Hash部分包含了令牌。<br>
 根据上面的D步骤，下一步浏览器会访问Location指定的网址，但是Hash部分不会发送。接下来的E步骤，服务提供商的资源服务器发送过来的代码，会提取出Hash中的令牌。</p>
-<img src="/assert/puml/497b94ed84acd25785c6c76608cbd2e0884fd7e7a50360073005a77f90ec8f30.svg"/>
+<img src="/assert/puml/8d2194810af9112a4181d7b559e1212520f39ff7759766ad8754941cd7327e08.svg"/>
 <p>该方式会暴露<code>access_token</code>，只有当其它方式不可用的情况下使用。</p>
 <h3 id="密码模式"><a class="header-anchor" href="#密码模式">¶</a>密码模式</h3>
 <p>密码模式(Resource Owner Password Credentials Grant)中，用户向客户端提供自己的用户名和密码。客户端使用这些信息，向&quot;<br>
@@ -142,7 +142,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST /token HTTP/1.1</span><br><span class="line">Host: server.example.com</span><br><span class="line">Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">grant_type=password&amp;username=johndoe&amp;password=A3ddj3w</span><br></pre></td></tr></table></figure>
 <p>C步骤中，认证服务器向客户端发送访问令牌，下面是一个例子。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: application/json;charset=UTF-8</span><br><span class="line">Cache-Control: no-store</span><br><span class="line">Pragma: no-cache</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;access_token&quot;:&quot;2YotnFZFEjr1zCsicMWpAA&quot;,</span><br><span class="line">  &quot;token_type&quot;:&quot;example&quot;,</span><br><span class="line">  &quot;expires_in&quot;:3600,</span><br><span class="line">  &quot;refresh_token&quot;:&quot;tGzv3JOkF0XG5Qx2TlKWIA&quot;,</span><br><span class="line">  &quot;example_parameter&quot;:&quot;example_value&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<img src="/assert/puml/c2924be611f8de3bd9b7199d60b3c7407d39322dff568bdc946614f2ea38ffd1.svg"/>
+<img src="/assert/puml/ced0da0a13a6456fd117dd9fbe51cfe3c879d8a173652b5d5b7d33db253e8785.svg"/>
 </div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2017/08/04/auth/auth-oauth2/oauth2-authentication-models/';
 var disqus_title = 'OAuth2几种授权模式';
