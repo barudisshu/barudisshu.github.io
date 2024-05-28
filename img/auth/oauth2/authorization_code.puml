@@ -1,0 +1,58 @@
+@startuml
+
+participant "Resource Owner"
+participant "Client"
+participant "Authorization Server"
+participant "Resource Server"
+
+"Client" -> "Authorization Server": Authorization Code Request
+activate "Authorization Server" #FFBBBB
+
+rnote over "Authorization Server"
+Needs
+    //**client_id**//
+    //**redirect_uri**//
+    //**grant_type = <color #red>code</color>**//
+    [//**scope**//]
+    [//**state**//]
+endrnote
+
+"Resource Owner" -> "Authorization Server": Login & Consent
+"Client" <-- "Authorization Server": Authorization Code Response
+
+deactivate "Authorization Server"
+......
+
+"Client" -> "Authorization Server": Exchange Code for Access Token
+activate "Authorization Server" #FFBBBB
+rnote over "Authorization Server"
+Needs
+    //**client_id**//
+    //**client_secret**//
+    //**redirect_uri**//
+    //**code**//
+    //**grant_type = <color #red>authorization_code</color>**//
+    [//**scope**//]
+endrnote
+deactivate "Authorization Server"
+
+"Client" <-- "Authorization Server": //**Access Token**//[+ Refresh Token Not Recommended]
+loop
+
+"Client" -> "Resource Server": Call API with Access Token
+activate "Resource Server" #DarkSalmon
+rnote over "Resource Server"
+    Verify
+        **is legality ?**
+        **is expired ?**
+endrnote
+"Client" <-- "Resource Server": Response With Data[<color #A209E1>**Unauthorized**</color>|<color #darkGreen>**Real wanted**</color>]
+deactivate "Resource Server"
+
+end
+
+
+...subsequent as you wish ...
+
+@enduml
+
