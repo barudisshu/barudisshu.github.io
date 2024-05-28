@@ -12,7 +12,7 @@
 <li>使用Java框架构建Web应用</li>
 </ol>
 <p>最激动人心的事情是，Scala可以运行在JVM上。这带来的好处是你可以使用构建在JVM语言上的所有框架和工具。基于JVM，更有一些公司甚至不使用Java作为他们的首选编程语言。对于大多数企业软件项目，我坚信不支持JVM的语言，几乎不可能实现。</p>
-<p>Scala的一个主要设计目的，是令其运行在JVM上，并提供对Java的相互协作。Scala被编译为Java字节码，所以你可以使用如javap(Java class file disassembler)工具，对有Scala编译器生成的字节码进行反编译。大部分情况下，Scala的特性被转换为Java的特性，因此Scala可以轻松和Java集成。例如，Scala使用类型擦除来兼容Java。类型擦除<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> (Type erasure)也允许Scala对JVM的动态类型进行集成。一些Scala特性(如traits)，不会直接地映射为Java，在这种情况下，你需要灵活变通地使用。</p>
+<p>Scala的一个主要设计目的，是令其运行在JVM上，并提供对Java的相互协作。Scala被编译为Java字节码，所以你可以使用如javap(Java class file disassembler)工具，对有Scala编译器生成的字节码进行反编译。大部分情况下，Scala的特性被转换为Java的特性，因此Scala可以轻松和Java集成。例如，Scala使用类型擦除来兼容Java。类型擦除<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> (Type erasure)也允许Scala对JVM的动态类型进行集成。一些Scala特性(如traits)，不会直接地映射为Java，在这种情况下，你需要灵活变通地使用。</p>
 <p>虽然对Java的大部分集成都可轻松实现，我仍然更推荐你使用 pure Scala。我尝试查找两者之间某些等价的部分，以及Scala不能实现的，则使用Java来解决。使用Java库的不好的方面是，你必须处理可变性、异常、空值这些Scala中绝对不会出现的问题。在Scala中，需要特别小心地选择Java的库或者框架。以一个编码良好的Java库<a target="_blank" rel="noopener" href="http://joda-time.sourceforge.net">Joda-Time</a>为例。</p>
 <p>Scala和Java最通常的集成，是指部分项目由Scala编写的。小节11.4将介绍Scala中使用Java框架，Hibernate、Spring等的web项目构建。</p>
 <span id="more"></span>
@@ -104,10 +104,10 @@
 <p><strong>注意</strong> 本小节要求你已经掌握了Spring、Hibernate以及Maven构建工具来构建Java Web应用。如果没有，这会很难跟上。保守起见，如果你对Java框架不感兴趣，也可以跳过该小节。</p>
 <p>在此之前，让我们理清你将构建一个怎样的应用。你将构建一个i额小的web应用，叫做topArtists，用于展示来自Last.fm的艺术家。Last.fm是一个流行的音乐网站，可以通过收音机频道进入访问。Last.fm同时也提供了一个API，通过该API可以获得各种各样的音乐排行榜。你将使用它的chart.getTopArtists的REST API来获取所有当前的艺术家，并保存到本地数据库中。你也将从本地数据库中展示所有的艺术家数据给用户。</p>
 <p><strong>注意</strong> 你首先要做的是获得一个来自Last.fm的API key。你可以从Last.fm的 <a href="www.last.fm/api/authentication">网站</a>获得。</p>
-<p>如果你做过Java开发，你可能最经常使用的是Maven。Maven知道如何编译Java源文件，但要编译Scala文件，你需要添加Maven的Scala插件<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。要使用Maven创建一个空白web应用，执行下面命令：</p>
+<p>如果你做过Java开发，你可能最经常使用的是Maven。Maven知道如何编译Java源文件，但要编译Scala文件，你需要添加Maven的Scala插件<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>。要使用Maven创建一个空白web应用，执行下面命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:generate -DgroupId=scala.in.action -DartifactId=top.artists -DarchetypeArtifactId=maven-archetype-webapp</span><br></pre></td></tr></table></figure>
 <p>该项目的结构，实质上和SBT项目是一样的(SBT 遵循Maven的约定)。创建了pom.xml文件后，便可以配置所有的依赖。</p>
-<p>对于topArtists应用，你将使用Spring来构建web层，并作为依赖注入框架。Hibernate则作为ORM层，应用保存所有artists到数据库中。作为练手，你将使用数据库HSQLDB。但要作REST请求，你将使用纯的Scala库 dispatch<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>。 Dispatch是一个Scala库，构建在Async Http Client库上，使得它易于作web services<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>。</p>
+<p>对于topArtists应用，你将使用Spring来构建web层，并作为依赖注入框架。Hibernate则作为ORM层，应用保存所有artists到数据库中。作为练手，你将使用数据库HSQLDB。但要作REST请求，你将使用纯的Scala库 dispatch<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>。 Dispatch是一个Scala库，构建在Async Http Client库上，使得它易于作web services<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup>。</p>
 <h3 id="1131〖Building-the-model-view-and-controller〗P334"><a class="header-anchor" href="#1131〖Building-the-model-view-and-controller〗P334">¶</a>11<sub>3</sub>1〖Building the model, view, and controller〗P334</h3>
 <p>该topArtists应用展示了来自Last.fm的REST API。要看从Last.fm接收的信息，在任何浏览器窗口调用下面的URL：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&amp;api_key=&lt;your api key&gt;</span><br></pre></td></tr></table></figure>
@@ -150,20 +150,7 @@
 <p>本章所阐述的是，Scala对Java的互操作是无痛的(pain-free)。很少地方你需要做防护措施，但对于大部分你都可以不用顾虑太多地集成已有的Java基础代码。额外要小心的，则是集成某些Scala特性，在Java中并不支持，反之亦然。在本章介绍了如何处理这种问题。因为Scala被设计来自渐渐成长的Java，大多数变通的地方都可以简单地学习和实现。</p>
 <p>简单集成Java，意味着你可以容易地在已有代码中使用Scala。在最后的一个例子中证明了，你可以使用Scala和已有的流行的Java框架进行集成，而不用重写整个应用。</p>
 <p>下个章节将进入到最激动人心的Scala框架：Akka。该框架让你使用丰富的并发模型来构建大型的、可伸缩的、分布式的应用。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>Java Tutorials: Type erasure, <a target="_blank" rel="noopener" href="http://download.oracle.com/javase/tutorial/java/generics/erasure.html">http://download.oracle.com/javase/tutorial/java/generics/erasure.html</a>. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn2" class="footnote-item"><p>Maven Scala plug-in download, <a target="_blank" rel="noopener" href="http://scala-tools.org/mvnsites/maven-scala-plugin/">http://scala-tools.org/mvnsites/maven-scala-plugin/</a>. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn3" class="footnote-item"><p>Dispatch Scala library: <a target="_blank" rel="noopener" href="http://dispatch.databinder.net/Dispatch.html">http://dispatch.databinder.net/Dispatch.html</a>. <a href="#fnref3" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn4" class="footnote-item"><p>See “AsyncHttpClient/async-http-client,” <a target="_blank" rel="noopener" href="https:/github.com/AsyncHttpClient/async-http-client">https:/github.com/AsyncHttpClient/async-http-client</a>. <a href="#fnref4" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+<div id="footnotes"><hr><div id="footnotelist"><ol><li id="fn:1">Java Tutorials: Type erasure, <a target="_blank" rel="noopener" href="http://download.oracle.com/javase/tutorial/java/generics/erasure.html">http://download.oracle.com/javase/tutorial/java/generics/erasure.html</a>.<a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2">Maven Scala plug-in download, <a target="_blank" rel="noopener" href="http://scala-tools.org/mvnsites/maven-scala-plugin/">http://scala-tools.org/mvnsites/maven-scala-plugin/</a>.<a href="#fnref:2" rev="footnote"> ↩</a></li><li id="fn:3">Dispatch Scala library: <a target="_blank" rel="noopener" href="http://dispatch.databinder.net/Dispatch.html">http://dispatch.databinder.net/Dispatch.html</a>.<a href="#fnref:3" rev="footnote"> ↩</a></li><li id="fn:4">See “AsyncHttpClient/async-http-client,” <a target="_blank" rel="noopener" href="https:/github.com/AsyncHttpClient/async-http-client">https:/github.com/AsyncHttpClient/async-http-client</a>.<a href="#fnref:4" rev="footnote"> ↩</a></li></ol></div></div></div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2016/10/27/scala/11-jvm-integrate/';
 var disqus_title = '第十一章：Scala和Java相互集成';
 var disqus_url = 'https://galudisu.info/2016/10/27/scala/11-jvm-integrate/';

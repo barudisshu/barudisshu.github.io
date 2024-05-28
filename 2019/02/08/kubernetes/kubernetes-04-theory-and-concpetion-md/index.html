@@ -108,7 +108,7 @@
 <ol start="7">
 <li>RBD</li>
 </ol>
-<p>Ceph RBD<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>是一个分布式、弹性可扩展的、高可靠的、性能优异的存储系统平台。要配置Pod资源使用RBD存储卷，前提条件要满足：</p>
+<p>Ceph RBD<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>是一个分布式、弹性可扩展的、高可靠的、性能优异的存储系统平台。要配置Pod资源使用RBD存储卷，前提条件要满足：</p>
 <ul>
 <li>Ceph RBD存储集群，</li>
 <li>Ceph RBD集群中创建有满足Pod资源数据用到的存储image</li>
@@ -147,14 +147,7 @@
 <p>下面是一个定义在vol-glusterfs.yaml配置文件中的Pod资源示例，它使用了GlusterFS存储卷持久保存应用数据。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">vol-glusterfs-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">vol-glusterfs-pod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">redis</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">redis:alpine</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">6379</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">redisport</span></span><br><span class="line">      <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">mountPath:</span> <span class="string">/data</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">redisdata</span></span><br><span class="line">      <span class="attr">imagePullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">redisdata</span></span><br><span class="line">      <span class="attr">glusterfs:</span></span><br><span class="line">        <span class="attr">endpoints:</span> <span class="string">glusterfs-endpoints</span></span><br><span class="line">        <span class="attr">path:</span> <span class="string">kube-redis</span></span><br><span class="line">        <span class="attr">readOnly:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">restartPolicy:</span> <span class="string">Always</span></span><br></pre></td></tr></table></figure>
 <p>另外创建Endpoints资源glusterfs-endpoints，以用于Pod资源访问，</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p><a href="/2019/02/08/ceph/quickly-build-a-new-ceph-cluster-with-ceph-deploy-on-centos-7/">Ceph集群安装</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+<div id="footnotes"><hr><div id="footnotelist"><ol><li id="fn:1"><a href="/2019/02/08/ceph/quickly-build-a-new-ceph-cluster-with-ceph-deploy-on-centos-7/">Ceph集群安装</a><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div></div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2019/02/08/kubernetes/kubernetes-04-theory-and-concpetion-md/';
 var disqus_title = 'kubernetes 设计理念及主要概念之Volume(四)';
 var disqus_url = 'https://galudisu.info/2019/02/08/kubernetes/kubernetes-04-theory-and-concpetion-md/';

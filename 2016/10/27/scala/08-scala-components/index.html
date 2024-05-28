@@ -11,7 +11,7 @@
 <li>即时-多态(Ad hoc polymorphism)。</li>
 <li>解决表述问题。</li>
 </ol>
-<p>我们有一段时间没有把专注力放在Scala的类型系统(type system)上。The type system is a tractable syntactic method for proving the absence of certain program behaviors by classifying phrases according to the kinds of values they compute<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>.(类型系统是一个易于处理的语法方法，它通过计算得出的分类词汇，为该方法提供正确的缺省的编程处理)。</p>
+<p>我们有一段时间没有把专注力放在Scala的类型系统(type system)上。The type system is a tractable syntactic method for proving the absence of certain program behaviors by classifying phrases according to the kinds of values they compute<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>.(类型系统是一个易于处理的语法方法，它通过计算得出的分类词汇，为该方法提供正确的缺省的编程处理)。</p>
 <p>本章学习类型系统的要点是 理解其背后理论。这对学习类型系统基础很有帮助，本章不会过多在练习上关于理论内容。这里，将探索Scala提供给我们的各种各样的类型，并带有例子让我们更好理解。为什么类型系统如此重要？它提供了一下几点特性：</p>
 <ul>
 <li>Error detection：就像编译器编译单元测试，可以探测普通类型和其它编程错误。</li>
@@ -210,7 +210,7 @@
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">EitherMapper</span></span>[<span class="type">X</span>] = <span class="keyword">new</span> <span class="type">Mapper</span>[(&#123;<span class="class"><span class="keyword">type</span> <span class="title">E</span>[<span class="type">A</span>] </span>= <span class="type">Either</span>[<span class="type">X</span>, <span class="type">A</span>]&#125;)#<span class="type">E</span>] &#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">fmap</span></span>[<span class="type">A</span>, <span class="type">B</span>](r: <span class="type">Either</span>[<span class="type">X</span>, <span class="type">A</span>], f: (<span class="type">A</span>) =&gt; <span class="type">B</span>): <span class="type">Either</span>[<span class="type">X</span>, <span class="type">B</span>] = r <span class="keyword">match</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">Left</span>(c) =&gt; <span class="type">Left</span>(c)</span><br><span class="line">    <span class="keyword">case</span> <span class="type">Right</span>(x) =&gt; <span class="type">Right</span>(f(x))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>类型投影<code>({type E[A] = Either[X, A]})#E</code>引用了类型别名<code>E[A] = Either[X, A]</code>。这这个例子中，<code>X</code>表示类型<code>Left</code>，以及你不需要担心该类型——这是为什么你隐藏它，并保留由<code>A</code>表示的类型<code>Right</code>。类型投影看起来有点不同寻常，但在你实际需要的时候会很有帮助。</p>
 </blockquote>
-<p>第一次尝试时，会稍微难写出像fmap这样的通用函数。我推荐先从具体的实现开始，在创建抽象之前，先理解这种模式。一旦你理解了这种模式，高级类类型创建抽象。我鼓励你查阅Scala集合<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>以学习更多关于高级类类型的用法。</p>
+<p>第一次尝试时，会稍微难写出像fmap这样的通用函数。我推荐先从具体的实现开始，在创建抽象之前，先理解这种模式。一旦你理解了这种模式，高级类类型创建抽象。我鼓励你查阅Scala集合<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>以学习更多关于高级类类型的用法。</p>
 <h3 id="823〖Phantom-types〗P243"><a class="header-anchor" href="#823〖Phantom-types〗P243">¶</a>8<sub>2</sub>3〖Phantom types〗P243</h3>
 <p>幻类型(Phantom types)指的是类型不提供任何构造器来创建值。这些类型只在编译期用于增强约束。如果没有例子，很难理解它是怎么用的。我们以订购系统为例。一张订单表示了订货条目和货运地址：</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Order</span>(<span class="params">itemId: <span class="type">Option</span>[<span class="type">Item</span>], address: <span class="type">Option</span>[<span class="type">String</span>]</span>)</span></span><br></pre></td></tr></table></figure>
@@ -233,7 +233,7 @@
 <p>要使用该订单系统，你需要逐步为订单添加详细的信息：</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> o = <span class="type">Order</span>.emptyOrder</span><br><span class="line"><span class="keyword">val</span> o1 = addItem(<span class="string">&quot;some book&quot;</span>, o)</span><br><span class="line"><span class="keyword">val</span> o2 = addShipping(<span class="string">&quot;some address&quot;</span>, o1)</span><br></pre></td></tr></table></figure>
 <p>这时，如果客户端不适当地提交订单，便会得到编译错误。你也可以使用该技术来实现类型安全的构建者模式(Builder pattern)，使用幻类型(phantom types)，可以确保所有被需求的值都是填充的。</p>
-<p>Scala并不仅局限这些类型。它所包含的种类比这里所讲的还要多。例如有类型叫做方法依赖类型<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup> (method dependent type)，它允许你指定返回基于类型参数的类型，有路径依赖类型(path-dependent types)则允许你通过object来约束类型，还有更多的。我的建议是多和这门语言接触，我可以确保你会熟悉Scala的类型。</p>
+<p>Scala并不仅局限这些类型。它所包含的种类比这里所讲的还要多。例如有类型叫做方法依赖类型<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup> (method dependent type)，它允许你指定返回基于类型参数的类型，有路径依赖类型(path-dependent types)则允许你通过object来约束类型，还有更多的。我的建议是多和这门语言接触，我可以确保你会熟悉Scala的类型。</p>
 <h3 id="8-3〖Ad-hoc-polymorphism-with-type-classes〗P246"><a class="header-anchor" href="#8-3〖Ad-hoc-polymorphism-with-type-classes〗P246">¶</a>8~3〖Ad hoc polymorphism with type classes〗P246</h3>
 <p>一个类型类的类型系统概念是支持即时-多态(ad hoc polymorphism)。即时-多态是一类多态函数可以提供不同的类型参数。即时多态可以为类型添加任何需要的特性。不要把类型类(type classes)看作是OOP概念的类；把它们看作是一个范畴(category)。类型类是定义类型集合的一种方式。在本小节将学习类型类如何帮助构建抽象。</p>
 <h3 id="831〖Modeling-orthogonal-正交-concerns-using-type-classes〗P246"><a class="header-anchor" href="#831〖Modeling-orthogonal-正交-concerns-using-type-classes〗P246">¶</a>8<sub>3</sub>1〖Modeling orthogonal(正交) concerns using type classes〗P246</h3>
@@ -306,18 +306,7 @@
 <p>这一章，在理解Scala类型系统各种应用上，是一个重要的里程碑。当你理解并探索之后，Scala类型系统帮助在构建可复用和可扩展组件上。一个好的类型系统不仅仅提供了类型安全，它也提供了足够的抽象来快速地构建组件和库。你学习了抽象类型成员(abstract type members)和自类型(self-type)注解，以及如何使用他们来构建组件。你也探索了Scala的类型类，以及如何使用它们来构建应用创建抽象。</p>
 <p>编程语言中，判断该语言强弱的一个最通常方式是表述问题(expression problem)。你实现了解决表述问题(expression problem)的两种方式，清晰地证明了Scala类型系统的强大。Scala是多模式的(multiparadigm)，你同时使用了面向对象和函数式编程两种方式解决了这个问题。面向对象的方式是实现了抽象类型成员和特质。为了解决这个问题，你学习了类型类。类型类是一个强大解决在运行时的多态问题的方式。这还没有真正深入到Scala类型系统中。这章仅可能覆盖更多的内容，但我相信你的好奇心促使你探索更多的内容。</p>
 <p>下一章将覆盖Scala最流行的特性：actor。Scala的actor使得构建高并发应用更容易，并一步到位(hassle-free)。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>Benjamin C. Pierce, Types and Programming Languages, 2002, The MIT Press, <a target="_blank" rel="noopener" href="http://www.cis.upenn.edu/~bcpierce/tapl/">www.cis.upenn.edu/~bcpierce/tapl/</a>. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn2" class="footnote-item"><p>Martin Odersky and Lex Spoon, “The Architecture of Scala Collections,” adapted from Programming in Scala,second edition, Odersky, Spoon and Venners, Artima Inc., 2011, <a target="_blank" rel="noopener" href="http://mng.bz/Bso8">http://mng.bz/Bso8</a>. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn3" class="footnote-item"><p>“What are some compelling use cases for dependent method types?” Answered by Miles Sabin on stackoverflow, Oct 22, 2011, <a target="_blank" rel="noopener" href="http://mng.bz/uCj3">http://mng.bz/uCj3</a>. <a href="#fnref3" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+<div id="footnotes"><hr><div id="footnotelist"><ol><li id="fn:1">Benjamin C. Pierce, Types and Programming Languages, 2002, The MIT Press, <a target="_blank" rel="noopener" href="http://www.cis.upenn.edu/~bcpierce/tapl/">www.cis.upenn.edu/~bcpierce/tapl/</a>.<a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2">Martin Odersky and Lex Spoon, “The Architecture of Scala Collections,” adapted from Programming in Scala,second edition, Odersky, Spoon and Venners, Artima Inc., 2011, <a target="_blank" rel="noopener" href="http://mng.bz/Bso8">http://mng.bz/Bso8</a>.<a href="#fnref:2" rev="footnote"> ↩</a></li><li id="fn:3">“What are some compelling use cases for dependent method types?” Answered by Miles Sabin on stackoverflow, Oct 22, 2011, <a target="_blank" rel="noopener" href="http://mng.bz/uCj3">http://mng.bz/uCj3</a>.<a href="#fnref:3" rev="footnote"> ↩</a></li></ol></div></div></div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2016/10/27/scala/08-scala-components/';
 var disqus_title = '第八章：构建可伸缩的、可扩展的组件';
 var disqus_url = 'https://galudisu.info/2016/10/27/scala/08-scala-components/';

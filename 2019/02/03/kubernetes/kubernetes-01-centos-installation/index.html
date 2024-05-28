@@ -199,7 +199,7 @@
 <p>将生成的<code>dashboard.key</code>和<code>dashboard.crt</code>放置在路径<code>/certs</code>下， 重新配置</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f kubernetes-dashboard.yaml</span><br><span class="line">kubectl create -f admin-user-role-binding.yaml</span><br></pre></td></tr></table></figure>
 <p>虽然添加了证书，但也仅能通过firefox添加例外访问，chrome根本不信任你。所以生产环境上还是要买一个SSL证书，另外Pod内的service最好也不要直接暴露给外网访问，一般用nginx-ingress做个代理。</p>
-</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+<div id="footnotes"><hr><div id="footnotelist"><ol><li id="fn:1">你可能需要安装额外的工具用于Kubernetes管理，参考<a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-install-software-on-kubernetes-clusters-with-the-helm-package-manager">这里</a><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div></div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2019/02/03/kubernetes/kubernetes-01-centos-installation/';
 var disqus_title = 'kubernetes 简介以及安装安装高可用v1.13.1集群(一)';
 var disqus_url = 'https://galudisu.info/2019/02/03/kubernetes/kubernetes-01-centos-installation/';
