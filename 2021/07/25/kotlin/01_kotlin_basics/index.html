@@ -76,7 +76,7 @@
 <h3 id="Easier-string-formatting-string-templates"><a class="header-anchor" href="#Easier-string-formatting-string-templates">¶</a>Easier string formatting: string templates</h3>
 <p>我们改下前面的例子，</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">  <span class="keyword">val</span> name = <span class="keyword">if</span> (args.size &gt; <span class="number">0</span>) args[<span class="number">0</span>] <span class="keyword">else</span> <span class="string">&quot;Kotlin&quot;</span></span><br><span class="line">  println(<span class="string">&quot;Hello, <span class="variable">$name</span>!&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个例子引入了一个特性，<em>字符串模板(string templates)</em>。代码中，你声明了一个变量<code>name</code>并使用到字符字面量。和其它脚本语言一样，KotlinKotlin可以在字符串字面量中使用<code>$</code>字符来引用本地变量。这等价于Java的字符串拼接 <code>(Hello, &quot; + name + &quot;!&quot;)</code> 但相比更高效<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>。当然，改表达式是静态检查，如果引用的变量不存在，编译不会通过。</p>
+<p>这个例子引入了一个特性，<em>字符串模板(string templates)</em>。代码中，你声明了一个变量<code>name</code>并使用到字符字面量。和其它脚本语言一样，KotlinKotlin可以在字符串字面量中使用<code>$</code>字符来引用本地变量。这等价于Java的字符串拼接 <code>(Hello, &quot; + name + &quot;!&quot;)</code> 但相比更高效<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>。当然，改表达式是静态检查，如果引用的变量不存在，编译不会通过。</p>
 <p>另外如果你需要在字符串引入<code>$</code>字符，则需要转义：<code>println(&quot;\$x&quot;)</code>，这样就仅仅是输出<code>$x</code>，不会把<code>x</code>推断为变量引用。</p>
 <p>如果表达式太复杂，你不需要被强制简化变量名，可以使用花括号囊括表达式来描述：</p>
 <figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (args.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    println(<span class="string">&quot;Hello, <span class="subst">$&#123;args[<span class="number">0</span>]&#125;</span>!&quot;</span>)  <span class="comment">// 使用`$&#123;&#125;`表达式</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -207,7 +207,14 @@
 <li>这种简洁的<code>1..5</code>语法用于创建Range。通常用于组合<code>for</code>循环和<code>in</code>，<code>!in</code>操作符处理逻辑。</li>
 <li>Kotlin的异常处理跟Java的如出一辙，但Kotlin不区分检查类异常和非检查类异常，以及不要求函数抛出异常，<code>try-catch-finally</code>关键字也是一个表达式，可以在适当的代码块内作为返回值。</li>
 </ul>
-<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">为什么高效？这段编译的代码会创建一个<code>StringBuilder</code>将常量部分和变量值进行追加。</span><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div></div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>为什么高效？这段编译的代码会创建一个<code>StringBuilder</code>将常量部分和变量值进行追加。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2021/07/25/kotlin/01_kotlin_basics/';
 var disqus_title = 'Kotlin 基础';
 var disqus_url = 'https://galudisu.info/2021/07/25/kotlin/01_kotlin_basics/';
