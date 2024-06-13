@@ -17,7 +17,7 @@ and customer service, which further promotes the upgrading and optimization of t
 </blockquote>
 <p>There are many reason that we are migrating business service into Cloud Native. One of most important reason is that we<br>
 need to reduce our costs. Furthermore, as our productivity increases, we will have a vision on the IoT service.</p>
-<p><img src="iot-visable.png" alt="Facets of design in IoT-a good product requires integrated thinking across all of these"></p>
+<p><img src="/img/pekko/iot-visable.png" alt="Facets of design in IoT-a good product requires integrated thinking across all of these"></p>
 <p>the digital reform indicate that in the future, the connected things shall be self-diagnosis, reliable, lower-bandwidth,<br>
 low-carbon, more intelligent, and have a better version management.</p>
 <h2 id="Why-Pekko-if-you-have-kubernetes"><a class="header-anchor" href="#Why-Pekko-if-you-have-kubernetes">¶</a>Why Pekko if you have kubernetes?</h2>
@@ -38,8 +38,8 @@ reactive application tools are looking after those within the application layer 
 resilience and elasticity.</p>
 <p>We need a <strong>REAL</strong> <a target="_blank" rel="noopener" href="https://www.reactivemanifesto.org/">reactive manifesto</a> application, and below Lightbend diagrams<br>
 help with understanding the concept:</p>
-<p><img src="pekko-cloud.png" alt="Cloud Native"></p>
-<p><img src="pekko-pod.png" alt="Cloud Pekko"></p>
+<p><img src="/img/pekko/pekko-cloud.png" alt="Cloud Native"></p>
+<p><img src="/img/pekko/pekko-pod.png" alt="Cloud Pekko"></p>
 <p>So, how to build stateful, resilient and responsive applications in the Cloud?</p>
 <h2 id="Sharding-your-X"><a class="header-anchor" href="#Sharding-your-X">¶</a>Sharding your X</h2>
 <h2 id="Pekko-roles-as-Kubernetes-resource-mapping"><a class="header-anchor" href="#Pekko-roles-as-Kubernetes-resource-mapping">¶</a>Pekko roles as Kubernetes resource mapping</h2>
@@ -48,7 +48,7 @@ and Deployment for scaling out worker nodes, marks role <code>worker</code>. In 
 names for the seed nodes, while retain the ability to start multiple Pekko nodes in parallel when scale with<br>
 Deployment.</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  seeds  : Statefulset</span><br><span class="line">  workers: Deployment</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="Gossip.png" alt=""></p>
+<p><img src="/img/pekko/Gossip.png" alt=""></p>
 <p>We will setup env from Kubernetes and deliver into <code>application.conf</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cluster &#123;</span><br><span class="line">  # This can also be defined as Java system properties when starting the JVM using the following syntax:</span><br><span class="line">  #</span><br><span class="line">  # -Dpekko.cluster.seed-nodes.0=pekko://Pekko@seed1:2551</span><br><span class="line">  # -Dpekko.cluster.seed-nodes.1=pekko://Pekko@seed2:2551</span><br><span class="line">  #</span><br><span class="line">  seed-nodes = [</span><br><span class="line">    &quot;pekko://Pekko@127.0.0.1:2551&quot;,</span><br><span class="line">    &quot;pekko://Pekko@127.0.0.1:2552&quot;]</span><br><span class="line">  seed-nodes = $&#123;?SEED_NODES&#125;</span><br><span class="line">  roles = [&quot;seed&quot;, &quot;sharding&quot;]</span><br><span class="line">  roles = $&#123;?ROLES&#125;</span><br><span class="line">  sharding.role = &quot;sharding&quot;</span><br><span class="line">  sharding.role = $&#123;?SHARDING_ROLE&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="Statefulset-for-entry-seeds"><a class="header-anchor" href="#Statefulset-for-entry-seeds">¶</a>Statefulset for entry -&gt; seeds</h3>
