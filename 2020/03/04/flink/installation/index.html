@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Flink 集群搭建教程</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Flink 集群搭建教程</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2020-03-04</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/flink/">flink</a></p></div><div class="article-content"><span id="more"></span>
+<h2 id="先决条件"><a class="header-anchor" href="#先决条件">¶</a>先决条件</h2>
+<p>在部署Flink之前，请确认集群的每个节点都符合以下条件：</p>
+<ol>
+<li>已安装Java 1.8.x或以上版本（推荐1.8版本）</li>
+<li>节点两两之间可以SSH免密码登录</li>
+<li>已部署Hadoop（如果只是部署Standalone Cluster则不需要Hadoop）</li>
+</ol>
+<p>如果你已经按照<a href="/2020/03/04/hadoop/installation">Hadoop集群搭建教程</a>成功建立了Hadoop集群，那么以上条件均已满足。</p>
+<h3 id="下载Flink二进制文件"><a class="header-anchor" href="#下载Flink二进制文件">¶</a>下载Flink二进制文件</h3>
+<p>在Flink的<a target="_blank" rel="noopener" href="https://flink.apache.org/downloads.html">下载页面</a>中有多个版本可以选择，因为之前选择了Hadoop 2.7.7版本，所以这里选择与之对应的 <a target="_blank" rel="noopener" href="https://www.apache.org/dyn/closer.lua/flink/flink-1.9.2/flink-1.9.2-bin-scala_2.12.tgz">Apache Flink 1.9.2 for Scala 2.12</a>版本，Scala版本选择最新的2.12。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.9.2/flink-1.9.2-bin-scala_2.12.tgz</span><br><span class="line">tar -xzvf flink-1.9.2-bin-scala_2.12.tgz</span><br></pre></td></tr></table></figure>
+<h3 id="配置Flink"><a class="header-anchor" href="#配置Flink">¶</a>配置Flink</h3>
+<blockquote>
+<p>注意：如果只需要部署Flink on YARN，那么可以跳过这小节，因为YARN会帮你打理好一切。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/flink-1.9.2/conf</span><br></pre></td></tr></table></figure>
+<h4 id="flink-conf-yaml"><a class="header-anchor" href="#flink-conf-yaml">¶</a>flink-conf.yaml</h4>
+<p>将<code>jobmanager.rpc.address</code>指向master节点，其它配置可以按照机器实际硬件情况填写，此处使用默认值。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The host/IP of JobManager</span></span><br><span class="line"><span class="attr">jobmanager.rpc.address:</span> <span class="string">huawei-01</span></span><br><span class="line"><span class="comment"># The heap size for the JobManager JVM</span></span><br><span class="line"><span class="attr">jobmanager.heap.size:</span> <span class="string">1024m</span></span><br><span class="line"><span class="comment"># The heap size for the TaskManager JVM</span></span><br><span class="line"><span class="attr">taskmanager.heap.size:</span> <span class="string">1024m</span></span><br><span class="line"><span class="comment"># The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.</span></span><br><span class="line"><span class="attr">taskmanager.numberOfTaskSlots:</span> <span class="number">1</span></span><br><span class="line"><span class="comment"># The parallelism used for programs that did not specify and other parallelism.</span></span><br><span class="line"><span class="attr">parallelism.default:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="slaves"><a class="header-anchor" href="#slaves">¶</a>slaves</h3>
+<p>向slaves文件写入slave节点的host/IP地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">huawei-02</span><br><span class="line">huawei-03</span><br></pre></td></tr></table></figure>
+<h3 id="将配置好的Flink分发到其它节点"><a class="header-anchor" href="#将配置好的Flink分发到其它节点">¶</a>将配置好的Flink分发到其它节点</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r /opt/flink-1.9.2 huawei-02:/opt/flink-1.9.2</span><br><span class="line">scp -r /opt/flink-1.9.2 huawei-03:/opt/flink-1.9.2</span><br></pre></td></tr></table></figure>
+<h3 id="以Standalone模式启动Flink"><a class="header-anchor" href="#以Standalone模式启动Flink">¶</a>以Standalone模式启动Flink</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd $FLINK_HOME</span><br><span class="line">./bin/start-cluster.sh</span><br></pre></td></tr></table></figure>
+<p>然后可以在<code>huawei-01:8081</code>查看Flink集群的运行情况</p>
+<p><img src="/img/flink/flink-dashboard.png" alt="flink-dashboard.png"></p>
+<p><code>./examples</code>路径下游许多打包好的实例程序，可以用于验证Flink集群是否正常运行。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/flink run ./exmaple/batch/WordCount.jar</span><br></pre></td></tr></table></figure>
+<p>上面的命令会向 Flink 集群提交一个 wordcount 任务，这个示例程序可以指定输入和输出路径，这里没有指定，因此输入文件为程序自带的一小段文本，结果直接输出在屏幕上。 如果 Flink 集群工作正常，应该会在屏幕上输出以下结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">省略前面的输出</span></span><br><span class="line">(wrong,1)</span><br><span class="line">(you,1)</span><br><span class="line">Program execution finished</span><br><span class="line">Job with JobID d7df697505c1f68d4eda2828b6eb18e2 has finished.</span><br><span class="line">Job Runtime: 3158 ms</span><br><span class="line">Accumulator Results:</span><br><span class="line">- 47b31488879a3449d67aca67f5b75188 (java.util.ArrayList) [170 elements]</span><br></pre></td></tr></table></figure>
+<h2 id="以Flink-on-YARN模式启动"><a class="header-anchor" href="#以Flink-on-YARN模式启动">¶</a>以Flink on YARN模式启动</h2>
+<p>把 Flink 运行在 YARN 上有两种方式，第一种方式是建立一个长期运行的 Flink YARN Session，然后向这个 Session 提交 Flink Job，多个任务同时运行时会共享资源。第二种方式是为单个任务启动一个 Flink 集群，这个任务会独占 Flink 集群的所有资源，任务结束即代表集群被回收。</p>
+<p>另外，Flink on YARN 模式需要系统中设置了 YARN_CONF_DIR 或 HADOOP_CONF_DIR 环境变量，如果未设置，请在 <code>~/.profile</code> 中加入以下内容，然后使用 <code>source ~/.profile</code> 命令使修改立即生效。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在这条命令前定义HADOOP_HOME环境变量</span></span><br><span class="line">export HADOOP_CONF_DIR=$&#123;HADOOP_HOME&#125;/etc/hadoop</span><br></pre></td></tr></table></figure>
+<h3 id="Flink-YARN-Session"><a class="header-anchor" href="#Flink-YARN-Session">¶</a>Flink YARN Session</h3>
+<p>由于新版本的Flink已经不包含Hadoop依赖项，需要自己添加依赖。首先下载<a target="_blank" rel="noopener" href="https://repo.maven.apache.org/maven2/org/apache/flink/flink-shaded-hadoop-2-uber/2.7.5-10.0/flink-shaded-hadoop-2-uber-2.7.5-10.0.jar">Pre-bundled Hadoop 2.7.5</a> 包。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd cd $FLINK_HOME/lib</span><br><span class="line">wget https://repo.maven.apache.org/maven2/org/apache/flink/flink-shaded-hadoop-2-uber/2.7.5-10.0/flink-shaded-hadoop-2-uber-2.7.5-10.0.jar</span><br></pre></td></tr></table></figure>
+<p>使用下列命令来启动一个拥有 2 个 TaskManager 的 Flink 集群，每个 TaskManager 有 2 GB 内存，2 个 slot。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/YARN-session.sh -n 2 -jm 1024m -tm 2048</span><br></pre></td></tr></table></figure>
+<p>完整的参数列表如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Usage:</span><br><span class="line">   Required</span><br><span class="line">     -n,--container &lt;arg&gt;   Number of YARN container to allocate (=Number of Task Managers)</span><br><span class="line">   Optional</span><br><span class="line">     -D &lt;arg&gt;                        Dynamic properties</span><br><span class="line">     -d,--detached                   Start detached</span><br><span class="line">     -jm,--jobManagerMemory &lt;arg&gt;    Memory for JobManager Container with optional unit (default: MB)</span><br><span class="line">     -nm,--name                      Set a custom name for the application on YARN</span><br><span class="line">     -q,--query                      Display available YARN resources (memory, cores)</span><br><span class="line">     -qu,--queue &lt;arg&gt;               Specify YARN queue.</span><br><span class="line">     -s,--slots &lt;arg&gt;                Number of slots per TaskManager</span><br><span class="line">     -tm,--taskManagerMemory &lt;arg&gt;   Memory per TaskManager Container with optional unit (default: MB)</span><br><span class="line">     -z,--zookeeperNamespace &lt;arg&gt;   Namespace to create the Zookeeper sub-paths for HA mode</span><br></pre></td></tr></table></figure>
+<p>启动 YARN Session 以后会输出 JobManager 的 Web Interface 地址，打开以后是这样的：</p>
+<p><img src="/img/flink/tracking-ui.png" alt="hadop-application"></p>
+<p><img src="/img/flink/yarn-session.png" alt="yarn-session.png"></p>
+<p>仔细一看，Task Managers，Task Slots 怎么都是 0 呢？难道是哪里出了问题？其实并没有问题，从某个版本开始 Flink 允许动态分配资源，在没有任务的时候不分配 TaskManager。接下来我们就提交一个任务试试。</p>
+<p>因为启动 YARN Session 以后 Flink Client 会一直在前台运行，所以先用 <code>Ctrl + Z</code> 快捷键把 Client 转到后台，然后再提交任务。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/flink run ./examples/batch/WordCount.jar</span><br></pre></td></tr></table></figure>
+<p><img src="/img/flink/wordcount-job.png" alt="wordcount-job.png"></p>
+<p>在任务运行期间观察 Web Interface，会发现 Task Managers 变为 1，Task Slots 变为 2 ，与启动集群时指定的参数不符，这是因为 YARN 集群中只有两个 NodeManager，huawei-02 和 huawei-03，其中一个作为 JobManager，因此只剩一个节点可以作为 TaskManager。</p>
+<p>任务的运行结果和 Standalone 模式下完全一样。</p>
+<h3 id="Single-Flink-job-on-YARN"><a class="header-anchor" href="#Single-Flink-job-on-YARN">¶</a>Single Flink job on YARN</h3>
+<p>下面这条命令会为 wordcount 任务启动一个独占的 Flink 集群，任务结束集群即被回收。其中 -m 选项指定 Flink 集群的启动模式，-yn 选项指定 TaskManager 的数目。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/flink run -m YARN-cluster -yn 2 ./examples/batch/WordCount.jar</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>任务的运行结果和 Standalone 模式下完全一样。</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2020/03/04/flink/installation/';
+var disqus_title = 'Flink 集群搭建教程';
+var disqus_url = 'https://galudisu.info/2020/03/04/flink/installation/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

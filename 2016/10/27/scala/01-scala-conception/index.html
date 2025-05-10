@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>第一章：Scala基础</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">第一章：Scala基础</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2016-10-27</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/scala/">scala</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-content"><p>Scala是一门多用途的(general-purpose)编程语言，运行在Java虚拟机(JVM)和.NET平台。基于这种平台的编程语言，每个开发者今天面临的问题是：下一代要学习的编程语言是什么？哪种语言适用主流开发？其中的编程语言包括<code>Groovy</code>，<code>Ruby</code>，<code>Clojure</code>，<code>Erlang</code>和<code>F#</code>，为什么应该学习Scala？</p>
+<p>学习一门新语言仅仅是一个开始。要成为一个卓越和富有成效的开发者，你应该熟悉系统基础结构的所有开关(toggles)和线框(gizmos)。</p>
+<p>在阐述为什么应该学习Scala之前，先来理解下什么是Scala。它是一门富特性(feature-rich)语言，被广泛用于多类型应用中，构建社交网络大型消息层应用，如Twitter<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> 。以及应用构建工具如SBT<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> (Simple Build Tool)。基于它的伸缩性(scala-bility)，这门语言名字取名<code>scala</code>。</p>
+<span id="more"></span>
+<p>本章将探索该语言的高级特性，并和你熟悉的编程语言进行对比。这将帮助你选择Scala作为下一门编程语言。</p>
+<p>Scala是为数不多的同时支持面向对象(object-oriented)和函数式(functional)语言特性的一门编程语言。这种强大之处，使得你在解决编程问题时有更多的方案。假设你的应用正在寻找一门语言，用来提高生产效率，同时对已有的Java代码进行重用(reuse)，Scala的Java集成会是很好的选择，因为Scala能够运行在JVM平台上。</p>
+<p>下面探索Scala的更多内容。</p>
+<h2 id="什么是Scala"><a class="header-anchor" href="#什么是Scala">¶</a>什么是Scala</h2>
+<p>Scala是一门多用途的编程语言，以简明的、优雅的和类型安全的(type-safe)方式设计，以表述通用的编程模式。它平稳地集成了面向对象和函数式编程语言的特性，能被编程者高效地使用。Martin Odersky(Scala创建者)和他的团队，从2001年开始，在EPFL大学的编程方法实验室，从事Scala的开发。至2004年1月在JVM平台首次发布，继而数月后公布了其.NET平台版本。</p>
+<p>尽管Scala在语言领域比较新颖，它正获得编程社区的支持，并日渐成长。Scala是一门特性丰富的语言，下面让我们作进一步的深入了解。</p>
+<p><strong>SCALA ON .NET</strong> 目前为止，Scala对.NET的支持并不稳定。根据Scala语言网站<a target="_blank" rel="noopener" href="https://www.scala-lang.org">(www.scala-lang.org)</a>，当前的Scala发行版可以为.NET平台编译部分程序，但一些库却不支持。主要困难是Scala程序重度使用Java JDK，JDK不能在.NET平台适用。要克服这个问题，当前的策略是使用<a target="_blank" rel="noopener" href="https://www.ikvm.net">IKVM</a>，它可以让Java程序转换为MSIL和.NET库<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup> 。本章主要介绍JVM上的Scala，示例代码仅在JVM上测试。</p>
+<h3 id="Scala作为一门面向对象语言"><a class="header-anchor" href="#Scala作为一门面向对象语言">¶</a>Scala作为一门面向对象语言</h3>
+<p>诸如<code>Java</code>、<code>C#</code>、和<code>Ruby</code>这些流行的编程语言，都包含有令大多数编程者接受的面向对象(OOP)特性。OOP，顾名思义，是一个对象编程的范式。把对象看作是包含了字段和方法的数据结构。使用类和对象给应用提供了结构。它易于组合，因此你可以从小的构建块，创建成大型应用。目前有许多OOP语言，但仅仅一小部分适合定义为纯面向对象语言。</p>
+<p>怎样才算纯的面向对象语言？尽管确切定义不尽相同，大部分纯面向对象语言应该有以下这些特点：</p>
+<ul>
+<li>封装/信息隐藏。</li>
+<li>继承。</li>
+<li>多态性/动态绑定。</li>
+<li>所有预定义类型都是对象。</li>
+<li>所有操作通过向对象发送消息执行。</li>
+<li>所有用户定义类型都是对象。</li>
+</ul>
+<p>Scala支持所有这些特性，并使用了一个和Smalltalk<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup> (一门纯面向对象语言，由Alan Kay在1980创建)类似的纯面向对象模型——每个值都是对象，每个操作都是消息发送。如下是一个简单表达式：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> + <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>在Scala的编译器中，这个表达式被解析为<code>1.+(2)</code>。意味着你调用了整型对象(这里是 <code>1</code>)的一个 <code>+</code> 操作，并将 <code>2</code>作为参数传递给该操作。Scala把操作符看作常规标识符。在Scala中，一个标识符既可以是由字母和数字开头的一系列字符组成，也可以是操作符。除了 <code>+</code>，也可能定义如 <code>&lt;=</code>，<code>-</code>，或<code>*</code>之类的方法。</p>
+<p>在纯面向对象特性的基础上，Scala在OOP领域作了一些创新：</p>
+<ul>
+<li>模块化混入组成(Modular mixin composition)：和Java接口和抽象类一样，你可以定义约定使用一个或多个特质(traits)，以实现它的某些或者全部方法。</li>
+<li>自类型(Self-type)：不取决于它所混入(minxed into)类的任何方法或字段，该Scala特性称为 <code>self-type</code>。</li>
+<li>类型抽象(Type abstraction)：编程语言中有两种主要的抽象形式，参数化和抽象成员。Scala的类型和值，统一支持这两种抽象形式。</li>
+</ul>
+<p><strong>DEFINITION</strong> 混入类指一个类提供某些功能，并由子类继承，该类不能实例化自身。一个混入类可以看作是一个带有实现方法的接口。</p>
+<h3 id="Scala作为一门函数式语言"><a class="header-anchor" href="#Scala作为一门函数式语言">¶</a>Scala作为一门函数式语言</h3>
+<p>函数式编程，是一个将计算看作是规避了状态和可变数据的数学函数求值的编程范式。</p>
+<blockquote>
+<p><strong>可变、不可变数据</strong></p>
+<p>一个对象称为可变，指当你有该对象的一个引用，以及改变该对象的内容。而不可变对象，指对象的内容不能被修改。</p>
+<p>可以简单地创建一个可变对象；你需要做的仅仅是提供对象的可变状态访问。可变对象的缺陷是随改变而改变。在一个多线程环境中，你需要lock/synchronization机制来避免并发访问。对于不可变对象，则不需要担心这里问题的发生。</p>
+</blockquote>
+<p>函数式编程，更多的是一个数学的世界观，程序由函数组成，接收某些输入，产生值或其它函数。函数式编程的构建块，既不是对象，也不是过程，而是函数。函数式编程的最简单定义，就是用函数编程。</p>
+<p>这里着重理解什么是 <strong>函数</strong> 。一个函数指定义域(domain)的每个值，都能有相应上域(codomain)与之映射。输入集合的每一个元素，都有唯一一个输出集合元素与之对应。</p>
+<p><img src="/img/scala-in-action/chapter1/Figure_01_01.png" alt="Figure 1.1"></p>
+<blockquote><p><strong>数学函数是如何关联到编程中的函数</strong><br>
+在数学，一个函数，是指一个定义域集合元素，到上域集合元素的映射。根据定义，每一个定义域的元素，都有唯一一个上域元素与之对应。例如，<code>f(x) = y</code> 可以被解析为</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x has a relationship f <span class="keyword">with</span> y or x maps to y via f</span><br></pre></td></tr></table></figure>
+<p>如果你编写你函数，心里定义的是数学函数，那么对于一个给定的输入，不论输入多少次，同一个函数总是得到相同的结果。</p>
+<p>让我们看看下面一个程序。你有下面的一个函数，它接收两个输入参数，生成它们的总和：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addFunction</span></span>(a: <span class="type">Int</span>, b: <span class="type">Int</span>) = a + b</span><br></pre></td></tr></table></figure>
+<p>对于一个给定的输入集合 <code>(2, 3)</code>，该函数总是返回 <code>5</code>，但下面函数currentTime却不适用该定义：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">currentTime</span></span>(timezone: <span class="type">TimeZone</span>) = </span><br><span class="line">	<span class="type">Calendar</span>.getInstance(timezone).getTime</span><br></pre></td></tr></table></figure>
+<p>对于给定的timezone GMT，它总是返回不同的结果。</p>
+<p>一个数学函数的一个有趣的特点是 <strong>引用透明(referential transparency)</strong>，意识是，一个表达式可以由它的结果所代替。在这里的<code>addFunction</code>，我们可以以输出值代替它的所有调用，并且程序的行为不会发生任何改变。</p>
+</blockquote>
+<p>函数式编程的另一方面是，他不会有副作用或可变性。不带有可变性和副作用的好处是，程序更易于理解，测试更接近本地，因为它不带外部作用。另一个更大的好处在于，更容易进行函数式的并发编程。并发编程不再是问题，因为不会有进程或线程间的相互协调的改变。</p>
+<blockquote><p><strong>副作用</strong></p>
+<p>如果一个函数或表达式被认为有副作用，除了产生一个值，它还修改某些状态，或有一个显而易见的外部交互的方法调用，或在方法之外。一个函数可能修改一个全局或一个静态的变量，修改它的参数，抛出一个异常，编写数据到磁盘或文件，读取数据，调用其它函数，都会有副作用。在已有的副作用中，一个程序的行为，取决于它的执行历史。</p>
+</blockquote>
+<blockquote><p><strong>Scala是一门纯函数式语言吗？</strong></p>
+<p>简单来说，Scala不是一门纯函数式语言。在纯函数式语言中，修改被执行时，变量以数学角度被使用，并标识为对不可变的和持久化对象的引用。纯函数的一个明显例子就是Haskell。</p>
+<p>Scala支持两种变量类型：单赋值变量(通常叫值)，在它们的生命周期不改变它们的值，直到指向一个可变状态或重新分配到其它对象。尽管你应该尽可能地使用不可变对象，Scala对此并没有提供任何约束。最好的做法是，默认在不需要的情况下使用val来声明变量。</p>
+</blockquote>
+<p>函数式编程语言，至少支持下面这些特性：</p>
+<ul>
+<li>高阶函数(Higher-order functions)</li>
+<li>词法闭包(Lexical closures)</li>
+<li>模式匹配(Pattern matching)</li>
+<li>单赋值(Single assignment)</li>
+<li>惰性执行(Lazy evaluation)</li>
+<li>类型接口(Type inference)</li>
+<li>尾递归/尾调用(Tail call optimization)</li>
+<li>链推导(List comprehensions)</li>
+<li>单体效应(Monadic effects)</li>
+</ul>
+<p>Scala支持大部分函数式语言特性，Scala作为一门函数式语言，Scala的函数是 <strong>第一类值(first-class values)</strong>。这意味着，Scala的所有函数都是一个值，你可以将它们作为参数进行传递，并从其它函数得到返回。在Scala你可以声明一个函数 <code>(x: Int) =&gt; x + 1</code> 到一个 <code>val inc</code> 并进行调用：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> inc = (x : <span class="type">Int</span>) =&gt; x + <span class="number">1</span></span><br><span class="line">inc(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>这里的val表示一个单赋值变量(single assignment variable)，类似Java的<code>final variables</code>，该值 <code>inc</code>指派后不能被修改，输出结果为 <code>2</code>。</p>
+<p>下面例子将看到，它是如何作为函数的参数进行传递，并得到结果：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).map((x: <span class="type">Int</span>) =&gt; x + <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>这里你传递一个递增函数到另外一个函数<code>map</code>，输出通过调用<code>map</code>函数得到结果 <code>List(2,3,4)</code>。从结果可以看出，<code>map</code> 调用作用于集合中的每一个元素。这将在后续高阶函数中作介绍。</p>
+<h3 id="Scala作为一门多范式语言"><a class="header-anchor" href="#Scala作为一门多范式语言">¶</a>Scala作为一门多范式语言</h3>
+<p>Scala是一门多范式语言，它同时支持函数式和OOP编程。Scala是JVM上第一个统一了函数式编程和OOP静态类型的编程语言。但问题是，为什么需要多于一个的编程风格？</p>
+<p>多范式编程的主要目的，是希望给编程者提供更多的解决选项，以及选择最佳的方案处理问题。函数式编程使得能够从简单部分构建，OOP适合继承复杂系统，以及对其进行扩展。</p>
+<p>根据研究员Timothy Budd<sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup> 报告显示：“研究表明，个人的编程技能，更多的取决于其掌握了多少种编程风格，而不是其工作经验”。</p>
+<p>Scala是如何结合这两种不同的，甚至相反的编程范式到编程语言中的？例如OOP，构建块是对象，而在函数式编程中，构建块则是函数。在Scala中，函数被看作是对象。</p>
+<p><strong>函数作为对象</strong><br>
+在Scala中组合函数式编程和面向对象编程，并把函数看作是对象。</p>
+<p>Scala作为一门函数式语言，把函数看作是值，上面看到，我们可以将函数赋值到变量中。因为Scala中所有值(value)都是对象，因此函数都是对象。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).map((x: <span class="type">Int</span>) =&gt; x + <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>你将函数 <code>(x:Int) =&gt; x + 1</code> 作为参数传递给方法 <code>map</code>。当编译器遇到该调用时，它将该函数的参数替换为一个对象，如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).map(<span class="keyword">new</span> <span class="type">Function1</span>[<span class="type">Int</span>, <span class="type">Int</span>]&#123; <span class="function"><span class="keyword">def</span> <span class="title">apply</span></span>(x:<span class="type">Int</span>): <span class="type">Int</span> = x + <span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p>这里发生了什么？暂时不对此深入，当Scala编译器遇到函数带一个参数的函数时，它会将其替换为一个<code>scala.Function1</code>的一个实例，改实例实现了一个<code>apply</code>方法。如果你仔细观察，会发现函数的主体会转换到 <code>apply</code>方法。同样地，Scala包含有多于一个参数的<code>Function</code>对象。</p>
+<p>随着多范式(multi-paradigm)编程的逐渐普及，函数式和面向对象编程的界线渐渐淡去。我们将继续探索Scala，你将看到如何掺合函数式编程和OOP来解决问题。</p>
+<h3 id="Scala作为一门可伸缩的、可扩展的语言"><a class="header-anchor" href="#Scala作为一门可伸缩的、可扩展的语言">¶</a>Scala作为一门可伸缩的、可扩展的语言</h3>
+<p>Scala是 <code>scalable language</code><sup id="fnref:7"><a href="#fn:7" rel="footnote">7</a></sup> 的代表。Scala的一个设计目的是带需求地增量。Scala也适用于脚本化，对于大型应用也一样。Scala的组件抽象，语法简洁，以及支持面向对象和函数式编程，使得该语言可伸缩。</p>
+<p>Scala提供了独特的结合机制，以库的形式添加新的语言结构。你可以使用任何方法作为一个中缀或后缀操作，并且Scala的闭包可以作为“名传递”参数，传递给其它函数。这种特性使得开发者更容易定义新的结构。</p>
+<p>让我们创建一个新的循环结构<code>loopTill</code>，它和<code>while</code>循环类似。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loopTill</span></span>(cond: =&gt; <span class="type">Boolean</span>)(body: =&gt; <span class="type">Unit</span>): <span class="type">Unit</span> = &#123;</span><br><span class="line">  <span class="keyword">if</span> (cond) &#123;</span><br><span class="line">    body</span><br><span class="line">    loopTill(cond)(body)    <span class="comment">// 尾递归</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> i = <span class="number">10</span></span><br><span class="line">loopTill(i &gt; <span class="number">0</span>) &#123;</span><br><span class="line">  print(<span class="string">f&quot;<span class="subst">$i</span> &quot;</span>)</span><br><span class="line">  i -= <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里创建了一个新 <code>loopTill</code> 结构，它由接收两个参数的 <code>loopTill</code> 方法声明。第一个参数是条件 <code>(i &gt; 0)</code> ，第二个参数是一个闭包。只要条件是 <code>true</code>，函数<code>loopTill</code> 将执行闭包内容。</p>
+<blockquote><p><strong>定义</strong><br>
+在计算机科学中，闭包(Closure)是词法闭包(Lexical Closure)的简称，是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创造它的环境也不例外。所以，有另一种说法认为闭包是由函数和与其相关的引用环境组合而成的实体。闭包在运行时可以有多个实例，不同的引用环境和相同的函数组合可以产生不同的实例。<br>
+因为闭包只有在被调用的时候才执行，即“惰性求值”，所以它可以被用来定义控制结构。典型实现方式是定义一个特殊的数据结构，保存了函数地址指针与闭包创建时的函数的词法环境表示。使用函数调用栈的语言实现闭包比较困难，因而这也说明了为什么大多数实现闭包的语言是基于垃圾收集机制。</p>
+</blockquote>
+<p>在loopTill例子中，自由变量为<code>i</code>，尽管它定义在闭包的外面，你仍然可以将其在闭包内部使用。在loopTill中，第二个参数是一个闭包，在Scala中表示一个Scala.Function0的对象类型。</p>
+<p>使用库来扩展一门语言，比起扩展语言自身要简单。因为你不需要考虑后台兼容性问题。例如，Scala actor提供一个库作为实现，该库不属于Scala语言。当第一个actor不能很好容纳，可以选择另外一个版本，而不用改变Scala语言本身。</p>
+<h3 id="Scala运行在JVM"><a class="header-anchor" href="#Scala运行在JVM">¶</a>Scala运行在JVM</h3>
+<p>Java最好的不是语言本身，而是JVM。一个JVM是一块装置，HotSpot团队在几年间对此做了非常好的性能提升。成为一门JVM语言，Scala很好地集成到Java和它的系统中，包括工具、库、IDE。现在大部分IDE带有Scala插件，因此你可以在IDE内构建、运行和测试Scala引用。要学习Scala，你不必丢掉你在Java上的投资。相反，你可以重用以获得回利。</p>
+<p>Scala编程成Java字节码，在字节码层面不能分出Java代码和Scala代码，因为它们是一样的。你可以使用Java类文件反汇编器<code>javap</code>，将Scala字节码反汇编成Java类。</p>
+<p>在JVM上运行Scala的另一个优势是，它能驾驭所有类JVM的性能、开箱即用的稳定性。作为一门强静态类型语言，Scala程序运行和Java程序一样快。</p>
+<p>所有这些特性将在后面陆续介绍，但问题仍然是——为什么选择Scala？</p>
+<h2 id="面临危机"><a class="header-anchor" href="#面临危机">¶</a>面临危机</h2>
+<p>一个著名的“Andy giveth, and Bill taketh away”现象，表明了无论处理器变得有多快，我们软件人员都能找到方法跟上它的速度。伴随着软件解决越来越复杂的问题，这种趁势将持续增长。关键问题是，处理器制造商将持续提升速度和处理能力，这种循环何时了结？</p>
+<h3 id="摩尔定律终结"><a class="header-anchor" href="#摩尔定律终结">¶</a>摩尔定律终结</h3>
+<p>根据摩尔定律，芯片上每平方英寸的晶体管(transistors)数量，每18个月翻1倍。但最终英特尔和其它CPU制造商对摩尔定律产生撞墙效应<sup id="fnref:8"><a href="#fn:8" rel="footnote">8</a></sup> ，取而代之的是多核处理器路线。好消息当然是处理器能够持续增长，并日渐强悍；不好的则是我们当前应用和编程环境需要面临多核处理器的挑战。</p>
+<h3 id="多核编程"><a class="header-anchor" href="#多核编程">¶</a>多核编程</h3>
+<p>我们应如何克服多核处理器这场革新？</p>
+<p>并发。有了并发，我们可以编写软件来解决我们的大型的、分布式的、复杂的企业问题，使用CPU的吞吐量。谁不想使它们的应用有高效良好的性能？我们都需要。</p>
+<p>少部分人曾做过并行和并发编程，但它仍不足以成为企业开发者的主流，或不常见。一个原因是并发编程自身有一系列的挑战性。在传统的基于线程的并发模型，程序的执行被分开到多个并行的运行任务(线程)中，每个任务的操作共享内存。这导致很难找到竞态条件(race conditions)，以及死锁(deadlock)问题会花费数周甚至数月时间来进行隔离、重现、修复。所有这些并发问题，不是线程方面的，根本原因是共享内存导致的。这种并发模型太难让开发者心领神会，我们需要一个更好的并发编程模型，以帮助开发者更容易地编写和维护并发问题。</p>
+<p>对于并发，Scala采用了完全不同的方式：Actor 模型。一个actor是一个并行计算的数学模型，它封装了数据、代码、和它自己的线程控制，以及使用不可变(无副作用)的异步的消息传送技术。基础Actor架构依赖于一个非共享的策略，事实上它是轻量级的。它是Java线程所不能比拟的；它更像一个事件对象，获取调度计划，再由线程执行。Scala的Actor模型很好地处理了并发性问题。它的非共享架构，以及异步消息传送技术，使得它成为现有线程的一个很好的解决方案。</p>
+<blockquote><p><strong>Actor模型的历史</strong></p>
+<p>Actor模型最先由Carl Hewitt在1973年在他的文章“A Universal Modular ACTOR Formalism for Artificial Intelligen”提出，以及后来由Gul Agha增进 (“ACTORS: A Model of Concurrent Computation in Distributed Systems”)。</p>
+<p>Erlang 是第一个实现了Actor模型的编程语言。Erlang是一门多用途的并发编程的动态类型语言。Erlang Actor模型在Ericsson、Facebook和Yahoo上获得成功后，它成为了处理并发问题的不二选择，以及后来Scala实现了它。在Scala，Actor在一个库实现，并让开发者继承。后面的章节内容将陆续介绍Scala actor的多种实现。</p>
+</blockquote>
+<p>传统地，多核编程比单核编程更复杂，它要求有平台特定的知识。同时也很难维护和管理这些基础代码。为了使并行编程变得容易，Scala提供了并行集合库实现了高级抽象，并隐藏了并行算法。例如，要并行地清算一个<code>List</code>中的每一个元素，你使用并行集合作如下处理：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).par.map(x =&gt; x * x)</span><br></pre></td></tr></table></figure>
+<p>这里<code>.par</code>将<code>List</code>转换为一个并行集合，并使用并行集合的map方法。在幕后一个并行集合库将使用所有可用核，分叉线程(fork thread)执行map方法。并行集合库是Scala新增的库，它提供了大多数集合类型的并行版本。</p>
+<h2 id="从Java过渡到Scala"><a class="header-anchor" href="#从Java过渡到Scala">¶</a>从Java过渡到Scala</h2>
+<p>当时Java在1995年5月发布，并带来一些好的思想，例如平台独立(write once,run anywhere)，自动垃圾回收，以及OOP。Java使得开发者更容易实现面向对象编程，和C/C++相比，它更迅速进入了工业。</p>
+<p>过去几年Java变得有些浮躁。每每引进新特性，都给编程者带来更多的引用代码。甚至小的程序由于注解，模版，和类型信息变得臃肿。Java开发者又总是寻找第三方库和工具来提高生产效率。但这是问题的解决方案吗？为什么不采用一种更高效的编程语言？</p>
+<h3 id="Scala提高生产效率"><a class="header-anchor" href="#Scala提高生产效率">¶</a>Scala提高生产效率</h3>
+<p>添加库和工具来解决生产效率问题，有时往往事与愿违，给应用添加了复杂性、降低了生产效率。这里不是说不要依赖库；你应当它是有意义的。但如果你构建的语言是一个从灵活性、可扩展性、可伸缩性逐渐成长过来的，你会选择它吗？</p>
+<p>如今的开发者需求和以往不一样。在Web 2.0中，敏捷开发，灵活性和可扩展性的编程环境是重要的。开发者需要一门语言来衡量这类需求。如果你来自Java，那么Scala就是这么一门语言。它能使你高效，以及以最小的代码，做更多的事情，而不会有样板代码(boilerplate code)。</p>
+<blockquote><p>在计算编程中，<em>样板代码</em>，指那些部分代码包含在很多地方，却仅带有很少的变动，甚至不变动。它是编程者间一个口语，通常表示编程者编写了大量的代码，却仅做了很少的工作。</p>
+</blockquote>
+<h3 id="Scala-doese-more-with-less-code"><a class="header-anchor" href="#Scala-doese-more-with-less-code">¶</a>Scala doese more with less code</h3>
+<p>要看Scala的简洁性，你需要深入到代码中。接下来两个例子，为查找给定字符串的大写字母，比较Java和Scala的不同：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasUpperCase</span><span class="params">(String s)</span> &#123;</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">hasUpperCase</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s.length(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (Character.isUpperCase(s.charAt(i))) &#123;</span><br><span class="line">            hasUpperCase = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> hasUpperCase;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该代码遍历每个字符串字符。当找到大写字母时，设置<code>hasUpperCase</code>为<code>true</code>并跳出循环。下面看看Scala怎样写这个。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> hasUpperCase = name.exists(_.isUpper)</span><br></pre></td></tr></table></figure>
+<p>在Scala中，你用一行代码就解决了该问题。尽管做了相同的工作，编程者不会再有编写样板代码。该函数中调用了<code>name</code>上的<code>exists</code>函数，并由一个谓语检验是否正确，该字符由 <code>_</code>表示。这证明了Scala语言的简洁性和可读性。现在再看看下面的清单，你创建了一个Java类Programmer。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Programmer</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String language;</span><br><span class="line">    <span class="keyword">private</span> String favDrink;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Programmer</span><span class="params">(String name, String language)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.language = language;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	getter/setter...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个带3个属性的POJO(plain old Java object)。Scala同样可以创建该类，只用一行。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Programmer</span>(<span class="params">var name:<span class="type">String</span>,var language:<span class="type">String</span>,var favDrink:<span class="type">String</span></span>)</span></span><br></pre></td></tr></table></figure>
+<p>这里你创建了Scala的一个简单的类<code>Programmer</code>，有时也叫 <code>primary constructor</code>。是的，你可以在类声明内定义一个构造器。带<code>var</code>前缀的每个参数，Scala编译器遇到时，会为每个field生成一个getter和setter。这是隐式的吗？后续将作详细介绍。现在，很明显Scala可以以更少的代码，做更多的事情。你可能会争执说IDE可以自动生成这些样板代码，当然没问题。但即使这样，你也需要维护这些样板代码。</p>
+<h2 id="来自动态语言"><a class="header-anchor" href="#来自动态语言">¶</a>来自动态语言</h2>
+<p>很难发现时至今日，没有哪个开发者没有听说过Runby、Groovy或Python的。来自动态语言对静态语言的诉苦，最大的是，它们不帮助编程者提高生产效率，并强制开发者编写样板代码。动态类型语言和Java相比，最明显的是闭包和语言扩展随处可见。Scala对这个问题显然不同。</p>
+<p>在比较静态类型语言和动态类型语言之前，先来看看Scala支持的闭包和混入(mixin)。下面列出了Ruby中如何统计给定文件的行数。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">count = <span class="number">0</span></span><br><span class="line"><span class="title class_">File</span>.open <span class="string">&quot;someFile.txt&quot;</span> <span class="keyword">do</span> |<span class="params">file</span>|</span><br><span class="line">	file.each &#123; |<span class="params">line</span>| count += <span class="number">1</span> &#125;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>你打开文件 someFile.txt，每行计数加1。很简单吧！下面列出了Scala的实现。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> src = scala.io.<span class="type">Source</span>.fromFile(“someFile.txt”)</span><br><span class="line"><span class="keyword">val</span> count = src.getLines().map(x =&gt; <span class="number">1</span>).sum</span><br></pre></td></tr></table></figure>
+<p>这看起来和Ruby很相像。你可以在Scala中有很多实现方式；这里使用 <code>map</code>方法来返回每行文件，使用<code>sum</code>方法来计算总数。</p>
+<p>Scala支持组合某些 <code>traits</code>，它和部分实现的抽象类相似。例如，你可以创建集合的一个新类型，通过混入 <code>Iterable</code> 特质，以允许用户访问迭代地文本。约束仅需要实现一个迭代方法：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileAsIterable</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">iterator</span> </span>= scala.io.<span class="type">Source</span>.fromFile(<span class="string">&quot;someFile.txt&quot;</span>).getLines()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在混入了Scala的<code>Iterable</code>，你的新的<code>FileAsIterable</code>会成为一个Scala<code>Iterable</code>并支持<code>Iterable</code>方法：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> newIterator = <span class="keyword">new</span> <span class="type">FileAsIterable</span> <span class="keyword">with</span> <span class="type">Iterable</span>[<span class="type">String</span>]</span><br><span class="line">newIterator.foreach &#123; line =&gt; println(line) &#125;</span><br></pre></td></tr></table></figure>
+<p>这里使用了<code>foreach</code>方法来迭代文件的每一行。</p>
+<p>Scala版本2.10开始支持一个 <code>Dynamic</code><sup id="fnref:10"><a href="#fn:10" rel="footnote">10</a></sup> 类型。使用这个特性，你可以在运行时中，动态地添加方法和字段到一个类型中。这和Ruby的<code>method_missing</code>特性很相似，它对于构建一个DSL(domain-specific language)语言很有帮助。例如，Scala map是一个key-value集合，如果你想要通过key访问关联的value，你可以这个：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> someMap = <span class="type">Map</span>(<span class="string">&quot;foo&quot;</span> -&gt; <span class="number">1</span>, <span class="string">&quot;bar&quot;</span> -&gt; <span class="number">2</span>)</span><br><span class="line">someMap.get(<span class="string">&quot;foo&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><code>someMap</code>是一个键值对集合，<code>someMap.get(&quot;foo&quot;)</code>将返回 1。使用<code>Dynamic</code>，我们可以轻松地通过key访问。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyMap</span> <span class="keyword">extends</span> <span class="title">Dynamic</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">selectDynamic</span></span>(fieldName: <span class="type">String</span>) = map.get(fieldName)</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">val</span> map = <span class="type">Map</span>(<span class="string">&quot;foo&quot;</span> -&gt; <span class="string">&quot;1&quot;</span>, <span class="string">&quot;bar&quot;</span> -&gt; <span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> someMap = <span class="keyword">new</span> <span class="type">MyMap</span></span><br><span class="line">someMap.foo</span><br><span class="line">someMap.bar</span><br></pre></td></tr></table></figure>
+<p>这里的神奇所在是<code>selectDynamic</code>方法。当Scala编译器检测到<code>foo</code>不是类型的一部分是，它不会马上放弃。如果类型是<code>Dynamic</code>的一个子类，并在<code>selectDynamic</code>方法找到并调用。如果不提供该方法，你将得到一个编译错误。</p>
+<p>Scala也支持隐式转换(implicit conversion)，和Ruby的打开类，但返回和编译时检查类似。隐式转换将在后续介绍。</p>
+<h2 id="Case-for-static-typing-the-right-way"><a class="header-anchor" href="#Case-for-static-typing-the-right-way">¶</a>Case for static typing, the right way</h2>
+<p>说了这么多，Scala仍然是一个静态类型语言。但如果你前面部分，会令你感觉它是一门动态类型语言。至少，我们为什么要关心静态类型？</p>
+<p><strong>定义</strong> <em>Static typing</em>指值和变量包含类型的一个类型系统。如一个数字 变量，不能赋值为其它，仅指派为数字。类型在编译时或声明时就已经强制确定的。</p>
+<p><strong>定义</strong> <em>Dynamic typing</em>指值有类型，但变量没有类型的一个类型系统。如一个变量，既可以是字符，也可以是数字。</p>
+<p>你构建的应用日渐复杂，有一个编译器给你做类型检查是件好事。它减少了你在类型错误上的修复和调试时间。在一个静态类型语言中，在一个数字字段调用一个length方法，编译器将给出一个编译错误。而在动态类型语言中，将得到运行时错误。</p>
+<p>静态类型语言的另外一个好处是，允许你有一个如重构或IDE这样的强大工具。IDE可能不会引起你的兴趣，因为编辑器比比皆是，但重构的支持对于你的代码来说是一个巨大的帮助。</p>
+<p>所有这些优势都伴随这付出。静态类型语言比动态类型语言有更多的约束，当你声明或调用一个函数时，有时会强制要求你提供额外的类型信息。对于构建大型应用来说，有约束也是好事，因为它强制了你以正确的规则实现。Scala作为一门类型推导(type-inferred)语言，为编程者照料的大部分的样板代码，使你更接近动态类型语言，但它终究还是静态类型语言。</p>
+<p><strong>定义</strong> <em>Type inference</em>是一门技术，指，不需要编程者，由编译器来决定变量或函数的类型。编译器会推断出变量<code>s</code>在 <code>s=Hello</code>上是字符串类型，因为 <code>&quot;hello&quot;</code>是一个字符串。类型推断确保了在运行时，类型缺失时减少编程者的负担。</p>
+<p>要证明类型推断是如何工作的，创建map的Array：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> computers = <span class="type">Array</span>(</span><br><span class="line">	<span class="type">Map</span>(<span class="string">&quot;name&quot;</span> -&gt; <span class="string">&quot;Macbook&quot;</span>, <span class="string">&quot;color&quot;</span> -&gt; <span class="string">&quot;white&quot;</span>),</span><br><span class="line">	<span class="type">Map</span>(<span class="string">&quot;name&quot;</span> -&gt; <span class="string">&quot;HP Pavillion&quot;</span>, <span class="string">&quot;color&quot;</span> -&gt; <span class="string">&quot;black&quot;</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>如果你在Scala的REPL中运行该代码，将看到如下输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">computers:</span><br><span class="line">	Array[scala.collection.immutable.Map[java.lang.String,java.lang.String]]</span><br><span class="line">	= Array(Map(name -&gt; Macbook, color -&gt; white), Map(name -&gt; HP Pavillion,</span><br><span class="line">	color -&gt; black))</span><br></pre></td></tr></table></figure>
+<p>尽管为该map数组指定了key-value，Scala编译器能够推断出array和map的类型。并且，如果你尝试给<code>name</code>指定为整型类型，编译器会告诉你类型不匹配，你不能给一个整型变量指派为<code>String</code>类型。</p>
+<h2 id="来自编程爱好者"><a class="header-anchor" href="#来自编程爱好者">¶</a>来自编程爱好者</h2>
+<p>Scala语言设计的一个主要目的，是集成函数式和OOP。Scala是第一个静态类型语言，基于JVM融合了函数式和OOP。以及在OOP方面作了某些革新，以此使你能够创建更好的组件抽象(component abstractions)。</p>
+<p>Scala沿袭了过去到现在各种编程语言的思想。首先，Scala吸收了来自<code>Java/C#</code>的语法，支持JVM和CLR(Common Language Runtime)。Scala中，每个值都是一个对象，每个操作都是一个方法调用。Smalltalk影响了这种纯面向对象模型。Scala也支持通用的嵌套和统一访问原则，这点分别借用了来自<code>Algol/Simula</code>和<code>Eiffel</code>。在Scala中变量和不带参数的函数，访问方式是一样的。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UAPExample</span> </span>&#123;</span><br><span class="line">	<span class="keyword">val</span> someField = <span class="string">&quot;hi&quot;</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">someMethod</span> </span>= <span class="string">&quot;there&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> o = <span class="keyword">new</span> <span class="type">UAPExample</span></span><br><span class="line">o.someField</span><br><span class="line">o.someMethod</span><br></pre></td></tr></table></figure>
+<p>这里你正访问<code>UAPExample</code>类实例的一个字段和一个方法，对于调用者，该类是透明的。</p>
+<p>Scala的函数式编程构念和ML家族语言相似，以及Scala的Actor库正是受Erlang的Actor模型的影响。</p>
+<blockquote><p><strong>编译宏(COMPILE MACROS)</strong> Scala 2.10版本发布添加了试验性的编译宏<sup id="fnref:11"><a href="#fn:11" rel="footnote">11</a></sup> 支持。它允许编程者编写宏定义：函数由编译器透明地加载，并在编译期间执行。这就是Scala的元编程(metaprogramming)理念。</p>
+</blockquote>
+<p>以上种种表明，Scala是一门特性和功能丰富的语言。</p>
+<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
+<p>本章迅速覆盖了许多的概念，在后续部分，将以大量的例子反复阐述、证明、理解这些概念，并解决真实的问题。</p>
+<p>Scala的可扩展性和可伸缩特性，使得它可以帮助你解决各类编程问题。它的多范式模型，带给编程者函数式和OOP的强大抽象。函数式编程和actor使得你的并发编程更简单以及可维护。Scala的类型接口，使得可以远离样板代码，并专注于解决实际问题。</p>
+<div id="footnotes"><hr><div id="footnotelist"><ol><li id="fn:1">“Twitter on Scala: A Conversation with Steve Jenson, Alex Payne, and Robey Pointer,” Scalazine, April 3,2009, <a target="_blank" rel="noopener" href="https://www.artima.com/scalazine/articles/twitter_on_scala.html">www.artima.com/scalazine/articles/twitter_on_scala.html</a>.<a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2">Mark Harrah, “SBT, a Build Tool for Scala,” 2012, <a target="_blank" rel="noopener" href="https://github.com/harrah/xsbt/">https://github.com/harrah/xsbt/</a>.<a href="#fnref:2" rev="footnote"> ↩</a></li><li id="fn:3">“Scala comes to .Net,” July 22, 2011, www.scala-lang.org/node/10299.<a href="#fnref:3" rev="footnote"> ↩</a></li><li id="fn:4">“Smalltalk,” Wikipedia, click <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Smalltalk">here</a>.<a href="#fnref:4" rev="footnote"> ↩</a></li><li id="fn:5">Timothy A. Budd’s personal web page, <a target="_blank" rel="noopener" href="http://web.engr.oregonstate.edu/~budd/">http://web.engr.oregonstate.edu/~budd/</a>.<a href="#fnref:5" rev="footnote"> ↩</a></li><li id="fn:6">“A Postfunctional Language,” <a target="_blank" rel="noopener" href="http://www.scala-lang.org/node/4960">www.scala-lang.org/node/4960</a>.<a href="#fnref:6" rev="footnote"> ↩</a></li><li id="fn:7">“Scala: A Scalable Language” by Martin Odersky, Lex Spoon, and Bill Venners, Scalazine, May 6, 2008,<a target="_blank" rel="noopener" href="http://www.artima.com/scalazine/articles/scalable-language.html">www.artima.com/scalazine/articles/scalable-language.html</a>.<a href="#fnref:7" rev="footnote"> ↩</a></li><li id="fn:8">“The Free Lunch Is Over: A Fundamental Turn Toward Concurrency in Software,” by Herb Sutter, originally
+published in Dr. Dobb’s Journal, March 2005, <a target="_blank" rel="noopener" href="http://www.gotw.ca/publications/concurrency-ddj.htm">www.gotw.ca/publications/concurrency-ddj.htm</a>.<a href="#fnref:8" rev="footnote"> ↩</a></li><li id="fn:9"><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Actor_model">“Actor model,” Wikipedia</a>.<a href="#fnref:9" rev="footnote"> ↩</a></li><li id="fn:10"><a target="_blank" rel="noopener" href="http://docs.scala-lang.org/sips/pending/type-dynamic.html">“SIP-17 Type Dynamic”</a>.<a href="#fnref:10" rev="footnote"> ↩</a></li><li id="fn:11"><a target="_blank" rel="noopener" href="http://docs.scala-lang.org/overviews/macros/overview.html">Eugene Burmako, &quot;Def Macros&quot;</a>.<a href="#fnref:11" rev="footnote"> ↩</a></li></ol></div></div></div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2016/10/27/scala/01-scala-conception/';
+var disqus_title = '第一章：Scala基础';
+var disqus_url = 'https://galudisu.info/2016/10/27/scala/01-scala-conception/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

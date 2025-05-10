@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Docker 安装汉化版Gitlab</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Docker 安装汉化版Gitlab</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-09-27</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/gitlab-zh/">gitlab, zh</a></p></div><div class="article-content"><span id="more"></span>
+<p>有个问题是Docker需要创建独立的网络环境，避免多个docker容器冲突，参考<a target="_blank" rel="noopener" href="https://hub.docker.com/r/twang2218/gitlab-ce-zh/">这里</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker network create gitlab-ent</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run --detach \</span><br><span class="line">--hostname galilei.ink \</span><br><span class="line">--publish 443:443 --publish 10080:80 --publish 10022:22 \</span><br><span class="line">--name gitlab \</span><br><span class="line">--env GITLAB_OMNIBUS_CONFIG=&quot;external_url &#x27;http://galilei.ink:10080/&#x27;; gitlab_rails[&#x27;lfs_enabled&#x27;] = true;&quot; \</span><br><span class="line">--restart unless-stopped \</span><br><span class="line">--volume /data/docker/gitlab/config:/etc/gitlab \</span><br><span class="line">--volume /data/docker/gitlab/logs:/var/log/gitlab \</span><br><span class="line">--volume /data/docker/gitlab/data:/var/opt/gitlab \</span><br><span class="line">--network gitlab-net \</span><br><span class="line">twang2218/gitlab-ce-zh:11.1.4</span><br></pre></td></tr></table></figure>
+<h2 id="external-url-设置"><a class="header-anchor" href="#external-url-设置">¶</a>external_url 设置</h2>
+<p>有个比较重要的地方是，如果设置的<code>external_url</code>带有端口，需要添加nginx监控</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">nginx[<span class="string">&#x27;listen_port&#x27;</span>] = nil</span></span><br><span class="line">nginx[&#x27;listen_port&#x27;] = 80</span><br></pre></td></tr></table></figure>
+<p>然后执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker exec -it gitlab gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+<p>即可！</p>
+<div id="footnotes"><hr><div id="footnotelist"><ol><li id="fn:1"><a target="_blank" rel="noopener" href="https://hub.docker.com/r/twang2218/gitlab-ce-zh/">https://hub.docker.com/r/twang2218/gitlab-ce-zh/</a><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div></div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2018/09/27/gitlab/gitlab-ce-zh/';
+var disqus_title = 'Docker 安装汉化版Gitlab';
+var disqus_url = 'https://galudisu.info/2018/09/27/gitlab/gitlab-ce-zh/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>rust基础入门[06] - Using Primitive Types</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">rust基础入门[06] - Using Primitive Types</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-06</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-content"><p>本章覆盖有：</p>
+<ul>
+<li>如何编写16进制、10进制、2进制字面量</li>
+<li>使用下划线的数字字面量</li>
+<li>如何使用指数计数法表示超大或超小的数</li>
+<li>10个原生类型、两个浮点类型；以及它们的范围；使用场景</li>
+<li>如何指定数字字面量的具体类型和非约束类型(以<code>u</code>开头）</li>
+<li>如何将一个数字类型转换为另一个数字类型</li>
+<li>其他原生类型： 布尔、字符、元组(tuple)</li>
+<li>类型推导是如何工作的</li>
+<li>如何表述数组(array)和向量(vector)的类型</li>
+<li>如何指派名字到编译期的常亮</li>
+<li>如何用编译器发现表达式的类型</li>
+</ul>
+<span id="more"></span>
+<h2 id="Non-Decimal-Numeric-Bases"><a class="header-anchor" href="#Non-Decimal-Numeric-Bases">¶</a>Non-Decimal Numeric Bases</h2>
+<p>十进制记数法叫做&quot;decimal notation&quot; 或 “base-ten notation”，一个数10在不同的形式表示不同：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">hexadecimal</span> = <span class="number">0x10</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">decimal</span> = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">octal</span> = <span class="number">0o10</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">binary</span> = <span class="number">0b10</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>, hexadecimal, decimal, octal, binary);</span><br></pre></td></tr></table></figure>
+<p>输出结果为：“16 10 8 2”</p>
+<ul>
+<li>数字字面量以0x开头(<code>x</code>就是 “he<code>x</code>adecimal”)，表示16进制记数法。</li>
+<li>数字字面量以0o开头(<code>o</code>就是 “<code>o</code>ctal”)，表示10进制记数法。</li>
+<li>数字字面量以0b开头(<code>b</code>就是 “<code>b</code>inary”)，表示2进制记数法。</li>
+<li>其他任何情况都表示十进制记数法。</li>
+</ul>
+<p>虽然表示形式不一样，它们的类型都是整数类型，因此你可以：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">hexadecimal</span> = <span class="number">0x10</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">octal</span> = <span class="number">0o10</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">binary</span> = <span class="number">0b10</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">n</span>  = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, n);</span><br><span class="line">n = hexadecimal;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, n);</span><br><span class="line">n = octal;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, n);</span><br><span class="line">n = binary;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, n);</span><br></pre></td></tr></table></figure>
+<p>实际上，浮点型数字仅能以十进制形式表示。</p>
+<p>上述这种表达仅限于源代码中。对于编译器来说，所有数字类型都是以二进制形式表示。</p>
+<p>对于十六进制的数字表述不区分大小写，诸如<code>0xAEf5b</code>和<code>0xaeF5B</code>是相同的。</p>
+<p>但是数值基础(前缀）必须是小写，诸如<code>0X4</code>，<code>0O4</code>，<code>0B4</code>是不合法。</p>
+<h2 id="Underscore-in-Numeric-Literals"><a class="header-anchor" href="#Underscore-in-Numeric-Literals">¶</a>Underscore in Numeric Literals</h2>
+<p>我们看到，编写一个&quot;one billion&quot;， 1000000000。可读性非常差。前面说过，下划线表示任意类型，并且被编译器忽略。因此你可以使用下划线字符进行区分。因此<code>3___4_.56_</code>是个合法的数字，它等效于<code>34.56</code>。下划线通常用于对数字分组：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">hexadecimal</span> = <span class="number">0x_00FF_F7A3</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">decimal</span> = <span class="number">1_234_567</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">octal</span> = <span class="number">0o_777_205_162</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">binary</span> = <span class="number">0b_0110_1001_1111_0001</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>,</span><br><span class="line">    hexadecimal, decimal, octal, binary);</span><br></pre></td></tr></table></figure>
+<h2 id="The-Exponential-Notation"><a class="header-anchor" href="#The-Exponential-Notation">¶</a>The Exponential Notation</h2>
+<p>浮点型数字可以用指数记数法表示：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">one_thousand</span> = <span class="number">1e3</span>;  <span class="comment">// e^3 = 10 ^3</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">one_million</span> = <span class="number">1e6</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">thirtheen_billions_and_half</span> = <span class="number">13.5e9</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">twelve_millionths</span> = <span class="number">12e-6</span>; <span class="comment">// 0.000012</span></span><br></pre></td></tr></table></figure>
+<p>e前面的称为&quot;尾数(mantissa)“,e后面跟着的称为&quot;指数(exponent)”。它们都被声明为十进制数。</p>
+<h2 id="The-Various-Kinds-of-Signed-Integer-Numbers"><a class="header-anchor" href="#The-Various-Kinds-of-Signed-Integer-Numbers">¶</a>The Various Kinds of Signed Integer Numbers</h2>
+<p>Rust中有10种整数类型，2种浮点类型。这所以这样定义是为了达到：“高效”。我们知道，数字类型越多，带来的优势也越多，因为它可以针对具体的形式定义。例如，我们仅存储0到200的数字，显然用一个32位的对象存储显得内存有点浪费，因为你可以用一个8位表示。</p>
+<p>Rust提供了8位、16位、32位以及64位的整数类型。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span>: <span class="type">i8</span> = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span>: <span class="type">i16</span> = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span>: <span class="type">i32</span> = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">d</span>: <span class="type">i64</span> = <span class="number">5</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>, a, b, c, d);</span><br></pre></td></tr></table></figure>
+<p>前面看到，整型和浮点型数值不能加减处理，因为它们有不同类型。类似地，不同位数的整型也不能相加：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span>: <span class="type">i8</span> = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span>: <span class="type">i16</span> = <span class="number">5</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, a + b);</span><br></pre></td></tr></table></figure>
+<p>编译将报“mismatched types”。</p>
+<p>或许会有人疑惑，为什么都已8、16、32、64作为整数的位，而不是19之类的，主要基于3个原因，以效率为目的：</p>
+<ul>
+<li>处理器架构以2进制为单位转换。</li>
+<li>内存管理和分配机制。</li>
+<li>类型越多，机器码也越多，一门语言需要有限的类型来适应CPU缓存。</li>
+</ul>
+<p>最后一项，不是说类型越少越好，主要取决于CPU指令集。</p>
+<h2 id="Unsigned-Integer-Number-Types"><a class="header-anchor" href="#Unsigned-Integer-Number-Types">¶</a>Unsigned Integer Number Types</h2>
+<p>如果定义一个对象包含一个范围0<sub>200的整数，用哪种类型合适？上小节介绍，使用最小类型范围最好。`i8`类型是最小类型的，但它仅能表示-128</sub>+127之间的数。目前为止所学的类型，我们必须使用<code>i16</code>。</p>
+<p>但这不是最理想的，因为所有包含在0~255的值，包括极限值(extremes)，如果我们解析它们，仅能使用8个位表示。这种解析早已包含在所有现代处理器的机器语言中，如果不这样用会有点可惜。</p>
+<p>和C语言类似，Rust中允许使用4种数字类型，它们都是无符号类型，并且都是非负数。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span>: <span class="type">u8</span> = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span>: <span class="type">u16</span> = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span>: <span class="type">u32</span> = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">d</span>: <span class="type">u64</span> = <span class="number">5</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>, a, b, c, d);</span><br></pre></td></tr></table></figure>
+<p>这里解析下，“u”，表示 “unsigned(无符号类型)”，标示它是一个unsinged integer number。“u”后面跟的数字表示该对象用了多少位；例如，“a”变量使用8位，它可以表述256个值。因此，成为一个unsigned数字，该值表述为0到255的整数，包括极值。</p>
+<p>另一点好处是，一般要检查一个整数x是否在[0,n)，我们需要写<code> 0 &lt;=x &amp;&amp; x &lt; n</code>。但如果x是一个__unsigned__ number，我们可以直接简化为<code>x &lt; n</code>。</p>
+<p>注意变量“a”，“b”，“c”，“d”也是4种类型。</p>
+<h2 id="Target-Dependent-Integer-Number-Types"><a class="header-anchor" href="#Target-Dependent-Integer-Number-Types">¶</a>Target-Dependent Integer-Number Types</h2>
+<p>除了上面介绍的8种整型类型，Rust种还有一种不定类型。它的位数取决于编译器所在的操作系统的位数。</p>
+<p>在16位计算机，它是unsinged 16-bit integger。<br>
+在32位计算机，它是unsinged 32-bit integger。<br>
+在64位计算机，它是unsinged 64-bit integger。</p>
+<p>实际上，Rust并不支持16位系统，仅支持32位和64位。</p>
+<p>为了决定不同系统这种依赖问题，Rust包含有<code>isize</code>类型和<code>usize</code>类型：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">i</span>: <span class="type">usize</span> = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, arr[i]);</span><br></pre></td></tr></table></figure>
+<p>这里的 <code>usize</code>，“u”表明是一个无符号整数，“size”表示类型根据设备的长度决定。</p>
+<p>机器码是32位系统的，<code>usize</code>类型就是<code>u32</code>；机器码是64位系统的，<code>usize</code>类型就是<code>u64</code>。</p>
+<p>也就是说，<code>usize</code>类型是一个unsigned integer，并且跟内存地址长度一致。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">i</span>: <span class="type">usize</span> = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, arr[i]);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">i</span>: <span class="type">isize</span> = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, arr[i]);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">i</span>: <span class="type">u32</span> = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, arr[i]);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">i</span>: <span class="type">u64</span> = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, arr[i]);</span><br></pre></td></tr></table></figure>
+<p>会有3个编译错误，实际上，仅<code>usize</code>类型被运行作为array的下标。相似地，vector也仅能用<code>usize</code>。</p>
+<p>为了对称，Rust提供了<code>isize</code>类型，它是一个 <strong>signed</strong> 整型，跟系统内存地址长度一致。</p>
+<h2 id="Type-Inference"><a class="header-anchor" href="#Type-Inference">¶</a>Type Inference</h2>
+<p>前面几章，我们声明变量而没有指定它们的类型，以及我们讨论了整型、浮点型等。</p>
+<p>本章，我们开始讨论变量类型声明。</p>
+<p>考虑如果没有指定类型，变量是否仍然有一个指定类型，或有一个泛型类型？</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">0</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">i</span> = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, a[i]);</span><br></pre></td></tr></table></figure>
+<p>这段程序是有效的，为什么？不是说对于数组的下标，仅<code>usize</code>才是有效的吗？</p>
+<p>事实上，每个变量和表达式总是有一个明确的(well-defined)类型。但并不需要显式指定。通常情况下，编译器能够根据变量或表达式的上下文进行演绎，更常规的说法——推断(infer)。</p>
+<p>例如，这里的变量“i”，有值0，编译器便知道“i”的类型一定是一个整数类型，但还没有确定是哪一种，因为在Rust中有10种整数类型。这个变量的类型是一个<code>泛型的(generic)</code>、<code>无约束的(unconstrained)</code>整型数。</p>
+<p>当编译器意识到该变量被用于数组下标，得知仅有<code>usize</code>类型才能作为数组下标，编译器赋予变量“i”的类型<code>usize</code>。</p>
+<p>又如，</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">i</span> = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_j</span>: <span class="type">u16</span> = i;</span><br></pre></td></tr></table></figure>
+<p>编译器最先得知“i”的类型是“unconstrained integer number”，然后得知变量“_j”被显式声明为<code>u16</code>，因为“i”被用作初始化“_j”，便可得知“i”的真实类型。</p>
+<p>相反，下面会出现语法错误</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">i</span> = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_j</span>: <span class="type">u16</span> = i;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_k</span>: <span class="type">i16</span> = i;</span><br></pre></td></tr></table></figure>
+<p>错误出现在第3行，“expected i16, found u16”。</p>
+<p>相反，下面是有效的</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">i</span> = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_j</span>: <span class="type">u16</span> = i;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_k</span> = i;</span><br></pre></td></tr></table></figure>
+<p>注意，在编译期，每个成功的编译，每个变量只有一个具体的、约束的类型。</p>
+<p>如果编译器不能推断一个变量的类型，会生成一个编译错误。</p>
+<p>实际上，如果编译器推断出类型仅是一个整数，但不能确定是哪个位数的整数，默认选择<code>i32</code>作为整数类型。例如：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">i</span> = <span class="number">8</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">j</span> = <span class="number">8_000_000_000</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, i, j);</span><br></pre></td></tr></table></figure>
+<p>程序将打印：“8 -589934592”。</p>
+<p>这里两个变量都是<code>i32</code>类型。由于第二个变量太大，超出了数值范围。和C语言类似，整型字面量溢出不会产生错误，但是会有编译警告。</p>
+<h2 id="The-Type-Inference-Algorithm"><a class="header-anchor" href="#The-Type-Inference-Algorithm">¶</a>The Type Inference Algorithm</h2>
+<p>编译器每次都为每个变量和表达式推断一个具体类型。它是使用了下面的算法。</p>
+<p>如果类型是显式指定，类型就是它指定的。</p>
+<p>如果变量或表达式的变量没有指定，变量或表达式所在的语句或声明仅限某一特定类型，该类型就是该变量或表达式的类型。</p>
+<h2 id="Floating-Point-Numberic-Types"><a class="header-anchor" href="#Floating-Point-Numberic-Types">¶</a>Floating-Point Numberic Types</h2>
+<p>Rust中仅有两种浮点类型</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span>: <span class="type">f64</span> = <span class="number">4.6</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span>: <span class="type">f32</span> = <span class="number">3.91</span>;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, a, b);</span><br></pre></td></tr></table></figure>
+<p><code>f64</code>是64位浮点数，<code>f32</code>是32位浮点数。“f”就是“floating-point”。该类型对应C语言的“double”和“float”类型。</p>
+<p>到目前为止，Rust已没有更多数字类型了。</p>
+<p>下面看看这段代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">4.6</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">_b</span>: <span class="type">f32</span> = <span class="number">3.91e5</span>;</span><br><span class="line">_b = a;</span><br></pre></td></tr></table></figure>
+<p>前面说过，Rust会进行类型推断，“a”的类型推断为<code>f32</code>。所以这段代码是有效的。</p>
+<p>Rust中，默认的浮点类型是<code>f64</code>，所以，如果没有最后一段代码，“a”的类型是<code>f64</code>。</p>
+<h2 id="Explicit-Conversions"><a class="header-anchor" href="#Explicit-Conversions">¶</a>Explicit Conversions</h2>
+<p>Rust每次编译都提供类型检查，要在不同类型间处理计算，可以使用<code>as</code>关键字显式转换。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span>: <span class="type">i16</span> = <span class="number">12</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span>: <span class="type">u32</span> = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span>: <span class="type">f32</span> = <span class="number">3.7</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, a <span class="keyword">as</span> <span class="type">i8</span> + b <span class="keyword">as</span> <span class="type">i8</span> + c <span class="keyword">as</span> <span class="type">i8</span>);</span><br></pre></td></tr></table></figure>
+<p>输出结果是“19”。对于浮点值 3.7，小数点部分会被舍弃计算。</p>
+<p>下面代码中，由于显式转换超出了数值范围，数值发生溢出。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">500</span> <span class="keyword">as</span> <span class="type">i8</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span> = <span class="number">100_000</span> <span class="keyword">as</span> <span class="type">u16</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span> = <span class="number">10_000_000_000</span> <span class="keyword">as</span> <span class="type">u32</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>, a, b, c);</span><br></pre></td></tr></table></figure>
+<p>结果将打印 “-12 34464 1410065408”。</p>
+<h2 id="Type-Suffixes-of-Numberic-Literals"><a class="header-anchor" href="#Type-Suffixes-of-Numberic-Literals">¶</a>Type Suffixes of Numberic Literals</h2>
+<p>Rust中声明一个数字变量有几种方式：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">_a</span>: <span class="type">i16</span> = -<span class="number">150</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_b</span> = -<span class="number">150</span> <span class="keyword">as</span> <span class="type">i16</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_c</span> = -<span class="number">150</span> + _b = _b;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_d</span> = -<span class="number">150i16</span>;</span><br></pre></td></tr></table></figure>
+<p>除了上面说到的用<code>as</code>关键字，你也可以使用后缀的方式<code>-150i16</code>，为了代码清晰，你可以加下划线表示<code>-150_i16</code>或<code>5__u32</code></p>
+<p>对于浮点数，<code>-4f32</code>或<code>0_f32</code>是32位浮点数。如果没有小数位，小数点可以省略。</p>
+<h2 id="All-the-Numberic-Types"><a class="header-anchor" href="#All-the-Numberic-Types">¶</a>All the Numberic Types</h2>
+<p>下面例子列出了Rust所有数据类型：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">i8</span> = <span class="number">127</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">i16</span> = <span class="number">32_767</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">i32</span> = <span class="number">2_147_483_647</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">i64</span> = <span class="number">9_223_372_036_854_775_807</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">isize</span> = <span class="number">100</span>; <span class="comment">// The maximum value depends on the target architecture</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">u8</span> = <span class="number">255</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">u16</span> = <span class="number">65_535</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">u32</span> = <span class="number">4_294_967_295</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">u64</span> = <span class="number">18_446_744_073_709_551_615</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">usize</span> = <span class="number">100</span>; <span class="comment">// The maximum value depends on the target architecture</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">f32</span> = <span class="number">1e38</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">f64</span> = <span class="number">1e308</span>;</span><br></pre></td></tr></table></figure>
+<p>下面列出Rust的内建整型类型：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Type</th>
+<th style="text-align:center">Occupied bytes</th>
+<th style="text-align:center">Minimum value</th>
+<th style="text-align:center">Maximum value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">i8</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=-128" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=%2B127" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+</tr>
+<tr>
+<td style="text-align:center">i16</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=-32768" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=%2B32767" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+</tr>
+<tr>
+<td style="text-align:center">i32</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=-2147483648" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=%2B2147483647" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+</tr>
+<tr>
+<td style="text-align:center">i64</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=-2%5E63" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=%2B2%5E63%20-%201" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+</tr>
+<tr>
+<td style="text-align:center">isize</td>
+<td style="text-align:center">4 or 8</td>
+<td style="text-align:center">on a 32-bit target:</td>
+<td style="text-align:center">on a 320bit target:</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=-2147483648" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/>;</td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=%2B2147483647" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/>;</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">on a 64-bit target:</td>
+<td style="text-align:center">on a 64-bit target:</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=-2%5E63" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=%2B2%5E63-1" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+</tr>
+<tr>
+<td style="text-align:center">u8</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=0" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=%2B255" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+</tr>
+<tr>
+<td style="text-align:center">u16</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=0" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=%2B65535" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+</tr>
+<tr>
+<td style="text-align:center">u32</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=0" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=%2B4294967295" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+</tr>
+<tr>
+<td style="text-align:center">u64</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=0" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=%2B2%5E64-1" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+</tr>
+<tr>
+<td style="text-align:center">usize</td>
+<td style="text-align:center">4 or 8</td>
+<td style="text-align:center"><img src="https://math.now.sh?inline=0" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></td>
+<td style="text-align:center">on a 32-bit target: <img src="https://math.now.sh?inline=%2B4294967295" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/>;</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">on a 64-bit target: <img src="https://math.now.sh?inline=%2B2%5E64-1" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/>;</td>
+</tr>
+</tbody>
+</table>
+<p>前面说过，Rust中仅有两种浮点类型：</p>
+<ul>
+<li><code>f32</code>，32位，等同于C语言的float类型。</li>
+<li><code>f64</code>，64位，等同于C语言的double类型。</li>
+</ul>
+<h2 id="Booleans-and-Characters"><a class="header-anchor" href="#Booleans-and-Characters">¶</a>Booleans and Characters</h2>
+<p>除了数字类型，Rust还定义了其它一些原生类型：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span>: <span class="type">bool</span> = <span class="literal">true</span>; <span class="built_in">print!</span>(<span class="string">&quot;[&#123;&#125;]&quot;</span>, a);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span>: <span class="type">char</span> = <span class="string">&#x27;a&#x27;</span>; <span class="built_in">print!</span>(<span class="string">&quot;[&#123;&#125;]&quot;</span>, b);</span><br></pre></td></tr></table></figure>
+<p>用法和C语言类似。但有点不同，由于Rust用的是Unicode字符，所以Rust中的<code>char</code>是4个字节的，C中只有一个字节。</p>
+<p>字符字面量用单引号表示，它可以表述非ASCII的字符：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">e_grave</span> = <span class="string">&#x27;è&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">japanese_character</span> = <span class="string">&#x27;さ&#x27;</span>;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, e_grave, japanese_character);</span><br></pre></td></tr></table></figure>
+<p>和C语言不同，<code>bool</code>和<code>char</code>类型不能看做数字处理，因此下面语句是错误的：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">_a</span> = <span class="string">&#x27;a&#x27;</span> + <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_b</span> = <span class="literal">false</span> + <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+<p>但可以显式转换：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>, <span class="literal">true</span> <span class="keyword">as</span> <span class="type">u8</span>, <span class="literal">false</span> <span class="keyword">as</span> <span class="type">u8</span>,</span><br><span class="line"><span class="string">&#x27;A&#x27;</span> <span class="keyword">as</span> <span class="type">u32</span>, <span class="string">&#x27;à&#x27;</span> <span class="keyword">as</span> <span class="type">u32</span>, <span class="string">&#x27;€&#x27;</span> <span class="keyword">as</span> <span class="type">u32</span>);</span><br></pre></td></tr></table></figure>
+<p>事实上，每个字符在Unicode有对应的编码，因此你可以将数字显式转换为字符：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">256</span> &#123;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;: [&#123;&#125;]&quot;</span>, i, i <span class="keyword">as</span> <span class="type">u8</span> <span class="keyword">as</span> <span class="type">char</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但语句bool型，不能实现数字到bool的转换，实际上，只需要带上 <code>truth == 0</code>这样的表达式就可以了，没有必要在Rust中实现这种类型转换。</p>
+<p>注意，在char类型转换中，必须是unsigned的。</p>
+<h2 id="The-Empty-Tuple"><a class="header-anchor" href="#The-Empty-Tuple">¶</a>The Empty Tuple</h2>
+<p>Rust中还有一个奇怪的原生类型，在Rust中叫“()”，圆括号。该类型只有一个值，它的值和类型一个写法，也是“()”。它和C语言的void类型类似，又或者雷同于JavaScript中的“undefined”。为了有个好听的名字，被称为&quot;empty tuple&quot;。</p>
+<p>这种类型会出现在几个情况：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span>: () = ();</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span> = &#123; <span class="number">12</span>; <span class="number">87</span>; <span class="number">283</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span> = &#123; <span class="number">12</span>; <span class="number">87</span>; <span class="number">283</span>; &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">d</span> = &#123;&#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">e</span> = <span class="keyword">if</span> <span class="literal">false</span> &#123; &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">f</span> = <span class="keyword">while</span> <span class="literal">false</span> &#123; &#125;;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;:?&#125; &#123;:?&#125; &#123;:?&#125; &#123;:?&#125; &#123;:?&#125; &#123;:?&#125;&quot;</span>, a, b, c, d, e, f);</span><br></pre></td></tr></table></figure>
+<p>输出为：“() 283 () () () ()”.</p>
+<p>第一行好理解，值类型和值都是“()”，所以输出结果为 “()”。</p>
+<p>第二行开始，涉及好几个概念，</p>
+<p>首先像“12” 、 “87”这些简单的数字被用作表达式。当然，这里的表达式什么也没做，它被编译为机器码。</p>
+<p>第二个概念是，语句块的值，由它最后一个表达式定义，如果有这么一个表达式，比如这里的第二行，最后一个表达式是283，所以变量“b”的值是283，由于没有指定类型，默认是<code>i32</code>.</p>
+<p>第三行中，由于语句块结束，最后一个表达式是空，或者说是void、undefined。所以“c”的值是“()”，C的类型也是“()”。</p>
+<p>第四行同理，</p>
+<p>第五行中，它是一个条件语句。由于没有“else”分支，“else {}”被隐式处理。因此，该表达式被看作为<code>let e = if false &#123;&#125; else &#123;&#125;</code>。</p>
+<p>第六行，不管是<code>while</code>、<code>loop</code>还是<code>for</code>，实际上，它自身的值总是<code>()</code>，你可以理解为在使用<code>while</code>的构造函数。诸如这种写法，编译会报错：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">l</span>:() = <span class="keyword">while</span> <span class="literal">false</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, l);</span><br></pre></td></tr></table></figure>
+<h2 id="Array-and-Vector-Types"><a class="header-anchor" href="#Array-and-Vector-Types">¶</a>Array and Vector Types</h2>
+<p>前面说过，如果我们改变容器条目的类型，数组或向量的类型相应也被改变；但如果改变容器条目的数量，仅改变数组的类型，向量的类型并没有改变。</p>
+<p>如果你要显式更变数组或向量的类型，你可以：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">_array1</span>: [<span class="type">char</span>; <span class="number">3</span>] = [<span class="string">&#x27;x&#x27;</span>, <span class="string">&#x27;y&#x27;</span>, <span class="string">&#x27;z&#x27;</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_array2</span>: [<span class="type">f32</span>; <span class="number">200</span>] = [<span class="number">0f32</span>; <span class="number">200</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_vector1</span>: <span class="type">Vec</span>&lt;<span class="type">char</span>&gt; = <span class="built_in">vec!</span>[<span class="string">&#x27;x&#x27;</span>, <span class="string">&#x27;y&#x27;</span>, <span class="string">&#x27;z&#x27;</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_vector2</span>: <span class="type">Vec</span>&lt;<span class="type">i32</span>&gt; = <span class="built_in">vec!</span>[<span class="number">0</span>; <span class="number">5000</span>];</span><br></pre></td></tr></table></figure>
+<p>注意array和vector的写法；array用<code>[ ; ]</code>；vector用<code>Vec&lt;&gt;</code>。可以看到，数组的类型包含元素的类型和长度，向量仅包含类型。</p>
+<h2 id="Constants"><a class="header-anchor" href="#Constants">¶</a>Constants</h2>
+<p>下面程序是不合法的：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">n</span> = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span> = [<span class="number">0</span>; n];</span><br></pre></td></tr></table></figure>
+<p>这是因为数组的长度必须在编译期确定，尽管“n”是immutable的。但某种意义上说，n会在运行时被修改或覆盖。所以不能指定数组的大小。</p>
+<p>下面程序是合法的：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> N: <span class="type">usize</span> = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_</span> = [<span class="number">0</span>; N];</span><br></pre></td></tr></table></figure>
+<p>关键字<code>const</code>允许我们声明一个在编译期有唯一值，且运行期不会被改变。这里要求指定具体的类型。</p>
+<p>Rust的常量和C++的<code>const</code>对应。</p>
+<h2 id="Discovering-the-Type-of-an-Expression"><a class="header-anchor" href="#Discovering-the-Type-of-an-Expression">¶</a>Discovering the Type of an Expression</h2>
+<p>常常我们会碰到一个表达式，想知道该表达式是什么类型。</p>
+<p>你可以由类型推断得知，或从上下文环境，或从文档。但有一个答案就是编译器。</p>
+<p>比如我们想知道<code>4u32 / 3u32</code>的类型，在其它语言可能是浮点类型。</p>
+<p>编译器会直接告诉我们“mismatched types”， “expected bool, found u32”，这里直接指出了表达式的值是<code>u32</code>类型。</p>
+<p>但有时候，编译器的错误会相对模糊。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">_</span>: <span class="type">bool</span> = <span class="number">4</span> / <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>编译器会解析说“expected bool, found integral variable”， “expected type <code>bool</code> found type <code>&#123;integer&#125;</code>”。它没有告诉我们表达式是哪个具体类型，只说了是整型。</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2023/01/06/rust/beginning/chapter06_Using Primitive Types/';
+var disqus_title = 'rust基础入门[06] - Using Primitive Types';
+var disqus_url = 'https://galudisu.info/2023/01/06/rust/beginning/chapter06_Using Primitive Types/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

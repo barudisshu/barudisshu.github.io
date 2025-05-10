@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Ubuntu 16.x 安装Gitlab</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Ubuntu 16.x 安装Gitlab</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-05-01</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/gitlab/">gitlab</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/ubuntu/">ubuntu</a></p></div><div class="article-content"><blockquote>
+<p>GitLab 是一个用于仓库管理系统的开源项目。使用Git作为代码管理工具，并在此基础上搭建起来的web服务。 在GitLab的官方网站上面对Ubuntu的支持也是很好的，有比较详尽的安装指南。 在介绍postfix的地方有少部分的坑，本文抛砖引玉，解决一些我遇到的坑。 本文主要针对Ubuntu 16.04，介绍如何安装Gitlab。其他的Ubuntu可以作为一个参考。</p>
+</blockquote>
+<span id="more"></span>
+<h3 id="安装需要的库和软件"><a class="header-anchor" href="#安装需要的库和软件">¶</a>安装需要的库和软件</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install curl openssh-server ca-certificates postfix</span><br></pre></td></tr></table></figure>
+<p>postfix用来发送邮件，由于需要发送验证邮件，所以需要装这个，这里官方推荐postfix。</p>
+<h3 id="添加Gitlab的包并进行安装"><a class="header-anchor" href="#添加Gitlab的包并进行安装">¶</a>添加Gitlab的包并进行安装</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash</span><br><span class="line">sudo apt-get install gitlab-ce</span><br></pre></td></tr></table></figure>
+<p>除了上述安装脚本的方式，你还可以下载直接安装。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -LJO https://packages.gitlab.com/gitlab/gitlab-ce/packages/ubuntu/xenial/gitlab-ce-XXX.deb/download</span><br><span class="line">dpkg -i gitlab-ce-XXX.deb</span><br></pre></td></tr></table></figure>
+<h3 id="配置和启动Gitlab"><a class="header-anchor" href="#配置和启动Gitlab">¶</a>配置和启动Gitlab</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/gitlab/gitlab.rb</span><br></pre></td></tr></table></figure>
+<ol>
+<li>修改外部链接</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">external_url &#x27;http://192.168.2.248:10080&#x27;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>修改时区</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab_rails[&#x27;time_zone&#x27;] = &#x27;Asia/Shanghai&#x27;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>邮箱设置</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## Email Settings</span></span></span><br><span class="line">gitlab_rails[&#x27;gitlab_email_enabled&#x27;] = true</span><br><span class="line">gitlab_rails[&#x27;gitlab_email_from&#x27;] = &#x27;xxx@your_mail.com&#x27;</span><br><span class="line">gitlab_rails[&#x27;gitlab_email_display_name&#x27;] = &#x27;Gitlab&#x27;</span><br><span class="line">gitlab_rails[&#x27;gitlab_email_reply_to&#x27;] = &#x27;xxx@your_mail.com&#x27;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">gitlab_rails[<span class="string">&#x27;gitlab_email_subject_suffix&#x27;</span>] = <span class="string">&#x27;&#x27;</span></span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>邮箱服务</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## GitLab email server settings</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">##! Docs: https://docs.gitlab.com/omnibus/settings/smtp.html</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">##! **Use smtp instead of sendmail/postfix.**</span></span></span><br><span class="line"></span><br><span class="line">gitlab_rails[&#x27;smtp_enable&#x27;] = true</span><br><span class="line">gitlab_rails[&#x27;smtp_address&#x27;] = &quot;smtp.exmail.qq.com&quot;</span><br><span class="line">gitlab_rails[&#x27;smtp_port&#x27;] = 465</span><br><span class="line">gitlab_rails[&#x27;smtp_user_name&#x27;] = &quot;xxx@your_mail.com&quot;</span><br><span class="line">gitlab_rails[&#x27;smtp_password&#x27;] = &quot;your_password&quot;</span><br><span class="line">gitlab_rails[&#x27;smtp_domain&#x27;] = &quot;exmail.qq.com&quot;</span><br><span class="line">gitlab_rails[&#x27;smtp_authentication&#x27;] = &quot;login&quot;</span><br><span class="line">gitlab_rails[&#x27;smtp_enable_starttls_auto&#x27;] = true</span><br><span class="line">gitlab_rails[&#x27;smtp_tls&#x27;] = false</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>nginx监听端口</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx[&#x27;listen_addresses&#x27;] = [&#x27;192.168.2.248&#x27;]</span><br><span class="line">nginx[&#x27;listen_port&#x27;] = 10080</span><br></pre></td></tr></table></figure>
+<p>配置完成后，执行下面命令使变更生效。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+<h3 id="访问Gitlab"><a class="header-anchor" href="#访问Gitlab">¶</a>访问Gitlab</h3>
+<p>在浏览器输入 <a target="_blank" rel="noopener" href="http://192.168.2.248:10080">http://192.168.2.248:10080</a> 即可访问。首次登录需要为root管理员设置密码。</p>
+<h3 id="汉化教程"><a class="header-anchor" href="#汉化教程">¶</a>汉化教程</h3>
+<p>请先使用官方包安装或升级完成，确认当前版本。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cat /opt/gitlab/embedded/service/gitlab-rails/VERSION</span><br></pre></td></tr></table></figure>
+<p>假设当前版本为<code>v9.0.0</code>，并确认汉化版本库是否包含该版本的汉化标签(<code>-zh</code>结尾)，也就是是否包含<code>v9.0.0-zh</code>。如果版本相同，首先在本地<code>clone</code>仓库。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">克隆汉化版本库</span></span><br><span class="line">git clone https://gitlab.com/xhang/gitlab.git</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果已经克隆过，则进行更新</span></span><br><span class="line">git fetch</span><br></pre></td></tr></table></figure>
+<p>然后比较汉化标签和原标签，导出patch用的diff文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">导出9.0.0 版本的汉化补丁</span></span><br><span class="line">git diff v9.0.0 v9.0.0-zh &gt; ../9.0.0-zh.diff</span><br></pre></td></tr></table></figure>
+<p>然后上传<code>9.0.0-zh.diff</code>文件到服务器。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">停止 gitlab</span></span><br><span class="line">sudo gitlab-ctl stop</span><br><span class="line">sudo patch -d /opt/gitlab/embedded/service/gitlab-rails -p1 &lt; 9.0.0-zh.diff</span><br></pre></td></tr></table></figure>
+<p>确定没有<code>.rej</code>文件，重启GitLab即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl start</span><br></pre></td></tr></table></figure>
+<p>执行重新配置命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+<p>如果汉化中出现问题，请重新安装Gitlab(注意备份数据)。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://gitlab.com/larryli/gitlab/wikis/home">https://gitlab.com/larryli/gitlab/wikis/home</a></li>
+</ul>
+<h3 id="参考官网"><a class="header-anchor" href="#参考官网">¶</a>参考官网</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://about.gitlab.com/downloads/#ubuntu1604">https://about.gitlab.com/downloads/#ubuntu1604</a></li>
+</ul>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2017/05/01/gitlab/ubuntu-gitlab-install/';
+var disqus_title = 'Ubuntu 16.x 安装Gitlab';
+var disqus_url = 'https://galudisu.info/2017/05/01/gitlab/ubuntu-gitlab-install/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

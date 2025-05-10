@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>关于Akka在事件溯源的若干思考</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">关于Akka在事件溯源的若干思考</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-12-21</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/akka-ddd-cqrs/">akka, ddd, cqrs</a></p></div><div class="article-content"><p><img src="/img/cartoon/20181231_213606.453.jpg" alt="shana"></p>
+<p>谈及CQRS，一定离不开Event Sourcing的讨论。首先阐明一个问题，Event Sourcing是否是必须的？主要是两点顾虑：</p>
+<ul>
+<li>引入Event Sourcing会带来一定额外开销，因为要将每次的Event按一定顺序存储下来。这样做是因为在分布式并发较大的情况下，可以保证CAP的最终一致性。因为传统数据库事务的回滚操作，在分布式环境操作显然是不切实际的，你不可能让每个请求处理都交给数据库去处理，这样会给数据库带来压力。</li>
+<li>由于领域驱动设计理念，不可避免要记录Entity的状态。Event会改变Entity的State，一方面持久化Event可以方便对State进行回滚，对应PersistenceActor的snapshot；另一方面，Entity的事件需要进行pub-sub通信模式，实现解耦。但State并不是领域驱动设计阐述的内容，它是一种编程模式或一种架构方法。例如React的Redux设计了State，用于描述事件发生，记录已经改变了组件或模型的State。</li>
+</ul>
+<span id="more"></span>
+
+<div style="float:right">
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=22727327&auto=1&height=66"></iframe></div>
+<div class="clearfix"></div>
+
+
+<h2 id="DDD是什么？"><a class="header-anchor" href="#DDD是什么？">¶</a>DDD是什么？</h2>
+<blockquote>
+<p>领域驱动设计是一种处理<strong>高度复杂域</strong>的设计方法，试图分离技术实现的复杂性，围绕<strong>业务概念</strong>构建<strong>领域模型</strong>来控制业务的复杂性，以解决软件难以理解，难以演化等问题。团队应用它可以成功开发<strong>复杂业务</strong>软件系统，使用系统在演进时任然保持敏捷。</p>
+</blockquote>
+<p>首先必须理解，DDD不是框架，不是架构，不是语言，它是一种设计思想。它可以分离业务复杂度和技术复杂度，DDD也并不是一个新的事物，它是面向对象的拔高，最终目标还是</p>
+<blockquote>
+<p>高内聚，低耦合</p>
+</blockquote>
+<h2 id="DDD主要解决的问题？"><a class="header-anchor" href="#DDD主要解决的问题？">¶</a>DDD主要解决的问题？</h2>
+<ol>
+<li>
+<p>如何合理划分业务系统？<br>
+这为微服务的划分提供了方法论（微服务的粒度的问题，多大算大，多小又算小，在微服务刚兴起时，很多企业或者架构师对它都没有统一且明确的定义，这里给些examples，e.g：代码行数？职责的划分？披萨原则？组织结构？）界限上下文很好的回答了这个问题，这也是DDD最近几年借微服务的东风，火起来的原因之一(领域驱动设计的提出距今已经十多年，但真正火热起来大约是在2013年微服务架构被提出来之后)。</p>
+</li>
+<li>
+<p>如何保持业务架构和系统架构的一致性？<br>
+与传统的系统相比，DDD里面强调领域专家和技术团队的合作，建立统一语言“普通话”， 聚焦在领域，领域逻辑和业务流程上面，使整体团队对同一个业务术语有统一的认识，避免理解的偏差，并将这些“术语”映射到代码中，随着系统的演进变迁。</p>
+</li>
+</ol>
+<h2 id="战略建模-Strategic-Modeling-和战术建模-Tractical-Modeling"><a class="header-anchor" href="#战略建模-Strategic-Modeling-和战术建模-Tractical-Modeling">¶</a>战略建模(Strategic Modeling)和战术建模(Tractical Modeling)</h2>
+<blockquote>
+<p>战略建模：</p>
+<p>限界上下文(Bounded Context)<br>
+上下文映射图(Context Mapping)</p>
+</blockquote>
+<blockquote>
+<p>战术建模：</p>
+<p>聚合(Aggregate)<br>
+实体(Entity)<br>
+值对象(Value Objects)<br>
+资源库(Repository)<br>
+领域服务(Domain Services)<br>
+领域事件(Domain Events)<br>
+模块(Modules)</p>
+</blockquote>
+<h2 id="DDD战略设计？"><a class="header-anchor" href="#DDD战略设计？">¶</a>DDD战略设计？</h2>
+<p><img src="/img/pattern/ddd/dddes/ddd.png" alt="ddd"></p>
+<p>这张图几乎覆盖了领域驱动设计的所有概念，它划分了两大部分：战略建模和战术建模。两部分没有明显的对比关系，它属于DDD的两个层面，一个是业务设计层面，一个是逻辑编码划分。可以看到，要实现领域驱动设计的程序代码，你必须既是产品经理，又是核心代码开发人员。</p>
+<blockquote>
+<p>想要完整的图例，可以在这里<a href="/img/pattern/ddd/dddes/dddd.png">下载</a>。</p>
+</blockquote>
+<h2 id="DDD领域划分？"><a class="header-anchor" href="#DDD领域划分？">¶</a>DDD领域划分？</h2>
+<p>根据问题域，将问题划分为<code>Core domain</code>，<code>Sub domain</code>，<code>Support subdomain</code> 和 <code>generic subdomian</code>，大概标准如下：</p>
+<ul>
+<li>核心域：核心竞争力，核心业务 (需要投入最好的人力和资源)</li>
+<li>支持子域： 没有，很糟糕; 有，也不足以脱颖而出(可以考虑外包)</li>
+<li>通用子域：都有的东西, 比如认证, 发短信, 客服系统等(可以考虑购买商业解决方案或者采用开源方案)</li>
+</ul>
+<h2 id="DDD领域建模方法？"><a class="header-anchor" href="#DDD领域建模方法？">¶</a>DDD领域建模方法？</h2>
+<p>领域建模的方式很多种，比如四色建模、OOAD还有事件风暴，我们这里只简单聊聊如何使用事件风暴梳理业务流程，建立领域模型，划分边界。</p>
+<h2 id="限界上下文-Bounded-Context"><a class="header-anchor" href="#限界上下文-Bounded-Context">¶</a>限界上下文(Bounded Context)</h2>
+<p>限界上下文的概念很重要，它由<code>通用语言</code>进行表述。它表述的就是子域，它划分了<code>实体</code>、<code>值对象</code>和<code>领域服务</code>等概念。</p>
+<p>以玩家刷怪升级为例，通用语言描述为，“击杀怪物，掉落经验值，玩家获得经验值，玩家消费经验值，玩家经验值增加”。从这段话，就可以构建几个限界上下文：</p>
+<p><img src="/img/pattern/ddd/dddes/bounded-context.png" alt="bounded-context"></p>
+<p>可以看到，上下文的边界是非常清晰的，并且是唯一的，这种唯一性带来的好处就是解耦。例如，有个货物出仓的方法，它既可能在商品上实现方法，也可能在库存上实现方法。在一个业务项目中出现两个做同一件事情的方法，可以说，开发或维护是非常麻烦的事情！不妨将“出仓”划分到子域限界上下文“仓储”中去。由外部通过命令调用，这就是为什么大部分DDD设计，都是基于CQRS实现的原因。</p>
+<h2 id="DDD事件风暴？"><a class="header-anchor" href="#DDD事件风暴？">¶</a>DDD事件风暴？</h2>
+<p>事件风暴主要是来自 DDD 社区的一个工作坊，用于快速探索复杂的业务领域。在这个过程中，会使用一面大墙作为建模面，并使用贴纸来代表模型。我们将业务人员和开发人员聚集起来，并采用事件的方式查找领域中所发生的事情。当找到事件时，会尝试沿着一个时间线对它们进行排序。随后，我们会添加触发每个事件的命令。Huehnken 在这里没有基于实体看上去的从属关系创建聚合，而是希望能够根据命令流和事件而生成聚合。这会给聚合带来不同的视角，它会对命令和事件一起进行逻辑分组，他相信这种方式能够为我们带来更好的边界划分，并且有助于将聚合分割到不同的服务中。</p>
+<p>在 Huehnken 的经验中，事件风暴是一个强大的工具，在一些较大规模的场景中更是如此，但是它可以用于不同的级别。他发现我们还可以将其用到一个更加技术化的级别，用于建模服务和聚合。这种方式的一个巨大优势就是能够将模型和实现匹配起来，这在 DDD 中是非常重要的。</p>
+<p>响应式系统指的是构建具备即时响应性、弹性、适应性以及消息驱动特征的系统。实现这些特征的方式是异步消息。对于 Huehnken 来说，微服务的关键点在于隔离、快速反应并且能够在部署新版本服务时不影响系统的其他组成部分，所以对他来说，这两个概念非常具有互补性，我们需要响应式的微服务。</p>
+<p>实现响应式系统的教科书式技术是Actor，但是 Huehnken 认为这种模型并不像他想象中的那样被广泛采用，他相信造成这一点的原因在于从单体模型进行转移所需的思想方式转变。在单体模型中，我们可以访问任何的内容，甚至可以跨越已存的逻辑边界。在真正的分布式系统中，会具有网络边界，我们无法以整体的方式访问系统。涉及到多个聚合的业务进程可能会需要像 sagas 这样的模式。现在，我们还要告别全局状态，在分布式系统中，每个服务是本地化的，已经过去的事情要通过事件来表示。</p>
+<p>Huehnken 认为我们已经有了一个非常有趣的采用 Actor 的实现技术。现在有多个可用的框架，包括Erlang和 Akka。Lagom 是一个更新、更具倾向性的微服务框架，它基于 Akka、CQRS和事件溯源（event sourcing）。因为思维方式的挑战，人们在构建复杂异步解耦的系统时还较为困难，但是如果我们想要将建模技术和实现技术结合起来，这将是一个非常好的机会。</p>
+<p>在 DDD 中，非常重要的一点在于代码要表述模型的概念。Huehnken 认为我们在这一点上已经迷失并且在偏离方向。我们已经开发了实现技术，并且又独立开发了新的建模技术，现在我们必须将它们结合起来，这样来自模型的理念能够直接反射到代码中，这样的话，会在构建分布式系统方面取得真正的突破。</p>
+<p>基于响应式设计理念，对于大量复杂业务需要加速设计。所以事件风暴是以结果为导向的。事件风暴有4个步骤：</p>
+<ol>
+<li>识别领域事件</li>
+</ol>
+<p>事件是对结果进行建模，我们在寻找领域事件时，首先需要明白领域事件具备的几个特征：</p>
+<ul>
+<li>具有业务意义</li>
+<li>过去时，e.g: “XX已XX”</li>
+<li>时序性</li>
+</ul>
+<p>事件风暴以过去发生的事件追溯系统的数据和行为，从而进行合适的建模，e.g：</p>
+<p><img src="/img/pattern/ddd/dddes/event-list.png" alt="Event List"></p>
+<ol start="2">
+<li>识别命令</li>
+</ol>
+<p>命令可以理解为不同角色用户在界面上面的操作，比如“添加商品”，“编辑库存”，“提交订单”等； 有些命令可能产生多个事件，可以将他们用箭头联系起来; 在进行这个过程中，我们也需要将角色，通过不同的颜色标示出来 e.g:</p>
+<p><img src="/img/pattern/ddd/dddes/event-recognize.png" alt="Event Recognize"></p>
+<ol start="3">
+<li>寻找聚合</li>
+</ol>
+<p>在DDD中，聚合是一组相关的领域对象，其目的是要确保业务规则在边界内的不变性，聚合根具有全局标识，所有对聚合根内对象的修改，都只能通过聚合根进行，聚合帮助我们简化了复杂的对象网络，逐步做到“高内聚，低耦合”。<br>
+在识别聚合的时候，我们可以通过对命令和事件的划分找到聚合边界，识别出分布在时间轴上面不同位置的相关命令和事件，e.g：</p>
+<p><img src="/img/pattern/ddd/dddes/event-aggregator.png" alt="Event Aggregator"></p>
+<ol start="4">
+<li>边界划分</li>
+</ol>
+<p>划分服务的边界，它一定程度上面对应的是“界限上下文”，关于它有一个非常形象的定义：</p>
+<blockquote>
+<p>细胞之所以会存在，是因为细胞膜定义了什么在细胞内，什么在细胞外，并且确定了什么物质可以通过细胞膜</p>
+</blockquote>
+<p>一个聚合可能是最小颗粒度的界限上下文，同时，我们常合并业务相关性很高的聚合。e.g:</p>
+<p><img src="/img/pattern/ddd/dddes/event-bound.png" alt="Event Bound"></p>
+<p>最后在领域划分的时候，需要团队一起对业务达成共识，首先建立统一语言，然后识别领域模型，划分子域和界限上下文，在验证界限上下文的时候，如果你发现有过多的角色在同一个子域或者界限上下文时，就需要注意了，这就是典型的坏味道，需要及时调整的讯号。</p>
+<h2 id="Akka的DDD战术设计"><a class="header-anchor" href="#Akka的DDD战术设计">¶</a>Akka的DDD战术设计</h2>
+<p>CQRS是一种很好的设计，如果说战略设计是业务上的解耦，那么CQRS就是战术设计的解耦。它把代码层面上的职能进行了划分。这里主要顾虑到是否需要引入PersistenceActor，也就是是否需要在DDD进行事件的持久化的问题讨论。</p>
+<p>一般情况下这样考虑，并发性较高，写入占主要吞吐量的业务，推荐使用Event Sourcing进行事件回溯。比如订单下单、天气预警、紧急消息推送等，这种一次大量写入的业务需要PersistenceActor作一份快照，以便失败时可以恢复(recover)。那么写入数据库的操作应该发生在persist前，还是persist后？</p>
+<p>另外，是否是写入很少，读取很多的操作不推荐使用Event Sourcing？在CQRS设计中，Read的操作被设计为从中间件(Midware)读取，这个中间件可以是Elasticsearch，可以是MongoDB等，所以读操作很多的场景，引入Event Sourcing反而成为性能瓶颈，因为Event需要被保存下来并被序列化。</p>
+<ol>
+<li>PersistenceActor的限界上下文战术</li>
+</ol>
+<p>DDD的Entity被设计为继承了PersistenceActor，Entity实体有唯一标识persistenceId，这样聚合根拥有了全局标识，聚合根的所有操作，都发生在该Entity内。如下：</p>
+<p><img src="/img/pattern/ddd/dddes/aggregate-root.png" alt="aggregate-root"></p>
+<p>实体包含系统的状态(快照)，每次事件的发生都改变Entity的状态。</p>
+<ol start="2">
+<li>PersistenceActor协作上下文</li>
+</ol>
+<p>DDD中实体拥有自身上下文的所有操作，并且不是共享的，不是RMI形式的。子域间想要调用彼此的操作，有两种方式：</p>
+<ul>
+<li>Pub-Sub事件订阅模式</li>
+<li>领域协作</li>
+</ul>
+<p>事件订阅方式可以由Akka的EventBus处理，这种方式隔离性比较高。子域间的Entity根本不清楚彼此的情况，也不用关心内部的实现。缺点就是额外要维护这个EventBus，并且需要为EventBus配置Supervisor策略。</p>
+<p>领域协作的方式比较直接，即通过上下文，直接获取临域的位置，直接调用。好处是不需要担心消息丢失方面的问题，事件由聚合根处理，实现高聚合、即时反馈。缺点就是要处理好消息的各种情况，在Akka设计方面一般用FSM对消息进行transform。</p>
+<p>本身互联网就是个无状态非阻塞的环境，个人认为第二种方式比较适用这种环境的处理。下面阐述下流程：</p>
+<p><img src="/img/pattern/ddd/dddes/context-associate.png" alt="context-associate"></p>
+<p>根据以往的经验，总结下Actor设计的思想：</p>
+<ul>
+<li>一个Actor只做一件事情，它是无依赖的，原子性的，逻辑上不可再分割的最小单元；</li>
+<li>一个Actor是包含行为的，它是一个对象，也是一个角色，这个行为可能表现为基础属性：邮箱大小，Executor机制，dispather机制；也可能表现为状态、Socket连接、游戏Actor的Exp、消息队列的Size等。</li>
+</ul>
+<p>不妨分析下：</p>
+<blockquote>
+<p>Aggregate Actor只做Aggregate root的角色，其它逻辑跟我无关<br>
+Pipe Actor只做Pipe的角色，我只担心流量、超时、deadletter，其它逻辑跟我无关<br>
+Factory Actor是个工厂，它会产生很多factor，至于factor做什么跟我无关</p>
+<p>所以反过来说：凡是“与xxx有关”的Actor，都是设计有问题的，可以再次分割的逻辑，即时TDD也不能覆盖这个缺陷问题。</p>
+</blockquote>
+<p>这种Actor特性和设计思想，与微服务的理念无疑是“天工巧夺”。但同时要明白，微服务的设计，大多是面向容器的，除此之外，还有基于<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Function_as_a_service">FaaS</a>。有兴趣的可以了解下。</p>
+<h2 id="DDD与微服务"><a class="header-anchor" href="#DDD与微服务">¶</a>DDD与微服务</h2>
+<p>理想情况下，界限上下文与微服务可以一一对应，在实际项目中，有些调整，比如根据业务的相关度和变化频率，有时候我们会将多个界限上下文进行合并；另外微服务在开发，测试，部署，发布和运维等等时，相比单体应用而言，它面临了所有分布式系统面临的问题，带来了额外的复杂度和开销，所以将微服务粒度拆分过细反而是一种反模式，需要考虑需要解决问题的复杂度，将相对简单的服务合并在一起；在微服务拆分的时候，也要注意：“聚合是服务的最小单元”（一个界限上下文可以包括多个聚合），打破聚合，就很有可能破坏事务一致性和业务约束。</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2018/12/21/pattern/ddd/event-sourcing-feedback/';
+var disqus_title = '关于Akka在事件溯源的若干思考';
+var disqus_url = 'https://galudisu.info/2018/12/21/pattern/ddd/event-sourcing-feedback/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

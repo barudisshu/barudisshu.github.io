@@ -1,0 +1,358 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>rust基础入门[11] - Allocating Memory</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">rust基础入门[11] - Allocating Memory</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-11</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-content"><p>本章覆盖有：</p>
+<ul>
+<li>各种各样的内存分配，性能特性，局限性</li>
+<li>如何给一个对象指定那种内存分配</li>
+<li>引用和Box的区别</li>
+</ul>
+<span id="more"></span>
+<h2 id="The-Various-Kinds-of-Allocation"><a class="header-anchor" href="#The-Various-Kinds-of-Allocation">¶</a>The Various Kinds of Allocation</h2>
+<p>要理解Rust语言，也可以说其它系统语言，例如C语言，对于理解内存分配是重要的，例如静态分配(static allocation)，栈分配(stack allocation)，堆分配(heap allocation)。</p>
+<p>本章完全致力于该类问题。另外，我们将看到四种内存分配：</p>
+<ul>
+<li>In processor registers</li>
+<li>Static</li>
+<li>In the stack</li>
+<li>In the heap</li>
+</ul>
+<p>在C或C<ins>语言，静态分配指的是全局变量和使用<code>static</code>关键字声明的变量；栈分配是所有non-static本地变量，以及函数参数；堆分配则是调用了C语言标准库<code>malloc</code>函数的，或C</ins>操作符的。</p>
+<h2 id="Linear-Addressing"><a class="header-anchor" href="#Linear-Addressing">¶</a>Linear Addressing</h2>
+<p>任何计算机硬件，有一块可读和可写内存，即RAM，它由一系列长字节构成，由它们的地址访问。内存第一个字节位置为0，最后一个字节的位置等于内存长度减一。</p>
+<p>为了简明起见，目前有两种类型的计算机：</p>
+<pre><code>- 同一时刻单一线程，该进程直接使用物理内存地址。这称为“实时内存系统(real-memory systems)”。
+- 多道程序操作系统，为每个进程提供一个虚拟地址空间。这类称为“虚拟内存系统(virtual-memory systems)”
+</code></pre>
+<p>对于第一种计算机类型，现在仅作为控制器使用，没有实质上的操作系统(所以这类也称为“裸机bare-metal system”)，或者是一个系统驻留在系统的一小块，这种内存操作系统的地址跟应用程序的差不多大。</p>
+<p>对于第二种计算机类型，访问内存的能力由操作系统控制，它运行在一个privileged mode(即权限模式，也称为protected mode，或kernel mode)，它将内存的一部分分配给各个正在运行的进程。</p>
+<p>至此，在多道程序操作系统，进程“看见”的内存跟操作系统“看见”的内存不一样。操作系统是一个shell，或称为壳。操作系统给予进程权限访问的内存有200多个字节，操作系统满足这种需求由该驻留的进程实现。也就是说，一段机器地址300到499的内存，操作系统和这个分配了200字节的进程通信，但不是和内存的开始地址300通信。实质上每个进程有一个特定的地址空间，称为“virtual”，操作系统对物理内存的映射，称为“real”。</p>
+<p>实际上，当一个进程访问操作系统的内存，操作系统只是保留该进程内存空间的一部分，不会有真实内存提供给该进程。因此，对于非常大的内存部分，这个分配也非常快。</p>
+<p>只要进程尝试访问内存，即使是初始化为0，操作系统意识到进程是访问虚拟内存片段以及没有映射真实内存，立即为虚拟内存响应真实内存片段。</p>
+<p>因此，进程的处理没有直接作用在真实的内存上，而是作用在操作系统提供的虚拟内存上，虚拟内存(虚拟存储)包含对真实地址的映射。</p>
+<p>实际上，通常一个单一进程的虚拟内存甚至大于计算机的整个实时内存。例如，计算机可以有一个10亿字节的物理内存，对于该计算机上跑4个进程，每个进程可以有30亿字节的虚拟内存空间。如果所有的虚拟内存映射到真实内存，要处理这种情况，要求有12亿字节的内存。相反，虚拟内存的大部分字节没有被映射到真实内存；仅实际上被用于进程的字节才被映射到真实内存。只要进程开始使用它们的内存地址空间片段，以及没有被映射到真实内存时，操作系统为该虚拟内存片段响应真实的内存。</p>
+<p>因此，每次当一个进程访问地址，不论是读或写，如果该地址属于一个虚拟内存片段(实际上叫做“页”)被驻留并映射真实内存的对应片段，进程立即访问这个真实内存；相反，如果这个驻留的页没有被映射，在允许访问之前，操作系统踢掉(kicks in)这个页，机制上叫做“page fault”，通过这种机制，操作系统分配一个真实内存页并将其映射到包含访问地址的虚拟内存页上；若是访问地址不属于进程内存空间部分上的驻留页，会出现地址错误(通常称为“segmentation fault”)。通常，地址错误导致进程的立即中止。</p>
+<p>当然，如果程序使用内存太过随意，操作系统需要花费大量时间来做mapping，导致处理的巨大下降，甚至会由于内存不足而中断。</p>
+<p>因此，在现代计算机中，都是单进程和多进程集于一身，每个进程“看到”它自己的内存像字节数组一样。一种是真实内存，一种是虚拟内存，但无论它是一个连续地址空间(contiguours address space)，或通常所说的“线性地址(linear addressing)”。区别于旧的计算机系统，现在计算机使用了一个“分段(segmented)”地址空间，编程者使用起来更麻烦。</p>
+<p>所有这些都是为了曾清，在一个虚拟内存系统中，操作系统对内存分配管理的操作，是由虚拟内存到真实内存的映射。尽管现在还没有讨论跟多关于内存的分配，我们这里将内存分配定义为：由进程“发现”了驻留内存的一个片段，并关联这个片段到一个对象的操作。</p>
+<h2 id="Static-Allocation"><a class="header-anchor" href="#Static-Allocation">¶</a>Static Allocation</h2>
+<p>尽管，有各种各样的内存分配机制。</p>
+<p>最简单的内存分配机制是静态分配(static allocation)。根据这种机制，编译器决定了程序的每个对象需要多少个字节，以及安全地从地址空间获取相应的字节序列。因此，每个变量的地址在编译期确定。下面是一些例子：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> _A: <span class="type">u32</span> = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">static</span> _B: <span class="type">i32</span> = -<span class="number">1_000_000</span>;</span><br><span class="line"><span class="keyword">static</span> _C: <span class="type">f64</span> = <span class="number">5.7e10</span>;</span><br><span class="line"><span class="keyword">static</span> _D: <span class="type">u8</span> = <span class="number">200</span>;</span><br></pre></td></tr></table></figure>
+<p><code>static</code>关键字类似于<code>let</code>，都用于声明一个变量，选择性地初始化。</p>
+<p><code>static</code>和<code>let</code>的不同在于：</p>
+<ul>
+<li><code>static</code>使用了静态分配，<code>let</code>使用了栈分配。</li>
+<li><code>static</code>要求显式指定变量的类型，在<code>let</code>中不是必须的。</li>
+<li>常规代码不能改变一个静态变量的值，即使用了<code>mut</code>指定。因此，基于安全考虑，Rust中的静态变量通常是immutable的。</li>
+<li>代码风格上要求静态变量的命名仅能包含大写字母，以及用下划线划分。违反这个规则，编译器会报一个警告。</li>
+</ul>
+<p>上面四点，这里我们仅看第一个，分配的方式。</p>
+<p><code>_A</code>和<code>_B</code>变量带有4个字节，<code>_C</code>8个字节，<code>_D</code>带有1个字节。如果进程的开始地址是0，编译器会给<code>_A</code>分配地址0，<code>_B</code>地址是4，<code>_C</code>地址是8，<code>_D</code>地址是16，总共在编译期分配了17个字节。</p>
+<p>当程序开始执行，进程向操作系统访问使用17个字节的内存。然后，在执行期间，不会有更多的内存请求被处理。当进程结束，进程的所有内存会自动释放给操作系统。</p>
+<p>静态分配的缺陷是不能创建递归函数。进一步讲，如果一个函数的参数和本地变量是静态指派的，它们只有一份拷贝，当递归函数调用自身，它不能为这些参数和本地变量提供另一份拷贝。</p>
+<p>静态分配的另一个缺陷是所有字程序的所有变量被分配在程序的开始，如果程序包含很多变量，但实际执行仅使用了一小部分，大多数变量作了无用的分配，造成该程序的内存饥渴。</p>
+<p>典型地，<code>static</code>变量的修改是不安全的(unsafe)。</p>
+<p>因此，在Rust中，<code>static</code>使用得不是特别多。</p>
+<p>然后，静态分配被广泛用于其他两种数据：所有可执行二进制代码(executable binary code)，以及所有字符串字面量。</p>
+<h2 id="Stack-Allocation"><a class="header-anchor" href="#Stack-Allocation">¶</a>Stack Allocation</h2>
+<p>由于静态分配的不足，Rust将对象指派到“stack”里面，每次使用<code>let</code>关键字声明变量，每次一个参数被传递给一个函数调用。这里所谓的“stack”是每个进程地址空间的片段。</p>
+<p>实际上，每个线程也有一个stack，而不是每个进程都有一个stack。如果操作系统支持线程，则每个程序运行，一个进程被创建，一个线程会被创建并在该进程内部运行。之后，在同一个进程内部，可以创建和启动其它线程。每一次一个线程被创建(包含进程的主线程)，会请求操作系分配一份地址空间片段，它是线程的stack。在真实内存系统(裸机)中，仅会有一个stack被创建用于执行程序。</p>
+<p>每个线程保留栈末端的地址。典型地，值较高的一端被认为是堆栈的底部，值较低的一端被认为是堆栈的顶部。</p>
+<p>让我们看如下代码，类似前面那个，但使用了栈分配而不是静态分配：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">_a</span>: <span class="type">u32</span> = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_b</span>: <span class="type">i32</span> = -<span class="number">1_000_000</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_c</span>: <span class="type">f64</span> = <span class="number">5.7e10</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">_d</span>: <span class="type">u8</span> = <span class="number">200</span>;</span><br></pre></td></tr></table></figure>
+<p>该段代码仅有一个线程。现在假设这个线程有一个仅100个字节的stack，地址范围在<code>[500, 600)</code>。当程序运行，这4个变量从栈的底部开始分配，即从600开始。</p>
+<p>因此，如图11-1所示，变量<code>_a</code>会占领地址596-599地址4个字节，变量<code>_b</code>会占领地址592-595地址4个字节，变量<code>_c</code>会占领地址584-591地址8个字节，变量<code>_d</code>会仅占领地址583。</p>
+<p><img src="/img/rust/beginning/chap11/Figure_11_1.png" alt="Figure 11-1"></p>
+<p>然后，如果你需要标识一个对象的地址，你必须总是使用最低位地址。因此，我们说<code>_a</code>的地址是596，<code>_b</code>的地址是592，<code>_c</code>的地址是584，<code>_d</code>的地址是583。</p>
+<p>单词“stack”引用中国盆碟的字面理解，我们不可能在stack的中间插入一个碟(dish)，又或者从中间移除一个碟。仅能在stack的顶层添加一个碟，又或者在stack不为空，从顶层移除一个碟。</p>
+<p>类似地，栈分配的特性是，你仅能在栈的顶部添加、或删除元素。</p>
+<p>栈分配(allocation)或回收(deallocation，释放；再分配)是非常高效的，因为它们由地址最后一个元素的添加或删除构成，该地址为stack的顶部。这个地址称为“栈指示器，栈点，指针 stack pointer”，它一直保存在处理器寄存器中，直到出现上下文切换，才将控制交由另一个线程。</p>
+<p>stack的局限仅在于，栈顶的地址分配和回收。进一步讲，当一个对象被添加到stack，这个对象可以进行读和写，即使有其它对象被添加，只是读写操作不会增加或减少该对象的大小。</p>
+<p>当一个函数调用，会给它的所有参数和所有本地变量分配足够的地址栈空间。这种分配通过这些对象大小总数的栈指针递减的方式处理，当执行的函数中止后，这个栈空间被回收，并以同样的值增加栈指针。因此，当一个函数返回，在函数调用之前栈指针被用来储存该值。</p>
+<p>然而，一个函数在一段程序中可能从很多个栈点被调用，这种栈点可能有不同的大小。因此，任何函数的参数和本地变量会根据函数的调用情况分配在不同的位置。下面是一个例子：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">f1</span>(x1: <span class="type">i32</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> <span class="variable">y1</span> = <span class="number">2</span> + x1;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">f2</span>(x2: <span class="type">i32</span>) &#123;</span><br><span class="line">	<span class="title function_ invoke__">f1</span>(x2 + <span class="number">7</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">k</span> = <span class="number">20</span>;</span><br><span class="line"><span class="title function_ invoke__">f1</span>(k + <span class="number">4</span>);</span><br><span class="line"><span class="title function_ invoke__">f2</span>(<span class="number">30</span>);</span><br></pre></td></tr></table></figure>
+<p>让我们顺着这段代码的执行。看看下面表格的每个步骤对栈地址的描述：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Operation</th>
+<th style="text-align:center">1      2      3      4</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">k   -&gt;</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center"><code>main</code>入口调用，将本地变量<code>k</code>的值20添加到栈</td>
+</tr>
+<tr>
+<td style="text-align:center">x1  -&gt;</td>
+<td style="text-align:center">20     24</td>
+<td style="text-align:center"><code>f1</code>方法被调用，将参数<code>x1</code>的值24添加到栈</td>
+</tr>
+<tr>
+<td style="text-align:center">y1  -&gt;</td>
+<td style="text-align:center">20     24     26</td>
+<td style="text-align:center"><code>f1</code>执行，将本地变量<code>y1</code>的值26添加到栈</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  y1</td>
+<td style="text-align:center">20     24</td>
+<td style="text-align:center"><code>f1</code>结束，将它的本地变量<code>y1</code>的值26从栈中移除</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  x1</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center"><code>f1</code>结束，将它的参数<code>x1</code>的值24从栈中移除</td>
+</tr>
+<tr>
+<td style="text-align:center">x2  -&gt;</td>
+<td style="text-align:center">20     30</td>
+<td style="text-align:center"><code>f2</code>方法被调用，将参数<code>x2</code>的值30添加到栈</td>
+</tr>
+<tr>
+<td style="text-align:center">x1  -&gt;</td>
+<td style="text-align:center">20     30     37</td>
+<td style="text-align:center"><code>f1</code>方法被调用，将参数<code>x1</code>的值37添加到栈</td>
+</tr>
+<tr>
+<td style="text-align:center">y1  -&gt;</td>
+<td style="text-align:center">20     30     37     39</td>
+<td style="text-align:center"><code>f1</code>执行，将本地变量<code>y1</code>的值39添加到栈</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  y1</td>
+<td style="text-align:center">20     30     37</td>
+<td style="text-align:center"><code>f1</code>结束，将它的本地变量<code>y1</code>的值39从栈中移除</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  x1</td>
+<td style="text-align:center">20     30</td>
+<td style="text-align:center"><code>f1</code>结束，将它的参数<code>x1</code>的值37从栈中移除</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  x2</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center"><code>f2</code>结束，将它的参数<code>x2</code>的值30从栈中移除</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  k</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><code>main</code>方法结束，将本地变量<code>k</code>的值20从栈中移除</td>
+</tr>
+</tbody>
+</table>
+<p>实际上，不论函数在哪里调用，栈上添加数据，不论函数在哪里结束，这份数据从栈上移除。这里函数<code>f1</code>被调用了两次，这里<code>f1</code>生成的机器码不会已绝对地址作为它参数和本地变量的参考。相反，它使用的地址关联这个“栈点(stack pointer)”。初始化时，这个栈点包含这个栈地址的底部。在机器码中，栈分配的变量的地址被关联这个站点(stack pointer)。让我们再复述上面这个例子。</p>
+<p>下表展示了，每个操作，该栈点所指向的绝对地址，SP表示“stack pointer”：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Operation</th>
+<th style="text-align:center">1      2      3      4</th>
+<th style="text-align:left">Stack pointer</th>
+<th>x1</th>
+<th style="text-align:right">y1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">k   -&gt;</td>
+<td style="text-align:center">20</td>
+<td style="text-align:left">base</td>
+<td></td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td style="text-align:center">x1  -&gt;</td>
+<td style="text-align:center">20     24</td>
+<td style="text-align:left">base - 4</td>
+<td></td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td style="text-align:center">y1  -&gt;</td>
+<td style="text-align:center">20     24     26</td>
+<td style="text-align:left">base - 12</td>
+<td>SP + 4</td>
+<td style="text-align:right">SP</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  y1</td>
+<td style="text-align:center">20     24</td>
+<td style="text-align:left">base - 12</td>
+<td>SP + 4</td>
+<td style="text-align:right">SP</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  x1</td>
+<td style="text-align:center">20</td>
+<td style="text-align:left">base - 12</td>
+<td></td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td style="text-align:center">x2  -&gt;</td>
+<td style="text-align:center">20     30</td>
+<td style="text-align:left">base - 4</td>
+<td></td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td style="text-align:center">x1  -&gt;</td>
+<td style="text-align:center">20     30     37</td>
+<td style="text-align:left">base - 8</td>
+<td></td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td style="text-align:center">y1  -&gt;</td>
+<td style="text-align:center">20     30     37     39</td>
+<td style="text-align:left">base - 16</td>
+<td>SP + 4</td>
+<td style="text-align:right">SP</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  y1</td>
+<td style="text-align:center">20     30     37</td>
+<td style="text-align:left">base - 16</td>
+<td>SP + 4</td>
+<td style="text-align:right">SP</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  x1</td>
+<td style="text-align:center">20     30</td>
+<td style="text-align:left">base - 8</td>
+<td></td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  x2</td>
+<td style="text-align:center">20</td>
+<td style="text-align:left">base - 4</td>
+<td></td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-  k</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">base</td>
+<td></td>
+<td style="text-align:right"></td>
+</tr>
+</tbody>
+</table>
+<p>在程序的开始，SP值位于栈底部地址，栈的内容未被定义，以及变量<code>x1</code>和<code>y1</code>目前未被定义。</p>
+<p>当系统调用主函数时，SP变成了<code>base - 4</code>，因为<code>main</code>函数没有参数，仅有一个本地变量<code>k</code>，它占4个字节。</p>
+<p>当函数<code>f1</code>第一次被调用时，SP变成了<code>base - 12</code>，因为<code>f1</code>有一个参数，<code>x1</code>，以及一个本地变量<code>y1</code>，每个占4个字节。</p>
+<p><code>y1</code>的创建和销毁没有改变SP，因为它函数调用时已经设置了适当的值。</p>
+<p>当函数<code>f1</code>结束，SP在函数调用前被存储在值中，此时为<code>base - 4</code>。</p>
+<p>当函数<code>f2</code>被调用，SP变成<code>base - 8</code>，以为参数<code>x2</code>增加了4个字节。</p>
+<p>当<code>f1</code>再一次被调用，SP变成了<code>base - 16</code>，因为它按前一次的大小递减了8个字节。</p>
+<p>当<code>f1</code>、<code>f2</code>和<code>main</code>函数结束后，SP递增，先变成<code>base - 8</code>，然后<code>base - 4</code>，然后<code>base</code>。</p>
+<p>最后两列展示了，在函数<code>f1</code>中，参数<code>x1</code>的值总是SP - 4；以及本地变量<code>y1</code>的值总是SP自身。</p>
+<h2 id="Limitations-of-Stack-Allocation"><a class="header-anchor" href="#Limitations-of-Stack-Allocation">¶</a>Limitations of Stack Allocation</h2>
+<p>栈分配非常高效和方便，但有一些局限：</p>
+<ul>
+<li>栈的大小通常有限。它的大小由操作系统决定，并可以由某些程序压缩，但在数量级上，只有几兆的字节。</li>
+<li>Rust仅允许在栈上分配那些编译时已经知道大小的类型，例如基本数据类型和数组，不能对诸如vector这种运行期确定大小的类型进行栈空间的分配。</li>
+<li>不能显式地在栈上分配(allocate)或回收(deallocate)对象。任何变量的自动分配，都需要函数签名被调用实现。即使是声明在函数的内部块，也只能有该函数结束进行回收，这种行为这种行为不能被覆盖。</li>
+</ul>
+<p>对于第二点，我们实际上声明了本地变量<code>Vec&lt;_&gt;</code>，这个对象会被分配到这个栈上，但在背后，这个对象会在栈之外分配一些内存。</p>
+<p>对于第一点，可以构建一个例子超出栈的容量。</p>
+<p>注意：下面的代码最后在虚拟机执行，因为它会强制系统的重启。</p>
+<p>下面是一个超栈容量的例子，它会触发“stack overflow”：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> SIZE: <span class="type">usize</span> = <span class="number">100_000</span>;</span><br><span class="line"><span class="keyword">const</span> N_ARRAY: <span class="type">usize</span> = <span class="number">1_000_000</span>;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">create_array</span>() <span class="punctuation">-&gt;</span> [<span class="type">u8</span>; SIZE] &#123; [<span class="number">0u8</span>; SIZE] &#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">recursive_func</span>(n: <span class="type">usize</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> <span class="variable">a</span> = <span class="title function_ invoke__">create_array</span>();</span><br><span class="line">	<span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, N_ARRAY - n + <span class="number">1</span>, a[<span class="number">0</span>]);</span><br><span class="line">	<span class="keyword">if</span> n &gt; <span class="number">1</span> &#123; <span class="title function_ invoke__">recursive_func</span>(n - <span class="number">1</span>) &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">recursive_func</span>(N_ARRAY);</span><br></pre></td></tr></table></figure>
+<p>这段程序很可能造成崩溃，典型地抛出类似如“Segmentation fault”的消息。事实上，它在栈上分配超过了100GB的数据。</p>
+<p>假设目标不是一个微控制器，栈的大小应该大于100KB；因此它可以分配至少一个100KB大小的数组。然而，它不可能分配1000的数组。</p>
+<p>下面测试这段程序。</p>
+<p>声明<code>SIZE</code>和<code>N_ARRAY</code>和函数<code>create_array</code>和<code>recursive_func</code>之后，仅有一条语句调用了<code>recursive_func</code>函数，入参是<code>N_ARRAY</code>。</p>
+<p>函数<code>recursive_func</code>首先声明了一个变量，并将<code>create_array</code>函数调用的结果初始化这个变量；然后打印两个数；接着，如果参数<code>n</code>大于1，调用函数自身，因此它是一个递归函数。</p>
+<p>注意递归函数的每次调用传递了参数 - 1，直到参数<code>n</code>不大于1，最后函数结束。</p>
+<p>如果<code>N_ARRAY</code>是3，首次调用<code>n</code>为3，第二次为2，第三次1，接着递归结束。这种情况，<code>recursive_func</code>将被调用3次。</p>
+<p>事实上，递归函数的调用次数，等于入参的值，这里例子接近一百万。</p>
+<p>现在，观察函数<code>create_array</code>。它简单地返回了一个100,1000字节的数组。该数组被分配到一个变量<code>a</code>，它的推断类型是<code>[u8; 100000]</code>。</p>
+<p>当递归函数<code>recursive_func</code>被调用时变量<code>a</code>进行了内存分配，仅当函数结束进行回收。因此，每次递归调用，会产生一个<code>a</code>分配的拷贝，上一次的拷贝没有被回收。结果，这段代码在栈上对每一个十万字节，分配了一个百万数组。当然，这实际不可能做到，打印几行后，程序结束，并输出一个错误信息，如“Segmentation fault” 或 “Stack overflow”。</p>
+<p>最后的输出信息可能会是“83 0”。</p>
+<p>第一个数表明了递归执行了多少次，以及表示多少个数组被分配在内存。如果输出的数字是83，意味着超过8.3百万的字节被分配在栈空间上。</p>
+<p>第二个数，表示数组的第一个元素，这里仅做一个可能的编译优化。事实上，如果变量<code>a</code>没有被读取，编译器会抛出一个告警，这个告警表示可以移除它，以提高程序性能。</p>
+<h2 id="Heap-Allocation"><a class="header-anchor" href="#Heap-Allocation">¶</a>Heap Allocation</h2>
+<p>可惜的是栈溢出会让程序崩溃，仍然有很多内存没被使用。堆分配带来了转机：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> SIZE: <span class="type">usize</span> = <span class="number">100_00</span>;</span><br><span class="line"><span class="keyword">const</span> N_ARRAY: <span class="type">usize</span> = <span class="number">1_000_000</span>;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">create_array</span>() <span class="punctuation">-&gt;</span> <span class="type">Box</span>&lt;[<span class="type">u8</span>; SIZE]&gt; &#123; <span class="type">Box</span>:: <span class="title function_ invoke__">new</span>([<span class="number">0u8</span>; SIZE]) &#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">recursive_func</span>(n: <span class="type">usize</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> <span class="variable">a</span> = <span class="title function_ invoke__">create_array</span>();</span><br><span class="line">	<span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, N_ARRAY - n + <span class="number">1</span>, a[<span class="number">0</span>]);</span><br><span class="line">	<span class="keyword">if</span> n &gt; <span class="number">1</span> &#123; <span class="title function_ invoke__">recursive_func</span>(n - <span class="number">1</span>) &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">recursive_func</span>(N_ARRARY);</span><br></pre></td></tr></table></figure>
+<p>尽管最后程序还是由于栈溢出或内存不足导致了崩溃，比起先前的程序打印了更多的行，这意味着已经成功分配了更多的内存。</p>
+<p>对比发现，仅在第三行，将函数<code>create_array</code>的返回类型，改为了<code>Box&lt;u8; SIZE]&gt;</code>，它是个“boxed”的数组。</p>
+<p>在Rust中，不仅可以装箱(box)数组，你可以装箱更多的对象。Rust标准包含有泛型结构类型<code>Box&lt;T&gt;</code>。类型为<code>Box&lt;T&gt;</code>的对象，是另外真实对象的一个引用，泛型<code>T</code>即为所引用的对象，它被放置在内存的“<code>堆(heap)</code>”，区别于静态区域和栈。</p>
+<p>函数<code>crreate_array</code>的函数体是<code>Box::new([0u8; SIZE])</code>。该表达式表示一个新函数声明的调用在<code>Box</code>范围内。该函数接受一个SIZE字节数组的参数，参数全部为0.该<code>Box::new</code>函数的行为和目的，是将一个对象分配在堆(heap)，这个堆需要足够大，以容纳接收参数的拷贝，这些接收的参数从新分配的对象复制，并返回对象的地址。</p>
+<p>因此，栈空间上占领的，仅是变量<code>a</code>的指针。实际的数组被分配在堆上。实际上<code>Box::new</code>函数将数组临时挂在栈上，一旦函数返回即对其进行回收。这样一来，stack就上可以容纳一个百万字节的数组实例了。</p>
+<h2 id="Heap-Management"><a class="header-anchor" href="#Heap-Management">¶</a>Heap Management</h2>
+<p>让我们看看堆内存如何管理的。</p>
+<p>当一段程序开始，它的堆几乎为空(或非常小)。</p>
+<p>任何时刻，堆上的每个字节可能有两种状态：“驻留，reserved”(又名，“used”)，“释放，free”(又名，“unused”)</p>
+<p>当程序需要在堆分配一个对象，首先会搜索堆至少与要分配的对象大小相同的空闲字节序列。如果有这样一个字节序列，程序存储与该对象大小相同的一个字序列。相反，如果堆没有足够的序列，会向操作系统请求扩展堆的大小，这样一来对象就给分配好了。</p>
+<p>当堆中的一个分配的对象不再被需要，它可以显式地回收，返回所释放的内存空间。</p>
+<p>注意，通常一个进程的堆大小不会缩减，这是由于操作系统内存页机制决定的。</p>
+<p>堆管理的一个严重问题是可能有碎片(fragment)。如果一个<code>f64</code>类型值为百万，被分配在一个堆中，那么这个堆必须至少大于8MB。如果内存偶数位的对象从堆中回收，便有一半百万的释放空间，将近4MB，交错有一半百万的存储空间。有许多空闲的空间，如果需要分配一个对象字节大于9MB，这些空间不够用，你需要再一次扩大堆空间。</p>
+<p>另外，在堆内存搜索一个足够大空间的幼稚算法会很浪费。有足够聪明的搜索算法可以提升堆分配的性能，但会导致堆回收更耗费。</p>
+<p>因此，栈分配总是比堆分配高效的多，不论是时间效率还是内存空间上。堆分配仅当最后一个对象回收时，这种行为和栈类似地情况下，才接近栈的效率。当然，这种需求在程序来说不允许这种分配模式。</p>
+<h2 id="The-Behavior-of-Box"><a class="header-anchor" href="#The-Behavior-of-Box">¶</a>The Behavior of Box</h2>
+<p>如我们所说，对于任何类型的<code>Box&lt;T&gt;</code>变量，只要包含该变量的函数被调用，一个指针会被指派在栈上。相反，堆分配出现在仅当<code>Box::new</code>被调用时。因此，<code>Box&lt;T&gt;</code>的分配会出现在两个地方：一是指针，二是其引用对象。</p>
+<p>类似地，内存回收也出现在两个地方。一是包含该变量的函数中止，栈上的指针回收；二是堆空间对象的回收，堆的回收可能会比栈提前很多。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">f</span>(p: &amp;<span class="type">f64</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> <span class="variable">a</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(*p);</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">let</span> <span class="variable">b</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line">		<span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;:?&#125;&quot;</span>, *a, *b);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">let</span> <span class="variable">c</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(<span class="literal">true</span>);</span><br><span class="line">	<span class="built_in">print!</span>(<span class="string">&quot; &#123;&#125; &#123;&#125;&quot;</span>, a, c);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">f</span>(&amp;<span class="number">3.4</span>);</span><br></pre></td></tr></table></figure>
+<p>结果打印：“<code>3.4 [1, 2, 3] 3.4 true</code>”</p>
+<p>当<code>main</code>函数被调用，类型为<code>f64</code>的值3.4，被分配在栈，并且不关联任何变量。</p>
+<p>当函数<code>f</code>被调用，栈空间指派了4个指针，一个是参数<code>p</code>，另外三个是变量<code>a</code>，<code>b</code>和<code>c</code>。</p>
+<p>当函数第一条语句被执行，一个<code>f64</code>的对象被指派在堆上，它的值被表达式<code>*p</code>初始化为3.4。</p>
+<p>当函数第二条语句被执行，一个有三个值，类型为<code>i32</code>的数组被初始化并指派在堆空间，它在堆上的地址被用于初始化变量<code>b</code>。第三条语句打印了<code>a</code>和<code>b</code>引用值。变量<code>c</code>不能在这里打印，因为还没有初始化。接着，<code>b</code>的范围结束，因此<code>b</code>引用的数组地址从堆空间释放，作为其它指派使用。</p>
+<p>最后一个动作比较重要。当<code>b</code>退出它的作用范围，它不再可用；自然地，对应堆上的引用被释放。</p>
+<p>当函数的第四个语句被执行，一个布尔型变量被初始化并指派在堆空间，它在堆上的地址被用于初始化变量<code>c</code>。它可能会重合在先前数组释放的空地址上。第五条语句打印输出<code>a</code>和<code>c</code>的引用值。同样对于box来说，类似于简单引用，星号是可选的，可以省略。变量<code>b</code>不能在这里打印，因为它不可见。<code>a</code>和<code>c</code>的范围结束后，对应它们在堆上的引用立即被释放。同时函数结束，4个指针也从栈空间释放。</p>
+<p>最后，<code>main</code>函数结束，未命名的3.4值对象从栈空间释放。</p>
+<p>这里这样做看似毫无意义，但值得的是，如果几个变量都声明在同一个范围(scope)，它们会按照声明的相反顺序退出范围。在我们的例子中，<code>a</code>在<code>c</code>之前，因此<code>a</code>会在<code>c</code>之后退出。这导致了堆空间上<code>a</code>的引用的释放，会发生在<code>c</code>引用释放之后。这样做的好处是，堆的效率，等同于栈，因为堆顶的地址总是先被释放掉。</p>
+<p>注意这里没有回收函数的调用。实际上Rust语言和它的标准库没有任何释放空间、回收内存的函数调用。这主要为了防止忘记调用它们。</p>
+<h2 id="Similarity-with-C-and-C"><a class="header-anchor" href="#Similarity-with-C-and-C">¶</a>Similarity with C and C++</h2>
+<p>在C和C<ins>中你可以使用堆空间。在C语言，你可以用<code>malloc</code>、<code>calloc</code>和<code>realloc</code>函数在堆空间指派一个buffer，以及用<code>free</code>函数释放指派的buffer。另外，在C</ins>语言，在堆空间可以分别用<code>new</code>和<code>new[]</code>给一个对象或一个数组对象进行分配。以及分别<code>delete</code>和<code>delete[]</code>对于<code>new</code>和<code>new[]</code>的操作进行回收。</p>
+<p>实际上，Rust的<code>Box&lt;T&gt;</code>泛型结构类型，跟上面堆分配方式有很大出入。自2011年，标准C++出现了一个和<code>Box&lt;T&gt;</code>十分类似地类型，<code>unique_ptr&lt;T&gt;</code>类模板。就是所谓的“智能指针(smart pointer)”，它和<code>Box&lt;T&gt;</code>类似，在堆空间分配对象，退出范围后回收。</p>
+<h2 id="Boxing-and-Unboxing"><a class="header-anchor" href="#Boxing-and-Unboxing">¶</a>Boxing and Unboxing</h2>
+<p>因此，对于给定泛型类型<code>T</code>，<code>Box&lt;T&gt;</code>和<code>&amp;T</code>都是一类引用。让我们看它们如何交互：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">7</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">a_box</span>: <span class="type">Box</span>&lt;<span class="type">i32</span>&gt;;</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">a_ref</span>: &amp;<span class="type">i32</span> = &amp;a;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;;&quot;</span>, a, *a_ref);</span><br><span class="line">a_box = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(a + <span class="number">2</span>);</span><br><span class="line">a_ref = &amp;*a_box;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot; &#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>, a, *a_ref, *a_box);</span><br></pre></td></tr></table></figure>
+<p>结果输出：“7 7; 7 9 9 ”。</p>
+<p>栈空间包含三个对象：数值7，一个由变量<code>a</code>表示；以及另外两个指针，由<code>a_box</code>和<code>a_ref</code>变量表示。指针的声明在第二行，<code>a_box</code>的初始化发生在第五行。</p>
+<p>这里的指针变量带上类型标注，由于可以由类型推断得出，这里可以省略不写。然而，它展示了<code>a_box</code>是一个“智能(smart)”指针，<code>a_ref</code>是一个“垃圾(dumb)”指针。意味着，<code>a_box</code>会照料其引用对象的分配和回收，而<code>a_ref</code>则不会。</p>
+<p>这里有两处<code>print</code>宏调用，星号(asterisk)可以省略。</p>
+<p>在第五和第六行，两个指针被指派了一个值。对于<code>a_box</code>，它是一个初始化，不需要作mutable；相反，<code>a_ref</code>已经初始化，需要带<code>mut</code>进行值再分配。</p>
+<p>第三行仅是将<code>a_ref</code>变量的值设置为<code>a</code>变量的地址。第五行有点复杂，它分配了一个<code>i32</code>对象在堆上，用表达式<code>a + 2</code>初始化这个对象，在设置<code>a_box</code>变量值为该对象的地址。</p>
+<p>在第六行，<code>a_box</code>是一个指针，它是<code>a_ref</code>变量的一个拷贝；换句话说，垃圾指针指向了和智能指针相同的对象上。尽管委派不能简化为<code>a_ref = a_box;</code>，因为两个变量有不同的类型，即使显式地<code>a_ref = a_box as &amp;i32</code>也是不合法的。相反，使用<code>*</code>号的反引用，然后再用<code>&amp;</code>允许将一个<code>Box</code>转化为一个引用，或更好的说法是，Box允许我们获取Box对象所引用的地址。</p>
+<p>要注意：<code>a_box = &amp;*a_ref;</code>表达式的转换仍然是不合法的。实际上，表达式<code>&amp;*a_ref</code>仍然是类型<code>&amp;i32</code>，它不能指派给一个类型<code>Box&lt;i32&gt;</code>的变量。</p>
+<p>最后，在程序的结尾，首先是<code>a_ref</code>在其范围(scope)退出，不做任何处理；然后<code>a_box</code>再从它的范围退出，将其在堆上的引用对象进行回收；然后<code>a</code>退出其范围，不做任何处理；接着三个对象从栈上回收释放。</p>
+<p>下面程序是类似地：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">7</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">a_box</span>: <span class="type">Box</span>&lt;<span class="type">i32</span>&gt;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">a_ref</span>: &amp;<span class="type">i32</span> = &amp;a;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;;&quot;</span>, a, a_ref);</span><br><span class="line">a_box = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(a + <span class="number">2</span>);</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot; &#123;&#125; &#123;&#125; &#123;&#125;;&quot;</span>, a, a_ref, a_box);</span><br><span class="line">a_box = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(*a_ref);</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot; &#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>, a, a_ref, a_box);</span><br></pre></td></tr></table></figure>
+<p>结果打印：“<code>7 7; 7 7 9; 7 7 7</code>”。</p>
+<p>这里的<code>a_box</code>是可变的，<code>a_ref</code>是不可变的。</p>
+<p>倒数第二条语句重新指派了box。概念上，堆上的回收，紧跟着相同类型对象的一次分配，只是值不同，行为类似于栈top的处理。</p>
+<h2 id="Register-Allocation"><a class="header-anchor" href="#Register-Allocation">¶</a>Register Allocation</h2>
+<p>在汇编语言(assembly language)，有时也包括C语言，会用到“寄存器分配(processor register allocation)”的概念。在Rust中没有这个概念，因为它约束于具体的计算机硬件架构。然而，代码优化器可以将栈分配的对象地址，转移到寄存器，只要程序得出的结果等价即可。因此，源码层面上出现的是栈对象的分配，在机器码层面上可能是对象在寄存器的分配。这当然依赖于目标的架构，因为寄存器越多，指派到寄存上的变量也就越多。</p>
+<p>寄存器分配通常跟开发者无瓜葛。但如果使用源码级调试高度优化程序的内存时，你会发现寄存器分配的变量不见了。因此，当调试时，你应该告知编译器生成非优化的(non-optimized)执行代码，除非你想直接调试机器码。</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2023/01/11/rust/beginning/chapter11_Allocating Memory/';
+var disqus_title = 'rust基础入门[11] - Allocating Memory';
+var disqus_url = 'https://galudisu.info/2023/01/11/rust/beginning/chapter11_Allocating Memory/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>rust基础入门[02] - Doing Arithmetic</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">rust基础入门[02] - Doing Arithmetic</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-02</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-content"><p>本章覆盖：</p>
+<ul>
+<li>整数和浮点四则运算</li>
+<li>多个语句程序编写</li>
+<li>打印多行</li>
+</ul>
+<span id="more"></span>
+<h2 id="Adding-Integer-Numbers"><a class="header-anchor" href="#Adding-Integer-Numbers">¶</a>Adding Integer Numbers</h2>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; + &#123;&#125; = &#123;&#125;&quot;</span>, <span class="number">34</span>, <span class="number">80</span>, <span class="number">80</span> + <span class="number">34</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, (<span class="number">23</span> - <span class="number">6</span>) <span class="number">5</span> <span class="number">5</span> + <span class="number">20</span> * <span class="number">30</span> / (<span class="number">3</span> + <span class="number">4</span>));</span><br></pre></td></tr></table></figure>
+<h2 id="Floating-Point-Arithmetic"><a class="header-anchor" href="#Floating-Point-Arithmetic">¶</a>Floating-Point Arithmetic</h2>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;The sum is &#123;&#125;&quot;</span>, <span class="number">80.3</span> + <span class="number">24.8</span>);       <span class="comment">// the sum is 115.1</span></span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;The sum is &#123;&#125;&quot;</span>, <span class="number">80.3</span> + <span class="number">34.9</span>);       <span class="comment">// the sum is 115.9999999  浮点值计算，参考计算机二进制表示法 </span></span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, (<span class="number">23</span>. - <span class="number">6</span>.) % <span class="number">5</span>. + <span class="number">20</span>. * <span class="number">30</span>. / (<span class="number">3</span>. + <span class="number">4</span>.));  <span class="comment">// the print is 87.71428571428571</span></span><br></pre></td></tr></table></figure>
+<p>为什么？</p>
+<p>在数字字面量后面加一个 <code>.</code>后，它将被转换为浮点型字面量，值不变。优先级和整数四则运算相同，尽管除法有不同的结果。</p>
+<p>让我们看看表达式是如何执行的。</p>
+<p><code>23. - 6.</code> 和 <code>3. + 4.</code>的求值和整数类似。<br>
+<code>17. % 5.，2.</code>的求值和整数类似。该操作在C语言中不支持，对应于C语言的<code>fmod(17., 5.)</code>。<br>
+<code>&quot;20. * 30.&quot;,600.</code>的求值和整数类似。<br>
+<code>600. / 7.</code>的求值，既不会得到二进制计数法，也不会得到十进制计数法。内部得到一个近似二进制的格式；通过Rust可以将该数值转换为十进制格式，你将得到一个<code>85.71428571428571</code>。<br>
+最后 <code>2.</code>被添加到二进制数值，得到的数值不能精确表示，所以它按照上面的方式打印出来。</p>
+<p>和C语言不通，Rust不能简单地混入整数和浮点数。下述语句会获得编译错误：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, <span class="number">2.7</span> + <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>最简单的方式是加一个点：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, <span class="number">2.7</span> + <span class="number">1</span>.);</span><br></pre></td></tr></table></figure>
+<p>和其他语言不同，在遇到两个类型不同的操作时，机器语言会隐式将数字1转换为浮点型，或者，将1作为常量，在编译器再转换为浮点型。然而在Rust中，这种操作必须是显式的(explicit)。</p>
+<p>最后，<code>%</code>操作，表示模数(modulo)，更接近的释义是取余(remainder)。数学中的取余操作对负数有不同的行为。在Rust中<code>%</code>和C相同。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, -<span class="number">12</span> % <span class="number">10</span>, -<span class="number">1.2</span> % <span class="number">1</span>.);</span><br></pre></td></tr></table></figure>
+<p>输出为： “-2 -0.1999999999999996”</p>
+<h2 id="Sequences-of-Statements"><a class="header-anchor" href="#Sequences-of-Statements">¶</a>Sequences of Statements</h2>
+<p>Rust推崇下面的习惯：</p>
+<ul>
+<li>函数内4个空格的缩进；</li>
+<li>避免语句内连续的空格；</li>
+<li>不超过80 columns的宽度，尽可能将长语句拆分为几行。</li>
+</ul>
+<h2 id="Breaking-Literal-Strings"><a class="header-anchor" href="#Breaking-Literal-Strings">¶</a>Breaking Literal Strings</h2>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, <span class="string">&quot;This&quot;</span></span><br><span class="line">    <span class="string">&quot;is not allowed&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>上述在Rust中不能像C那样并列，该语句是不合法的。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, <span class="string">&quot;These</span></span><br><span class="line"><span class="string">    are</span></span><br><span class="line"><span class="string">    three lines&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>上述将输出：</p>
+<p>These<br>
+are<br>
+three lines</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, <span class="string">&quot;This \</span></span><br><span class="line"><span class="string">    is \</span></span><br><span class="line"><span class="string">    just one line&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>上述将输出：</p>
+<p>This is just one line</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2023/01/02/rust/beginning/chapter02_Doing Arithmetic/';
+var disqus_title = 'rust基础入门[02] - Doing Arithmetic';
+var disqus_url = 'https://galudisu.info/2023/01/02/rust/beginning/chapter02_Doing Arithmetic/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

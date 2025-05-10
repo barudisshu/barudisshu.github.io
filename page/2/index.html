@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>简单易懂の现代魔法</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><div class="post-list-wrapper"><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/21/rust/beginning/chapter21_Drops,%20Moves,%20and%20Copies">rust基础入门[21] - Drops, Moves, and Copies</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-21</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
+<ul>
+<li>为什么决定性的(deterministic)、隐式(implicit)的对象销毁是Rust的一大亮点</li>
+<li>对象所有者(ownership)的概念</li>
+<li>为什么自定义销毁可能有用，怎么创建</li>
+<li>三种赋值语义：共享(share)、拷贝(copy)、移动(move)</li>
+<li>为什么隐式共享对软件正确性是糟糕的</li>
+<li>为什么对象的移动(move semantics)比起拷贝(copy semantics)可能有更好的性能</li>
+<li>为什么某些类型需要拷贝(copy semantics)，某些不需要，怎么区分</li>
+<li>为什么某些类型需要是不可复制的(non-cloneable)，怎么区分</li>
+</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/21/rust/beginning/chapter21_Drops,%20Moves,%20and%20Copies/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/20/rust/beginning/chapter20_Standard%20Library%20Collections">rust基础入门[20] - Standard Library Collections</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-20</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
+<ul>
+<li>如何度量运行部分代码所花费的时间</li>
+<li>基于性能因素，如何使用哪种类型的集合</li>
+<li>集合中的各种操作中哪个更好：顺序扫描(sequential scan)、两端插入和删除(insertion and removal of items at both ends)、删除最大项(removal of the largest item)、搜索(search)、键搜索(search by key)、保持顺序(keeping items sorted)</li>
+</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/20/rust/beginning/chapter20_Standard%20Library%20Collections/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/19/rust/beginning/chapter19_Object-Oriented%20Programming">rust基础入门[19] - Object-Oriented Programming</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-19</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
+<ul>
+<li>不使用trait，继承方式实现关联类型的函数</li>
+<li>Rust面向对象和C++面向对象的区别</li>
+<li>那些trait可以实现哪些type，哪些不能</li>
+<li>如何指定一个方法更改对象</li>
+<li>构造对象的一些约定方法</li>
+<li>为什么Rust不适用数据继承</li>
+<li>什么是静态派遣，什么是动态派遣，如何实现，如何使用</li>
+</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/19/rust/beginning/chapter19_Object-Oriented%20Programming/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/18/rust/beginning/chapter18_Using%20Traits">rust基础入门[18] - Using Traits</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-18</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
+<ul>
+<li><code>traits</code>如何避免在泛型函数调用中的不能理解的编译错误信息</li>
+<li>泛型参数的边界如何被单子化(monolithic)，或如何分解为几个traits</li>
+<li>如何创建函数体返回内的traits</li>
+<li>如何简单地使用<code>self</code>关键字，通过&quot;点，dot notation&quot;操作来创建函数</li>
+<li>如何迭代一个trait</li>
+<li>如何定义类型别名</li>
+<li>如何定义泛型迭代器</li>
+<li>如何使用关联类型来简化泛型迭代器的使用</li>
+<li>如何定义字节的迭代器</li>
+</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/18/rust/beginning/chapter18_Using%20Traits/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/17/rust/beginning/chapter17_IO%20and%20Error%20Handling">rust基础入门[17] - IO and Error Handling</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-17</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
+<ul>
+<li>如何通过命令行参数启动程序</li>
+<li>如何给操作系统返回一个状态码</li>
+<li>如何获取和设置进程环境变量</li>
+<li>如何处理运行时错误</li>
+<li>如何在控制台读取键盘输入信息并打印输出</li>
+<li>原生类型如何转换为字符串</li>
+<li>如何读写二进制文件</li>
+<li>如何按行读取文本文件</li>
+</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/17/rust/beginning/chapter17_IO%20and%20Error%20Handling/">Read more</a></div></article></div><nav class="pagination-wrapper"><a class="extend prev" rel="prev" href="/">&lt;&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">...</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/3/">&gt;&gt;</a></nav><div id="base-discus"></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

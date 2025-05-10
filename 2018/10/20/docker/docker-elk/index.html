@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>基于docker部署ELK</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">基于docker部署ELK</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-10-20</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/docker-elk/">docker, elk</a></p></div><div class="article-content"><p><a target="_blank" rel="noopener" href="https://elk-docker.readthedocs.io/">ELK</a>，是Elasticsearch，Logstash，Kibana三大日志服务的合集，本文基于docker部署这三个服务。</p>
+<p>前提条件：</p>
+<ul>
+<li>Docker: 预先安装好docker</li>
+<li>至少4G内存</li>
+<li>mmap counts 至少262,144，参考<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/5.0/vm-max-map-count.html#vm-max-map-count">这里</a></li>
+<li>访问5044端口</li>
+</ul>
+<span id="more"></span>
+<h2 id="安装"><a class="header-anchor" href="#安装">¶</a>安装</h2>
+<p>先从docker上面拉取下来：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull sebp/elk</span><br></pre></td></tr></table></figure>
+<h3 id="指定版本拉取"><a class="header-anchor" href="#指定版本拉取">¶</a>指定版本拉取</h3>
+<p>对于例如Elasticsearch 1.7.3，Logstash 1.5.5，和Kibana 4.1.2版本，可以组合为<code>E1L1K41</code>，因此，可以使用<code>sudo docker pull sebp/elk:E1L1K4</code>进行拉取。</p>
+<h2 id="部署"><a class="header-anchor" href="#部署">¶</a>部署</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk sebp/elk</span><br></pre></td></tr></table></figure>
+<p>该命令包含下列端口，</p>
+<ul>
+<li>5601 (Kibana web interface).</li>
+<li>9200 (Elasticseearch JSON interface).</li>
+<li>5044 (Logstash Beats interface, receives logs from Beats such as Filebeat).</li>
+</ul>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2018/10/20/docker/docker-elk/';
+var disqus_title = '基于docker部署ELK';
+var disqus_url = 'https://galudisu.info/2018/10/20/docker/docker-elk/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

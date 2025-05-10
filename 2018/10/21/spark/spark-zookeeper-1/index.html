@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>CentOS 7.5 搭建Zookeeper集群与命令行操作</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">CentOS 7.5 搭建Zookeeper集群与命令行操作</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-10-21</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/zookeeper/">zookeeper</a></p></div><div class="article-content"><span id="more"></span>
+<h2 id="分布式安装部署"><a class="header-anchor" href="#分布式安装部署">¶</a>分布式安装部署</h2>
+<p>官网首页：<a target="_blank" rel="noopener" href="https://zookeeper.apache.org/">https://zookeeper.apache.org/</a><br>
+下载地址：<a target="_blank" rel="noopener" href="http://mirror.bit.edu.cn/apache/zookeeper/">http://mirror.bit.edu.cn/apache/zookeeper/</a></p>
+<p><img src="/img/spark/zookeeper-releases.png" alt="zookeeper-release"></p>
+<h3 id="集群规划"><a class="header-anchor" href="#集群规划">¶</a>集群规划</h3>
+<p>在node1，node2和node3三个节点上部署zookeeper，三个节点都已安装jdk。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">IP</th>
+<th style="text-align:center">节点名称</th>
+<th style="text-align:center">zookeeper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">192.168.100.21</td>
+<td style="text-align:center">spark-node1</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.100.22</td>
+<td style="text-align:center">spark-node2</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.100.23</td>
+<td style="text-align:center">spark-node3</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="解压安装"><a class="header-anchor" href="#解压安装">¶</a>解压安装</h3>
+<ol>
+<li>解压zookeeper按转包到<code>/opt/</code>目录下</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tar -zxvf zookeeper-3.4.12.tar.gz -C /opt/</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>在<code>/opt/</code> 创建软连接</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /opt/zookeeper-3.4.12 /opt/zookeeper</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在<code>/opt/zookeeper</code>目录下创建data</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /opt/zookeeper/data</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>覆盖zookeeper的安装配置</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br></pre></td></tr></table></figure>
+<h3 id="配置zoo-cfg文件"><a class="header-anchor" href="#配置zoo-cfg文件">¶</a>配置zoo.cfg文件</h3>
+<p>具体配置，修改dateDir，添加日志存放目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/opt/zookeeper/data</span><br><span class="line">dataLogDir=/opt/zookeeper/logs</span><br></pre></td></tr></table></figure>
+<p>末尾增加如下配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server.1=spark-node1:2888:3888</span><br><span class="line">server.2=spark-node2:2888:3888</span><br><span class="line">server.3=spark-node3:2888:3888</span><br></pre></td></tr></table></figure>
+<h3 id="集群配置"><a class="header-anchor" href="#集群配置">¶</a>集群配置</h3>
+<ol>
+<li>在<code>/opt/zookeeper/data</code>目录下创建一个myid的文件</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch myid</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>编辑myid文件，在文件中添加与server对应的编号：如 1</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim myid</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>拷贝配置好的zookeeper到其它机器上</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r zookeeper*/ xxx@spark-node2:/opt/</span><br><span class="line">scp -r zookeeper*/ xxx@spark-node3:/opt/</span><br></pre></td></tr></table></figure>
+<p>并修改spark-node2，spark-node3中myid文件中内容为2、3</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo 2 &gt; myid</span><br><span class="line">echo 3 &gt; myid</span><br></pre></td></tr></table></figure>
+<h3 id="启动集群"><a class="header-anchor" href="#启动集群">¶</a>启动集群</h3>
+<ol>
+<li>分别启动zookeeper</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bin/zkServer.sh start</span><br><span class="line">bin/zkServer.sh start</span><br><span class="line">bin/zkServer.sh start</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>查看状态</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bin/zkServer.sh status</span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: /opt/zookeeper-3.4.12/bin/../conf/zoo.cfg</span><br><span class="line">Mode: follwer</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>停止zookeeper</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/zkServer.sh stop</span><br></pre></td></tr></table></figure>
+<h3 id="加入Systemd管理"><a class="header-anchor" href="#加入Systemd管理">¶</a>加入Systemd管理</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/zookeeper.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Zookeeper service</span><br><span class="line">After=syslog.target etwork.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">Environment=ZOO_LOG_DIR=/opt/zookeeper/data/logs</span><br><span class="line">ExecStart=/opt/zookeeper/bin/zkServer.sh start</span><br><span class="line">ExecStop=/opt/zookeeper/bin/zkServer.sh stop</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<h3 id="配置环境变量"><a class="header-anchor" href="#配置环境变量">¶</a>配置环境变量</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/profile</span><br><span class="line">export ZOOKEEPER_HOME=/opt/zookeeper-3.4.12 </span><br><span class="line">export PATH=$PATH:$ZOOKEEPER_HOME/bin</span><br></pre></td></tr></table></figure>
+<h3 id="zoo-cfg配置参数解读"><a class="header-anchor" href="#zoo-cfg配置参数解读">¶</a>zoo.cfg配置参数解读</h3>
+<p>Server.A=B:C:D。</p>
+<p>A是一个数字，表示这个是第几号服务器；</p>
+<p>B是这个服务器的ip地址；</p>
+<p>C是这个服务器与集群中的Leader服务器交换信息的端口；</p>
+<p>D是万一集群中的Leader服务器挂了，需要一个端口来重新进行选举，选出一个新的Leader，而这个端口就是用来执行选举时服务器相互通信的端口。</p>
+<p>集群模式下配置一个文件myid，这个文件在dataDir目录下，这个文件里面有一个数据就是A的值，Zookeeper启动时读取此文件，拿到里面的数据与zoo.cfg里面的配置信息比较从而判断到底是哪个server。</p>
+<ol>
+<li>tickTime=2000：通信心跳数</li>
+</ol>
+<p>tickTime：通信心跳数，Zookeeper服务器心跳时间，单位毫秒</p>
+<p>Zookeeper使用的基本时间，服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个tickTime时间就会发送一个心跳，时间单位为毫秒。</p>
+<p>它用于心跳机制，并且设置最小的session超时时间为两倍心跳时间。(session的最小超时时间是2 x tickTime)</p>
+<p>2)initLimit=10：LF初始通信时限</p>
+<p>集群中的follower跟随者服务器(F)与leader领导者服务器(L)之间初始连接时能容忍的最多心跳数（tickTime的数量），用它来限定集群中的Zookeeper服务器连接到Leader的时限。</p>
+<p>投票选举新leader的初始化时间</p>
+<p>Follower在启动过程中，会从Leader同步所有最新数据，然后确定自己能够对外服务的起始状态。</p>
+<p>Leader允许F在initLimit时间内完成这个工作。</p>
+<p>3)syncLimit=5：LF同步通信时限</p>
+<p>集群中Leader与Follower之间的最大响应时间单位，假如响应超过syncLimit x tickTime，</p>
+<p>Leader认为Follwer死掉，从服务器列表中删除Follwer。</p>
+<p>在运行过程中，Leader负责与ZK集群中所有机器进行通信，例如通过一些心跳检测机制，来检测机器的存活状态。</p>
+<p>如果L发出心跳包在syncLimit之后，还没有从F那收到响应，那么就认为这个F已经不在线了。</p>
+<p>4)dataDir：数据文件目录+数据持久化路径</p>
+<p>保存内存数据库快照信息的位置，如果没有其他说明，更新的事务日志也保存到数据库。</p>
+<p>5)clientPort=2181：客户端连接端口</p>
+<p>监听客户端连接的端口</p>
+<h2 id="客户端命令行操作"><a class="header-anchor" href="#客户端命令行操作">¶</a>客户端命令行操作</h2>
+<ol>
+<li>启动客户端</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zkCli.sh</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>显示所有操作命令</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 0] help</span><br><span class="line">ZooKeeper -server host:port cmd args</span><br><span class="line">    stat path [watch]</span><br><span class="line">    set path data [version]</span><br><span class="line">    ls path [watch]</span><br><span class="line">    delquota [-n|-b] path</span><br><span class="line">    ls2 path [watch]</span><br><span class="line">    setAcl path acl</span><br><span class="line">    setquota -n|-b val path</span><br><span class="line">    history </span><br><span class="line">    redo cmdno</span><br><span class="line">    printwatches on|off</span><br><span class="line">    delete path [version]</span><br><span class="line">    sync path</span><br><span class="line">    listquota path</span><br><span class="line">    rmr path</span><br><span class="line">    get path [watch]</span><br><span class="line">    create [-s] [-e] path data acl</span><br><span class="line">    addauth scheme auth</span><br><span class="line">    quit </span><br><span class="line">    getAcl path</span><br><span class="line">    close </span><br><span class="line">    connect host:port</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>查看当前znode中所包含的内容</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 1] ls /</span><br><span class="line">[zookeeper]</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>查看当前节点数据并能看到更新次数等数据</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 2] ls2 /</span><br><span class="line">[zookeeper]</span><br><span class="line">cZxid = 0x0</span><br><span class="line">ctime = Wed Dec 31 19:00:00 EST 1969</span><br><span class="line">mZxid = 0x0</span><br><span class="line">mtime = Wed Dec 31 19:00:00 EST 1969</span><br><span class="line">pZxid = 0x0</span><br><span class="line">cversion = -1</span><br><span class="line">dataVersion = 0</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x0</span><br><span class="line">dataLength = 0</span><br><span class="line">numChildren = 1</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>创建普通节点</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 3] create /opt &quot;aa&quot;</span><br><span class="line">Created /opt</span><br><span class="line">[zk: localhost:2181(CONNECTED) 4] create /opt/s &quot;bb&quot;</span><br><span class="line">Created /opt</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>获取节点值</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 5] get /opt</span><br><span class="line">aa</span><br><span class="line">cZxid = 0x4100000004</span><br><span class="line">ctime = Wed Jul 25 07:48:55 EDT 2018</span><br><span class="line">mZxid = 0x4100000004</span><br><span class="line">mtime = Wed Jul 25 07:48:55 EDT 2018</span><br><span class="line">pZxid = 0x4100000005</span><br><span class="line">cversion = 1</span><br><span class="line">dataVersion = 0</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x0</span><br><span class="line">dataLength = 2</span><br><span class="line">numChildren = 1</span><br><span class="line">[zk: localhost:2181(CONNECTED) 6] get /opt/s</span><br><span class="line">bb</span><br><span class="line">cZxid = 0x4100000005</span><br><span class="line">ctime = Wed Jul 25 07:51:21 EDT 2018</span><br><span class="line">mZxid = 0x4100000005</span><br><span class="line">mtime = Wed Jul 25 07:51:21 EDT 2018</span><br><span class="line">pZxid = 0x4100000005</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 0</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x0</span><br><span class="line">dataLength = 2</span><br><span class="line">numChildren = 0</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>创建短暂节点</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 7] create -e /app 8888           </span><br><span class="line">Created /app</span><br></pre></td></tr></table></figure>
+<p>在当前客户端是能查看到的</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 8] ls /</span><br><span class="line">[app, opt, zookeeper]</span><br></pre></td></tr></table></figure>
+<p>退出当前客户端然后再重启客户端</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 9] quit</span><br><span class="line">[root@spark-node2 zookeepe]$ bin/zkCli.sh</span><br></pre></td></tr></table></figure>
+<p>再次查看根目录下短暂节点已经删除</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 0] ls /</span><br><span class="line">[opt, zookeeper]</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>创建带序号的节点</li>
+</ol>
+<p>先创建一个普通的根节点app</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 1] create /app &quot;app&quot;</span><br><span class="line">create /app &quot;app&quot;</span><br></pre></td></tr></table></figure>
+<p>创建带序号的节点</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 2] create -s /app/aa 888</span><br><span class="line">Created /app/aa0000000000</span><br><span class="line">[zk: localhost:2181(CONNECTED) 3] create -s /app/bb 888</span><br><span class="line">Created /app/bb0000000001</span><br><span class="line">[zk: localhost:2181(CONNECTED) 4] create -s /app/cc 888</span><br><span class="line">Created /app/cc0000000002</span><br></pre></td></tr></table></figure>
+<p>如果原节点下有1个节点，则在排序时从1开始，以此类推。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 5] create -s /opt/aa 888</span><br><span class="line">Created /opt/aa0000000001</span><br></pre></td></tr></table></figure>
+<ol start="9">
+<li>修改节点数据值</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 6] set /opt 999</span><br><span class="line">cZxid = 0x4100000004</span><br><span class="line">ctime = Wed Jul 25 07:48:55 EDT 2018</span><br><span class="line">mZxid = 0x410000000e</span><br><span class="line">mtime = Wed Jul 25 08:14:18 EDT 2018</span><br><span class="line">pZxid = 0x410000000d</span><br><span class="line">cversion = 2</span><br><span class="line">dataVersion = 1</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x0</span><br><span class="line">dataLength = 3</span><br><span class="line">numChildren = 2</span><br></pre></td></tr></table></figure>
+<ol start="10">
+<li>节点的值变化监听</li>
+</ol>
+<p>在spark-node2主机上注册监听/opt节点数据变化</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zkCli.sh</span><br><span class="line">[zk: localhost:2181(CONNECTED) 0] get /opt watch</span><br></pre></td></tr></table></figure>
+<p>在spark-node1主机上修改/opt节点的数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 7] set /opt 777</span><br></pre></td></tr></table></figure>
+<p>观察spark-node2主机收到数据变化的监听</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 1] </span><br><span class="line">WATCHER::</span><br><span class="line"></span><br><span class="line">WatchedEvent state:SyncConnected type:NodeDataChanged path:/opt</span><br></pre></td></tr></table></figure>
+<ol start="11">
+<li>节点的子节点变化监听(路径变化)</li>
+</ol>
+<p>在spark-node2主机上注册监听/opt节点的子节点变化</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 2] ls /opt watch</span><br><span class="line">[aa0000000001, module]</span><br></pre></td></tr></table></figure>
+<p>在spark-node2主机/opt节点上创建子节点</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 8] create /opt/bb 666</span><br><span class="line">Created /opt/bb</span><br></pre></td></tr></table></figure>
+<p>观察spark-node2主机收到子节点变化的监听</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 3] </span><br><span class="line">WATCHER::</span><br><span class="line"></span><br><span class="line">WatchedEvent state:SyncConnected type:NodeChildrenChanged path:/opt</span><br></pre></td></tr></table></figure>
+<ol start="12">
+<li>删除节点</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 9] delete /opt/bb</span><br></pre></td></tr></table></figure>
+<ol start="13">
+<li>递归删除节点</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 10] rmr /opt</span><br></pre></td></tr></table></figure>
+<ol start="14">
+<li>查看节点状态</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 14] stat /app</span><br><span class="line">cZxid = 0x4100000009</span><br><span class="line">ctime = Wed Jul 25 08:09:56 EDT 2018</span><br><span class="line">mZxid = 0x4100000009</span><br><span class="line">mtime = Wed Jul 25 08:09:56 EDT 2018</span><br><span class="line">pZxid = 0x410000000c</span><br><span class="line">cversion = 3</span><br><span class="line">dataVersion = 0</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x0</span><br><span class="line">dataLength = 3</span><br><span class="line">numChildren = 3</span><br></pre></td></tr></table></figure>
+<ol start="15">
+<li>退出客户端</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 17] quit</span><br></pre></td></tr></table></figure>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2018/10/21/spark/spark-zookeeper-1/';
+var disqus_title = 'CentOS 7.5 搭建Zookeeper集群与命令行操作';
+var disqus_url = 'https://galudisu.info/2018/10/21/spark/spark-zookeeper-1/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Cassandra 安装入门</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Cassandra 安装入门</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-01-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/cassandra/">cassandra</a></p></div><div class="article-content"><p>Cassandra是Apache开源的分布式数据库管理系统，被用于处理大数据量的商用硬件或云设施上。Cassandra提供了高可用，无单点故障的特性。</p>
+<p>Cassandra支持不停机的线性扩展机器的方式，增加Read和Write的吞吐量。</p>
+<p>每个Cassandra节点在集群中会有相同的角色。数据被分布在各个集群节点上。Cassandra支持复制和多数据中心冗余复制，故障转移，灾难恢复。</p>
+<span id="more"></span>
+<h2 id="单节点"><a class="header-anchor" href="#单节点">¶</a>单节点</h2>
+<p>Apache Cassandra要求系统预先安装Java：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository -y ppa:webupd8team/java</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get -y install oracle-java8-installer</span><br></pre></td></tr></table></figure>
+<p>验证：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+<p>安装时请注意Java版本的兼容性问题。</p>
+<p>Cassandra的安装，官方推荐的是包管理的方式。以debian为例：</p>
+<p>添加仓储：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb http://www.apache.org/dist/cassandra/debian 36x main&quot; | sudo tee -a /etc/apt/sources.list.d/cassandra.list</span><br></pre></td></tr></table></figure>
+<p>添加公钥：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gpg --keyserver pgp.mit.edu --recv-keys 749D6EEC0353B12C</span><br><span class="line">gpg --export --armor 749D6EEC0353B12C | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<p>安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install cassandra</span><br></pre></td></tr></table></figure>
+<p>要注意的是，安装时最好选择覆盖安装，因为有可能你的<code>/etc/cassandra/</code>以前曾经保留了配置。</p>
+<p>另外一种方式是deb包安装，推荐到<a target="_blank" rel="noopener" href="http://mirrors.ustc.edu.cn">中科大</a>下载安装包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.ustc.edu.cn/apache/cassandra/debian/pool/main/c/cassandra/cassandra_3.11.1_all.deb</span><br><span class="line">sudo dpkg --force-confmiss -i cassandra_3.11.1_all.deb</span><br></pre></td></tr></table></figure>
+<p>卸载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get purge cassandra</span><br></pre></td></tr></table></figure>
+<p>安装完成之后，服务会添加到systemd。查看服务的运行情况，一般正常的话都处于Running状态：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service cassandra status</span><br></pre></td></tr></table></figure>
+<p>查看端口：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo netstat -plntu</span><br></pre></td></tr></table></figure>
+<p>cassandra主进程的子进程会开启几个端口：</p>
+<p><img src="/img/cassandra/ports.png" alt="端口占用情况"></p>
+<p>每个port代表着不同的意义：</p>
+<ul>
+<li>7000：node间的TCP port</li>
+<li>7001：node间利用SSL传输资料的port</li>
+<li>7199：JMX</li>
+<li>9160： Client端Thrift API用到的port</li>
+<li>9042: CQL使用</li>
+<li>1024-65355: JMX要求的随机port</li>
+</ul>
+<p>cassandra虽然能启动，但不能通过静态ip访问，只能内部访问。打开<code>/etc/cassandra/cassandra.yaml</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cluster_name: &#x27;JCPT Test Cluster&#x27;</span><br><span class="line">listen_address: localhost</span><br><span class="line">start_rpc: true</span><br><span class="line">rpc_address: 0.0.0.0</span><br><span class="line">boardcast_rpc_address: 192.168.2.248</span><br></pre></td></tr></table></figure>
+<p>cassandra集群安装成功后，使用nodetool连接本机节点：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nodetool status</span><br></pre></td></tr></table></figure>
+<p>出现下面内容说明正常：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Datacenter: datacenter1</span><br><span class="line">=======================</span><br><span class="line">Status=Up/Down</span><br><span class="line">|/ State=Normal/Leaving/Joining/Moving</span><br><span class="line">--  Address    Load       Tokens       Owns (effective)  Host ID                               Rack</span><br><span class="line">UN  127.0.0.1  256.6 KiB  256          100.0%            c703e51b-5050-403e-8430-019b768f7dc9  rack1</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<p><code>U</code> - Cluster is <code>U</code>P<br>
+<code>N</code> = Cluster is <code>N</code>ormal</p>
+<p>现在可以使用<code>cqlsh</code>进行数据库查询了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cqlsh</span><br></pre></td></tr></table></figure>
+<p>出现提示说明cassandra的单机节点部署成功了！</p>
+<h2 id="docker搭配的多节点"><a class="header-anchor" href="#docker搭配的多节点">¶</a>docker搭配的多节点</h2>
+<p>架设环境：3台host(192.168.0.1, 192.168.0.2, 192.168.0.3)<br>
+情境：3台独立VM，各架设一个cassandra node，组成cassandra cluster。第1，2台host的node设为seed</p>
+<p>下载cassandra image</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull cassandra</span><br></pre></td></tr></table></figure>
+<p>在第一台VM上建立cassandra，指令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run --restart=always --name cassandra-1 -d -e CASSANDRA_BROADCAST_ADDRESS=192.168.0.1 -p 7000:7000 cassandra</span><br></pre></td></tr></table></figure>
+<p>第二台host上：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run --restart=always --name cassandra-2 -d -e CASSANDRA_BROADCAST_ADDRESS=192.168.0.2 -p 7000:7000 -e CASSANDRA_SEEDS=192.168.0.1,192.168.0.2 cassandra</span><br></pre></td></tr></table></figure>
+<p>第三台host：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run --restart=always --name cassandra-3 -d -e CASSANDRA_BROADCAST_ADDRESS=192.168.0.3 -p 7000:7000 -e CASSANDRA_SEEDS=192.168.0.1,192.168.0.2 cassandra</span><br></pre></td></tr></table></figure>
+<p>测试3个host是否正常：</p>
+<p>测试剧本：在<code>cassandra-1</code>建立 test_keyspace，在 <code>cassandra-2</code>使用 test_keyspace 建立 test_table，最后在 <code>cassandra-3</code> 查询 test_table</p>
+<p>进入 cassandra-1：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker exec -it 3b39bc bash</span><br></pre></td></tr></table></figure>
+<p>执行<code>cqlsh</code>，建立keyspace：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cqlsh &gt; CREATE KEYSPACE test_keyspace WITH REPLICATION = &#123;</span><br><span class="line">&#x27;class&#x27; : &#x27;SimpleStrategy&#x27;, </span><br><span class="line">&#x27;replication_factor&#x27; : 2 </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>进入 cassandra-2：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker exec -it fc04 bash</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cqlsh:test_keyspace&gt; CREATE TABLE test_table(</span><br><span class="line"> id int PRIMARY KEY,</span><br><span class="line"> name text</span><br><span class="line"> );</span><br></pre></td></tr></table></figure>
+<p>进入 cassandra-3：</p>
+<p>执行<code>cqlsh</code>查询，</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> cqlsh &gt; use test_keyspace;</span><br><span class="line">cqlsh:test_keyspace&gt; select * from test_table;</span><br></pre></td></tr></table></figure>
+<p>目前table是空的，我们加一点数据：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cqlsh:test_keyspace&gt; insert into test_table (id, name) values (1, &#x27;Doraemon&#x27;);</span><br><span class="line">id | name</span><br><span class="line">----+----------</span><br><span class="line"> 1 | Doraemon</span><br><span class="line"></span><br><span class="line">(1 rows)</span><br></pre></td></tr></table></figure>
+<p>回到 cassandra-1，cassandra-2 查询：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cqlsh:test_keyspace&gt; select * from test_table;</span><br><span class="line"></span><br><span class="line">id | name</span><br><span class="line">----+----------</span><br><span class="line"> 1 | Doraemon</span><br><span class="line"></span><br><span class="line">(1 rows)</span><br></pre></td></tr></table></figure>
+<p>如果3个node查询得到一样的数据，就代表成功啦~</p>
+<h2 id="二进制部署"><a class="header-anchor" href="#二进制部署">¶</a>二进制部署</h2>
+<p>除了上面介绍的两种安装方式，本人推荐以压缩包方式部署。</p>
+<ol>
+<li>JDK安装</li>
+</ol>
+<p>首先确保你的环境需要有Java，<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">下载地址</a>。</p>
+<p>解压放到/usr/java/jdk1.8.0_151/目录，</p>
+<ol start="2">
+<li>添加用户</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">groupadd cassandra</span><br><span class="line">useradd -g cassandra cassandra</span><br><span class="line">passwd cassandra</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>下载</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.shuosc.org/apache/cassandra/3.11.1/apache-cassandra-3.11.1-bin.tar.gz</span><br><span class="line">tar -xvf apache-cassandra-3.11.1-bin.tar.gz</span><br><span class="line">cd apache-cassandra-3.11.1</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>配置<code>vim conf/cassandra.yaml</code></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cluster_name: &#x27;JCPT Test Cluster&#x27;</span><br><span class="line">- seeds: &quot;10.112.68.186,10.112.68.192&quot;</span><br><span class="line">listen_address: 10.112.68.186</span><br><span class="line">rpc_address: 10.112.68.186</span><br></pre></td></tr></table></figure>
+<p>不同节点listen_address、rpc_address不同，cluster_name和seeds是相同的。</p>
+<ul>
+<li>JVM配置: conf/cassandra-env.sh（JVM_OPTS）</li>
+<li>日志配置：conf/logback.xml</li>
+</ul>
+<p>建立数据和日志的存储目录（生产环境数据和日志放在不同分期）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir data</span><br><span class="line">mkdir data/data</span><br><span class="line">mkdir data/commitlog</span><br><span class="line">mkdir data/saved_caches</span><br><span class="line">mkdir data/hints</span><br><span class="line">mkdir logs</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>启动</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/cassandra -f (前端启动)</span><br><span class="line">./bin/cassandra</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>查看集群状态</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/nodetool status</span><br><span class="line">./bin/nodetool describecluster</span><br></pre></td></tr></table></figure>
+<h2 id="多节点"><a class="header-anchor" href="#多节点">¶</a>多节点</h2>
+<p>cassandra默认有两种启动模式， local和remote模式，可以在<code>/etc/cassandra-env.sh</code>中查看和修改。默认使用local模式。要想通过nodetool命令连接本机节点时，要更改为remote模式。</p>
+<p>添加<code>LOCAL_JMX=false</code>和修改 <code>-Dcom.sun.management.jmxremote.authenticate=false</code>，当然你可以开启加密方式。配置如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_JMX=false</span><br><span class="line">if [ &quot;x$LOCAL_JMX&quot; = &quot;x&quot; ]; then</span><br><span class="line">    LOCAL_JMX=yes</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Specifies the default port over <span class="built_in">which</span> Cassandra will be available <span class="keyword">for</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">JMX connections.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">For security reasons, you should not expose this port to the internet.  Firewall it <span class="keyword">if</span> needed.</span></span><br><span class="line">JMX_PORT=&quot;7199&quot;</span><br><span class="line">if [ &quot;$LOCAL_JMX&quot; = &quot;yes&quot; ]; then</span><br><span class="line">  JVM_OPTS=&quot;$JVM_OPTS -Dcassandra.jmx.local.port=$JMX_PORT&quot;</span><br><span class="line">  JVM_OPTS=&quot;$JVM_OPTS -Dcom.sun.management.jmxremote.authenticate=false&quot;</span><br><span class="line">else</span><br><span class="line">  JVM_OPTS=&quot;$JVM_OPTS -Dcassandra.jmx.remote.port=$JMX_PORT&quot;</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash"><span class="keyword">if</span> ssl is enabled the same port cannot be used <span class="keyword">for</span> both jmx and rmi so either</span></span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">pick another value <span class="keyword">for</span> this property or comment out to use a random port (though see CASSANDRA-7087 <span class="keyword">for</span> origins)</span></span><br><span class="line">  JVM_OPTS=&quot;$JVM_OPTS -Dcom.sun.management.jmxremote.rmi.port=$JMX_PORT&quot;</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">turn on JMX authentication. See below <span class="keyword">for</span> further options</span></span><br><span class="line">  JVM_OPTS=&quot;$JVM_OPTS -Dcom.sun.management.jmxremote.authenticate=false&quot;</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">jmx ssl options</span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Dcom.sun.management.jmxremote.ssl=true&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Dcom.sun.management.jmxremote.ssl.need.client.auth=true&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Dcom.sun.management.jmxremote.ssl.enabled.protocols=&lt;enabled-protocols&gt;&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Dcom.sun.management.jmxremote.ssl.enabled.cipher.suites=&lt;enabled-cipher-suites&gt;&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Djavax.net.ssl.keyStore=/path/to/keystore&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Djavax.net.ssl.keyStorePassword=&lt;keystore-password&gt;&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Djavax.net.ssl.trustStore=/path/to/truststore&quot;</span></span></span><br><span class="line"><span class="meta prompt_">  #</span><span class="language-bash">JVM_OPTS=<span class="string">&quot;<span class="variable">$JVM_OPTS</span> -Djavax.net.ssl.trustStorePassword=&lt;truststore-password&gt;&quot;</span></span></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>修改配置，重启OK。</p>
+<h2 id="Replication策略"><a class="header-anchor" href="#Replication策略">¶</a>Replication策略</h2>
+<p>Cassandra在多个节点存储replica来确保可靠性和容错性。Replication策略决定了replica保存到哪些节点。</p>
+<p>replica的总数由replication factor控制。replication factor 1表示一行数据，只会有一个replica，被保存在唯一一个节点上。replication factor 2表示一行数据有两个副本，每个副本保存在不同的节点上。所有的replica同等重要；没有主次replica之分。一般的规则是，replication factor不应该超过集群里的节点数量。不过，可以先增大replication factor，再添加更多节点。如果replication factor配置超过节点数量，写操作会被拒绝。读操作不受影响。</p>
+<p>Cassandra内置了两种类型的replication策略：</p>
+<ul>
+<li><code>SimpleStrategy</code>：用于单个数据中心。如果有可能以后会有多个数据中心，应该用<code>NetworkTopologyStrategy</code></li>
+<li><code>NetworkTopologyStrategy</code>：对绝大多数部署方式，都强烈推荐该策略，因为今后的扩展更容易</li>
+</ul>
+<p>关于每个数据中心应该配置几个replica，一般主要考虑以下两个因素：</p>
+<ul>
+<li>保证读操作没有跨数据中心的延时损耗</li>
+<li>如何处理硬件故障的情形</li>
+</ul>
+<p>对于多数据中心，最常用的两种配置replica的策略是：</p>
+<ul>
+<li>每个数据中心2个replica：基于这种配置，对于每个数据中心，即使单个节点故障，还是能够支持consistency level ONE的本地读</li>
+<li>每个数据中心3个replica：基于这种配置，对于每个数据中心，即使单个节点故障，还是能够支持consistency level LOCAL_QUORUM的本地读；即使2两个节点故障，还是能够支持consistency level ONE的本地读</li>
+</ul>
+<p>cassandra默认建keyspace的时候，需要定制拓扑策略的，默认是<code>SimpleStrategy</code>，修改 <code>conf/cassandra.yaml</code>里面的<code>endpoint_snitch</code>，将其更改为<code>GossipingPropertyFileSnitch</code>。表示多数据中心策略。</p>
+<ul>
+<li><code>SimpleSnitch</code>：默认的，单数据中心部署，可以在禁用读修复时提高缓存位置。</li>
+<li><code>GossipingPropertyFileSnitch</code>：官方推荐在生产环境下使用，本节点的rack和dc名字保存在cassandra-rackdc.properties，并且会通过gossip这个p2p协议传播到所有节点上去<br>
+如果cassandra-topology.properties文件存在，cassandra会把两个properties文件的结果合并，如果两个properties文件里面有有同一个节点的配置，以cassandra-rackdc.properties的配置为准。</li>
+<li><code>PropertyFileSnitch</code>：dc和rack通过显式的定义在cassandra-topology.properties文件里面。</li>
+<li><code>Ec2Snitch</code>：适合单个区域(数据中心)的EC2部署。</li>
+<li><code>Ec2MultiRegionSnitch</code>：集群跨多个区域(数据中心)的EC2部署。</li>
+<li><code>RackInferringSnitch</code>：通过本机IP地址判断节点数据哪个数据中心哪个rack。IP第2段相同为同一个数据中心，IP第3段相同为一个Rack。如下图：</li>
+</ul>
+<p><img src="/img/cassandra/rack-inferring-snitch.jpg" alt="分段rack"></p>
+<h2 id="安装MX4J集群监控"><a class="header-anchor" href="#安装MX4J集群监控">¶</a>安装MX4J集群监控</h2>
+<p>cassandra监控有许多方案，DataStax的Opscenter是比较耗的监控解决方案。可惜Opscenter6.0版本后已经不再支持开源cassandra版本。Opscenter5.x版本支持到cassandra2.1。最好使用cassandra自身支持的<a target="_blank" rel="noopener" href="http://mx4j.sourceforge.net/">MX4J</a>进行监控。</p>
+<p>解压后将mx4j-tools.jar拷贝到cassandra的安装目录的lib文件夹下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unzip mx4j-3.0.2.zip</span><br><span class="line">cp mx4j-3.0.2/lib/mx4j-tools.jar apache-cassandra-3.11.1/lib/</span><br></pre></td></tr></table></figure>
+<p>配置mx4j</p>
+<p>编辑 <code>vim /etc/cassandra/cassandra-env.sh</code>，去除注释</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MX4J_ADDRESS=&quot;-Dmx4jaddress=10.112.68.186&quot;</span><br><span class="line">MX4J_PORT=&quot;-Dmx4jport=8081&quot;</span><br></pre></td></tr></table></figure>
+<p>然后重启cassandra</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart cassandra</span><br></pre></td></tr></table></figure>
+<p>浏览器输入地址 <a target="_blank" rel="noopener" href="http://10.112.68.186:8081">http://10.112.68.186:8081</a></p>
+<div id="footnotes"><hr><div id="footnotelist"><ol><li id="fn:1"><a target="_blank" rel="noopener" href="https://www.howtoforge.com/tutorial/how-to-install-apache-cassandra-on-centos-7/">https://www.howtoforge.com/tutorial/how-to-install-apache-cassandra-on-centos-7/</a><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div></div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2018/01/10/cassandra/cassandra-beginning/';
+var disqus_title = 'Cassandra 安装入门';
+var disqus_url = 'https://galudisu.info/2018/01/10/cassandra/cassandra-beginning/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

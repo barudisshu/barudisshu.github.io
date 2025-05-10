@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>IDEA docker 插件使用</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">IDEA docker 插件使用</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-08-11</p></div><div class="article-content"><h3 id="安装／升级你的Docker客户端"><a class="header-anchor" href="#安装／升级你的Docker客户端">¶</a>安装／升级你的Docker客户端</h3>
+<p>推荐安装1.6.0以上版本的Docker客户端。<br>
+您可以通过阿里云的镜像仓库下载：<a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/help/docker-engine">mirrors.aliyun.com/help/docker-engine</a><br>
+或执行以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>如何使用Docker加速器<br>
+针对Docker客户端版本大于1.10的用户<br>
+您可以通过修改daemon配置文件/etc/docker/daemon.json来使用加速器：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">&#123;</span><br><span class="line">&quot;registry-mirrors&quot;: [&quot;https://ejburpg5.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125; EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+<h3 id="运行Docker通过HTTP管理API"><a class="header-anchor" href="#运行Docker通过HTTP管理API">¶</a>运行Docker通过HTTP管理API</h3>
+<p>编辑 <code>*/etc/init/docker.conf</code> 更新 <code>DOCKER_OPTS</code> 环境变量：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DOCKER_OPTS=&#x27;-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock&#x27;</span><br></pre></td></tr></table></figure>
+<p>重启服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service docker restart</span><br></pre></td></tr></table></figure>
+<p>注意：如果重启依然没有生效，看看system启动中是否有引用该变量 /lib/systemd/system/docker.service , 里面增加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EnvironmentFile=-/etc/default/docker</span><br></pre></td></tr></table></figure>
+<p>修改</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/bin/dockerd -d -H fd://</span><br></pre></td></tr></table></figure>
+<p>为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/bin/dockerd -d -H fd:// $DOCKER_OPTS</span><br></pre></td></tr></table></figure>
+<p>再次重启即可。</p>
+<h3 id="安装docker插件"><a class="header-anchor" href="#安装docker插件">¶</a>安装docker插件</h3>
+<p>在IDEA里面搜索docker integeration，安装即可。</p>
+<ol>
+<li>添加docker cloud</li>
+</ol>
+<p>setting &gt;&gt; cloud &gt;&gt; docker</p>
+<p>填上上面配置的地址，如 <a target="_blank" rel="noopener" href="http://localhost:2375">http://localhost:2375</a> 。certificates 留空不用填。</p>
+<ol start="2">
+<li>
+<p>所有配置通过将显示 Connection successful</p>
+</li>
+<li>
+<p>运行时，需要在本机安装docker-compose，用于指定运行build。</p>
+</li>
+</ol>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2017/08/11/intellij/docker-compose-idea-plugin/';
+var disqus_title = 'IDEA docker 插件使用';
+var disqus_url = 'https://galudisu.info/2017/08/11/intellij/docker-compose-idea-plugin/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

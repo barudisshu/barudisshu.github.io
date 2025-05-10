@@ -1,0 +1,49 @@
+@startuml
+
+participant "Resource Owner"
+participant "Javascript Application"
+participant "Authorization Server"
+participant "Resource Server"
+
+"Javascript Application" -> "Authorization Server": Access Token Request
+activate "Authorization Server" #FFBBBB
+
+rnote over "Authorization Server"
+Needs
+    //**client_id**//
+    //**redirect_uri**//
+    //**response_type = <color #red>token</color>**//
+    [//**scope**//]
+    [//**state**//]
+endrnote
+
+"Resource Owner" -> "Authorization Server": Login & Consent
+"Javascript Application" <-- "Authorization Server": Access Token
+
+deactivate "Authorization Server"
+......
+
+"Javascript Application" -> "Authorization Server": Access Token Info Request
+activate "Authorization Server" #FFBBBB
+"Javascript Application" <-- "Authorization Server": Access Token Info
+deactivate "Authorization Server"
+
+"Javascript Application" -> "Javascript Application": Validate client_id
+loop
+
+"Javascript Application" -> "Resource Server": Call API with Access Token
+activate "Resource Server" #DarkSalmon
+rnote over "Resource Server"
+    Must Implement CORS
+    for Cross-Domain Requests
+endrnote
+"Javascript Application" <-- "Resource Server": Response With Data[<color #A209E1>**Unauthorized**</color>|<color #darkGreen>**Real wanted**</color>]
+deactivate "Resource Server"
+
+end
+
+
+...subsequent as you wish ...
+
+@enduml
+

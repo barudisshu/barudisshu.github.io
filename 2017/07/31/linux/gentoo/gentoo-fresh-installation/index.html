@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Gentoo fresh installation</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Gentoo fresh installation</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-07-31</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/gentoo/">gentoo</a></p></div><div class="article-content"><p>Gentoo fresh installation through Virtualbox and livecd.</p>
+<p>Introduction:<br>
+Gentoo are very customizable distro compared to others such as ubuntu. You can go easymode and use ubuntu cause ubuntu is for people that dont know how to use or install gentoo. Gentoo is totally free from 3rd party application or commercial.</p>
+<p>Note:<br>
+You better stick with Gentoo handbook until you know what you doing.<br>
+Learn from mistakes. Do it again until you familiar with your basic setting.</p>
+<span id="more"></span>
+<p>Part 1: Partitioning the HDD (This Virtual HDD is 40gb as example and we will be using gparted)</p>
+<p>fdisk -l				View HDD details<br>
+parted -a optimal /dev/sda	Configuring HDD<br>
+mklabel gpt			Make label for HDD<br>
+unit Mib				This will set metric unit<br>
+mkpart primary 1 3		Creating grub partition (1 to 3 is HDD block unit count or ‘size’)<br>
+name 1 grub			Name it to ‘grub’<br>
+set 1 bios_grub on		Enable the grub<br>
+mkpart primary 3 131		Creating boot partition (3 to 131 is HDD block unit count or ‘size’)<br>
+name 2 boot			Name it to ‘boot’<br>
+mkpart primary 131 2179		Creating swap partition (131 to 2179 is HDD block unit count or ‘size’)<br>
+name 3 swap			Swap should be more than 1gb. We use 2gb (2048) as example<br>
+mkpart primary 2179 40000	Creating root partition (2179 to 20000 is HDD block unit count or ‘size’)<br>
+name 4 rootfs			Name it to ‘rootfs’<br>
+set 2 boot on			Enable the boot<br>
+quit				Quit gparted</p>
+<p>Part 2: File System and mount (You can use any filesystem, we just do it simple)</p>
+<p>mkfs.vfat /dev/sda1<br>
+mkfs.ext2 -L “boot” /dev/sda2<br>
+mkswap -L “swap” /dev/sda3<br>
+swapon /dev/sda3<br>
+free -m<br>
+mkfs.ext4 -L “rootfs” /dev/sda4</p>
+<p>mount /dev/sda4 /mnt/gentoo		Root is on /dev/sda4<br>
+mkdir /mnt/gentoo/boot			Create boot directory<br>
+mount /dev/sda2 /mnt/gentoo/boot		Mounting boot partition</p>
+<p>Part 3: Set the clock and downloading the stage tarball</p>
+<p>date MMDDhhmmYYYY			Format is month - day - hour - minutes - year</p>
+<p>cd /mnt/gentoo				Go into root directory<br>
+ping -c 3 <a target="_blank" rel="noopener" href="http://gentoo.org">gentoo.org</a>			Ping the address. I assume you got ur internet running or you will<br>
+need to figure it out by using ‘ifconfig’ or ‘net-setup’.<br>
+links <a target="_blank" rel="noopener" href="http://www.gentoo.org/main/en/mirror.xml">www.gentoo.org/main/en/mirror.xml</a>	Go to website and choose current stage 3 and download<br>
+tar xvjpf ‘stage3’ --xattrs			Untar the compressed tarball</p>
+<p>Part 4: Configuring the make.conf</p>
+<p>nano -w /mnt/gentoo/etc/portage/make.conf		Open the make.conf and edit few things below<br>
+CFLAGS=“-march=native -02 -pipe”		March native will utilize CPU architecture<br>
+MAKEOPTS=“-j4”					Set the number of ur CPU cores plus 1 or any value<br>
+USE=“python icu bindist mmx sse sse2”		Set the basic USE flags.<br>
+ALSA_CARDS=“”					Sound Cards. (ex, hda-intel) This are not necessary because new kernel version already know your alsa cards<br>
+VIDEO_CARDS=&quot; &quot;				Video Cards. (ex, nvidia) Dont put anything yet<br>
+INPUT_DEVICES=&quot; &quot;				Input Devices. (ex, keyboard) Dont put anything yet</p>
+<p>Both VIDEO_CARDS and INPUT_DEVICES are better to be add after successful boot and @world merge to avoid conflict.</p>
+<p>When done, press ‘Ctrl + X’ to save and press ‘Y’. And proceed to next step.</p>
+<p>Part 5: CHROOTING (Change root) 		Selecting mirrors is not necessary because it already set by default. Just do the change root (chroot).</p>
+<p>cp -L /etc/resolv.conf /mnt/gentoo/etc/<br>
+mount -t proc proc /mnt/gentoo/proc<br>
+mount --rbind /sys /mnt/gentoo/sys<br>
+mount --make-rslave /mnt/gentoo/sys<br>
+mount --rbind /dev /mnt/gentoo/dev<br>
+mount --make-rslave /mnt/gentoo/dev</p>
+<p>chroot /mnt/gentoo /bin/bash<br>
+source /etc/profile<br>
+export PS1=“(chroot) $PS1”<br>
+emerge-webrsync			Or you can also ‘emerge --sync’ to sync all file</p>
+<p>Selecting the right profile. This are important because it will pull all lib and package dependencies depend on what you want to use. KDE, Gnome, Xfce, Plasma, Hardened all have different USE Flags and libs dependencies.<br>
+eselect profile list			Select profile to use. We will be using desktop for example<br>
+eselect profile set X			Set the Plasma desktop profile</p>
+<p>Part 6: Timezone and Localization</p>
+<p>ls /usr/share/zoneinfo				View all zone list<br>
+ls /usr/share/zoneinfo/‘ur country’			Choose country and state from list<br>
+echo “ur country/ur state” &gt; /etc/timezone		Save timezone info into /etc/timezone<br>
+emerge --config sys-libs/timezone-data		Install timezone configuration</p>
+<p>nano -w /etc/locale.gen				Edit locale.gen and set to ‘local’<br>
+locale-gen					Generate locale<br>
+eselect locale list				Select appropriate locale<br>
+eselect locale set #				Set locale</p>
+<p>env-update &amp;&amp; source /etc/profile &amp;&amp; export PS1=“(chroot) $PS1”		Update the environment</p>
+<p>Note:<br>
+if occur SYNC setting found in make.conf. warning</p>
+<p>comment <code>sync</code></p>
+<p>vi /etc/portage/make.conf<br>
+GENTOO_MIRRORS=“<a target="_blank" rel="noopener" href="http://ftp.iij.ad.jp/pub/linux/gentoo/">http://ftp.iij.ad.jp/pub/linux/gentoo/</a>”<br>
+SYNC=“rsync://rsync1.jp.gentoo.org/gentoo-portage”</p>
+<p>mkdir /etc/portage/repos.conf<br>
+cp /usr/share/portage/config/repos.conf /etc/portage/repos.conf/gentoo.conf</p>
+<p>Part 7: KERNEL and File system table (fstab)</p>
+<p>emerge --ask --verbose sys-kernel/gentoo-sources		This will install gentoo sources kernel<br>
+emerge -av pciutils usbutils				Install required tool to detect pci and usb<br>
+emerge genkernel					Install  kernel</p>
+<p>nano -w /etc/fstab		There are few things need to be configure here to map your partitions</p>
+<pre><code>/dev/sda2	/boot		ext2	noauto,noatime	1 2
+/dev/sda4	/		ext4	noatime		0 1
+/dev/sda3	none		swap	sw		0 0
+/dev/sr0		/mnt/cdrom	iso9660	noauto,user,ro	0 0
+</code></pre>
+<p>This file and drive order/names are very important so the kernel and modules can load properly and Dbus can start its process.<br>
+sr0 are cd/dvd drive and iso9660 is its default kernel module. Adding ‘user’ will allow user to mount cd/dvd<br>
+When all done, save the configuration press ‘Ctrl + X’ to save press ‘Y’. And proceed to next step.</p>
+<p>genkernel --menuconfig all	This will open a GUI (Generated User Interface) kernel for customization<br>
+Add your hostname in General Setup. When you done, save it to .config<br>
+(by default name). Then exit. This will take a while to process.</p>
+<p>emerge -av sys-kernel/linux-firmware		Apply linux firmware</p>
+<p>Part 8: Hostname and DHCP</p>
+<p>nano -w /etc/conf.d/hostname			Set hostname for “localhost”<br>
+ifconfig						View networking adapter and adapter name<br>
+emerge --ask --noreplace net-misc/netifrc<br>
+nano /etc/conf.d/net				Configure network adapter to use dhcp on boot. Make<br>
+sure adapter name is same from ifconfig<br>
+config_enp0s3=“dhcp”</p>
+<p>cd /etc/init.d<br>
+ln -s net.lo net.enp0s3				Prepares the adapter on boot<br>
+ls -lsa						View (list) net.lo is redirected to net.enp0s3</p>
+<p>nano -w /etc/hosts				127.0.0.1 replace localhost</p>
+<p>Part 9: Set root access and hardware clock</p>
+<p>passwd password				Any password<br>
+nano -w /etc/conf.d/hwclock			Set UTC to local</p>
+<p>Part 10: System tools</p>
+<p>emerge -av app-admin/syslog-ng sys-process/cronie sys-apps/mlocate	Basic app for admin</p>
+<p>rc-update add syslog-ng default<br>
+rc-update add cronie default<br>
+rc-update add sshd default<br>
+emerge -av net-misc/dhcpcd</p>
+<p>emerge -av sys-apps/iproute2 sys-apps/net-tools gentoolkit			Basic network app (skip this, do it after Plasma desktop load if you need it)</p>
+<p>Part 11: System Boot (Grub 2)</p>
+<p>emerge -av sys-boot/grub<br>
+grub2-install /dev/sda<br>
+grub2-mkconfig -o /boot/grub/grub.cfg<br>
+exit</p>
+<p>ls /mnt/gentoo<br>
+umount /mnt/gentoo<br>
+shutdown -P now</p>
+<p>By now it should be boot and make sure to remove the livecd.</p>
+<p>Part 12: Test Booting</p>
+<p>login root<br>
+cd /<br>
+rm /stage3-*.tar.bz2</p>
+<p>emerge -uvDNa world							This will pull all libs and dependencies needed for the selected profile and also update all the package. This will takes hours depends on your CPU and internet.<br>
+It took more than 5 hours for me.</p>
+<p>EXTRAS</p>
+<p>Part 13: Installing Xorg.</p>
+<p>Both VIDEO_CARDS and INPUT_DEVICES will need to be configured again with the appropriate cards and devices.<br>
+Depends on your cards, you might need to configure your kernel too because some nvidia provided driver conflicts with nouveu in kernel driver<br>
+I will use VIDEO_CARDS=“vesa intel fbdev” and INPUT_DEVICES=“evdev mouse keyboard” as test, because im building this Gentoo in virtual environment.<br>
+Add this In /etc/portage/make.conf</p>
+<p>VIDEO_CARDS=“vesa intel fbdev”<br>
+INPUT_DEVICES=“evdev mouse keyboard”</p>
+<p>When done, press ‘Ctrl + X’ to save and press ‘Y’.</p>
+<p>emerge -av xorg-drivers							Install the video cards<br>
+emerge -av xorg-server</p>
+<p>After its done, you might need to do emerge twm and xterm, just to test if everything are working correctly.</p>
+<p>emerge twm xterm</p>
+<p>Then do, startx</p>
+<p>If everything working as intended, you will get 3 white console. Now you can uninstall the twm and xterm.</p>
+<p>emerge --unmerge twm xterm</p>
+<p>Part 14: Adding Users</p>
+<p>useradd -m -G users,wheel,audio,portage,usb,video -s /bin/bash <user><br>
+passwd <user></p>
+<p>Part 15: Installing Desktop Environment (Plasma)</p>
+<p>There are 2 main package for Plasma desktop,</p>
+<ol>
+<li>kde-plasma/plasma-meta						Everything in Plasma will be installed</li>
+<li>kde-plasma/plasma-desktop						Only few basic things for loading a plasma desktop<br>
+Just choose either 1 that you need. Then do, emerge.</li>
+</ol>
+<p>emerge app-portage/cpuinfo2cpuflags 		copy the tail after CPU_FLAGS_X86: to CPU_FLAGS_X86 of your make.conf</p>
+<p>emerge -av kde-plasma/plasma-meta</p>
+<p>You might as well want to install internet browser, file manager, and terminal emulator.</p>
+<p>emerge -av kde-apps/konsole kde-apps/konqueror kde-apps/dolphin</p>
+<p>Part 16: Configuring boot up and finalizing</p>
+<p>nano /etc/env.d/90xsession<br>
+add a new line,<br>
+XSESSION=“KDE-4”</p>
+<p>When done, press ‘Ctrl + X’ to save and press ‘Y’.</p>
+<p>nano ~/.xinitrc<br>
+add a new line,<br>
+exec ck-launch-session dbus-launch --sh-syntax --exit-with-session startkde</p>
+<p>When done, press ‘Ctrl + X’ to save and press ‘Y’.</p>
+<p>nano /etc/conf.d/xdm<br>
+edit the line and add with sddm,<br>
+DISPLAYMANAGER=“sddm”</p>
+<p>When done, press ‘Ctrl + X’ to save and press ‘Y’.</p>
+<p>Add sddm to video group,<br>
+usermod -a -G video sddm</p>
+<p>/etc/init.d/dbus status							Check the dbus status<br>
+/etc/init.d/dbus start<br>
+rc-update add dbus default</p>
+<p>/etc/init.d/consolekit status						Check consolekit status<br>
+/etc/init.d/consolekit start<br>
+rc-update add consolekit default</p>
+<p>rc-update add xdm default<br>
+/etc/init.d/xdm status</p>
+<p>env-update &amp;&amp; source /etc/profile<br>
+/etc/init.d/xdm start</p>
+<p>IF everything working and you follow this guide, it will load the Plasma login screen after you start the xdm. If it doesn’t something is wrong with your step.<br>
+Check everything back if it does. Your desktop will be flickering because it still have twm and xterm in the background, under the plasma. You can fix it by doing a reboot after login the plasma.</p>
+<p>If it working, all good. You will get the same desktop as im currently using now.</p>
+<p>Part 17: Installing ALSA (Advance Linux Sound Architecture), and Pulseaudio<br>
+By default, libs and packages needed for sound to working are already pulled in when merging the Plasma desktop. We just need to enable it.</p>
+<p>/etc/init.d/alsasound status						Check for sound card status<br>
+/etc/init.d/alsasound start<br>
+rc-update add alsasound boot						Set alsasound to run at boot level<br>
+alsamixer								Adjust the sound level<br>
+speaker-test -t wav -c 2							Sound check</p>
+<p>Add USE flags “alsa” and “pulseaudio” into /etc/portage/make.conf<br>
+emerge -av pavucontrol							Pulseaudio volume control. This are very useful application to manage your sound cards<br>
+speaker test -t wav -c 2</p>
+<p>You should get to hear sound from speaker test. If you dont, open Pulseaudio volume control and select your sound cards and appropriate sound codec.<br>
+Don’t use “speaker-test -t wav -c 2” as a root access. Do speaker test as a normal user in another terminal. You will hear sound from the test.</p>
+<p>env-update &amp;&amp; source /etc/profile</p>
+<p>Dispatch-conf and etc-update are tools to help you fix your config files. It will give you an option for each to use the new file, use old file, or let you edit the two files together. If you have a new system that you didn’t customize, typically using the new file is easiest.</p>
+<p>Part 18: Last check and booting.<br>
+Check everything again and tinkering around with desktop settings.</p>
+<p>To fully optimize for browsing internet (Youtube), i recommend to install Firefox and also adobe flash</p>
+<p>emerge -av firefox<br>
+emerge -av adobe</p>
+<p>You need to mount cd/dvd rom (sr0) by yourself if you want to use the drive. Just like mounting a usb memory stick.</p>
+<p>mkdir /mnt/cdrom<br>
+mount -t iso9660 /dev/sr0 /mnt/cdrom</p>
+<p>mkdir /mnt/usb<br>
+mount /dev/sdb1 /mnt/usb</p>
+<p><a target="_blank" rel="noopener" href="https://gist.github.com/kidlj/f30e82c2c6f064990596">https://gist.github.com/kidlj/f30e82c2c6f064990596</a> 		font config</p>
+<p>Any question, post in my channel. I’ll reply later.<br>
+I will upload the “Configuring WIFI” and “Installing Wine, Winetricks, 32bit Wineprefix, including Steam” in another video.</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2017/07/31/linux/gentoo/gentoo-fresh-installation/';
+var disqus_title = 'Gentoo fresh installation';
+var disqus_url = 'https://galudisu.info/2017/07/31/linux/gentoo/gentoo-fresh-installation/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

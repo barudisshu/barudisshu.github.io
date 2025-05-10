@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>简单易懂の现代魔法</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><div class="post-list-wrapper"><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2016/10/27/scala/06-functional-webapp">第六章：构建函数式风格的Web应用</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2016-10-27</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/scala/">scala</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><h4 id="主要内容："><a class="header-anchor" href="#主要内容：">¶</a>主要内容：</h4>
+<ol>
+<li>使用SBT(Simple Build Tool)工具构建项目。</li>
+<li>Scalaz HTTP 模块。</li>
+<li>创建一个WEB应用程序weKanban。</li>
+</ol>
+<p>本书的第二部分开始，将关注于Scala函数式编程的实际应用。现在早已有Web应用框架 <a target="_blank" rel="noopener" href="http://liftweb.net">Lift</a> 和 <a target="_blank" rel="noopener" href="http://www.playframework.org">Playframework</a> 开构建web应用程序。但是本章介绍的是一个有趣的Scala http库——Scalaz。这个简单的库让你更加专注于函数式web应用的构建，而不用担心全栈的Web框架带来的复杂性问题。<br>
+HTTP 请求并产生一个HTTP响应。每个URL端点被映射到一个函数中，这个函数则用来处理request。因为你创建的是一个函数式风格，web应用程序的状态被显式地被指定在每个请求中。这样想的好处是，你可以将web应用程序进行组合或者使用高阶的组合。web框架的对应策略是无状态的和可变的。在本章内容中，你将学习到使用函数式编程来构建一个web应用框架。<br>
+要到达终点，首先要知道如何创建一个应用程序，如何使用。或许我们使用过了比较多的构建工具，但是比较标准的构建工具是SBT。这里将介绍如何配置和使用SBT来构建Scala Web项目。</p></div><div class="article-read-more"><a class="read-more-link" href="/2016/10/27/scala/06-functional-webapp/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2016/10/27/scala/05-fp-practise">第五章：函数式编程</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2016-10-27</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/scala/">scala</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><h4 id="主要内容"><a class="header-anchor" href="#主要内容">¶</a>主要内容</h4>
+<ol>
+<li>为什么函数式编程</li>
+<li>FP和OOP</li>
+<li>各种形式的函数</li>
+<li>Monads以及应用实例</li>
+</ol>
+<p>前面部分或多或少介绍了Scala的函数式编程，或在Scala的面向对象结构中混入了函数式编程。本章将专注于函数式编程概念，以及它们是如何在Scala中实现的。本章主要目的是使你对函数式编程有个清晰的感知，并帮助你编写函数式编程风格代码。</p>
+<p><em>函数式编程</em> 是一个编程范式，将计算行为模拟为表达式的求值。而这个表达式使用函数构建，不带有可变状态和副作用。函数式编程的起源是值得探索的<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> 。相信与否，函数式编程始于约1930，Alonzo Church 介绍的 λ演算<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> 。一个λ演算是一套用于研究函数定义、函数应用和递归的形式系统。λ演算的函数都是第一类值(first-class value）；函数可以接收其它函数作为参数，返回函数作为输出(高阶函数)。</p></div><div class="article-read-more"><a class="read-more-link" href="/2016/10/27/scala/05-fp-practise/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2016/10/27/scala/04-fp-structure">第四章：函数数据结构</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2016-10-27</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/scala/">scala</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><h4 id="主要内容："><a class="header-anchor" href="#主要内容：">¶</a>主要内容：</h4>
+<ol>
+<li>类型参数化的协变和逆变(Covariance and contravariance)</li>
+<li>高阶函数(high-order function)</li>
+<li>自定义函数对象(function objects)</li>
+<li>容器层次和并行容器(collection hierachy and parallel collection)</li>
+</ol>
+<p>本章将介绍Scala中有趣的部分: Scala集合完全支持两种类型的数据结构——可变和不可变。<br>
+在理解Scala集合优越性之前，你需要知道两个概念: 类型参数化(type parameterization)和高阶函数(higher-order functions)。类型参数化允许你创建的类型是其他参数的类型（类似于Java的泛型(generics)）。高阶函数则是你创建 的函数可以将其他函数作为参数。这两个概念使得你可以创意通用的、可重用的组件，如Scala集合。<br>
+Scala集合是所有Scala特征中最强大的一部分。Scala库中实现了所有你需要的通用数据结构，他对于所有Scala开发者来说都是必不可少的。最新添加的集合库是并行集合。并行集合使得处理数据并行性问题变得容易。你将会看到并行集 合在大数据集中如何处理，这部分将踏进有趣的路程。</p></div><div class="article-read-more"><a class="read-more-link" href="/2016/10/27/scala/04-fp-structure/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2016/10/27/scala/03-scala-oop">第三章：Scala OOP</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2016-10-27</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/scala/">scala</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><h4 id="主要内容："><a class="header-anchor" href="#主要内容：">¶</a>主要内容：</h4>
+<ol>
+<li>构建MongoDB驱动</li>
+<li>case模式匹配</li>
+<li>命名和默认参数</li>
+</ol>
+<p>上一章讲了Scala的基础部分，这章介绍Scala面向对象的特性。面向对象编程不是新鲜事物，但是Scala在面向对象基础上添加了一些新的特性。<br>
+本章将使用Scala构建MongoDB的驱动。MongoDB也是可伸缩的(scalable)，基于文档的数据库。你将使用Scala面向对象构造器快速构建MongoDB驱动程序，并在此讲述每一步的概念。Scala使得面向对象得到革新，其中包括特征(trait)。特征相似与Java的半实现的抽象类(abstract classes)。本章将介绍特征在Scala程序中是如何工作的。同时，本章也将介绍容器类(case classes)，容器类对于构建不可变类是非常有用的，另外也会介绍并发和数据-对象转换。容器类是函数式编程和面向对象编程的桥梁。</p></div><div class="article-read-more"><a class="read-more-link" href="/2016/10/27/scala/03-scala-oop/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2016/10/27/scala/02-getting-started">第二章：开始学习Scala</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2016-10-27</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/scala/">scala</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章内容将学习Scala的类型，函数，for-comprehensions，模式匹配，以及其它方面内容。</p>
+<p>注意模式匹配和for-comprehensions，是函数式编程概念。本章主要目的是先熟悉Scala语言的环境和一些基本的语法。一开始，会先从REPL简单环境入手。</p>
+<p>在作进一步学习之前，先确保已经安装好Scala。现在，让我们先了了解Scala的解析器REPL。</p></div><div class="article-read-more"><a class="read-more-link" href="/2016/10/27/scala/02-getting-started/">Read more</a></div></article></div><nav class="pagination-wrapper"><a class="extend prev" rel="prev" href="/page/25/">&lt;&lt;</a><a class="page-number" href="/">1</a><span class="space">...</span><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/27/">&gt;&gt;</a></nav><div id="base-discus"></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

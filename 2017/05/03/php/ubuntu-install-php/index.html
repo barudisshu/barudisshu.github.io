@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Ubuntu configure LAMP environment</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Ubuntu configure LAMP environment</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-05-03</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/ubuntu/">ubuntu</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/php/">php</a></p></div><div class="article-content"><p>Use-Cases of this Tutorial</p>
+<ul>
+<li>Installing latest versions of Apache, MySql, PHP &amp; phpMyAdmin on Ubuntu 16.04</li>
+<li>Installing latest versions of Apache, MySql, PHP &amp; phpMyAdmin on Ubuntu 16.04 (over an AWS EC2 Instance)</li>
+</ul>
+<span id="more"></span>
+<p>Having your own VPS or a Dedicated Server offers a lot of freedom as compared to a Shared Hosting plan. You can enable Apache &amp; PHP modules as per your wish, and also use many useful Linux utilities in your PHP code.</p>
+<p>However the initial setup is quite a pain. Installing applications and working with the Linux command line are not the easiest of things. But installing Apache, PHP, MySql &amp; phpMyAdmin is not difficult, as long as you stick with the process. In fact you can have a fully functional LAMP stack by executing only 10-12 command line operations !</p>
+<p>Follow the steps given below, one by one.</p>
+<h3 id="Updating-the-Package-List"><a class="header-anchor" href="#Updating-the-Package-List">¶</a>Updating the Package List</h3>
+<p>Update the package list on your system so that you can have the latest available versions of Apache, PHP, MySql and phpMyAdmin.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<h3 id="Installing-Apache"><a class="header-anchor" href="#Installing-Apache">¶</a>Installing Apache</h3>
+<p>Install Apache through the following command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apache2</span><br></pre></td></tr></table></figure>
+<p>Note that it will install the latest available version of Apache (2.4 as of Jan, 2017).</p>
+<h3 id="Checking-Successful-Installation-of-Apache"><a class="header-anchor" href="#Checking-Successful-Installation-of-Apache">¶</a>Checking Successful Installation of Apache</h3>
+<p>You can check whether Apache has been installed by typing in the IP address of your server <code>http://your-ip-address</code> (or <code>http://localhost</code> if you’re doing it on a local server). You should see a page like this :</p>
+<p><img src="/img/lamp/apache-home.png" alt=""></p>
+<h3 id="Installing-MySQL"><a class="header-anchor" href="#Installing-MySQL">¶</a>Installing MySQL</h3>
+<p>Install MySql through the following command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mysql-server</span><br></pre></td></tr></table></figure>
+<p>You will also be asked to enter the desired password of the MySql root account. <strong>Although it is optional, don’t leave it</strong>. The default password of the root account is blank, and instead of changing it later on, better do it now.</p>
+<p><img src="/img/lamp/mysql-root-password.png" alt=""></p>
+<p>Type in a strong password and <strong>press the arrow-down button to highlight the Ok button. When highlighted the Ok button will turn red</strong>. Press the enter key to proceed.</p>
+<p>You will also be asked for a confirmation of the password. Repeat the same.</p>
+<p>The latest available version of MySql (5.7 as of Jan, 2017) will be installed.</p>
+<h3 id="Checking-Successful-Installation-of-MySql"><a class="header-anchor" href="#Checking-Successful-Installation-of-MySql">¶</a>Checking Successful Installation of MySql</h3>
+<p>Type the following command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+<h3 id="Installing-PHP-with-Commonly-Used-Extensions"><a class="header-anchor" href="#Installing-PHP-with-Commonly-Used-Extensions">¶</a>Installing PHP with Commonly Used Extensions</h3>
+<p>Install PHP and commonly used extensions:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install php libapache2-mod-php php-mysql php-curl php-gd php-json php-mcrypt php-zip</span><br></pre></td></tr></table></figure>
+<p>In the above command in addition to PHP, the following PHP extensions are also installed :</p>
+<ul>
+<li>MySql Extension : To use MySql functions available in PHP</li>
+<li>Curl Extension : To make CURL requests through PHP, commonly used in implementing API calls of web services</li>
+<li>GD Extension : To enable the GD library. PHP uses GD library for image manipulation tasks</li>
+<li>JSON Extension : To decode and encode JSON through PHP</li>
+<li>Mcrypt Extension : Contains various encryption functions</li>
+<li>Zip Extension : Zip and unzip through PHP</li>
+</ul>
+<p>PHP offers a lot more extensions, but these are the most commonly used. If required, you can install an extension later.</p>
+<p>Also note that <code>libapache2-mod-php</code> is the Apache Module to run PHP. This module provides the connection between Apache and PHP.</p>
+<p>The latest available version of PHP (7 as of Jan, 2017) will be installed.</p>
+<h3 id="Checking-Successful-Installation-of-PHP"><a class="header-anchor" href="#Checking-Successful-Installation-of-PHP">¶</a>Checking Successful Installation of PHP</h3>
+<p>Type the following command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;&lt;?php phpinfo(); ?&gt;&quot; | sudo tee /var/www/html/phpinfo.php</span><br></pre></td></tr></table></figure>
+<p>This will create a phpinfo.php file in the root directory. Type this url in the browser <code>http://your-ip-address/phpinfo.php</code> (or <code>http://localhost/phpinfo.php</code> if installing locally). You should see a page like this, showing your PHP configuration :</p>
+<p><img src="/img/lamp/php-home.png" alt=""></p>
+<h3 id="Installing-phpMyAdmin"><a class="header-anchor" href="#Installing-phpMyAdmin">¶</a>Installing phpMyAdmin</h3>
+<p>Install phpMyAdmin through the commannd :</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install phpmyadmin</span><br></pre></td></tr></table></figure>
+<p>You will be asked to choose the type of web server. The default choice would be apache2. Press space key to select. Now press Tab key to highlight the Ok button. Now press the enter key. <strong>Pressing key in this order is very important, otherwise apache2 will not be selected</strong>. When selected apache2 would have a * symbol beside it, see the second image how it would look like.</p>
+<p><img src="/img/lamp/phpmyadmin-choose-server.png" alt=""></p>
+<p><img src="/img/lamp/phpmyadmin-apache-server.png" alt=""></p>
+<p>You will then be asked whether to configure database for phpmyadmin with dbconfig-common. Choose Yes and click enter.</p>
+<p><img src="/img/lamp/phpmyadmin-choose-dbconfig.png" alt=""></p>
+<p>You will then be asked to enter the password of MySql root account. Enter the password which you typed while installing MySql. Use the Tab key to highlight the Ok button and press enter.</p>
+<p>Do the same when asked for password confirmation.</p>
+<p><img src="/img/lamp/phpmyadmin-choose-password.png" alt=""></p>
+<p>The latest available version of phpMyAdmin (4.5 as of Jan, 2017) will be installed.</p>
+<h3 id="Checking-Successful-Installation-of-phpMyAdmin"><a class="header-anchor" href="#Checking-Successful-Installation-of-phpMyAdmin">¶</a>Checking Successful Installation of phpMyAdmin</h3>
+<p>Visit the url <code>http://your-ip-addrss/phpmyadmin</code> (or <code>http://localhost/phpmyadmin</code>) in your browser. If phpMyAdmin is installed successfully, you should see the standard phpMyAdmin login page. Type in root as the username, and the MySql password you chose earlier to access the databases.</p>
+<h3 id="Enable-Apache-Rewrite-Module"><a class="header-anchor" href="#Enable-Apache-Rewrite-Module">¶</a>Enable Apache Rewrite Module</h3>
+<p>Enable the Rewrite Module in Apache, so that your application can make use of seo-friendly pretty URLs, such as <a target="_blank" rel="noopener" href="http://website.com/posts/12/post-on-ubuntu/">http://website.com/posts/12/post-on-ubuntu/</a> (instead of <a target="_blank" rel="noopener" href="http://website.com?post_id=12">http://website.com?post_id=12</a>). Most probably you will be needing pretty URLs in future, better enable it now.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo a2enmod rewrite</span><br></pre></td></tr></table></figure>
+<p>Now restart Apache so that this change becomes live.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service apache2 restart</span><br></pre></td></tr></table></figure>
+<p>That’s it. You should have a fully functional LAMP stack. You can start writing your code now !</p>
+<p>In case of any issues, please comment it below.</p>
+<h3 id="Referrence"><a class="header-anchor" href="#Referrence">¶</a>Referrence</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://usefulangle.com/post/35/how-to-install-linux-apache-mysql-php-phpmyadmin-lamp-stack-on-ubuntu-16-04">http://usefulangle.com/post/35/how-to-install-linux-apache-mysql-php-phpmyadmin-lamp-stack-on-ubuntu-16-04</a></li>
+</ul>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2017/05/03/php/ubuntu-install-php/';
+var disqus_title = 'Ubuntu configure LAMP environment';
+var disqus_url = 'https://galudisu.info/2017/05/03/php/ubuntu-install-php/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

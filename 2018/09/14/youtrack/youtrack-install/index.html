@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>YouTrack 快速安装</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">YouTrack 快速安装</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-09-14</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/youtrack/">youtrack</a></p></div><div class="article-content"><p>最近入手敏捷开发工具，比较了一番之后发现YouTrack比较优秀。同类产品中leangoo太过简单，JIRA要收费，很贵！功能也很不错，但是安装复杂。其它国产的什么禅道、leangoo之类的，毕竟没有大气风范</p>
+<span id="more"></span>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mkdir -p /data/docker/youtrack /data/docker/youtrack/data /data/docker/youtrack/conf /data/docker/youtrack/logs /data/docker/youtrack/backups</span><br><span class="line"></span><br><span class="line">echo &#x27;-Djava.security.egd=file:/dev/./urandom&#x27; &gt; /data/docker/youtrack/conf/youtrack.jvmoptions</span><br><span class="line"></span><br><span class="line">echo &#x27;-Djava.security.egd=file:/dev/./urandom&#x27; &gt; /data/docker/youtrack/conf/youtrack.jvmoptions</span><br><span class="line"></span><br><span class="line">chmod -R a+w /data/docker/youtrack/*</span><br><span class="line"></span><br><span class="line">docker pull ilanyu/youtrack</span><br><span class="line"></span><br><span class="line">docker run --name youtrack-server-instance -v /data/docker/youtrack/data:/opt/youtrack/data -v /data/docker/youtrack/conf:/opt/youtrack/conf -v /data/docker/youtrack/logs:/opt/youtrack/logs -v /data/docker/youtrack/backups:/opt/youtrack/backups -p 8080:8080 -d --restart=always ilanyu/youtrack</span><br></pre></td></tr></table></figure>
+<p>打开浏览器 <a target="_blank" rel="noopener" href="http://your_server:8080">http://your_server:8080</a></p>
+<p>输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username:  ilanyu  </span><br><span class="line">activation code:  7b5480c07039fb790dfe66bc90c5fdb604a02da33c68b8d50825ff45fa41af354c0a827ac9d45e6440b8e799917feb5bd514eee41b01bde2e9481d581ba89cac71bb76c83b607b6332ffe1bbb43e18edbb1c94361cd06addbe0f6e33b8135f16faca768c5f17408aacb11abc991e5b3c59a524e4392b361212eb51151d33c3a8</span><br></pre></td></tr></table></figure>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2018/09/14/youtrack/youtrack-install/';
+var disqus_title = 'YouTrack 快速安装';
+var disqus_url = 'https://galudisu.info/2018/09/14/youtrack/youtrack-install/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

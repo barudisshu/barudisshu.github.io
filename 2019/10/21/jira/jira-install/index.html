@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Jira 快速安装</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Jira 快速安装</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2019-10-21</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/jira/">jira</a></p></div><div class="article-content"><p>JIRA是一个缺陷跟踪管理系统，为针对缺陷管理、任务追踪和项目管理的商业性应用软件，开发者是澳大利亚的Atlassian。JIRA这个名字并不是一个缩写，而是截取自“<strong>Gojira</strong>”，日文的哥斯拉发音。</p>
+<p>采用Docker实现破解版的Jira安装。</p>
+<span id="more"></span>
+<ol>
+<li>下载镜像</li>
+</ol>
+<p>一定要安装<code>jira-software</code>(不是jira)，否则没有agile</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull dchevell/jira-software:7.13.0</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>运行容器</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -it -p  8080:8080  --privileged  -m 4096M -v /data/jira-data:/var/atlassian/application-data/jira  -v /etc/localtime:/etc/localtime --name jira dchevell/jira-software:7.13.0</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>拷贝文件到容器内</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/hlwojiv/some-software/raw/master/Jira/mysql-connector-java-5.1.25-bin.jar</span><br><span class="line">wget https://github.com/hlwojiv/some-software/raw/master/Jira/atlassian-universal-plugin-manager-plugin-2.22.4.jar</span><br><span class="line">wget https://github.com/hlwojiv/some-software/raw/master/Jira/atlassian-extras-3.2.jar</span><br></pre></td></tr></table></figure>
+<p>拷贝mysql-connector</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp mysql-connector-java-5.1.25-bin.jar jira:/opt/atlassian/jira/atlassian-jira/WEB-INF/lib/</span><br></pre></td></tr></table></figure>
+<p>进入容器修改mysql-connector的权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it jira bash</span><br><span class="line">chmod 755 /opt/atlassian/jira/atlassian-jira/WEB-INF/lib/mysql-connector-java-5.1.25-bin.jar</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>重启容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart jira</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>安装MySQL</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysql -p 3306:3306 -v /data/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root --restart=unless-stopped -d mysql:5.7</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>设置</li>
+</ol>
+<p>浏览器访问JiraWeb，语言可以设为中文，选择「我将设置它自己」——「下一步」</p>
+<p>数据库设置，数据库类型选择「MySQL」，接着填入你的MySQL连接信息（需要你在你的MySQL数据库中创建数据库，数据库的字符类型必须是utf8），测试可以连接之后点击「下一步」</p>
+<p>设置应用程序的属性——「下一步」</p>
+<p>申请许可证关键字，点击「生成Jira试用许可证」</p>
+<p>需要注册账号，注册完之后重新回到这个页面，选择相关信息，点击「Generate License」</p>
+<p>点击「Yes」</p>
+<p>页面就会带着你的许可证关键字回到Jira的设置页面，接着点击「下一步」</p>
+<p>等待一会就进入设置管理员页面，填入一些信息即可，接着「下一步」</p>
+<p>点击「完成」即完成设置</p>
+<ol start="5">
+<li>拷贝文件到容器内</li>
+</ol>
+<p>拷贝atlassian-extras到容器内</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp atlassian-extras-3.2.jar jira:/opt/atlassian/jira/atlassian-jira/WEB-INF/lib/</span><br></pre></td></tr></table></figure>
+<p>进入容器设置atlassian-extras的权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it jira bash</span><br><span class="line">chmod 755 /opt/atlassian/jira/atlassian-jira/WEB-INF/lib/atlassian-extras-3.2.jar</span><br></pre></td></tr></table></figure>
+<p>重启容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart jira</span><br></pre></td></tr></table></figure>
+<p>拷贝插件到容器内</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp atlassian-universal-plugin-manager-plugin-2.22.4.jar jira:/opt/atlassian/jira/atlassian-jira/WEB-INF/atlassian-bundled-plugins/</span><br></pre></td></tr></table></figure>
+<p>修改权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it jira bash</span><br><span class="line">chmod 755 /opt/atlassian/jira/atlassian-jira/WEB-INF/atlassian-bundled-plugins/atlassian-universal-plugin-manager-plugin-2.22.4.jar</span><br></pre></td></tr></table></figure>
+<p>删除另一个插件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /opt/atlassian/jira/atlassian-jira/WEB-INF/atlassian-bundled-plugins/atlassian-universal-plugin-manager-plugin-2.22.9.jar</span><br></pre></td></tr></table></figure>
+<p>破解结束，进入jira下载任意插件，申请试用，自动破解</p>
+<ol start="6">
+<li>下面来下载一个收费软件试试</li>
+</ol>
+<p>安装完了点击「获取许可证」</p>
+<p>接着在「管理应用」中可以看到，该插件已经破解了</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2019/10/21/jira/jira-install/';
+var disqus_title = 'Jira 快速安装';
+var disqus_url = 'https://galudisu.info/2019/10/21/jira/jira-install/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

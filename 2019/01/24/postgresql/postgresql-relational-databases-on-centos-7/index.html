@@ -1,0 +1,180 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>CentOS 7 安装、配置、使用PostgreSQL及PostGIS</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">CentOS 7 安装、配置、使用PostgreSQL及PostGIS</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2019-01-24</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/postgreSQL/">postgreSQL</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/sql/">sql</a></p></div><div class="article-content"><p>实际开发过程有两种安装方式，一种是编译安装；一种是包安装方式。编译安装需要cmake，gcc以及编译所需要的各种devel，这里仅介绍包安装方式。</p>
+<span id="more"></span>
+<h2 id="从CentOS仓储安装"><a class="header-anchor" href="#从CentOS仓储安装">¶</a>从CentOS仓储安装</h2>
+<p>CentOS 7仓储装载有PostgreSQL版本<code>9.2.15</code>，你可以直接通过仓储安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install postgresql-server postgresql-contrib</span><br></pre></td></tr></table></figure>
+<p>初始化数据库，启动PostgreSQL：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo postgresql-setup initdb</span><br><span class="line">sudo systemctl start postgresql</span><br></pre></td></tr></table></figure>
+<p>将PostgreSQL加入Systemd中：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable postgresql</span><br></pre></td></tr></table></figure>
+<h2 id="指定仓库的版本"><a class="header-anchor" href="#指定仓库的版本">¶</a>指定仓库的版本</h2>
+<p>作为替代，你可以从Postgres仓储安装最新版本，目前CentOS7可用的最高PostgresSQL版本是<code>9.6.3</code>，但需要提供RPM-based的安装方式。</p>
+<blockquote>
+<p>注意：Postgres指定版本后，版本信息会包含在配置目录中。例如<code>/var/lib/pgsql</code>会变成<code>/var/lib/pgsql/9.6</code>。这对于system units也一样，<code>systemctl status postgresql</code>会变成<code>systemctl status postgresql-9.6</code>。</p>
+</blockquote>
+<p>首先需要从Postgres的<a target="_blank" rel="noopener" href="https://yum.postgresql.org/repopackages.php">仓储</a>选择希望安装的版本。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>安装RPM，以及<a target="_blank" rel="noopener" href="https://fedoraproject.org/wiki/EPEL">EPEL</a>仓储，用于依赖构建：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install pgdg-centos96-9.6-3.noarch.rpm epel-release</span><br></pre></td></tr></table></figure>
+<p>安装前需要update一下，不然会有conflict：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum update</span><br><span class="line">sudo yum install postgresql96-server postgresql96-contrib</span><br></pre></td></tr></table></figure>
+<p>初始化数据库，启动PostgreSQL：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/pgsql-9.6/bin/postgresql96-setup initdb</span><br><span class="line">sudo systemctl start postgresql-9.6</span><br></pre></td></tr></table></figure>
+<p>加入boot自启：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable postgresql-9.6</span><br></pre></td></tr></table></figure>
+<h2 id="配置用户信息、数据库"><a class="header-anchor" href="#配置用户信息、数据库">¶</a>配置用户信息、数据库</h2>
+<p>默认地，PostgreSQL为Linux创建了一个无home目录的用户<code>postgres</code>，用于访问数据库软件目录。</p>
+<blockquote>
+<p>小心：<br>
+这个<code>postgres</code>用户不应该用于其它目的(例如，连接其它网络)。这样会给数据库安全带来风险。</p>
+</blockquote>
+<ol>
+<li>更改<code>postgres</code>密码：</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd postgres</span><br></pre></td></tr></table></figure>
+<p>下面方式是更改<code>postgres</code>数据库用户密码。确保使用的<code>newpassword</code>是强类型密码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su - postgres</span><br><span class="line">psql -d template1 -c &quot;ALTER USER postgres WITH PASSWORD &#x27;newpassword&#x27;;&quot;</span><br></pre></td></tr></table></figure>
+<p>注意这里的<code>postgres</code>用户不同于Linux的那个<code>postgres</code>用户。Linux的<code>postgres</code>是用于访问数据库，这个PostgreSQL用户是负责该数据库的管理任务处理。</p>
+<p>上面设置的密码被用于通过网络访问数据库。本机方式使用的<code>peer</code>授权。本章最后介绍如何实现远程访问。</p>
+<h2 id="PostgreSQL-Shell"><a class="header-anchor" href="#PostgreSQL-Shell">¶</a>PostgreSQL Shell</h2>
+<p>PostgreSQL client shell允许你在数据库处理SQL命令。首先登录<code>postgres</code>用户，进入shell：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql postgres</span><br></pre></td></tr></table></figure>
+<p>首先会登录<code>postgres</code>数据库，prompt信息类似于：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">psql (9.2.15)</span><br><span class="line">Type &quot;help&quot; for help.</span><br><span class="line"></span><br><span class="line">postgres=#</span><br></pre></td></tr></table></figure>
+<p>最后一行，<code>postgres=#</code>标示了当前数据库的名称。要查看可用命令，输入<code>\h</code>。退出当前shell，输入<code>\q</code>。</p>
+<h2 id="数据库工作"><a class="header-anchor" href="#数据库工作">¶</a>数据库工作</h2>
+<p>首先，你可以使用<code>createdb</code>命令创建数据库。例如以<code>postgres</code>用户身份创建一个<code>mytestdb</code>数据库：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createdb mytestdb</span><br></pre></td></tr></table></figure>
+<p>也可以为该数据库指派角色关系。例如，指派一个<code>examplerole</code>角色：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createdb mytestdb -O examplerole</span><br></pre></td></tr></table></figure>
+<p><code>createdb</code>命令有几个操作选项，你可以在<a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/9.2/static/app-createdb.html">PostgreSQL documentation</a>查看更多细节。</p>
+<p>连接数据库，可以使用<code>psql</code>命令指定：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql mytestdb</span><br></pre></td></tr></table></figure>
+<p>出现下面prompt说明连接成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">psql (9.2.15)</span><br><span class="line">Type &quot;help&quot; for help.</span><br><span class="line"></span><br><span class="line">mytestdb=#</span><br></pre></td></tr></table></figure>
+<p>默认地，数据库的连接是作为<a target="_blank" rel="noopener" href="https://www.linode.com/docs/databases/postgresql/how-to-install-postgresql-relational-databases-on-centos-7/#peer-authentication">peer-authenticated</a>用户的方式。当然，你也可以指定本地用户的方式访问：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql mytestdb -U examplerole</span><br></pre></td></tr></table></figure>
+<p>要查看所有的数据库，使用<code>\l</code>或<code>\list</code>命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">postgres=# \l</span><br><span class="line">                          List of databases</span><br><span class="line">Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges</span><br><span class="line">-----------+----------+----------+-------------+-------------+-----------------------</span><br><span class="line">mytestdb  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |</span><br><span class="line">postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |</span><br><span class="line">template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +</span><br><span class="line">|         |          |          |             | postgres=CTc/postgres</span><br><span class="line">template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +</span><br><span class="line">|         |          |          |             | postgres=CTc/postgres</span><br><span class="line">(4 rows)</span><br></pre></td></tr></table></figure>
+<p>通过<code>\c</code>命令可以展示当前数据库和当前用户信息。要展示其它额外信息，可以使用<code>\conninfo</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You are connected to database &quot;mytestdb&quot; as user &quot;postgres&quot; via socket in &quot;/var/run/postgresql&quot; at port &quot;5432&quot;.</span><br></pre></td></tr></table></figure>
+<p>数据数据库用<code>dropdb</code>命令，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dropdb mytestdb</span><br></pre></td></tr></table></figure>
+<p>注意，删除的数据库不能恢复。</p>
+<h2 id="表"><a class="header-anchor" href="#表">¶</a>表</h2>
+<p>创建一个<code>employees</code>的表：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE employees (employee_id int, first_name varchar, last_name varchar);</span><br></pre></td></tr></table></figure>
+<p>插入一条记录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO employees VALUES (1, &#x27;John&#x27;, &#x27;Doe&#x27;);</span><br></pre></td></tr></table></figure>
+<p>查看表内容：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM employees;</span><br></pre></td></tr></table></figure>
+<p>输出内容为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">employee_id | first_name | last_name</span><br><span class="line">-------------+------------+-----------</span><br><span class="line">          1 | John       | Doe</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+<p>列举当前数据库的所有表信息，可以通过<code>\dt</code>命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mytestdb-# </span><span class="language-bash">\dt</span></span><br><span class="line">          List of relations</span><br><span class="line">Schema |   Name    | Type  |  Owner</span><br><span class="line">--------+-----------+-------+----------</span><br><span class="line">public | employees | table | postgres</span><br></pre></td></tr></table></figure>
+<p>删除表通过<code>DROP TABLE</code>命令，例如删除<code>employees</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE employees;</span><br></pre></td></tr></table></figure>
+<p>可以通过逗号分隔方式删除多个表，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE employees1, employees2;</span><br></pre></td></tr></table></figure>
+<p>更改和添加表column，和标准SQL一样：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE employees ADD start_date date;</span><br></pre></td></tr></table></figure>
+<p>验证先前的更改：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM employees;</span><br></pre></td></tr></table></figure>
+<p>你会看到新增的列不包含任何内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">employee_id | first_name | last_name | start_date</span><br><span class="line">-------------+------------+-----------+------------</span><br><span class="line">          1 | John       | Doe       |</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+<p>PostgreSQL支持好几种数据库类型，可以在<a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/9.2/static/datatype.html">这里</a>查看相关信息。</p>
+<p>你可以使用<code>UPDATE</code>更改记录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE employees SET start_date = &#x27;2016-09-28&#x27; WHERE employee_id = &#x27;1&#x27;;</span><br></pre></td></tr></table></figure>
+<p>或插入一条新的记录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO employees VALUES (2, &#x27;Jane&#x27;, &#x27;Smith&#x27;, &#x27;2015-03-09&#x27;);</span><br></pre></td></tr></table></figure>
+<p>验证一下，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM employees;</span><br><span class="line"></span><br><span class="line">employee_id | first_name | last_name | start_date</span><br><span class="line">-------------+------------+-----------+------------</span><br><span class="line">          1 | John       | Doe       | 2016-09-28</span><br><span class="line">          2 | Jane       | Smith     | 2015-03-09</span><br><span class="line">(2 rows)</span><br></pre></td></tr></table></figure>
+<p>要删除行和列，例如删除<code>start_date</code>字段，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE employees DROP start_date;</span><br></pre></td></tr></table></figure>
+<p>删除记录使用<code>DELETE</code>，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DELETE FROM employees WHERE employee_id = &#x27;2&#x27;;</span><br></pre></td></tr></table></figure>
+<p>验证一下，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM employees;</span><br><span class="line"></span><br><span class="line">employee_id | first_name | last_name</span><br><span class="line">-------------+------------+-----------</span><br><span class="line">          1 | John       | Doe</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+<p>查询数据库和标准SQL一样，例如</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT last_name,employee_id FROM employees;</span><br><span class="line"></span><br><span class="line">last_name | employee_id</span><br><span class="line">-----------+-------------</span><br><span class="line">Doe       |           1</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+<p>更多查询选项，可以点击<a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/9.2/static/sql-select.html">这里</a></p>
+<h2 id="角色"><a class="header-anchor" href="#角色">¶</a>角色</h2>
+<p>PostgreSQL通过<strong>roles</strong>授权数据库访问，表示某种权限。另外，角色可以由其它一系列角色创建，类似于“group”。PostgreSQL的角色是全局的，所以你不需要为同一个角色创建两次以访问不同数据库。</p>
+<p>创建角色通过<code>createuser</code>命令，例如创建一个<code>examplerole</code>的角色，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createuser examplerole --pwprompt</span><br></pre></td></tr></table></figure>
+<p>授权角色访问，默认以<code>postgres</code>数据连接，再进行授权，这里的<code>postgres</code>相当于一个<code>sa</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT ALL ON employees TO examplerole;</span><br></pre></td></tr></table></figure>
+<p>罗列所有用户角色，可以通过<code>\du</code>命令查看，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">postgres=# \du</span><br><span class="line">                             List of roles</span><br><span class="line">Role name   |                   Attributes                   | Member of</span><br><span class="line">-------------+------------------------------------------------+-----------</span><br><span class="line">examplerole |                                                | &#123;&#125;</span><br><span class="line">postgres    | Superuser, Create role, Create DB, Replication | &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>为了便于管理，可以将多个角色添加到一个组，这样可以全局管理它们的权限。下面展示如何实现，所有这些命令应该在<code>postgres</code>用户下进行。</p>
+<p>使用<code>createuser</code>创建一个组角色。其中<code>--no-login</code>选项指定了该组不需要登录。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createuser examplegroup --no-login</span><br></pre></td></tr></table></figure>
+<p>登录并添加角色到组中，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">psql postgres</span><br><span class="line">GRANT examplegroup TO examplerole;</span><br></pre></td></tr></table></figure>
+<p>验证一下，使用<code>\du</code>命令，可以看到<code>examplerole</code>用户现在在<code>examplegroup</code>组中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">postgres=# \du</span><br><span class="line">                                List of roles</span><br><span class="line">Role name    |                   Attributes                   |   Member of</span><br><span class="line">--------------+------------------------------------------------+----------------</span><br><span class="line">examplegroup | Cannot login                                   | &#123;&#125;</span><br><span class="line">examplerole  |                                                | &#123;examplegroup&#125;</span><br><span class="line">group        |                                                | &#123;&#125;</span><br><span class="line">postgres     | Superuser, Create role, Create DB, Replication | &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p><code>createuser</code>命令有几个选项。点击<a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/9.2/static/app-createuser.html">这里</a>查看相关信息。</p>
+<p>要更改角色属性，有几个选项，例如，授予<code>examplerole</code>属性<code>CREATEDB</code>，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER ROLE examplerole CREATEDB;</span><br></pre></td></tr></table></figure>
+<p>使用<code>\du</code>验证一下，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">postgres=# \du</span><br><span class="line">                             List of roles</span><br><span class="line">Role name   |                   Attributes                   | Member of</span><br><span class="line">-------------+------------------------------------------------+-----------</span><br><span class="line">examplerole | Create DB                                      | &#123;&#125;</span><br><span class="line">group       |                                                | &#123;&#125;</span><br><span class="line">postgres    | Superuser, Create role, Create DB, Replication | &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>删除角色，使用<code>dropuser</code>命令，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dropuser examplerole</span><br></pre></td></tr></table></figure>
+<h2 id="Peer-Authentication"><a class="header-anchor" href="#Peer-Authentication">¶</a>Peer Authentication</h2>
+<p>PostgreSQL默认使用对等授权(peer authentication)的方式进行连接。意味着，如何当前授权的本地系统用户和PostgreSQL角色用户名匹配，则授予连接。所以你需要同时创建一个相同的Linux用户和一个对应的PostgreSQL角色。例如，刚刚创建了<code>examplerole</code>角色，Linux中需要创建一个<code>examplerole</code>，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo adduser examplerole &amp;&amp; passwd examplerole</span><br></pre></td></tr></table></figure>
+<h2 id="Secure-PostgreSQL"><a class="header-anchor" href="#Secure-PostgreSQL">¶</a>Secure PostgreSQL</h2>
+<p>PostgreSQL默认使用的peer authentication方式，限制了仅能通过本地访问，它的配置信息在<code>/var/lib/pgsql/dta/pg_hba.conf</code>中，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># &quot;local&quot; is for Unix domain socket connections only</span><br><span class="line">local    all        all             peer</span><br></pre></td></tr></table></figure>
+<p>将<code>peer</code>替换为<code>md5</code>，以允许通过MD5哈希密码方式访问。</p>
+<p>也可以指定信任任何服务器的连接，修改为，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># IPv4 local connections:</span><br><span class="line">host    all            all      127.0.0.1/32      trust</span><br><span class="line">host    all            all      0.0.0.0/0  		  trust</span><br><span class="line"># IPv6 local connections:</span><br><span class="line">host    all            all      ::/0  		       trust</span><br></pre></td></tr></table></figure>
+<p>退出，重启服务，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart postgresql</span><br><span class="line">su - postgres</span><br></pre></td></tr></table></figure>
+<p>再次登录，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql mytestdb -U examplerole</span><br></pre></td></tr></table></figure>
+<p>它会提示你输入密码，用于登录<code>examplerole</code>角色以访问数据库。你可以通过<code>\z</code>命令访问表权限。</p>
+<p>另外，要实现远程访问，还需要修改<code>/var/lib/pgsql/data/postgresql.conf</code>配置，去掉前面注释，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listen_addresses=&#x27;*&#x27;</span><br></pre></td></tr></table></figure>
+<p>某些情况下，还需要关闭系统防火墙，或直接添加到iptalbe，</p>
+<p>CentOS 防火墙中内置了PostgreSQL服务，配置文件位置在/usr/lib/firewalld/services/postgresql.xml，我们只需以服务方式将PostgreSQL服务开放即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --add-service=postgresql --permanent  开放postgresql服务</span><br><span class="line">firewall-cmd --reload  重载防火墙</span><br></pre></td></tr></table></figure>
+<p>或干脆关闭防火墙，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop firewalld</span><br><span class="line">sudo systemctl disable firewalld</span><br></pre></td></tr></table></figure>
+<p>重启postgresql即可。</p>
+<h2 id="安装PostGIS"><a class="header-anchor" href="#安装PostGIS">¶</a>安装PostGIS</h2>
+<p>PostGIS可以由CentOS仓储安装，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install postgis.x86_64 postgis-client.x86_64 postgis-debuginfo.x86_64 postgis-devel.x86_64 postgis-docs.x86_64 postgis-utils.x86_64</span><br></pre></td></tr></table></figure>
+<p>查看PostGI相关文件是否安装成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls /usr/pgsql/share/extension</span><br><span class="line">ls /usr/pgsql/share/contrib/postgis</span><br></pre></td></tr></table></figure>
+<p>加载PostGIS插件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su - postgres</span><br><span class="line">psql -d postgres -U postgres</span><br></pre></td></tr></table></figure>
+<p>在PostgreSQL Shell中，输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">postgres=# create database postgis ;</span><br><span class="line">postgres=# \c postgis</span><br><span class="line">postgis=# select * from pg_extension ;</span><br><span class="line">postgis=# create extension postgis ;</span><br><span class="line">postgis=# \dt</span><br><span class="line"></span><br><span class="line">postgis=# select count(*) from spatial_ref_sys ;</span><br><span class="line"></span><br><span class="line">postgres=# \dn</span><br><span class="line"></span><br><span class="line">postgis=# create extension postgis_topology ;</span><br><span class="line">CREATE EXTENSION</span><br><span class="line">postgis=# \dn</span><br></pre></td></tr></table></figure>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2019/01/24/postgresql/postgresql-relational-databases-on-centos-7/';
+var disqus_title = 'CentOS 7 安装、配置、使用PostgreSQL及PostGIS';
+var disqus_url = 'https://galudisu.info/2019/01/24/postgresql/postgresql-relational-databases-on-centos-7/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

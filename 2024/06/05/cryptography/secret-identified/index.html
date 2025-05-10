@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Pre-master Secret, Master Secret, Private Key, Shared Secret</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Pre-master Secret, Master Secret, Private Key, Shared Secret</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2024-06-05</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/cryptography/">cryptography<span class="tag">, </span></a><a class="tag-link" href="/tags/security/">security</a></p></div><div class="article-content"><h2 id="Introduction"><a class="header-anchor" href="#Introduction">¶</a>Introduction</h2>
+<p>Keys are critical in <a target="_blank" rel="noopener" href="https://www.baeldung.com/cs/cryptographic-algorithm-complexity">cryptographic</a> operations in <a target="_blank" rel="noopener" href="https://www.baeldung.com/cs/introduction-to-cryptography">public-key infrastructure</a>(PKI). <strong><a target="_blank" rel="noopener" href="https://www.baeldung.com/cs/connection-oriented-vs-connectionless-protocols">SSL handshake</a> invoke exchanging several pieces of information, such as <a target="_blank" rel="noopener" href="https://www.baeldung.com/cs/public-private-keys-vs-certificates">public keys</a>, <a target="_blank" rel="noopener" href="https://www.baeldung.com/cs/symmetric-cryptography">private keys</a>, shared secrets, pre-master secrets, and master secrets.</strong></p>
+<p><strong>Let’s explore what happens between the key exchange and the data encryption and <a target="_blank" rel="noopener" href="https://www.baeldung.com/cs/authentication-vs-authorization">authentication</a>.</strong></p>
+<span id="more"></span>
+<h2 id="SSL-TLS-Handshake"><a class="header-anchor" href="#SSL-TLS-Handshake">¶</a>SSL/TLS Handshake</h2>
+<p>A secure SSL/TLS connection gets established in multiple steps. The client and the server must agree on the methods and data to share.</p>
+<p>We’ll use a TLS 1.2 connection to illustrate this complex process. The method employed for all prior SSL/TLS versions is the same.</p>
+<p><strong>The handshake initiates and establishes a secure connection between the server and the client:</strong></p>
+<p><img src="/img/cryptography/1_SSL-TLS-Communication-setup-timeline-diagram.png" alt="1_SSL-TLS-Communication-setup-timeline-diagram.png"></p>
+<p>The handshake involves the following:</p>
+<ul>
+<li><strong>Client Hello</strong>: This is a hello message from the client to the server having information such as client version, client random, session ID, <a target="_blank" rel="noopener" href="https://www.baeldung.com/cs/stream-cipher-vs-block-cipher">cipher suites</a>, compression methods, and extensions</li>
+<li><strong>Server Hello</strong>: This is a reply message from the server to the client having server version, server random, <a target="_blank" rel="noopener" href="https://www.baeldung.com/cs/tokens-vs-sessions">session ID</a>, cipher suites, compression methods, and extensions</li>
+<li><strong>Exchange Certificate</strong>: The server sends a signed TLS/SSL certificate and the server’s public key to prove its identity. Sometimes, the server may also require the client to authenticate with a certificate and seek the same from the client</li>
+<li><strong>Server Hello Done</strong>: Server sends this message to the client to confirm that the server hello message has been executed and completed</li>
+<li><strong>Client Key Exchange</strong>: This message is sent by the client once it receives the server hello done from the server. At this point, the client creates a pre-master secret. If the server’s certificate is insufficient for the client to share a pre-master secret, then the client needs a server key exchange message. The client and the server create the master secret key</li>
+<li><strong>Change Cipher spec</strong>:  This protocol initiates symmetric encryption for data exchange using the shared keys</li>
+<li><strong>Handshake Finished</strong>: The handshake process from both the client and server sides exchanges this message at the end.</li>
+</ul>
+<p><strong>Asymmetric and symmetric encryption is part of the SSL/TLS security protocols.</strong> Keys and secrets are for encryption, decryption, and authentication. In the rest of the article, we’ll cover details about when we use different keys.</p>
+<h2 id="SSL-TLS-Keys"><a class="header-anchor" href="#SSL-TLS-Keys">¶</a>SSL/TLS Keys</h2>
+<p>Let’s now discuss how the shared secret, pre-master secret, master secret, public key, and private keys work.</p>
+<h3 id="Shared-Secret"><a class="header-anchor" href="#Shared-Secret">¶</a>Shared Secret</h3>
+<p><strong>Generally, a shared secret is to generate one or more keys for message encryption and to authenticate users.</strong></p>
+<p>In cryptography, this is a piece of information that is known only to the participating systems:</p>
+<p><img src="/img/cryptography/1_Shared-Secret-1.png" alt="Describe the concept of shared secret"></p>
+<p>The client and the server generate a public/private key pair and share each other’s public keys as per the <a target="_blank" rel="noopener" href="https://www.baeldung.com/cs/symmetric-cryptography">Diffie-Hellman</a> key exchange protocol. Afterward, they can compute a shared secret offline.</p>
+<p>It usually refers to the key of a symmetric cryptosystem, in which the same key encrypts and decrypts data.</p>
+<p>Generally, we use the shared secret and an <a target="_blank" rel="noopener" href="https://www.baeldung.com/cs/security-key-vs-vector-vs-nonce">initialization vector</a> (IV) to create the session and message keys. Lastly, a shared secret can be a password, passphrase, large integer, or a collection of bytes selected at random.</p>
+<h3 id="Public-key"><a class="header-anchor" href="#Public-key">¶</a>Public key</h3>
+<p><strong>The primary function of a public key is to encrypt messages before sending them.</strong></p>
+<p>An asymmetric cryptosystem uses randomly generated public and private keys. Anybody can encrypt data using a public key, but only those with the corresponding private key can decode the data.</p>
+<p><strong>The public and private keys are mathematically related. Only a related key pair can encrypt and decrypt data.</strong> The encrypted information will be unreadable if the corresponding private key for decryption is missing.</p>
+<p>In PKI, the sender and receiver don’t share the same key. PKI is used only for short messages.</p>
+<h3 id="Private-Key"><a class="header-anchor" href="#Private-Key">¶</a>Private Key</h3>
+<p><strong>The private key is kept secret and is only accessible by the owner.</strong></p>
+<p>In a symmetric cryptosystem, the same key (secret key) is used for encryption and decryption. In this cryptography scheme, the sender and receiver share the same key.</p>
+<p>Furthermore, a private key decrypts the cipher text in the asymmetric cryptosystem. <strong>A digital signature created using the private key can be confirmed using the associated public key.</strong> A private key is faster than a public key and applicable to high-volume text content.</p>
+<h3 id="Pre-master-Secret"><a class="header-anchor" href="#Pre-master-Secret">¶</a>Pre-master Secret</h3>
+<p><strong>The client generates a 48-bit pre-master secret and sends it to the server mainly to compute master secrets.</strong></p>
+<p>The client encrypts the pre-master secret using the server public key obtained from the server’s certificate. The server decrypts the message using the private key. The client and the server use the pre-master secret to produce the symmetric keys for the secured portion of the session.</p>
+<p>The algorithm and parameters used during the data exchange affect the length of the message. <strong>We want a fixed-length value to derive the keys for any cipher suite. The pre-master secrets serve this purpose.</strong></p>
+<h3 id="Master-Secret"><a class="header-anchor" href="#Master-Secret">¶</a>Master Secret</h3>
+<p><strong>The client and server use the master secret to generate the session key.</strong></p>
+<p>The server decrypts the pre-master secret key using its private key after receiving it.</p>
+<p>The client and the server use a Pseudo-Random Function (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Pseudorandom_function_family">PRF</a>) to calculate the master secret key. PRF is a deterministic algorithm with two inputs and a single output. PRF obtains its result by iterating a hash-based message authentication code (<a target="_blank" rel="noopener" href="https://www.baeldung.com/java-hmac">HMAC</a>) based on the <a target="_blank" rel="noopener" href="https://www.baeldung.com/sha-256-hashing-java">SHA256</a> hash function.</p>
+<p>Let’s discuss how the pre-master secret creates the master secret key. The <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc7627">RFC</a> guideline to calculate the fixed-length value master secret using the pre-master secret is:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">master_secret=PRF(pre-master_secret, &quot;Master Secret&quot;,ClientHello.rando+ServerHello.random)</span><br></pre></td></tr></table></figure>
+<p>The master secret is a function of the client and server randoms that were previously exchanged between the client and the server during the handshake stage.</p>
+<p>Further, the first three inputs to PRF are string representations of byte sequences. So, the addition operator in the above code concatenates the random. <strong>A master secret key is 48 bytes long</strong> and computed using random values.</p>
+<h2 id="When-to-Use-Different-Keys"><a class="header-anchor" href="#When-to-Use-Different-Keys">¶</a>When to Use Different Keys?</h2>
+<p>The following table shows at what stage of communication between client and server the shared secret, pre-master secret, public key, private key, and master secret are used:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Stage</th>
+<th style="text-align:left">Keys Involved</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Client-server hello</td>
+<td style="text-align:left">Shared secret (Session ID)</td>
+</tr>
+<tr>
+<td style="text-align:left">Certificate exchange</td>
+<td style="text-align:left">Server’s public key</td>
+</tr>
+<tr>
+<td style="text-align:left">Client key exchange</td>
+<td style="text-align:left">The client creates a pre-master secret and uses a public key to encrypt it, while the server uses its private key to decrypt it</td>
+</tr>
+<tr>
+<td style="text-align:left">Server key exchange</td>
+<td style="text-align:left">Optional - required only if the server’s certificate is insufficient for authentication</td>
+</tr>
+<tr>
+<td style="text-align:left">Post handshake</td>
+<td style="text-align:left">Both client and server use master secret for symmetric encryption/decryption</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Conclusion"><a class="header-anchor" href="#Conclusion">¶</a>Conclusion</h2>
+<p>In this article, we talked about SSL handshakes, shared secrets, pre-master secrets, master secrets, and public/private keys.</p>
+<p><strong>A key-agreement technique, such as PKI, is used to construct the shared secret at the beginning of the SSL/TLS communication session.</strong> The server uses its public key for encryption and its private key for decryption.</p>
+<p>Once the client and the server receive a hello done message, the client sends a pre-master secret to the server to compute a master secret using PRF.</p>
+<p>Lastly, after the handshake, for the rest of the session, the client and the server use the master secret to generate the session keys for symmetric data encryption/decryption.</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2024/06/05/cryptography/secret-identified/';
+var disqus_title = 'Pre-master Secret, Master Secret, Private Key, Shared Secret';
+var disqus_url = 'https://galudisu.info/2024/06/05/cryptography/secret-identified/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

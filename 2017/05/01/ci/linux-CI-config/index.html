@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Linux下持续集成环境Teamcity搭建</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Linux下持续集成环境Teamcity搭建</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-05-01</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/teamcity/">teamcity</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/ci/">ci</a></p></div><div class="article-content"><p>In any software development project a Continuous Integration/ Continuous Deployment DevOps environment is essential. A recent project I elected to make use of TeamCity &amp; Octopus Deploy all on an Azure stack.</p>
+<p>In this post I twill detail the steps on how to install and configure Team City 2017.x on a Ubuntu 16.X server.</p>
+<span id="more"></span>
+<h3 id="Install-Database-software"><a class="header-anchor" href="#Install-Database-software">¶</a>Install Database software</h3>
+<p>Team City is able to store TeamCity stores build history, users, build results and some run time data to a number of Relation Database Management Systems(RDBMS) including</p>
+<ul>
+<li>Postrgre SQL</li>
+<li>MySQL</li>
+<li>MS SQL</li>
+<li>Oracle</li>
+<li>Default Internal DB(HSQL)</li>
+</ul>
+<p>In my particular case I make use of Postgres SQL, <a href="/2017/05/01/postgresql/ubuntu-install-postgresql">Install Postgres SQL on ubuntu</a></p>
+<h3 id="Download-Install-Team-city"><a class="header-anchor" href="#Download-Install-Team-city">¶</a>Download &amp; Install Team city</h3>
+<p>Download the latest TeamCity for linux from Jetbrains.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://data.services.jetbrains.com/products/download?code=TC&amp;platform=linux</span><br></pre></td></tr></table></figure>
+<p>After the download completes unpack the file</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzf TeamCity-2017.1.1.tar.gz</span><br></pre></td></tr></table></figure>
+<p>We will install TeamCity to the <code>opt</code> so we need to move the TeamCity Directory to <code>/opt/</code> and set permissions to the user running the TeamCity Application.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /opt/jetbrains</span><br><span class="line">sudo mv Teamcity /opt/jetbrains/teamcity</span><br><span class="line">cd /opt/jetbrains/teamcity</span><br><span class="line">sudo chown -R $user /opt/jetbrains/teamcity</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>$user</code> the owner of teamcity &amp; teamagent</li>
+</ul>
+<p>Configure TeamCity to start automatically with the correct use by creating a script to start and stop TeamCity. We’ll create a simple bash script using the <code>nano</code> text editor.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/init.d/teamcity</span><br></pre></td></tr></table></figure>
+<p>If you are going to running the team city service under username other than the one you are currently installing it with then you will need to replace <code>$user</code> in the code snippet with that username.</p>
+<p>Copy and paste the following ocde into the editor.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## BEGIN INIT INFO</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Provides:          TeamCity autostart</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Required-Start:    <span class="variable">$remote_fs</span> <span class="variable">$syslog</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Required-Stop:     <span class="variable">$remote_fs</span> <span class="variable">$syslog</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Default-Start:     2 3 4 5</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Default-Stop:      0 1 6</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Short-Description: Start teamcity daemon at boot <span class="keyword">time</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Description:       Enable service provided by daemon.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">/etc/init.d/teamcity -  startup script <span class="keyword">for</span> teamcity</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## END INIT INFO</span></span></span><br><span class="line"> </span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"> Ensure you enter the  right  user name that  TeamCity will run  under</span></span><br><span class="line">USER=&quot;ubuntu&quot; </span><br><span class="line"> </span><br><span class="line">export TEAMCITY_DATA_PATH=&quot;/opt/jetbrains/teamcity/.BuildServer&quot;</span><br><span class="line"> </span><br><span class="line">case $1 in</span><br><span class="line"> </span><br><span class="line">start)</span><br><span class="line">  start-stop-daemon --start  -c $USER --exec /opt/jetbrains/teamcity/bin/runAll.sh start</span><br><span class="line"> ;;</span><br><span class="line">stop)</span><br><span class="line">  start-stop-daemon --start -c $USER  --exec  /opt/jetbrains/teamcity/bin/runAll.sh stop</span><br><span class="line"> ;;</span><br><span class="line"> esac</span><br><span class="line"> </span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+<p>Change the permissions required to execute the script and add it to the starup to nesure Team City is started whenever the server is start/restart</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x /etc/init.d/teamcity</span><br><span class="line">sudo update-rc.d teamcity defaults</span><br></pre></td></tr></table></figure>
+<h3 id="Download-database-driver"><a class="header-anchor" href="#Download-database-driver">¶</a>Download database driver</h3>
+<p>The database drivers are usually not included in the TeamCity set up files. We will need to download the PostGres Driver seperately and place them in the <code>/opt/jetbrains/teamcity/.BuildServer/lib/jdbc</code> folder.</p>
+<p>Change into the directory</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/jetbrains/teamcity/.BuildServer/lib/jdbc</span><br></pre></td></tr></table></figure>
+<p>Download the driver</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://jdbc.postgresql.org/download/postgresql-9.5.xxxx.jar</span><br></pre></td></tr></table></figure>
+<p>We are now ready to start Team City and begin the configuration in the Team City UI</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/teamcity start</span><br></pre></td></tr></table></figure>
+<p>Navigate to <code>http://[Server name or IP]:8111</code> and verify that you see “TeamCity First Start” page.</p>
+<p>Congratulations TeamCity is installed continue the steps on the web page to configure it.</p>
+<h3 id="Teamcity-build-agent-installation"><a class="header-anchor" href="#Teamcity-build-agent-installation">¶</a>Teamcity build agent installation</h3>
+<ul>
+<li>If you install TeamCity bundled with a Tomcat servlet container, or opt to install an agent for Windows, both the server and one build agent named <code>Default Agent</code> are installed on the same machine. This is not a recommended setup for <a target="_blank" rel="noopener" href="https://confluence.jetbrains.com/display/TCD9/Installing+and+Configuring+the+TeamCity+Server#InstallingandConfiguringtheTeamCityServer-ConfiguringServerforProductionUse">production purposes</a> because of <a target="_blank" rel="noopener" href="https://confluence.jetbrains.com/pages/viewpage.action?pageId=74847395#HowTo...-TeamCitySecurityNotes">security concerns</a> and since the build procedure can slow down the responsiveness of the webUI and overall TeamCity server functioning. If you need more build agents, perform the procedure described below.</li>
+<li>If you need the agent to run a operating system different from the TeamCity server, perform the procedure described below.</li>
+<li>For production installations, it is recommended to adjust the <a target="_blank" rel="noopener" href="https://confluence.jetbrains.com/display/TCD9/Configuring+Build+Agent+Startup+Properties">Agent’s JVM parameters</a> to include the <code>-server</code> option.</li>
+</ul>
+<p>Download build agent archive from your TeamCity server</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://your_teamcity.server.com:8111/update/buildAgent.zip</span><br></pre></td></tr></table></figure>
+<p>Unzip it in separate directory</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/jetbrains/</span><br><span class="line">sudo mkdir buildagent</span><br><span class="line">sudo unzip buildAgent.zip -d buildagent</span><br><span class="line">sudo chown -R $user ../buildagent</span><br></pre></td></tr></table></figure>
+<p>Copy agent’s settings file</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp conf/buildAgent.dist.properties conf/buildAgent.properties</span><br></pre></td></tr></table></figure>
+<p>Edit this file</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano conf/buildAgent.properties</span><br></pre></td></tr></table></figure>
+<p>There are fields which you must update</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">your TeamCity server address:</span></span><br><span class="line">serverUrl=http://your_teamcity.server.com:8111/</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">buildAgent<span class="string">&#x27;s name, which would displayed on Agents page in your TeamCity server UI:</span></span></span><br><span class="line">name=ubuntu</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">this field  leave blank, agent fill it after first connect to server:</span></span></span><br><span class="line">authorizationToken=</span><br></pre></td></tr></table></figure>
+<p>Make bin files executable</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod u+x bin/*.sh</span><br></pre></td></tr></table></figure>
+<p>Build agent usage</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./bin/agent.sh</span></span><br><span class="line"></span><br><span class="line">  JetBrains TeamCity Build Agent</span><br><span class="line">  Usage:</span><br><span class="line">  ./bin/agent.sh start     - to start build agent in background</span><br><span class="line">  ./bin/agent.sh stop      - to stop build agent after current build finish</span><br><span class="line">  ./bin/agent.sh run         - to start build agent in the current console</span><br><span class="line">  ./bin/agent.sh stop force  - to stop build agent terminating currently running build</span><br></pre></td></tr></table></figure>
+<p>Add build agent to <code>rc.local</code> for autostart after system reboot</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/jetbrains/buildagent/bin/agent.sh start/stop</span><br></pre></td></tr></table></figure>
+<p>The <code>&lt;agent home&gt;/launcher/conf/wrapper.conf</code> file can also be used to alter the agent JVM parameters.</p>
+<p>The user account used to run build agent service must have enough rights to start/stop the agent service, as described <a target="_blank" rel="noopener" href="https://confluence.jetbrains.com/display/TCD10/Setting+up+and+Running+Additional+Build+Agents#SettingupandRunningAdditionalBuildAgents-subinacl">above</a>.</p>
+<h3 id="Automatic-Agent-Start-under-Linux"><a class="header-anchor" href="#Automatic-Agent-Start-under-Linux">¶</a>Automatic Agent Start under Linux</h3>
+<p>To run agent automatically on the machine boot under Linux, configure daemon process with the <code>agent.sh start</code> command to start it and <code>agent.sh stop</code> command to stop it. Refer to an example procedure below</p>
+<ol>
+<li>Navigate to the services start/stop services scripts directory</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/init.d/</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Open the build agent service script</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim buildagent</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Paste the following into the file</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## BEGIN INIT INFO</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Provides:          TeamCity Build Agent</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Required-Start:    <span class="variable">$remote_fs</span> <span class="variable">$syslog</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Required-Stop:     <span class="variable">$remote_fs</span> <span class="variable">$syslog</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Default-Start:     2 3 4 5</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Default-Stop:      0 1 6</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Short-Description: Start build agent daemon at boot <span class="keyword">time</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Description:       Enable service provided by daemon.</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## END INIT INFO</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">Provide the correct user name:</span></span><br><span class="line">USER=&quot;ubuntu&quot;</span><br><span class="line"> </span><br><span class="line">case &quot;$1&quot; in</span><br><span class="line">start)</span><br><span class="line"> su - $USER -c &quot;cd /opt/jetbrains/buildagent/bin ; ./agent.sh start&quot;</span><br><span class="line">;;</span><br><span class="line">stop)</span><br><span class="line"> su - $USER -c &quot;cd /opt/jetbrains/buildagent/bin ; ./agent.sh stop&quot;</span><br><span class="line">;;</span><br><span class="line">*)</span><br><span class="line">  echo &quot;usage start/stop&quot;</span><br><span class="line">  exit 1</span><br><span class="line"> ;;</span><br><span class="line"> </span><br><span class="line">esac</span><br><span class="line"> </span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>Set the permissions to execute the file</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x buildagent</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>Make links to start the agent service on the machine boot and on restarts using the appropriate tool</li>
+</ol>
+<ul>
+<li>For Debian/Ubuntu</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-rc.d buildagent defaults</span><br></pre></td></tr></table></figure>
+<ul>
+<li>For Red Hat/CentOS</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chkconfig buildagent on</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>At the end, starting the Build Agent, and Team City will pick it up</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/buildagent start</span><br></pre></td></tr></table></figure>
+<h3 id="Referrence"><a class="header-anchor" href="#Referrence">¶</a>Referrence</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://confluence.jetbrains.com/display/TCD10/Setting+up+and+Running+Additional+Build+Agents">Setting up and Running Additional Build Agents</a></li>
+<li><a target="_blank" rel="noopener" href="https://garywoodfine.com/how-to-install-team-city-10-x-on-ubuntu-16-x/">How to install Team City 10.x on ubuntu 16.X</a></li>
+</ul>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2017/05/01/ci/linux-CI-config/';
+var disqus_title = 'Linux下持续集成环境Teamcity搭建';
+var disqus_url = 'https://galudisu.info/2017/05/01/ci/linux-CI-config/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

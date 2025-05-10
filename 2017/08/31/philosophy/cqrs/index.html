@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Command Query Responsibility Segregation Pattern</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Command Query Responsibility Segregation Pattern</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-08-31</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/cqrs/">cqrs</a></p></div><div class="article-content"><p>在面向对象设计中，常常忽略了一个概念，对象是用于描述一个单一职责的，它要求我们：一个对象包含自身属性、行为、内在调用等行为。对象间通过相互调用完成一项工作。因此，我们在做面向对象设计时，应该分清一个对象应该包含多少东西，对象的属性是否 <code>belong to</code>它自身。如果一个对象的行为模糊不清，是否该对象设计合理？</p>
+<span id="more"></span>
+<h3 id="什么是CQRS？"><a class="header-anchor" href="#什么是CQRS？">¶</a>什么是CQRS？</h3>
+<p>CQRS即 <code>Command Query Responsibility Segregation</code>——命令查询职责分离。该术语描述了一个对象的方法应该 <code>要么是 commands 要么是 queries</code>。</p>
+<ul>
+<li>一个 <code>query</code> 返回数据但不会更改对象的状态。</li>
+<li>一个 <code>command</code> 改变对象的状态，但不会返回任何数据。</li>
+</ul>
+<p>从该术语的原则性上带来的好处是：系统状态发生改变时，可以清晰理解状态的变更做了什么。</p>
+<p>CQRS在该原则上更进一层，并定义了一个简单的模式。</p>
+<p>前面说到，一个对象的方法要么是 commands 要么是 queries， CQRS则是从一个对象分离两个对象的实现。这种分离的依据是方法是 <code>command</code> 还是 <code>query</code> （<code>a command is any method that mutates state and a query is any method that returns a value</code>）。</p>
+<p>在构建企业级系统中，这种简朴的模式带来什么重要的令人关注的方面？主要是迎合大规模、大范围架构的挑战，诸如：</p>
+<ul>
+<li>实现可伸缩性</li>
+<li>管理复杂性</li>
+<li>已有系统业务部分内容频繁变更</li>
+</ul>
+<blockquote>
+<p>“CQRS is a simple pattern that strictly segregates the responsibility of handling command input into an autonomous system from the responsibility of handling side-effect-free query/read access on the same system. Consequently, the decoupling allows for any number of homogeneous or heterogeneous query/read modules to be paired with a command processor. This principle presents a very suitable foundation for event sourcing, eventual-consistency state replication/fan-out and, thus, high-scale read access. In simple terms, you don’t service queries via the same module of a service that you process commands through. In REST terminology, GET requests wire up to a different thing from what PUT, POST, and DELETE requests wire up to.”<br>
+—Clemens Vasters (CQRS Advisors Mail List)</p>
+</blockquote>
+<p>“大意：CQRS的模式将 <code>command</code>处理的职责分离出来，实现自治。并且允许任意数量的同构或异构的 <code>query/read</code> 搭配到 <code>command processor</code>。该原则非常适用于<code>event sourcing</code>的实现——最终一致性状态 应答/扇出、大规模read访问。简言之，服务通过<code>command</code>处理，不在同一个模块提供 <code>query</code>。 ”</p>
+<h3 id="Read-and-write-sides"><a class="header-anchor" href="#Read-and-write-sides">¶</a>Read and write sides</h3>
+<p>下图是 CQRS 在企业级系统的典型应用。</p>
+<p><img src="/img/philosophy/cqrs/cqrs.png" alt="cqrs"></p>
+<p>CQRS 模式中实现了读写分离。read side 仅包含 query methods；write side 仅包含 command methods。这样分离的动机主要考虑到：</p>
+<ul>
+<li>在多数业务系统，读和写的数量是不对等的(异构的)。每个 <code>write</code> 可能同时处理上千个 <code>reads</code>。分离这两部分使得我们能够单独进行优化。例如，对 <code>reads</code>部分进行水平扩展…</li>
+<li>典型地，<code>commands</code>涉及到复杂业务逻辑，要确保系统能写入正确的、一致的数据到数据存储中。<code>read</code>操作比起<code>write</code>操作要简单许多。一个简单的同时封装 <code>read</code> 和 <code>write</code> 操作的模型(例如 JPA)可能两方面都处理不当。从最终结果分离 <code>read</code> 和 <code>write</code>，得到更容易维护、更灵活的模型。</li>
+<li>分离也可以从数据存储上着手。<code>write</code>部分使用满足第三范式(3NF)的数据架构；<code>read</code>部分使用非规范型数据库用于优化得到更快速的<code>query</code>操作。</li>
+</ul>
+<blockquote>
+<p>注意：<br>
+上图描述了CQRS在<code>read</code>和<code>write</code>使用了不同的数据存储，不是要求你使用不同的数据库。它仅仅描述CQRS这个模型，鼓励你分离读写部分。<br>
+上图建议<code>write</code>和<code>read</code>可能存在一一对应(one-to-one)关系，实际上没有必要要求建立这种关系。仅当你使用接口时，这种一一对应关系才明显。</p>
+</blockquote>
+<p>在实践和适应这种架构的同时，可能会潜在一系列问题：</p>
+<ul>
+<li>尽管单独<code>read</code>和<code>write</code>两个模型比起一个复合模型要简单，当业务量需求扩增时，整体的架构要比传统的方式要复杂。如何转移该复杂性？</li>
+<li>在<code>read</code>和<code>write</code>两方面，如何传播数据的变更？</li>
+<li>在<code>write</code>部分若发生延迟，如何传递到<code>read</code>部分？</li>
+<li>CQRS的模型是什么？它能做什么？</li>
+</ul>
+<h3 id="CQRS-and-DDD"><a class="header-anchor" href="#CQRS-and-DDD">¶</a>CQRS and DDD</h3>
+<p>领域驱动(Domain-Driven Design)设计理念要求有：</p>
+<ul>
+<li>Models should be bound to the implementation.</li>
+<li>You should cultivate a language based on the model.</li>
+<li>Models should be knowledge rich.</li>
+<li>You should brainstorm and experiment to develop the model.</li>
+</ul>
+<p>当讨论在系统中实现CQRS，意味着你应该实现一个带有<code>bounded context</code>的CQRS模式。</p>
+<p>在DDD，<code>bounded context</code>定义了一个模型的语义、通用语言(ubiquitous language)的作用域(scope)。实现CQRS模式理所当然带来了 scalability、simplicity、maintainability。因此，在讨论 <code>bounded context</code>时候，CQRS模式用于实现业务组件，DDD模式用于实现上下文边界(<code>bounded context</code>)。</p>
+<blockquote>
+<p>a business component can exist in only one bounded context.</p>
+</blockquote>
+<p>以前在DDD概念中，<code>bounded context</code>还没有一个比较明确的定位，术语<code>bounded context</code>和 <code>business component</code>表述的是同一个东西。引入CQRS模式后，术语<code>bounded context</code>优于<code>business component</code>使用。</p>
+<p>总之，你<code>不应该</code>将CQRS模式用于系统的顶层设计。CQRS应该明确定义在系统中独立的、具有明显业务逻辑的功能。</p>
+<h3 id="Commands-Events-Messages"><a class="header-anchor" href="#Commands-Events-Messages">¶</a>Commands, Events, Messages</h3>
+<p>DDD 属于一种分析和设计方法，它鼓励在使用<code>模型(models)</code>和<code>通用语言(ubiquitous language)</code>的基础上，使用领域的概念培养<strong>开发团队</strong>的共识， 构建<strong>业务</strong> 和 <strong>开发团队</strong>的桥接。必然地，DDD的方式面向分析行为，而不是业务领域中的数据，它导向于行为的建模和实现。较直接实现领域模型(domain model)的方式，就是使用<code>commands</code>和<code>events</code>。</p>
+<ul>
+<li><code>commands</code>是祈使句：它由系统发起处理一个任务或动作。命令通常处理一次。</li>
+<li><code>events</code> 是通告(notifications)：告知某事已经发生。事件可以发生多次，被多处消费。</li>
+</ul>
+<p><code>commands</code>和<code>events</code>都属于<code>message</code>，都用于对象间数据交换。在DDD术语中，<code>message</code>表示业务行为，帮助系统捕获业务意图。</p>
+<p>CQRS的一个可能的实现方式是分离<code>read</code>和<code>write</code>存储；每个数据存储被优化。<code>Event</code>提供了一个基本的机制用于异步<code>write</code>和<code>read</code>操作。当<code>write</code>部分发起一个事件表示应用状态变更，<code>read</code>部分响应该事件，并更新数据。下图为命令和事件在CQRS模式中的实现。</p>
+<p><img src="/img/philosophy/cqrs/commands-events.png" alt="Commands and events in the CQRS Pattern"></p>
+<h3 id="为什么用CQRS"><a class="header-anchor" href="#为什么用CQRS">¶</a>为什么用CQRS?</h3>
+<p>回到DDD领域设计，CQRS适用于DDD的<code>bounded context</code>允许标识和专注于系统逻辑最为复杂部分的实现。CQRS仅仅是<code>bounded context</code>一个具体的实践，但不是唯一的模式。</p>
+<p>对于业务逻辑带来以下几点好处：</p>
+<h5 id="Scalability"><a class="header-anchor" href="#Scalability">¶</a>Scalability</h5>
+<p>在多数企业系统中，读操作远超过写操作，因此，读写操作的扩展要求是不一样的。在<code>bounded context</code>中分离<code>read</code>和<code>write</code>，成为单独的模型，可以单独扩展各自的功能。</p>
+<p>另外，伸缩性并不是实现CQRS模式的唯一理由：在一个非协作领域，你可以水平地添加更多的数据库来支持更多用户、更多的请求。</p>
+<h5 id="Reduced-complexity"><a class="header-anchor" href="#Reduced-complexity">¶</a>Reduced complexity</h5>
+<p>在领域的复杂区域，设计和实现对象，都会加剧复杂性。大多数情况下，复杂的业务逻辑仅仅在处理更新或事物处理上发生；相反，读的逻辑通常很简单。当读操作和其它业务逻辑混淆在相同的模型时，就变得难于处理问题，诸如多用户、共享数据、性能、事物、一致性、脏数据。因此要分离<code>read logic</code>和<code>business logic</code>到不同的模型中。然而，这种分离的代价是需要花费较大的努力，并且要求开发者自身对已有的模型有充足的理解。</p>
+<p>分离职责是CQRS的核心动机，因为<code>query</code>会被用于非常多的场景、会被各处引用，每个修改都需要特别小心。如何设计一个复杂度更低的系统，正是<code>bounded context</code>的潜力所在，你可能需要TDD、refactor、或更多优秀的编码习惯来贯穿。</p>
+<h5 id="Flexibility"><a class="header-anchor" href="#Flexibility">¶</a>Flexibility</h5>
+<p>CQRS的灵活性，来源于<code>read-side</code>和<code>write-side</code>模型的扩展。<code>read-side</code>的扩展非常容易，因为读操作复杂度最低，并且不会受到业务逻辑的影响。对于<code>write-side</code>，它有单独的模型处理业务逻辑，模型相互独立，不依赖其它核心逻辑（从设计上来说，如果有依赖，要么设计有问题，要么面临重构）。</p>
+<p>从长远来看，业务逻辑的灵活性直接与商业价值挂钩。它决定了你是否能够持续交付新功能、能否进行敏捷开发、能否满足同行的恶劣竞争。</p>
+<p>灵活性和敏捷性与DDD的持续集成概念相关：</p>
+<blockquote>
+<p>“Continuous integration means that all work within the context is being merged and made consistent frequently enough that when splinters happen they are caught and corrected quickly.”<br>
+—Eric Evans, “Domain-Driven Design,” p342.</p>
+</blockquote>
+<h5 id="Focus-on-the-business"><a class="header-anchor" href="#Focus-on-the-business">¶</a>Focus on the business</h5>
+<h5 id="Facilitates-building-task-based-UIs"><a class="header-anchor" href="#Facilitates-building-task-based-UIs">¶</a>Facilitates building task-based UIs</h5>
+<h3 id="When-should-I-use-CQRS"><a class="header-anchor" href="#When-should-I-use-CQRS">¶</a>When should I use CQRS?</h3>
+<p>什么时候用CQRS？微服务。CQRS模式明显是用于<code>bounded context</code>中的。<code>bounded context</code>的另一个术语是<code>business components</code>。说白了就是我们要实现的服务，具体是什么服务？如何划分？服务之间的相互关系是怎样？这都属于<code>bounded context</code>中描述的内容。CQRS可能不是最好的，但它提供了 increased adaptability、flexibility、reduced maintenance costs各方面的优势。</p>
+<h3 id="Collaborative-domains"><a class="header-anchor" href="#Collaborative-domains">¶</a>Collaborative domains</h3>
+<p>DDD概念需要解决的问题是如何描述有界上下文，开发者要与领域专家进行交流，就需要明确这个<code>bounded context</code>是什么。</p>
+<p>CQRS参与了涉及复杂决定的协作过程——结果（产出）什么。这种协作往往是系统中最复杂、不固定、最需要关注的<code>bounded contexts</code>。</p>
+<h3 id="Stale-data"><a class="header-anchor" href="#Stale-data">¶</a>Stale data</h3>
+<p>在协作环境中，多个用户可能同时操作同一份数据，你将面临脏数据问题；如一个用户正在浏览数据，另一个用户在进行更改，那么第一个的用户看到的是脏数据。</p>
+<p>前面两个举例是最常见的场景；大多数协作企业系统比这更多。CQRS从架构层面上解决脏数据的问题。我们切换到<code>write-side</code>，用户从<code>read-side</code>读取数据。无论用什么机制，将<code>write-side</code>的数据 <code>push</code>到<code>read-side</code>；<code>read-side</code>就以相同的机制操作数据。常见的机制就是<code>ES(Event sourcing)</code>。</p>
+<p><img src="/img/philosophy/cqrs/event-sourcing.png" alt="Event Sourcing"></p>
+<h3 id="When-should-I-avoid-CQRS"><a class="header-anchor" href="#When-should-I-avoid-CQRS">¶</a>When should I avoid CQRS?</h3>
+<p>非协作的、简单的、静态的用于处理分析、建模之类的复杂实现<code>bounded contexts</code>。应该避免使用CQRS。</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2017/08/31/philosophy/cqrs/';
+var disqus_title = 'Command Query Responsibility Segregation Pattern';
+var disqus_url = 'https://galudisu.info/2017/08/31/philosophy/cqrs/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

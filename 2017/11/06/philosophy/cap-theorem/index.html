@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>CAP理论</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">CAP理论</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-11-06</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/cap/">cap</a></p></div><div class="article-content"><p>分布式网络环境中，时间和顺序是无法预估的，要保证得到的数据正确，我们需要一些折衷的选择。</p>
+<p>2000年7月19号，Eric Brewer在ACM研讨会上关于分布式计算的原则(Principlesof Distributed Computing，PODC)所做的开题演讲中，提出了一个猜想(后来的成为著名的Brewer猜想)：</p>
+<blockquote>
+<p>applications become more web-based we should stop worrying about data consistency, because if we want high availability in these new distributed applications, then guaranteed consistency of data is something we cannot have, thus giving anyone with three servers and a keen eye for customer experience permission to start an internet scale business.</p>
+</blockquote>
+<p>2年后，2002年，麻省理工（MIT）的Seth Gilbert和NancyLynch，理论上证明了Brewer猜想是正确的，就此Brewer定理（Theorem）诞生了。</p>
+<span id="more"></span>
+<h2 id="CAP理论"><a class="header-anchor" href="#CAP理论">¶</a>CAP理论</h2>
+<p>Brewer认为在分布式的环境下设计和部署系统时，有3个核心的系统需求，以一种特殊的关系存在。</p>
+<ul>
+<li>一致性(Consistency, C)</li>
+</ul>
+<p>一致性是指客户端会返回某条记录最新的值。假如有一个银行账号，如果我们在存入一张400美元的支票之后马上试图取回400美元，我们希望系统能够给出正确的账户余额，并且允许我们取回400美元。</p>
+<ul>
+<li>可用性(Availability, A)</li>
+</ul>
+<p>可用性是指一个没有发生失败的节点能够返回一个合理的响应。</p>
+<ul>
+<li>分区容错性(Partition Tolerance, P)</li>
+</ul>
+<p>分区容错性指的是如果某个节点由于暂时的网络错误而被从网络中移除，那么系统可以继续正常运行。如果数据被冗余备份到三个节点，那么如果其中一个节点暂时变得不可用，而另两个节点仍然能够正常运行，那么就认为系统具备分区容错性。</p>
+<h2 id="CAP-理论中的妥协"><a class="header-anchor" href="#CAP-理论中的妥协">¶</a>CAP 理论中的妥协</h2>
+<p>CAP 理论通常都会表述如下：在一致性、可用性和分区容错性这三个特性中，一个分布式系统只能够选择满足其中两个。这种表示过于简单，可能会让人误解，如果阅读过一些文章的话，可以看到许多持不同观点的争论。<br>
+首先，假设我们希望系统具备分区容错性，只在可用性和一致性之间进行妥协。读者可能会问为什么。在接收到一个有超时限制的请求时，如果节点不可用，我们其实就需要在两种方案之间进行选择：要么返回错误（选择一致性），要么继续，即使服务器之间可能会不一致（选择可用性）。等待的时间过长会导致该请求被抛弃，所以时间是一个重要的因素，系统必须要在上面两者中做出决定，如图所示。我们将介绍更多相关知识，不过Eric Brewer 在发表了CAP 理论的论文12 年后，又写了一篇文章，对这一点做了深入讨论。参见<a target="_blank" rel="noopener" href="http://www.infoq.com/articles/cap-twelve-years-later-how-the-ruleshave-changed">http://www.infoq.com/articles/cap-twelve-years-later-how-the-ruleshave-changed</a>。</p>
+<img src="/img/philosophy/cap/cap.png" width="350" height="350"/>
+<h2 id="CP-系统–一致性优先"><a class="header-anchor" href="#CP-系统–一致性优先">¶</a>CP 系统–一致性优先</h2>
+<p>要实现一个一致性的分布式存储，有很多种不同的方法。一个最简单的强一致性数据库的例子也许有一个master 节点和任意数量包含冗余备份的附属节点。数据永远会在master 节点写入，而如果要确保读取最新的数据，那么页必须要从master 节点读取。如果master 节点发生错误，那么系统就不再可用，如图下图 所示。通常来说，可以采取一些应对错误的机制，比如让某个附属节点成为新的master 节点。因为master 节点发生故障的时候我们无法从系统中读取数据，也无法写入数据，所以我们放弃了可用性，而是启动错误处理过程，选出新的master 节点。一旦错误处理过程完成，系统的可用性就恢复了。Redis Sentinel 和具备冗余备份的RDBMS 都是强一致性分布式系统的很好的例子。</p>
+<img src="/img/philosophy/cap/cp.png" width="550" height="165"/>
+<p>如果需要原子读取/写入、事务等支持的话，那么可以选择具备一致性的系统。</p>
+<h2 id="AP-系统–可用性优先"><a class="header-anchor" href="#AP-系统–可用性优先">¶</a>AP 系统–可用性优先</h2>
+<p>选择支持可用性和分区容错性，并牺牲一致性的系统被称为具有“最终一致性”。在高可用的分布式数据库（如Cassandra 和Riak）中，这是一种非常常见的模型。<br>
+由于分析AP 系统稍微复杂一些，因此我们将在本章中介绍更多AP 系统的细节。不过我们可以先看一下AP 系统的一种可能的实现例子。假设在3 个节点上保存了数据的3份备份。当我们写入数据时，数据会被写入到其中1 个节点，然后会被复制到其余2 个节点。无论写入的是哪个节点，该节点都会负责把数据同步到其他节点，如图所示。</p>
+<img src="/img/philosophy/cap/ap.png" width="550" height="240"/>
+<p>当我们从一个节点读取数据时，只需要访问一个节点就够了。所以客户端可以任意选择一个节点读取。在这个例子中，因为从某个节点读取数据时，数据可能并不是最新的（不具备一致性），所以我们的系统具备最终一致性。但是由于我们可以从任何一个节点读取数据，也可以向任何一个节点写入数据，所以系统具备分区容错性和高可用性。如果某个节点变得不可用，我们可以直接尝试使用另一个节点。</p>
+<h2 id="灵活的一致性程度"><a class="header-anchor" href="#灵活的一致性程度">¶</a>灵活的一致性程度</h2>
+<p>从实际应用的角度来说，在3 个特性之间的权衡并不是非黑即白的，其实可以平缓地过渡。例如在一个最终一致性系统中，如果想查询某条记录，而该记录有3 个冗余备份，那么我们可以选择从任意一个节点读取数据，这样一致性就比较弱。我们也可以选择其中任意两个节点返回数据，这样一致性就提升了。同样，我们可以向所有3 个节点请求返回结果，这样就能提供最高的一致性。当我们从3 个节点中得到返回数据时，有多种不同的机制可以用来对返回的记录排序，我们可以选择最新的数据。但是，这么做会牺牲分区容错性。如果我们需要所有3 个备份都可用，那么就无法容忍其中任何一个消失。很多时候，只要求特定数量的节点或是大多数节点可用并且能返回一致的结果是在一致性和分区容错性中进行权衡的一个不错的方法。</p>
+<p>同样，在一个CP 系统中，我们可以允许从附属节点读取数据，牺牲一部分一致性来获取更高的可用性。如果保持仍然只能向master 节点写入数据，那么我们还是有高一致性的写入操作，但是允许读取操作最终一致，所以数据库在读取操作上就变成AP系统了。</p>
+<ul>
+<li>
+<p>放弃P: 如果你想避免partition问题发生，你就必须要阻止其发生。一种做法是将所有的东西（与事务相关的）都放到一台机器上。或者放在像rack这类的atomically-failling单元上。无法100%地保证，因为还是有可能部分失败，但你不太可能碰到由partition问题带来的负面效果。当然，这个选择会严重影响scale限制。</p>
+</li>
+<li>
+<p>放弃A：相对于放弃partition tolerance来说，其反面就是放弃availability。一旦遇到partition事件，受影响的服务需要等待数据一致，因此在等待期间就无法对外提供服务。在多个节点上控制这一点会相当复杂，而且恢复的节点需要处理逻辑，以便平滑地返回服务状态。</p>
+</li>
+<li>
+<p>放弃C: 或者如同Werner Vogels所提倡的，接受事情会变得“最终一致（EventuallyConsistent）”（2008年12月更新）。Vogels的文章值得一读。他比我在这里讨论了更多的操作方面的细节。许多的不一致性并不比你想的需要更多的工作（意味着持续的consistency或许并不是我们所需要的）。在购书的例子中，如果一本库存的书，接到了2个订单，第二个就会成为备份订单。只要告知客户这种情况（请记住这是一种罕见的情况），也许每个人都会高兴的。</p>
+</li>
+<li>
+<p>引入BASE(Basically Available, Soft-state, Eventually consistent)：<code>BASE(化学含义是碱)</code>，如其名字，是<code>ACID(化学含义是酸)</code>的反面。但如果认为任何架构应该完全基于一种（BASE）或完全基于另一种（ACID），就大错特错了。这一点是需要谨记重点，尤其是这个行业的“一边倒”的习惯性的采用策略。这里，我要遵从Brewer教授自己的观点，他就本文通过email表达了自己的观点（comment）：</p>
+</li>
+</ul>
+<blockquote>
+<p>the term “BASE” was first presented in the 1997 SOSP article that you cite. I came up with acronym with my students in their office earlier that year. I agree it is contrived a bit, but so is “ACID” – much more than people realize, so we figured it was good enough. Jim Gray and I discussed these acronyms and he readily admitted that ACID was a stretch too – the A and D have high overlap and the C is ill-defined at best. But the pair connotes the idea of a spectrum, which is one of the points of the PODC lecture as you correctly point out.</p>
+</blockquote>
+<p>EBay的DanPritchett有一篇关于BASE的很棒的介绍。</p>
+<blockquote>
+<p>Guy Pardon，atomikos的CTO写了一篇他称作“CAP解决之道（证实Brewer的错误）”的文章，提出了一种架构方法，可以达到Consistency,Availability和Partition-tolerance，当然附带了一些说明（显然你不可能在同一时刻满足全部的3个要求）。值得一读，Guy雄辩地表达了（在该领域）相反的观点。</p>
+</blockquote>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2017/11/06/philosophy/cap-theorem/';
+var disqus_title = 'CAP理论';
+var disqus_url = 'https://galudisu.info/2017/11/06/philosophy/cap-theorem/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Fibers beyond coroutine beyond goroutine</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Fibers beyond coroutine beyond goroutine</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2021-12-01</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/fibers-coroutine-goroutine/">fibers, coroutine, goroutine</a></p></div><div class="article-content"><p>并发(Concurrent) 不是并行 (Parallel)，并发更关注的是程序的设计层面，并发的程序完全是可以顺序执行的，只有在真正的多核CPU上才可能真正地同时运行，并发编程最大的挑战是 <em>并发控制(concurrency control)</em>：即确保不同计算逻辑之间交互或通信的正确顺序，并协调对共享资源的访问。并发控制需要考虑 <em>竞争条件(race conditions)、死锁(deadlocks)</em> 和 <em>资源匮乏(resource starvation)</em> 等问题。</p>
+<span id="more"></span>
+<p><img src="/img/concurrency/cp_01.png" alt="Concurrent &amp; Parallel"></p>
+<p>并发编程一般有四种方式：多进程、多线程、协程和异步，常用的编程语言都有完善的并发编程机制来保证交互及通信(Interaction and Communication)，不同的实现机制对代码的编写要求也各不相同，一些并发组件之间的通信对程序员是隐藏的，也有一些是需要通过编程显式处理的。</p>
+<h2 id="并发编程常见的分类"><a class="header-anchor" href="#并发编程常见的分类">¶</a>并发编程常见的分类</h2>
+<p>现代操作系统提供了三种基本并发技术：</p>
+<ul>
+<li>进程。每个逻辑控制流都是一个进程，由内核来调度和维护。因为进程有独立的虚拟地址空间，想要和其它流通信，控制流必须使用某种显式的进程间通信(inter process communication, IPC)机制。</li>
+<li>I/O多路复用。在这种形式的并发编程中，应用程序在一个进程的上下文中显式地调度它们自己的逻辑流。逻辑流被模型化为状态机，数据到达文件描述符后，主程序显式地从一个状态转换到另一个状态。因为程序是一个单独的进程，所以所有的流都共享同一个地址空间。</li>
+<li>线程。线程是运行在一个单一进程上下文中的逻辑流，由内核进行调度。你可以把线程看成是其他两种方式的混合体，像进程流一样由内核进行调度，而像 I/O多路复用流一样共享同一个虚拟地址空间。</li>
+</ul>
+<h3 id="共享内存-Shared-memory"><a class="header-anchor" href="#共享内存-Shared-memory">¶</a>共享内存(Shared memory)</h3>
+<p>共享内存是在进程间传递数据的高效方式。在共享内存模型中，并行进程共享它们可以一步读与写的全局地址空间。异步并发访问可能导致竞争条件，用来避免它们的机制如：<code>锁</code>、<code>信号量</code>和<code>管程</code>(也被称为监视器，Monitor)。常规的多核处理器直接支持共享内存，很多并行编程语言和库在设计上利用了它，比如采用Fork-join模型的:Cilk、OpenMP和线程建造块。</p>
+<p><img src="/img/concurrency/shared-memory.png" alt="Shared memory"></p>
+<h3 id="消息传递-Message-passing"><a class="header-anchor" href="#消息传递-Message-passing">¶</a>消息传递(Message passing)</h3>
+<p>在消息传递模型中，并行进程通过消息传递相互交互数据。这种通信可以是异步的，就是说消息可以在接受者准备好之前发出；或是同步的，就是说消息发出前接受者必须准备好。</p>
+<p><img src="/img/concurrency/message-passing.png" alt="Message passing"></p>
+<p>目前编程语言设计上有两个分支：</p>
+<ul>
+<li><code>通信顺序进程(CSP)</code>：形式化了使用同步通信管道来连接进程的消息传递，并引出了重要的语言如：Occam、Limbo和Go。框架如Vert.x</li>
+<li><code>Actor模型</code>：使用异步消息传递，被采用的语言设计有：D、Scala和SALSA。框架有Akka。</li>
+</ul>
+<p>这种模型通常需要一个绿色线程或Free thread，如Fork-join的work stealing algorithm类似的管理级用户线程。</p>
+<h2 id="并发编程很难"><a class="header-anchor" href="#并发编程很难">¶</a>并发编程很难</h2>
+<p>并发编程要解决的问题，往往不仅仅是竞争、死锁。真实世界面临的问题远比想象中的要复杂：</p>
+<ol>
+<li>内存泄露</li>
+<li>野指针</li>
+<li>系统负载</li>
+<li>伪共享</li>
+<li>数据一致性、操作原子性</li>
+<li>异常</li>
+<li>类型安全</li>
+<li>弱引用<br>
+…</li>
+</ol>
+<p>并且，基于共享内存模型的并发设计遇到的问题相比消息传递模型要多得多</p>
+<h3 id="Coroutine"><a class="header-anchor" href="#Coroutine">¶</a>Coroutine</h3>
+<p>Kotlin提供了Coroutine的一种技术，协程。协程类似于线程。不同的是，协程是协作式多任务，而线程是典型的抢占式的。它允许执行被挂起(suspend)和恢复(yield)。</p>
+<h3 id="Fiber"><a class="header-anchor" href="#Fiber">¶</a>Fiber</h3>
+<p>Fiber也是一种Coroutine的实现，不同的是Kotlin中的Coroutine主要是为解决了async的问题。两者都会使用到Trampoline的技术，而Fiber主要解决的是side effect问题。它的线程是“用户态”、“非抢占”的。任务调度不由CPU控制，而是由用户指定，因此，像ZIO框架中的Fiber的线程都是ForkJoin实现的。</p>
+<p>因此，我们可以认为Fiber就是<em>绿色线程</em>。Fiber抽象为调度计算，和Akka的coordinator类似。Fiber也是一种线程实现，仅包含一个数据结构，但和系统/JVM的线程不同，它的分配和移除非常轻量。</p>
+<p>基于Fiber的free thread的特殊，会有几点限制：</p>
+<ul>
+<li>线程不能被block，因为它属于 <em>schedulable computation</em></li>
+<li>可以中断，因为它是用户态的。中断意味着它告诉<code>Executor</code>不需要再进行调度了</li>
+<li>可以回收(finalizer)，回收意味着，绑定在该Fiber上的资源会被close</li>
+</ul>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2021/12/01/concurrency/fibers-beyond-coroutine/';
+var disqus_title = 'Fibers beyond coroutine beyond goroutine';
+var disqus_url = 'https://galudisu.info/2021/12/01/concurrency/fibers-beyond-coroutine/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

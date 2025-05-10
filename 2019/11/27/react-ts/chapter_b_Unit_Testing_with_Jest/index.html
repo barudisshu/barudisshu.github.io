@@ -1,0 +1,395 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>第十一章 单元测试</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">第十一章 单元测试</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2019-11-27</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/react/">react<span class="tag">, </span></a><a class="tag-link" href="/tags/typescript/">typescript</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/react/">react</a></p></div><div class="article-content"><ul>
+<li>Testing pure functions</li>
+<li>Testing components</li>
+<li>Using Jest snapshot tests</li>
+<li>Mocking dependencies</li>
+<li>Getting code coverage</li>
+</ul>
+<p>重点内容，着重说明</p>
+<span id="more"></span>
+<p>本章内容重现第7章，第9章代码。</p>
+<h2 id="Testing-pure-functions"><a class="header-anchor" href="#Testing-pure-functions">¶</a>Testing pure functions</h2>
+<p>单元测试会从一个纯函数入手，然后逐步深入。</p>
+<blockquote>
+<p>纯函数的对于给定的一系列入参，总是返回相同的结果。纯函数取决于入参，它不会改变入参的值，也不改变任何外部变量。</p>
+</blockquote>
+<h3 id="Creating-a-basic-pure-function-test"><a class="header-anchor" href="#Creating-a-basic-pure-function-test">¶</a>Creating a basic pure function test</h3>
+<p>我们将创建第一个单元测试对<code>Form.tsx</code>的函数<code>required</code>进行测试：</p>
+<ol>
+<li>创建单元测试文件<code>Form.test.tsx</code>，对<code>Form.tsx</code>进行测试。</li>
+</ol>
+<blockquote>
+<p><code>test.tsx</code>后缀是一个重要标志，表示Jest会自动查询次后缀的文件并执行。按照约定和习惯，和被测试的文件前缀对应。如这里的<code>Form.test.tsx</code>。</p>
+</blockquote>
+<ol start="2">
+<li>导入我们希望测试的函数，包括TypeScript类型参数值：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; required, <span class="title class_">IValues</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./Form&quot;</span>;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>使用<code>test</code>函数开始我们的单元测试：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">test</span>(<span class="string">&quot;When required is called with empty title, &#x27;This must be populated&#x27; should be returned&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> implement the test</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这里的<code>test</code>函数接收两个参数：</p>
+<ul>
+<li>第一个参数是告诉我们测试的内容，它会输出到控制台中。</li>
+<li>第二个参数是一个箭头函数，包含我们的测试</li>
+</ul>
+<ol start="4">
+<li>我们需要调用<code>required</code>函数进行测试：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">test</span>(<span class="string">&quot;When required is called with empty title, &#x27;This must be populated&#x27; should be returned&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="attr">values</span>: <span class="title class_">IValues</span> = &#123;</span><br><span class="line">        <span class="attr">title</span>: <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="title function_">required</span>(<span class="string">&quot;title&quot;</span>, values);</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> check the result is correct</span></span><br><span class="line">    </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>最后一个任务，检测结果是否是我们期望的：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">test</span>(<span class="string">&quot;When required is called with empty title, &#x27;This must be populated&#x27; should be returned&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="attr">values</span>: <span class="title class_">IValues</span> = &#123;</span><br><span class="line">        <span class="attr">title</span>: <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="title function_">required</span>(<span class="string">&quot;title&quot;</span>, values);</span><br><span class="line">    <span class="title function_">expect</span>(result).<span class="title function_">toBe</span>(<span class="string">&quot;This must be populated&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这里链式调用了<code>toBe</code>来检测结果期望值。</p>
+<blockquote>
+<p><code>toBe</code>是Jest matcher检测函数中的其中一个。更多可参考 <a target="_blank" rel="noopener" href="https://jestjs.io/docs/en/expect">这里</a></p>
+</blockquote>
+<ol start="6">
+<li>运行命令进行单元测试：</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm test</span><br></pre></td></tr></table></figure>
+<p>该命名启动后进入watch mode。意思是每次更改代码，它都持续运行检测更新。</p>
+<p><img src="/img/react-ts/test_pass.png" alt="test pass"></p>
+<ol start="7">
+<li>如果更改期望值，则测试会报错：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">expect</span>(result).<span class="title function_">toBe</span>(<span class="string">&quot;This must be populatedX&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>当报错文件后，Jest会自动执行测试，并打印信息到控制台。如下：</p>
+<p><img src="/img/react-ts/test_fail.png" alt="test fail"></p>
+<p>Jest给出的错误的有用信息，它告诉我们：</p>
+<ul>
+<li>哪个测试失败了</li>
+<li>实际期望的值是什么</li>
+<li>哪行出错了</li>
+</ul>
+<p>这些信息帮助我们快速处理测试失败问题。</p>
+<ol start="8">
+<li>更改为正确的值：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">expect</span>(result).<span class="title function_">toBe</span>(<span class="string">&quot;This must be populated&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>当我们保存更改后，测试通过了。</p>
+<h3 id="Understanding-Jest-watch-options"><a class="header-anchor" href="#Understanding-Jest-watch-options">¶</a>Understanding Jest watch options</h3>
+<p>Jest在执行测试后，会提供给我们下面一些选项：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">Press f to run only failed tests.</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">Press o to only run tests related to changed files.</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">Press p to filter by a filename regex pattern.</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">Press t to filter by a <span class="built_in">test</span> name regex pattern.</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">Press q to quit watch mode.</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">Press Enter to trigger a <span class="built_in">test</span> run.</span></span><br></pre></td></tr></table></figure>
+<p>这些选项提供了可以特定测试的执行。</p>
+<h3 id="Adding-structure-to-unit-test-results"><a class="header-anchor" href="#Adding-structure-to-unit-test-results">¶</a>Adding structure to unit test results</h3>
+<p>随着单元测试实现的增加，为了易读性需要添加一些结构处理结果。Jest提供了一个<code>describe</code>函数对测试结果进行分组。使得对测试结果更易读。</p>
+<p>重构原来的代码部分：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;required&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">test</span>(<span class="string">&quot;When required is called with empty title, &#x27;This must be populated&#x27; should be returned&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="attr">values</span>: <span class="title class_">IValues</span> = &#123;</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="title function_">required</span>(<span class="string">&#x27;title&#x27;</span>, values);</span><br><span class="line">    <span class="title function_">expect</span>(result).<span class="title function_">toBe</span>(<span class="string">&#x27;This must be populated&#x27;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>describe函数接收两个参数：</p>
+<ul>
+<li>第一个参数是组名。</li>
+<li>第二个参数是一个箭头函数，包含要执行的测试内容。</li>
+</ul>
+<p>保存文件后，测试自动执行，输出内容如下：</p>
+<p><img src="/img/react-ts/test_group.png" alt="test group"></p>
+<h2 id="Testing-components"><a class="header-anchor" href="#Testing-components">¶</a>Testing components</h2>
+<p>对组件进行单元测试是个挑战，因为一个组件会依赖浏览器DOM和React库。</p>
+<h3 id="Creating-a-basic-component-test"><a class="header-anchor" href="#Creating-a-basic-component-test">¶</a>Creating a basic component test</h3>
+<p>我们对组件测试，从<code>ContactUs</code>表单入手：</p>
+<ol>
+<li>首先在<code>src</code>创建一个<code>ContactUs.test.tsx</code>文件。</li>
+<li>因为<code>ContactUs</code>组件使用了<code>ReactDOM</code>进行渲染。导入相应<code>ReactDOM</code>：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ReactDOM</span> <span class="keyword">from</span> <span class="string">&quot;react-dom&quot;</span>;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>我们需要模拟表单提交事件，因此导入<code>Simulate</code>函数：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Simulate</span> &#125; <span class="keyword">from</span> <span class="string">&quot;react-dom/test-utils&quot;</span>;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>导入测试的组件：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">ContactUs</span> <span class="keyword">from</span> <span class="string">&quot;./ContactUs&quot;</span>;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>导入表单的提交结构数据：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">ISubmitResult</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./Form&quot;</span>;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>创建我们的第一个Jest测试函数，并分组：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">describe</span>(<span class="string">&quot;ContactUs&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">test</span>(<span class="string">&quot;When submit without filling in fields should display errors&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// TODO - implement the test</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>测试的第一个实现是创建DOM：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">describe</span>(<span class="string">&quot;ContactUs&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">test</span>(<span class="string">&quot;When submit without filling in fields should display errors&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> handleSubmit = <span class="title function_">async</span> (): <span class="title class_">Promise</span>&lt;<span class="title class_">ISubmitResult</span>&gt; =&gt; &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;</span><br><span class="line">                <span class="attr">success</span>: <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> container = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;div&quot;</span>);</span><br><span class="line">        <span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">ContactUs</span> <span class="attr">onSubmit</span>=<span class="string">&#123;handleSubmit&#125;</span> /&gt;</span></span>, container);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// TODO - submit the form and check errors are shown</span></span><br><span class="line"></span><br><span class="line">        <span class="title class_">ReactDOM</span>.<span class="title function_">unmountComponentAtNode</span>(container);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>首先，创建一个<code>div</code>容器标签，将<code>ContactUs</code>组件渲染进去。另外再创建<code>onSubmit</code>属性，它返回success。最后一行则清理DOM元素。</p>
+<ol start="8">
+<li>接下来，引入表单内容，并提交：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">ContactUs</span> <span class="attr">onSubmit</span>=<span class="string">&#123;handleSubmit&#125;</span> /&gt;</span></span>, container);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> form = container.<span class="title function_">querySelector</span>(<span class="string">&quot;form&quot;</span>);</span><br><span class="line"><span class="title function_">expect</span>(form).<span class="property">not</span>.<span class="title function_">toBeNull</span>();</span><br><span class="line"><span class="title class_">Simulate</span>.<span class="title function_">submit</span>(form!);</span><br><span class="line"></span><br><span class="line"><span class="comment">// TODO - check errors are shown</span></span><br></pre></td></tr></table></figure>
+<p>这一步描述了：</p>
+<ul>
+<li>使用了<code>querySelector</code>函数，获取表单元素。</li>
+<li>使用Jest的<code>expect</code>函数检测表单不为<code>null</code>，<code>not</code>和<code>toBeNull</code>为链式组合。</li>
+<li>通过模拟器<code>Simulate</code>进行表单提交事件。使用了<code>!</code>告知TypeScript编译器<code>form</code>不是空的。</li>
+</ul>
+<ol start="9">
+<li>最后检测错误信息并展示：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Simulate</span>.<span class="title function_">submit</span>(form!);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> errorSpans = container.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;.form-error&quot;</span>);</span><br><span class="line"><span class="title function_">expect</span>(errorSpans.<span class="property">length</span>).<span class="title function_">toBe</span>(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">unmountComponentAtNode</span>(container);</span><br></pre></td></tr></table></figure>
+<p>这一步描述了：</p>
+<ul>
+<li>使用了<code>querySelectorAll</code>获取错误的DOM元素。</li>
+<li>使用<code>expect</code>进行校验</li>
+</ul>
+<ol start="10">
+<li>执行单元测试后，结果输出：</li>
+</ol>
+<p><img src="/img/react-ts/form_test.png" alt="form test"></p>
+<h3 id="Improving-our-tests-with-react-testing-library"><a class="header-anchor" href="#Improving-our-tests-with-react-testing-library">¶</a>Improving our tests with react-testing-library</h3>
+<p>react-testing-library是一系列测试工具集。</p>
+<h3 id="Installing-react-testing-library"><a class="header-anchor" href="#Installing-react-testing-library">¶</a>Installing react-testing-library</h3>
+<p>首先安装该工具：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev react-testing-library</span><br></pre></td></tr></table></figure>
+<h3 id="Removing-CSS-class-references-from-our-test"><a class="header-anchor" href="#Removing-CSS-class-references-from-our-test">¶</a>Removing CSS class references from our test</h3>
+<ol>
+<li>导入相应的函数:</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; render, cleanup &#125; <span class="keyword">from</span> <span class="string">&quot;react-testing-library&quot;</span>;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>直接使用<code>render</code>函数进行组件的渲染，如下：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">test</span>(<span class="string">&#x27;When submit without filling in fields should display errors&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> handleSubmit = <span class="title function_">async</span> (): <span class="title class_">Promise</span>&lt;<span class="title class_">ISubmitResult</span>&gt; =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">true</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> &#123;container, getAllByText&#125; = <span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">ContactUs</span> <span class="attr">onSubmit</span>=<span class="string">&#123;handleSubmit&#125;</span> /&gt;</span></span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> form = container.<span class="title function_">querySelector</span>(<span class="string">&#x27;form&#x27;</span>);</span><br><span class="line">  ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们再次获取了DOM容器，不过这次是通过<code>getallByText</code>函数获取引用部分。</p>
+<ol start="3">
+<li>然后获取错误的span元素长度：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Simulate</span>.<span class="title function_">submit</span>(form!);</span><br><span class="line"><span class="keyword">const</span> errorSpans = <span class="title function_">getAllByText</span>(<span class="string">&quot;This must be populated&quot;</span>);</span><br><span class="line"><span class="title function_">expect</span>(errorSpans.<span class="property">length</span>).<span class="title function_">toBe</span>(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>最后一步，我们需要清理DOM元素的内容。相比<code>ReactDOM.unmountComponentAtNode</code>。我们在测试外部执行清理操作。完整的代码如下：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">afterEach</span>(cleanup);</span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;ContactUs&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">test</span>(<span class="string">&#x27;When submit without filling in fields should display errors&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> handleSubmit = <span class="title function_">async</span> (): <span class="title class_">Promise</span>&lt;<span class="title class_">ISubmitResult</span>&gt; =&gt; &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">true</span>,</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">const</span> &#123;container, getAllByText&#125; = <span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">ContactUs</span> <span class="attr">onSubmit</span>=<span class="string">&#123;handleSubmit&#125;</span> /&gt;</span></span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> form = container.<span class="title function_">querySelector</span>(<span class="string">&#x27;form&#x27;</span>);</span><br><span class="line">    <span class="title function_">expect</span>(form).<span class="property">not</span>.<span class="title function_">toBeNull</span>();</span><br><span class="line">    <span class="title class_">Simulate</span>.<span class="title function_">submit</span>(form!);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> errorSpans = <span class="title function_">getAllByText</span>(<span class="string">&#x27;This must be populated&#x27;</span>);</span><br><span class="line">    <span class="title function_">expect</span>(errorSpans.<span class="property">length</span>).<span class="title function_">toBe</span>(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>测试自动执行后，发现所有测试已通过。</p>
+<h3 id="Using-fireEvent-for-user-interaction"><a class="header-anchor" href="#Using-fireEvent-for-user-interaction">¶</a>Using fireEvent for user interaction</h3>
+<p>接下来，需要测试用户真正的行为。</p>
+<ol>
+<li>首先添加<code>fireEvent</code>函数：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; render, cleanup, fireEvent &#125; <span class="keyword">from</span> <span class="string">&quot;react-testing-library&quot;</span>;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>继续添加<code>getByText</code>函数对渲染函数<code>render</code>进行解构：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; getAllByText, getByText &#125; = <span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">ContactUs</span> <span class="attr">onSubmit</span>=<span class="string">&#123;handleSubmit&#125;</span> /&gt;</span></span>);</span><br></pre></td></tr></table></figure>
+<p>这里把<code>container</code>变量移除了，因为不再需要用到。</p>
+<ol start="3">
+<li>获取<code>Submit</code>按钮，并使用<code>fireEvent</code>触发按钮的点击。</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;getAllByText, getByText&#125; = <span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">ContactUs</span> <span class="attr">onSubmit</span>=<span class="string">&#123;handleSubmit&#125;</span> /&gt;</span></span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> submitButton = <span class="title function_">getByText</span>(<span class="string">&quot;Submit&quot;</span>);</span><br><span class="line">fireEvent.<span class="title function_">click</span>(submitButton);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> errorSpans = <span class="title function_">getAllByText</span>(<span class="string">&#x27;This must be populated&#x27;</span>);</span><br><span class="line"><span class="title function_">expect</span>(errorSpans.<span class="property">length</span>).<span class="title function_">toBe</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>测试后结果通过了。</p>
+<h3 id="Creating-a-second-test-for-a-valid-form-submission"><a class="header-anchor" href="#Creating-a-second-test-for-a-valid-form-submission">¶</a>Creating a second test for a valid form submission</h3>
+<p>我们已经领会了如何编写一个健壮的测试。接下来测试表单填写不正确的错误情况。</p>
+<ol>
+<li>新建一个测试：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;ContactUs&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">test</span>(<span class="string">&#x27;When submit without filling in fields should display errors&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;);</span><br><span class="line">  </span><br><span class="line">  <span class="title function_">test</span>(<span class="string">&#x27;When submit after filling in fields should submit okay&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// TODO - render component, fill in fields, submit the form and check thre are no erros</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>以相同的解构方式渲染组件：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">test</span>(<span class="string">&#x27;When submit after filling in fields should submit okay&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> handleSubmit = <span class="title function_">async</span> (): <span class="title class_">Promise</span>&lt;<span class="title class_">ISubmitResult</span>&gt; =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">true</span></span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> &#123; container, getByText, getByLabelText &#125; = <span class="title function_">render</span>(</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">ContactUs</span> <span class="attr">onSubmit</span>=<span class="string">&#123;handleSubmit&#125;</span> /&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>现在：</p>
+<ul>
+<li>需要<code>container</code>对象，以检测有没有错误信息</li>
+<li>需要<code>getByText</code>函数，定义<code>Submit</code>按钮</li>
+<li>需要<code>getByLabelText</code>函数获取输入内容</li>
+</ul>
+<ol start="3">
+<li>通过<code>getByLabelText</code>获取name输入。之后检测name是否存在：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; container, getByText, getByLabelText &#125; = <span class="title function_">render</span>(</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">ContactUs</span> <span class="attr">onSubmit</span>=<span class="string">&#123;handleSubmit&#125;</span> /&gt;</span></span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> <span class="attr">nameField</span>: <span class="title class_">HTMLInputElement</span> = <span class="title function_">getByLabelText</span>(<span class="string">&quot;Your name&quot;</span>) <span class="keyword">as</span> <span class="title class_">HTMLInputElement</span>;</span><br><span class="line"><span class="title function_">expect</span>(nameField).<span class="property">not</span>.<span class="title function_">toBeNull</span>();</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>模拟用户输入内容。这是使用了<code>change</code>事件：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">nameField</span>: <span class="title class_">HTMLInputElement</span> = <span class="title function_">getByLabelText</span>(<span class="string">&quot;Your name&quot;</span>) <span class="keyword">as</span> <span class="title class_">HTMLInputElement</span>;</span><br><span class="line"><span class="title function_">expect</span>(nameField).<span class="property">not</span>.<span class="title function_">toBeNull</span>();</span><br><span class="line">fireEvent.<span class="title function_">change</span>(nameField, &#123;<span class="attr">target</span>: &#123;<span class="attr">value</span>: <span class="string">&quot;Carl&quot;</span>&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<p>这里模拟用户输入了<code>Carl</code>。</p>
+<blockquote>
+<p>这里显示指定了nameField的类型为<code>HTMLInputElment</code>以告知编译器，避免编译错误。</p>
+</blockquote>
+<ol start="5">
+<li>对于邮箱的输入类似：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">nameField</span>: <span class="title class_">HTMLInputElement</span> = <span class="title function_">getByLabelText</span>(<span class="string">&quot;Your name&quot;</span>) <span class="keyword">as</span> <span class="title class_">HTMLInputElement</span>;</span><br><span class="line"><span class="title function_">expect</span>(nameField).<span class="property">not</span>.<span class="title function_">toBeNull</span>();</span><br><span class="line">fireEvent.<span class="title function_">change</span>(nameField, &#123;<span class="attr">target</span>: &#123;<span class="attr">value</span>: <span class="string">&quot;Carl&quot;</span>&#125;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> emailField = <span class="title function_">getByLabelText</span>(<span class="string">&quot;Your email address&quot;</span>) <span class="keyword">as</span> <span class="title class_">HTMLInputElement</span>;</span><br><span class="line"><span class="title function_">expect</span>(emailField).<span class="property">not</span>.<span class="title function_">toBeNull</span>();</span><br><span class="line">fireEvent.<span class="title function_">change</span>(emailField, &#123;<span class="attr">target</span>: &#123;<span class="attr">value</span>: <span class="string">&quot;carl.rippon@testmail.com&quot;</span>&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<p>这里模拟用户输入了<code>carl.rippon@testmail.com</code>.</p>
+<ol start="6">
+<li>然后提交表单：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fireEvent.<span class="title function_">change</span>(emailField, &#123;<span class="attr">target</span>: &#123;<span class="attr">value</span>: <span class="string">&#x27;carl.rippon@testmail.com&#x27;</span>&#125;&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> submitButton = <span class="title function_">getByText</span>(<span class="string">&#x27;Submit&#x27;</span>);</span><br><span class="line">fireEvent.<span class="title function_">click</span>(submitButton);</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>我们的首要任务是验证没有错误出现。不幸的是，我们不能使用<code>getAllByText</code>函数，它会查找最少一个元素，我们的情况是希望没有错误出现。因此，测试前转换一下<code>div</code>标签，添加上：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;context.<span class="property">errors</span>[name] &amp;&amp; context.<span class="property">errors</span>[name].<span class="property">length</span> &gt; <span class="number">0</span> &amp;&amp; (</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">data-testid</span>=<span class="string">&quot;formErrors&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  &#123;context.errors[name].map(error =&gt; (</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">key</span>=<span class="string">&#123;error&#125;</span> <span class="attr">className</span>=<span class="string">&quot;form-error&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      &#123;error&#125;</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  ))&#125;</span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">)&#125;</span><br></pre></td></tr></table></figure>
+<p>给<code>div</code>一个<code>data-testid</code>属性。</p>
+<ol start="8">
+<li>回到测试。现在可以定位到错误<code>div</code>的元素应该是<code>null</code>的。</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fireEvent.<span class="title function_">click</span>(submitButton);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> errorsDiv = container.<span class="title function_">querySelector</span>(<span class="string">&quot;[data-testid=&#x27;formErrors&#x27;]&quot;</span>);</span><br><span class="line"><span class="title function_">expect</span>(errorsDiv).<span class="title function_">toBeNull</span>();</span><br></pre></td></tr></table></figure>
+<p>执行测试后，所有测试通过了。</p>
+<p>有没有不引用<code>data-testid</code>的实现？用户不希望看到或不关心<code>data-testid</code>这个属性，这显然违背我们的初衷。</p>
+<h2 id="Using-Jest-snapshot-tests"><a class="header-anchor" href="#Using-Jest-snapshot-tests">¶</a>Using Jest snapshot tests</h2>
+<p>快照测试，是指Jest会将渲染的所有元素和属性，和前一个渲染组件的快照进行比较。如果没有差异，则测试通过。</p>
+<p>我们将使用快照测试的方法，来校验<code>ContactUs</code>组件是否渲染OK。</p>
+<ol>
+<li>在<code>ContactUs</code>组里面创建一个<code>Renders okay</code>的测试：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">describe</span>(<span class="string">&quot;ContactUs&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="title function_">test</span>(<span class="string">&#x27;Renders okay&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">const</span> handleSubmit = <span class="title function_">async</span> (): <span class="title class_">Promise</span>&lt;<span class="title class_">ISubmitResult</span>&gt; =&gt; &#123;</span><br><span class="line">  	<span class="keyword">return</span> &#123;</span><br><span class="line">    	<span class="attr">success</span>: <span class="literal">true</span></span><br><span class="line">  		&#125;;</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">const</span> &#123; container &#125; = <span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">ContactUs</span> <span class="attr">onSubmit</span>=		<span class="string">&#123;handleSubmit&#125;</span> /&gt;</span></span>);</span><br><span class="line">	<span class="comment">// TODO - do the snapshot test</span></span><br><span class="line">        </span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>添加下面行实现快照测试：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">test</span>(<span class="string">&#x27;Renders okay&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line"><span class="keyword">const</span> handleSubmit = <span class="title function_">async</span> (): <span class="title class_">Promise</span>&lt;<span class="title class_">ISubmitResult</span>&gt; =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">success</span>: <span class="literal">true</span></span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> &#123; container &#125; = <span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">ContactUs</span> <span class="attr">onSubmit</span>=<span class="string">&#123;handleSubmit&#125;</span> /&gt;</span></span>);</span><br><span class="line"><span class="title function_">expect</span>(container).<span class="title function_">toMatchSnapshot</span>();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>快照测试非常简单。我们将DOM节点和<code>expect</code>函数期望进行比较，然后触发<code>toMatchSnapshot</code>函数检验。</p>
+<p>当测试执行后，可以从控制台看到快照已经被写入 <strong>1 snapshot written</strong>。</p>
+<ol start="3">
+<li>我们会发现，在<code>src</code>目录，包含有一个<code>__snapshots__</code> 目录。进入目录可以看到有一个<code>ContactUs.test.tsx.snap</code>文件，文件内容如下：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Jest Snapshot v1, https://goo.gl/fbAQLP</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>[<span class="string">`ContactUs Renders okay 1`</span>] = <span class="string">`</span></span><br><span class="line"><span class="string">&lt;div&gt;</span></span><br><span class="line"><span class="string">  &lt;form</span></span><br><span class="line"><span class="string">    class=&quot;form&quot;</span></span><br><span class="line"><span class="string">    novalidate=&quot;&quot;</span></span><br><span class="line"><span class="string"> ...</span></span><br><span class="line"><span class="string">  &lt;/form&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">;</span></span><br></pre></td></tr></table></figure>
+<p>在这份代码片段，某些内容是被剔除了的。但保留了主要信息：<code>toMatchSnapshot</code>函数，将<code>container</code>中的每个DOM节点(包含attribute)作了一份拷贝。</p>
+<p>这种测试严重耦合在我们的实现上。任何DOM结构或属性的改动都会中断我们的测试。</p>
+<ol start="4">
+<li>例如，<code>Form.tsx</code>中，我们在<code>Form</code>标签内再添加一个<code>div</code>标签。</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;form ...&gt;</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;this.props.children&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+<p>当测试执行后，我们可以确定测试被打断了。Jest将前后改动的不同显式了出来。</p>
+<p><img src="/img/react-ts/jest_snapshot.png" alt="jest snapshot"></p>
+<ol start="5">
+<li>当然这是合法的改动，我们可以键入 <strong>U</strong> 让Jest更新快照。</li>
+</ol>
+<p><img src="/img/react-ts/jest_snapshot_update.png" alt="snapshot update"></p>
+<p>那么，快照测试是好事还是坏事？他们是不稳定的因为它紧紧耦合了一个组件的实现。然后，它们也非常容易实现，当出现问题时，Jest会高亮问题所在让我们高效地修正问题。如果你们项目需要，值得尝试。</p>
+<h2 id="Mocking-dependencies"><a class="header-anchor" href="#Mocking-dependencies">¶</a>Mocking dependencies</h2>
+<p>模拟组件的依赖可以使得组件更容易测试。然而，如果模拟的数据太多，测试就真的代表了现实场景了吗？</p>
+<p>对于mock什么的测试是非常难写的。它会有很多层概念。例如mock的是REST API、mock的是事件、mock的是组件…</p>
+<p>本小节仅仅介绍REST API的mock调用测试。在此之前，首先介绍mock的特性。</p>
+<h3 id="Using-a-mock-function-in-Jest"><a class="header-anchor" href="#Using-a-mock-function-in-Jest">¶</a>Using a mock function in Jest</h3>
+<p>我们将继续提升表单的测试内容，添加额外的检查，以确保表单输入出现错误时，提交的处理不会执行。</p>
+<ol>
+<li>回到原来的<code>ContactUs.test.tsx</code>的第一个测试，将之前手动创建的一个<code>handleSubmit</code>函数，更改为一个mock函数：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> handleSubmit = jest.<span class="title function_">fn</span>();</span><br></pre></td></tr></table></figure>
+<p>测试执行后，运行正常。</p>
+<ol start="2">
+<li>现在提交时一个mock，我们可以检测它是否被调用了：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> errorSpans = container.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;.form-error&quot;</span>);</span><br><span class="line"><span class="title function_">expect</span>(errorSpans.<span class="property">length</span>).<span class="title function_">toBe</span>(<span class="number">2</span>)</span><br><span class="line"><span class="title function_">expect</span>(handleSubmit).<span class="property">not</span>.<span class="title function_">toBeCalled</span>();</span><br></pre></td></tr></table></figure>
+<p>相比从前的写法，不仅简化了submit函数，还额外检查了提交处理是否执行。</p>
+<p>我们继续来到第二个测试的实现中，它会检测一个合法的提交是否ok。</p>
+<ol>
+<li>将它的<code>handleSubmit</code>也更改为jest mock 函数：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> handleSubmit = jest.<span class="title function_">fn</span>();</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>这里的表单肯定被提交处理了，我们需要验证的是它提交了多少次：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> errorsDiv = container.<span class="title function_">querySelector</span>(<span class="string">&quot;[data-testid=&#x27;formErrors&#x27;]&quot;</span>);</span><br><span class="line"><span class="title function_">expect</span>(errorsDiv).<span class="title function_">toBeNull</span>();</span><br><span class="line"><span class="title function_">expect</span>(handleSubmit).<span class="title function_">toBeCalledTimes</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>测试执行后，pass了。</p>
+<ol start="3">
+<li>还有另外一种非常实用的方法。我们知道了提交请求已经被处理了，但不能确定参数是否正确？这里可以使用<code>toBeCalledWith</code>来检查：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">expect</span>(handleSubmit).<span class="title function_">toBeCalledTimes</span>(<span class="number">1</span>);</span><br><span class="line"><span class="title function_">expect</span>(handleSubmit).<span class="title function_">toBeCalledWith</span>(&#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;Car&quot;</span>,</span><br><span class="line">    <span class="attr">email</span>: <span class="string">&quot;carl.rippon@testmail.com&quot;</span>,</span><br><span class="line">    <span class="attr">reason</span>: <span class="string">&quot;Support&quot;</span>,</span><br><span class="line">    <span class="attr">notes</span>: <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>测试再次pass了。</p>
+<p>通过使用mock函数处理，可以对有价值的数据进行校验审查。</p>
+<h3 id="Mocking-Axios-with-axios-mock-adapter"><a class="header-anchor" href="#Mocking-Axios-with-axios-mock-adapter">¶</a>Mocking Axios with axios-mock-adapter</h3>
+<p>现在移步到第9章的代码部分。</p>
+<p>我们将测试post请求得到的渲染内容是否正确。我们将mock REST API数据进行测试。</p>
+<ol>
+<li>首先添加依赖包：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install axios-mock-adapter --save-dev</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>然后安装<code>react-testing-library</code>：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-testing-library --save-dev</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>该项目早已经有一个测试文件<code>App.test.tsx</code>了。我们删掉已有的测试代码。</li>
+<li>然后倒入额外的测试包，如下：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;render, cleanup, waitForElement&#125; <span class="keyword">from</span> <span class="string">&#x27;@testing-library/react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">MockAdapter</span> <span class="keyword">from</span> <span class="string">&#x27;axios-mock-adapter&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>添加清理工具，每次测试后进行清理。</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">afterEach</span>(cleanup);</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>分组，描述测试：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;App&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">test</span>(<span class="string">&#x27;When page loads, posts are rendered&#x27;</span>, <span class="title function_">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="comment">// TODO = render the app component with a mock API and check that the posts in the rendered list are as expected</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>箭头函数标记了<code>async</code>。因为我们最终是一个异步请求的测试。</p>
+<ol start="7">
+<li>第一步要做的是mock REST API：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">test</span>(<span class="string">&#x27;When page loads, posts are rendered&#x27;</span>, <span class="title function_">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> mock = <span class="keyword">new</span> <span class="title class_">MockAdapter</span>(axios);</span><br><span class="line">  mock.<span class="title function_">onGet</span>(<span class="string">&#x27;https://jsonplaceholder.typicode.com/posts&#x27;</span>).<span class="title function_">reply</span>(<span class="number">200</span>, [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">userId</span>: <span class="number">1</span>,</span><br><span class="line">      <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;title test 1&#x27;</span>,</span><br><span class="line">      <span class="attr">body</span>: <span class="string">&#x27;body test 1&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">userId</span>: <span class="number">1</span>,</span><br><span class="line">      <span class="attr">id</span>: <span class="number">2</span>,</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;title test 2&#x27;</span>,</span><br><span class="line">      <span class="attr">body</span>: <span class="string">&#x27;body test 2&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  ]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在<code>onGET</code>方法上模拟HTTP的返回内容。</p>
+<ol start="8">
+<li>接下来检查请求后渲染的内容是否正确。要达到该目的，我们在<code>App.tsx</code>的列表标签添加一个额外的<code>data-testid</code>属性，用作测试：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">posts</span>.<span class="property">length</span> &gt; <span class="number">0</span> &amp;&amp;(</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">className</span>=<span class="string">&quot;posts&quot;</span> <span class="attr">data-testid</span>=<span class="string">&quot;posts&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    ...</span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line">)&#125;</span><br></pre></td></tr></table></figure>
+<ol start="9">
+<li>回到原来的测试，对渲染的内容进行解构：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mock.<span class="title function_">onGet</span>(<span class="string">&#x27;https://jsonplaceholder.typicode.com/posts&#x27;</span>).<span class="title function_">reply</span>(...)</span><br><span class="line">                                                             <span class="keyword">const</span> &#123;getByTestId&#125; = <span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>);</span><br></pre></td></tr></table></figure>
+<ol start="10">
+<li>我们需要检测渲染的请求是否正确。但由于是异步的，我们需要等待请求。可以使用<code>waitForElement</code>函数处理：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;getByTestId&#125; = <span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>);</span><br><span class="line"><span class="keyword">const</span> <span class="attr">postsList</span>: <span class="built_in">any</span> = <span class="keyword">await</span> <span class="title function_">waitForElement</span>(<span class="function">() =&gt;</span> <span class="title function_">getByTestId</span>(<span class="string">&#x27;posts&#x27;</span>));</span><br></pre></td></tr></table></figure>
+<p><code>waitForElement</code>函数接收一个箭头函数作为参数，返回我们需要等待的元素。</p>
+<ol start="11">
+<li>接下来我们可以使用一个快照检测post的内容是否正确：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">expect</span>(postsList).<span class="title function_">toMatchSnapshot</span>();</span><br></pre></td></tr></table></figure>
+<ol start="12">
+<li>在测试执行之前，修改一下<code>tsconfig.json</code>文件。让TypeScript编译器知道我们使用了<code>async</code>和<code>await</code>：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;compilerOptions&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;target&quot;</span>: <span class="string">&quot;es5&quot;</span>,</span><br><span class="line">        <span class="string">&quot;lib&quot;</span>: [<span class="string">&quot;dom&quot;</span>, <span class="string">&quot;es2015&quot;</span>],</span><br><span class="line">        ...</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;include&quot;</span>: [<span class="string">&quot;src&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试执行后，快照被创建。查看快照后，我们可以看到请求返回了渲染的内容，其中包含了两个条目。</p>
+<h2 id="Getting-code-coverage"><a class="header-anchor" href="#Getting-code-coverage">¶</a>Getting code coverage</h2>
+<p>覆盖率会告知我们UT对代码的覆盖情况。我们在编写UT的时候，希望知道哪些代码还没测试的，哪些通过了，以方便进行跟踪。</p>
+<p>Jest带有一个覆盖率工具，以上一节的代码为例。</p>
+<ol>
+<li>要使用Jest的覆盖率工具，需要添加新的脚本：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">  <span class="string">&quot;start&quot;</span>: <span class="string">&quot;react-scripts start&quot;</span>,</span><br><span class="line">  <span class="string">&quot;build&quot;</span>: <span class="string">&quot;react-scripts build&quot;</span>,</span><br><span class="line">  <span class="string">&quot;test&quot;</span>: <span class="string">&quot;react-scripts test --env=jest-environment-jsdom-sixteen&quot;</span>,</span><br><span class="line">  <span class="string">&quot;coverage&quot;</span>: <span class="string">&quot;react-scripts test --env=jest-environment-jsdom-sixteen --coverage&quot;</span>,</span><br><span class="line">  <span class="string">&quot;eject&quot;</span>: <span class="string">&quot;react-scripts eject&quot;</span>,</span><br><span class="line">  <span class="string">&quot;eslint&quot;</span>: <span class="string">&quot;eslint src --ext .js,.jsx,.tsx,.ts --fix&quot;</span>,</span><br><span class="line">  <span class="string">&quot;tslint&quot;</span>: <span class="string">&quot;tslint --fix &#x27;./src/**/*&#123;.ts,.tsx&#125;&#x27;&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>然后运行脚本：</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run coverage</span><br></pre></td></tr></table></figure>
+<p>一会会在控制台输出测试覆盖率统计信息：</p>
+<p><img src="/img/react-ts/test_coverage.png" alt="test coverage"></p>
+<ol start="3">
+<li>在项目目录结构中，可以看到添加了一个新的<code>coverage</code>文件夹，包含一个子文件夹<code>lcov-report</code>。里面有一个<code>index.html</code>文件，打开文件可以看到更加详细的统计信息。</li>
+<li>我们可以点击链接，查看代码的覆盖情况。</li>
+</ol>
+<h2 id="Summary"><a class="header-anchor" href="#Summary">¶</a>Summary</h2>
+<p>本章介绍了Jest测试的一些常用函数的使用。譬如<code>expect</code>、<code>toBe</code>，用于验证数据。</p>
+<p>还介绍了如何对组件进行解构测试，通过<code>getByText</code>和<code>getLabelByText</code>获取组件的元素信息。</p>
+<p>还学习了使用<code>waitForElement</code>函数处理异步事件和请求信息。</p>
+<p>其中讨论了快照的测试情况，它会中断我们的测试，我们可以更新快照以跟踪代码的实现。</p>
+<p>对应一些异步的请求，我们可以使用mock的方式进行模拟。我们引进了<code>axios-mock-adapter</code>，并介绍了如何简单的测试异步渲染的内容。</p>
+<p>最后介绍了代码覆盖率工具的使用。</p>
+<p>除此之外，还有两个常见的测试框架：<code>Jasmine</code>和<code>Mocha</code>。Jest的优势在于它已经集成在<code>create-react-app</code>的命令中了。当然你也可以替换这两款的测试框架。</p>
+<p>还有另一个强大的测试框架<code>Enzyme</code>。它是基于Jest的实现。</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2019/11/27/react-ts/chapter_b_Unit_Testing_with_Jest/';
+var disqus_title = '第十一章 单元测试';
+var disqus_url = 'https://galudisu.info/2019/11/27/react-ts/chapter_b_Unit_Testing_with_Jest/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>rust基础入门[01] - Printing on the Terminal</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">rust基础入门[01] - Printing on the Terminal</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-01</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-content"><h2 id="Hello-World"><a class="header-anchor" href="#Hello-World">¶</a>Hello, World!</h2>
+<p>学习如何在终端输出：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">print!</span>(<span class="string">&quot;Hello, world!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行将输出 <code>&quot;Hello, world!&quot;</code>，上述包含8个语法，</p>
+<ul>
+<li><code>print</code>： Rust标准库定义宏</li>
+<li><code>!</code>： 它表示前面的名字是一个宏(macro)，没有该标志，<code>print</code>会标识为一个函数(function)。在Rust标准库中没有该函数，因此会得到一个编译错误。一个宏(macro)是和函数类似的 - 它是某个以名字关联的Rust代码。要使用这个宏名，你将该代码嵌入到该指示的位置。</li>
+<li><code>(</code>： 宏参数列表的开始。</li>
+<li><code>&quot;</code>： 字符串字面量开始。</li>
+<li><code>Hello, world!</code>： 字符串字面量的内容。</li>
+<li><code>&quot;</code>： 字符串字面量的结束。</li>
+<li><code>)</code>： 宏参数列表的结束。</li>
+<li><code>;</code>： 语法结束。</li>
+</ul>
+<p>字符串字面量(literal string)中的，“string” 表示 “有限字符序列，可能包含空格和符号”。字面量(“literal”)表示 “源代码直接标识的值”。字符串(literal string) 就是 “源代码中具体指示的有限序列字符”。</p>
+<p><code>print</code>宏在接收到参数时，插入代码并打印到终端。</p>
+<p>Rust区分大小写。</p>
+<h2 id="Printing-Combinations-of-Literal-Strings"><a class="header-anchor" href="#Printing-Combinations-of-Literal-Strings">¶</a>Printing Combinations of Literal Strings</h2>
+<p>与其使用单一的字符字面量，你可以打印多个。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;!&quot;</span>, <span class="string">&quot;Hello&quot;</span>, <span class="string">&quot;world&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>在这里，<code>&#123;&#125;</code>称为占位符。它跟C语言类似。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s, %s!&quot;</span>, <span class="string">&quot;Hello&quot;</span>, <span class="string">&quot;world&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>占位符的个数必须跟参数对应，否则出现编译错误。相反，C语言并不会提升为编译错误，而是让编译的程序崩溃。</p>
+<h2 id="Printing-Serveral-Lines-of-Text"><a class="header-anchor" href="#Printing-Serveral-Lines-of-Text">¶</a>Printing Serveral Lines of Text</h2>
+<p>一个语句可以打印多行</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;First line\nSecond line\nThird line\n&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<p>First line<br>
+Second line<br>
+Third line</p>
+<p>可以使用另外一个宏，<code>println</code>，它表示换行输出。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;text of the line&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="Printing-Integer-Numbers"><a class="header-anchor" href="#Printing-Integer-Numbers">¶</a>Printing Integer Numbers</h2>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;My number: &#123;&#125;&quot;</span>, <span class="number">140</span>);</span><br></pre></td></tr></table></figure>
+<p>下面输出和上述等价。因为 000140 将被转换为二进制格式，0被忽略。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;My number: &#123;&#125;&quot;</span>, <span class="number">000140</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="Command-Line-Script"><a class="header-anchor" href="#Command-Line-Script">¶</a>Command-Line Script</h2>
+<p><code>rustc</code>命令有一个缺陷：它按顺序打印出所有错误。当你的代码包含很多语法错误时，编译器会打印大量的错误信息，你需要回滚到最先开始的那段。</p>
+<p>面对这种情况，可以使用命令行脚本的方式：</p>
+<p>在Linux系统，你可以：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clear</span><br><span class="line">rustc $* --color always 2&gt;&amp;1 | more</span><br></pre></td></tr></table></figure>
+<p>在Windows中，你可以将下面三行添加到<code>.BAT</code>文件：</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">cls</span></span><br><span class="line">rustc %* --<span class="built_in">color</span> always <span class="number">2</span>&gt;&amp;<span class="number">1</span> | <span class="built_in">more</span></span><br></pre></td></tr></table></figure>
+<p>保存为<code>rs</code> (windows 为 <code>rs.bat</code>)，编译文件 <code>main.rs</code>时：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs main.rs</span><br></pre></td></tr></table></figure>
+<p>它将错误信息，通过管道 <code>|</code> 交由命令 <code>more</code>处理。最终变为一个Linux文本处理。</p>
+<p>注意，<code>rs</code>命令会跟系统(freeBSD Unix)中的 <code>reshape a data array</code>命令冲突。建议改名。</p>
+<h2 id="Comments"><a class="header-anchor" href="#Comments">¶</a>Comments</h2>
+<p>Rust 的注释包含有：</p>
+<ul>
+<li>单行注释： 以 <code>//</code>开头</li>
+<li>多行注释： 以 <code>/*</code> 开始，以 <code>*/</code>结束。</li>
+</ul>
+<p>Rust的注释和C类型，区别是Rust的注释可以嵌套。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* This is <span class="comment">/* a valid*/</span></span></span><br><span class="line"><span class="comment">comment, event <span class="comment">/* if <span class="comment">/* it contains</span></span></span></span><br><span class="line"><span class="comment"><span class="comment"><span class="comment">comments */</span> inside */</span>itself. */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* This */</span> instead is not allowed <span class="keyword">in</span> Rust,</span><br><span class="line"><span class="keyword">while</span> <span class="keyword">in</span> C is <span class="title function_ invoke__">tolerated</span> (but it may generate a warning).*/</span><br></pre></td></tr></table></figure>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2023/01/01/rust/beginning/chapter01_Printing on the Terminal/';
+var disqus_title = 'rust基础入门[01] - Printing on the Terminal';
+var disqus_url = 'https://galudisu.info/2023/01/01/rust/beginning/chapter01_Printing on the Terminal/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

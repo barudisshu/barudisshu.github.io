@@ -1,0 +1,305 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>CentOS 7 搭建Spark2.3.1分布式集群</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">CentOS 7 搭建Spark2.3.1分布式集群</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-10-26</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/spark/">spark</a></p></div><div class="article-content"><span id="more"></span>
+<h2 id="下载安装包"><a class="header-anchor" href="#下载安装包">¶</a>下载安装包</h2>
+<ol>
+<li>官方下载</li>
+</ol>
+<p>点击<a target="_blank" rel="noopener" href="http://spark.apache.org/downloads.html">这里</a>下载，官方提供几种构建方式。为了节省时间，选择预先编译版本的hadoop。</p>
+<ol start="2">
+<li>安装前提</li>
+</ol>
+<ul>
+<li>JDK8</li>
+<li>ZooKeeper，安装参考这里</li>
+<li>Hadoop，安装参考这里</li>
+<li>Scala</li>
+</ul>
+<p>注意：从Spark2.0版开始，默认使用Scala 2.11构建。Scala 2.10用户应该下载Spark源包并使用<a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/building-spark.html#building-for-scala-210">Scala2.10</a>支持构建。</p>
+<ol start="3">
+<li>集群规划</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">节点名称</th>
+<th style="text-align:center">IP</th>
+<th style="text-align:center">ZooKeeper</th>
+<th style="text-align:center">Master</th>
+<th style="text-align:center">Worker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">spark-node1</td>
+<td style="text-align:center">192.168.50.200</td>
+<td style="text-align:center">ZooKeeper</td>
+<td style="text-align:center">主Master</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">spark-node2</td>
+<td style="text-align:center">192.168.50.201</td>
+<td style="text-align:center">ZooKeeper</td>
+<td style="text-align:center">备Master</td>
+<td style="text-align:center">Worker</td>
+</tr>
+<tr>
+<td style="text-align:center">spark-node3</td>
+<td style="text-align:center">192.168.50.202</td>
+<td style="text-align:center">ZooKeeper</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">Worker</td>
+</tr>
+</tbody>
+</table>
+<h2 id="集群安装"><a class="header-anchor" href="#集群安装">¶</a>集群安装</h2>
+<ol>
+<li>解压缩</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 ~]$ tar zxvf spark-2.3.1-bin-hadoop2.7.tgz -C /opt/</span><br><span class="line">[xxx@spark-node1 ~]$ sudo ln -s /opt/spark-2.31-bin-hadoop2.7 /opt/spark</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>修改配置文件</li>
+</ol>
+<ol>
+<li>进入配置文件所在目录</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 ~]$ cd /opt/spark/conf/</span><br><span class="line">[xxx@spark-node1 ~]$ ll</span><br><span class="line">total 36K</span><br><span class="line">-rw-rw-r--. 1 galudisu galudisu  996 Jun  1 16:49 docker.properties.template</span><br><span class="line">-rw-rw-r--. 1 galudisu galudisu 1.1K Jun  1 16:49 fairscheduler.xml.template</span><br><span class="line">-rw-rw-r--. 1 galudisu galudisu 2.0K Jun  1 16:49 log4j.properties.template</span><br><span class="line">-rw-rw-r--. 1 galudisu galudisu 7.7K Jun  1 16:49 metrics.properties.template</span><br><span class="line">-rw-rw-r--. 1 galudisu galudisu  865 Jun  1 16:49 slaves.template</span><br><span class="line">-rw-rw-r--. 1 galudisu galudisu 1.3K Jun  1 16:49 spark-defaults.conf.template</span><br><span class="line">-rwxrwxr-x. 1 galudisu galudisu 4.2K Jun  1 16:49 spark-env.sh.template</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>复制<code>spark-env.sh.template</code>并重命名为<code>spark-env.sh</code></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 conf]$ cp spark-env.sh.template spark-env.sh</span><br><span class="line">[xxx@spark-node1 conf]$ vim spark-env.sh</span><br></pre></td></tr></table></figure>
+<p>编辑并在文件末尾添加如下配置内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">指定默认master的ip或主机名</span></span><br><span class="line">export SPARK_MASTER_HOST=node21  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">指定maaster提交任务的默认端口为7077</span>    </span><br><span class="line">export SPARK_MASTER_PORT=7077 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">指定masster节点的webui端口</span>       </span><br><span class="line">export SPARK_MASTER_WEBUI_PORT=8080 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">每个worker从节点能够支配的内存数</span> </span><br><span class="line">export SPARK_WORKER_MEMORY=1g        </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">允许Spark应用程序在计算机上使用的核心总数（默认值：所有可用核心）</span></span><br><span class="line">export SPARK_WORKER_CORES=1    </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">每个worker从节点的实例（可选配置）</span> </span><br><span class="line">export SPARK_WORKER_INSTANCES=1   </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">指向包含Hadoop集群的（客户端）配置文件的目录，运行在Yarn上配置此项</span>   </span><br><span class="line">export HADOOP_CONF_DIR=/opt/module/hadoop-2.7.6/etc/hadoop</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">指定整个集群状态是通过zookeeper来维护的，包括集群恢复</span></span><br><span class="line">export SPARK_DAEMON_JAVA_OPTS=&quot;      </span><br><span class="line">-Dspark.deploy.recoveryMode=ZOOKEEPER </span><br><span class="line">-Dspark.deploy.zookeeper.url=node21:2181,node22:2181,node23:2181</span><br><span class="line">-Dspark.deploy.zookeeper.dir=/spark&quot;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>复制<code>slaves.template</code>成<code>slaves</code>，并修改配置内容</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 conf]$ cp slaves.template slaves</span><br><span class="line">[xxx@spark-node1 conf]$ vim slaves</span><br></pre></td></tr></table></figure>
+<p>修改从节点</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spark-node2</span><br><span class="line">spark-node3</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>将安装包分发给其它节点</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 opt]$ scp -r spark-2.31-bin-hadoop2.7 xxx@spark-node2:/opt/</span><br><span class="line">[xxx@spark-node1 opt]$ scp -r spark-2.31-bin-hadoop2.7 xxx@spark-node3:/opt/</span><br></pre></td></tr></table></figure>
+<p>修改spark-node2节点上<code>conf/spark-env.sh</code>配置的MasterIP为<code>SPARK_MASTER_IP=spark-node2</code></p>
+<ol start="3">
+<li>配置环境变量</li>
+</ol>
+<p>所有节点均要配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 spark]$ sudo vim /etc/profile</span><br><span class="line"></span><br><span class="line">export SPARK_HOME=/opt/spark</span><br><span class="line">export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin</span><br><span class="line">[xxx@spark-node1 spark]$ source /etc/profile</span><br></pre></td></tr></table></figure>
+<h2 id="启动集群"><a class="header-anchor" href="#启动集群">¶</a>启动集群</h2>
+<ol>
+<li>启动ZooKeeper集群</li>
+</ol>
+<p>所有ZooKeeper节点均要执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 ~]$ zkServer.sh start</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>启动Hadoop集群</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 ~]$ start-dfs.sh</span><br><span class="line">[xxx@spark-node2 ~]$ start-yarn.sh</span><br><span class="line">[xxx@spark-node3 ~]$ yarn-daemon.sh start resourcemanager</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>启动Spark集群</li>
+</ol>
+<p>启动Spark：启动master节点：<code>sbin/start-master.sh</code> 启动worker节点：<code>sbin/start-slaves.sh</code><br>
+或者：<code>sbin/start-all.sh</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 spark]$ sbin/start-all.sh</span><br></pre></td></tr></table></figure>
+<p>注意：备用master节点需要手动启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node2 spark]$ sbin/start-master.sh</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>查看进程</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 spark]$ jps</span><br><span class="line">2368 JobHistoryServer</span><br><span class="line">2928 Jps</span><br><span class="line">2227 DFSZKFailoverController</span><br><span class="line">2533 Master</span><br><span class="line">2006 JournalNode</span><br><span class="line">1512 NodeManager</span><br><span class="line">1610 NameNode</span><br><span class="line">1820 DataNode</span><br><span class="line"></span><br><span class="line">[xxx@spark-node2 spark]$ jps</span><br><span class="line">2256 DFSZKFailoverController</span><br><span class="line">1651 NameNode</span><br><span class="line">2435 Worker</span><br><span class="line">2101 JournalNode</span><br><span class="line">2854 Jps</span><br><span class="line">1576 NodeManager</span><br><span class="line">1209 ResourceManager</span><br><span class="line">1835 DataNode</span><br><span class="line"></span><br><span class="line">[xxx@spark-node3 spark]$ jps</span><br><span class="line">1796 DataNode</span><br><span class="line">2436 Jps</span><br><span class="line">1900 JournalNode</span><br><span class="line">1613 NodeManager</span><br><span class="line">2095 Worker</span><br></pre></td></tr></table></figure>
+<h2 id="验证集群HA"><a class="header-anchor" href="#验证集群HA">¶</a>验证集群HA</h2>
+<ol>
+<li>看Web页面Master状态</li>
+</ol>
+<p>spark-node1是ALIVE状态，spark-node2为STANDBY状态，WebUI查看：<a target="_blank" rel="noopener" href="http://spark-node1:8080/">http://spark-node1:8080/</a></p>
+<p><img src="/img/spark/spark-master1.png" alt="spark-master1"><br>
+<img src="/img/spark/spark-master2.png" alt="spark-master2"></p>
+<p>从节点连接地址：<a target="_blank" rel="noopener" href="http://spark-node2:8081">http://spark-node2:8081/</a></p>
+<p><img src="/img/spark/spark-worker1.png" alt="spark-worker1"><br>
+<img src="/img/spark/spark-worker2.png" alt="spark-worker2"></p>
+<ol start="2">
+<li>验证HA的高可用</li>
+</ol>
+<p>手动干掉spark-node1上面的Master进程，spark-node2:8080将自动切换为ALIVE状态。</p>
+<p><img src="/img/spark/spark-alive.png" alt="spark-alive"></p>
+<ol start="3">
+<li>HA注意点</li>
+</ol>
+<ul>
+<li>主备切换过程中不能提交Application。</li>
+<li>主备切换过程中不影响已经在集群中运行的Application。因为Spark是粗粒度资源调度。</li>
+</ul>
+<p><img src="/img/spark/spark-ha.png" alt="spark-ha"></p>
+<h2 id="集群提交命令方式"><a class="header-anchor" href="#集群提交命令方式">¶</a>集群提交命令方式</h2>
+<ol>
+<li>Standalone模式</li>
+</ol>
+<h3 id="Standalone-client"><a class="header-anchor" href="#Standalone-client">¶</a>Standalone-client</h3>
+<ol>
+<li>提交命令</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 spark]$ ./bin/spark-submit --class org.apache.spark.examples.SparkPi \</span><br><span class="line">--master spark://spark-node1:7077 \</span><br><span class="line">--executor-memory 500m \</span><br><span class="line">--total-executor-cores 1 \</span><br><span class="line">examples/jars/spark-examples_2.11-2.3.1.jar 10</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node2 spark]$ ./bin/spark-submit --class org.apache.spark.exmaples.SparkPi \</span><br><span class="line">--master spark://spark-node1:7077 \</span><br><span class="line">--deploy-mode client \</span><br><span class="line">--executor-memory 500m \</span><br><span class="line">--total-executor-cores 1 \</span><br><span class="line">examples/jars/spark-examples_2.11-2.3.1.jar 10</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>提交原理图解</li>
+</ol>
+<p><img src="/img/spark/spark-standalone.png" alt="spark-standalone"></p>
+<ol start="3">
+<li>执行流程</li>
+</ol>
+<ul>
+<li>client模式提交任务后，会在客户端启动Driver进程。</li>
+<li>Driver会向Master申请启动Application启动的资源。</li>
+<li>资源申请成功，Driver端将task发送到worker端执行。</li>
+<li>worker将task执行结果返回到Driver端。</li>
+</ul>
+<ol start="4">
+<li>总结</li>
+</ol>
+<p>client模式使用于测试调试程序。Driver进程是在客户端启动的，这里的客户端就是指提交应用程序的当前节点。在Driver端可以看到task执行的情况。生产环境下不能使用client模式，是因为：假设要提交100个Application到集群运行，Driver每次都会在client端启动，那么就会导致客户端100次网卡流量暴增的问题。</p>
+<h3 id="Standalone-cluster"><a class="header-anchor" href="#Standalone-cluster">¶</a>Standalone-cluster</h3>
+<ol>
+<li>提交命令</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 spark]$ ./bin/spark-submit --class org.apache.spark.examples.SparkPi \</span><br><span class="line">--master spark:spark-node1:7077 \</span><br><span class="line">--deploy-mode cluster \</span><br><span class="line">examples/jars/spark-examples_2.11-2.3.1.jar 10</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>提交原理图解</li>
+</ol>
+<p><img src="/img/spark/spark-cluster.png" alt="spark-cluster"></p>
+<ol start="3">
+<li>执行流程</li>
+</ol>
+<ul>
+<li>cluster模式提交应用程序后，会向Master请求启动Driver。</li>
+<li>Master接受请求，随机在集群一台节点启动Driver进程。</li>
+<li>Driver启动后为当前的应用程序申请资源。</li>
+<li>Driver端发送task到worker节点上执行。</li>
+<li>worker将执行情况和执行结果返回给Driver端。</li>
+</ul>
+<ol start="4">
+<li>总结</li>
+</ol>
+<p>Driver进程是在集群某一台Worker上启动的，在客户端无法查看task的执行情况的。假设要提交100个application到集群运行，每次Driver会随机在集群中某一台Worker上启动，那么这100次网卡流量暴增的问题就散步在集群上。</p>
+<ol start="2">
+<li>Yarn模式</li>
+</ol>
+<h3 id="yarn-client"><a class="header-anchor" href="#yarn-client">¶</a>yarn-client</h3>
+<ol>
+<li>提交命令</li>
+</ol>
+<p>以client模式启动Spark应用程序：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/spark-submit --class path.to.your.Class --master yarn --deploy-mode client [options] &lt;app jar&gt; [app options]</span><br></pre></td></tr></table></figure>
+<p>例如</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 spark]$ ./bin/spark-submit --class org.apache.spark.examples.SparkPi \</span><br><span class="line">--master yarn \</span><br><span class="line">--deploy-mode client \</span><br><span class="line">examples/jars/spark-examples_2.11-2.3.1.jar 10</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>提交原理图解</li>
+</ol>
+<p><img src="/img/spark/spark-yarn-standalone.png" alt="spark-yarn"></p>
+<ol start="3">
+<li>执行流程</li>
+</ol>
+<ul>
+<li>客户单提交一个Application，在客户端启动一个Driver进程。</li>
+<li>应用程序启动后会向RS(ResourceManager)发送请求，启动AM(ApplicationMaster)的资源。</li>
+<li>RS收到请求，随机选择一台NM(NodeManager)启动AM。这里的NM相当于Standalone中的Worker节点。</li>
+<li>AM启动后，会向RS请求一批container资源，用于启动Executor。</li>
+<li>RS会找到一批NM返回给AM，用于启动Executor。</li>
+<li>AM会向NM发送命令启动Executor。</li>
+<li>Executor启动后，会反向注册给Driver，Driver发送task到Executor，执行情况和结果返回给Driver端。</li>
+</ul>
+<ol start="4">
+<li>总结</li>
+</ol>
+<p>Yarn-client模式同样是适用于测试，因为Driver运行在本地，Driver会与yarn集群中的Executor进行大量的通信，会造成客户机网卡流量的大量增加。</p>
+<p>ApplicationMaster的作用：</p>
+<ul>
+<li>为当前的Application申请资源</li>
+<li>给NodeManager发送消息启动Executor</li>
+</ul>
+<p>注意：ApplicationMaster有launchExecutor和申请资源的功能，并没有作业调度的功能。</p>
+<h3 id="yarn-cluster"><a class="header-anchor" href="#yarn-cluster">¶</a>yarn-cluster</h3>
+<ol>
+<li>提交命令</li>
+</ol>
+<p>以cluster模式启动Spark应用程序：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/spark-submit --class path.to.your.Class --master yarn --deploy-mode cluster [options] &lt;app jar&gt; [app options]</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[xxx@spark-node1 spark]$ ./bin/spark-submit --class org.apache.spark.examples.SparkPi \</span><br><span class="line">--master yarn \</span><br><span class="line">--deploy-mode cluster \</span><br><span class="line">examples/jars/sprk-examples_2.11-2.3.1.jar 10</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>提交原理图解</li>
+</ol>
+<p><img src="/img/spark/spark-yarn-cluster.png" alt="spark-yarn"></p>
+<ol start="3">
+<li>执行流程</li>
+</ol>
+<ul>
+<li>客户机提交Application应用程序，发送请求到RS(ResourceManager),请求启动AM(ApplicationMaster)</li>
+<li>RS收到请求后随机在一台NM(NodeManager)上启动AM(相当于Driver端)</li>
+<li>AM启动，AM发送请求到RS，请求一批container用于启动Executor</li>
+<li>RS返回一批NM节点给AM</li>
+<li>AM连接到NM,发送请求到NM启动Executor</li>
+<li>Executor反向注册到AM所在的节点的Driver，Driver发送task到Executor</li>
+</ul>
+<ol start="4">
+<li>总结</li>
+</ol>
+<p>Yarn-Cluster主要用于生产环境中，因为Driver运行在Yarn集群中某一台nodeManager中，每次提交任务的Driver所在的机器都是随机的，不会产生某一台机器网卡流量激增的现象，缺点是任务提交后不能看到日志。只能通过yarn查看日志。</p>
+<p>ApplicationMaster的作用：</p>
+<ul>
+<li>为当前的Application申请资源</li>
+<li>给NodeManager发送消息启动Executor</li>
+<li>任务调度</li>
+</ul>
+<p>停止集群任务命令: <code>yarn application -kill applicationID</code></p>
+<h2 id="配置历史服务器"><a class="header-anchor" href="#配置历史服务器">¶</a>配置历史服务器</h2>
+<ol>
+<li>临时配置</li>
+</ol>
+<p>对本次提交的应用程序起作用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">./spark-shell --master spark://node21:7077 </span><br><span class="line">--name myapp1</span><br><span class="line">--conf spark.eventLog.enabled=true</span><br><span class="line">--conf spark.eventLog.dir=hdfs://spark-node1:8020/spark/test</span><br></pre></td></tr></table></figure>
+<p>停止程序，在Web UI中Completed Applications对应的ApplicationID中能查看history.</p>
+<ol start="2">
+<li>永久配置</li>
+</ol>
+<p><strong>spark-default.conf配置文件中配置History Server，对所有提交的Application都起作用</strong></p>
+<p>在客户端节点，进入<code>../spark/conf/spark-defaults.conf</code>最后加入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//开启记录事件日志的功能</span><br><span class="line">spark.eventLog.enabled          true</span><br><span class="line">//设置事件日志存储的目录</span><br><span class="line">spark.eventLog.dir              hdfs://node21:8020/spark/test</span><br><span class="line">//设置HistoryServer加载事件日志的位置</span><br><span class="line">spark.history.fs.logDirectory   hdfs://node21:8020/spark/test</span><br><span class="line">//日志优化选项,压缩日志</span><br><span class="line">spark.eventLog.compress         true</span><br></pre></td></tr></table></figure>
+<p>启动HistorySever：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./start-history-server.sh</span><br></pre></td></tr></table></figure>
+<p>访问HistoryServer: spark-node1:18080，之后所有提交的应用程序运行状况都会被记录。</p>
+<h2 id="加入Systemd"><a class="header-anchor" href="#加入Systemd">¶</a>加入Systemd</h2>
+<p>和前面ZooKeeper、HA的配置一样，将Spark的启动加入Systemd，让系统自动维护。在<code>/usr/lib/systemd/system/spark.serivce</code>加入</p>
+<p>因为用了ZooKeeper集群做统一化管理，只需要master节点加入service即可。</p>
+<p>spark-node1:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Spark, Lightning-fast unified analytics engine</span><br><span class="line">After=network.target remote-fs.target nss-lookup.target network-online.target</span><br><span class="line">Requires=network-online.target</span><br><span class="line">Wants=hadoop.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">User=galudisu</span><br><span class="line">Group=galudisu</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/opt/spark/sbin/start-all.sh &amp;</span><br><span class="line">ExecStop=/opt/spark/sbin/stop-all.sh &amp;</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">Environment=SPARK_HOME=/opt/spark</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p>spark-node2:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Spark, Lightning-fast unified analytics engine</span><br><span class="line">After=network.target remote-fs.target nss-lookup.target network-online.target</span><br><span class="line">Requires=network-online.target</span><br><span class="line">Wants=hadoop.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">User=galudisu</span><br><span class="line">Group=galudisu</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/opt/spark/sbin/start-master.sh &amp;</span><br><span class="line">ExecStop=/opt/spark/sbin/stop-master.sh &amp;</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">Environment=SPARK_HOME=/opt/spark</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p>又或者单独编写一个脚本执行。</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2018/10/26/spark/spark-cluster-config/';
+var disqus_title = 'CentOS 7 搭建Spark2.3.1分布式集群';
+var disqus_url = 'https://galudisu.info/2018/10/26/spark/spark-cluster-config/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>简单易懂の现代魔法</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><div class="post-list-wrapper"><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2017/05/01/postgresql/ubuntu-install-postgresql">Ubuntu下安装postgreSQL</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-05-01</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/postgreSQL/">postgreSQL</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/sql/">sql</a></p></div><div class="article-excerpt"><h3 id="安装并配置，并设置远程登录用户名和密码"><a class="header-anchor" href="#安装并配置，并设置远程登录用户名和密码">¶</a>安装并配置，并设置远程登录用户名和密码</h3>
+<ol>
+<li>安装postgreSQL</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install postgresql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装完postgreSQL后，会自动注册为服务</li>
+<li>安装完postgreSQL后，自动添加一个postgres用户，密码随机。以及自动添加一个postgres数据库，用户名为postgres，密码也随机。</li>
+</ul></div><div class="article-read-more"><a class="read-more-link" href="/2017/05/01/postgresql/ubuntu-install-postgresql/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2017/05/01/gitlab/ubuntu-gitlab-install">Ubuntu 16.x 安装Gitlab</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-05-01</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/gitlab/">gitlab</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/ubuntu/">ubuntu</a></p></div><div class="article-excerpt"><blockquote>
+<p>GitLab 是一个用于仓库管理系统的开源项目。使用Git作为代码管理工具，并在此基础上搭建起来的web服务。 在GitLab的官方网站上面对Ubuntu的支持也是很好的，有比较详尽的安装指南。 在介绍postfix的地方有少部分的坑，本文抛砖引玉，解决一些我遇到的坑。 本文主要针对Ubuntu 16.04，介绍如何安装Gitlab。其他的Ubuntu可以作为一个参考。</p>
+</blockquote></div><div class="article-read-more"><a class="read-more-link" href="/2017/05/01/gitlab/ubuntu-gitlab-install/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2017/05/01/java/ubuntu-oracle-jdk">Ubuntu 安装 JDK7 / JDK8的两种方式</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-05-01</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/jdk/">jdk</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/ubuntu/">ubuntu</a></p></div><div class="article-excerpt"><h3 id="使用ppa源方式安装"><a class="header-anchor" href="#使用ppa源方式安装">¶</a>使用ppa源方式安装</h3>
+<ol>
+<li>添加ppa</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:webupd8team/java</span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装oracle-java-installer</li>
+</ol>
+<p>JDK7</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install oracle-java7-installer</span><br></pre></td></tr></table></figure>
+<p>JDK8</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install oracle-java8-installer</span><br></pre></td></tr></table></figure></div><div class="article-read-more"><a class="read-more-link" href="/2017/05/01/java/ubuntu-oracle-jdk/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2017/04/28/docker/docker-learning">docker学习记录</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-04-28</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/docker/">docker</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/docker/">docker</a></p></div><div class="article-excerpt"><h2 id="一、Docker-简介"><a class="header-anchor" href="#一、Docker-简介">¶</a>一、Docker 简介</h2>
+<p>Docker 两个主要部件：</p>
+<ul>
+<li>Docker: 开源的容器虚拟化平台</li>
+<li>Docker Hub: 用于分享、管理 Docker 容器的 Docker SaaS 平台 – <a target="_blank" rel="noopener" href="https://registry.hub.docker.com/search?q=library">Docker Hub</a></li>
+</ul>
+<p>Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去连接一个远程的 Docker 守护进程。Docker 客户端和守护进程之间通过 socket 或者 RESTful API 进行通信。</p></div><div class="article-read-more"><a class="read-more-link" href="/2017/04/28/docker/docker-learning/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2016/10/27/scala/12-akka-app">第十二章：Akka构建扩展、分布式应用</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2016-10-27</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/scala/">scala</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><h4 id="主要内容："><a class="header-anchor" href="#主要内容：">¶</a>主要内容：</h4>
+<ol>
+<li>Akka背后哲学思想</li>
+<li>Actor并发、STM、代理以及数据流</li>
+<li>构建一个大型的可扩展应用：Akkaoogle</li>
+</ol>
+<p>本章介绍一个已有的Scala工具包：Akka，让你为JVM平台构建新一代的、事件驱动的、容错的、可伸缩的分布式应用。Akka提供了多并发的抽象，本章着重探索其内容。前面内容，仅介绍了Actor面向消息的(message-oriented)并发使用。这里将继续探索诸如 STM、Agent和Dataflow的并发抽象内容。</p></div><div class="article-read-more"><a class="read-more-link" href="/2016/10/27/scala/12-akka-app/">Read more</a></div></article></div><nav class="pagination-wrapper"><a class="extend prev" rel="prev" href="/page/23/">&lt;&lt;</a><a class="page-number" href="/">1</a><span class="space">...</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><span class="space">...</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/25/">&gt;&gt;</a></nav><div id="base-discus"></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

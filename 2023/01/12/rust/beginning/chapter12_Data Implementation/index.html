@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>rust基础入门[12] - Data Implementation</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">rust基础入门[12] - Data Implementation</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-12</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-content"><p>本章覆盖有：</p>
+<ul>
+<li>如何知道栈空间分配的各种类型的对象的字节数</li>
+<li>如何在外部模块缩减声明函数访问的路径</li>
+<li>原生对象类型存储了多少个bit</li>
+<li>什么时候一个对象会被存储在内存</li>
+<li>为什么填充(padding)会增加某些对象的大小</li>
+<li>Vector是如何实现的</li>
+</ul>
+<span id="more"></span>
+<h2 id="Discovering-the-Size-of-Objects"><a class="header-anchor" href="#Discovering-the-Size-of-Objects">¶</a>Discovering the Size of Objects</h2>
+<p>给定一个源文件，以及源代码按照Rust语言规范，Rust编译器任意将其生成目标机器码。</p>
+<p>因此，对于一个变量，它没有定义会使用多少bit内存，也没有定义在内存哪个位置分配。编译器甚至将变量从内存中移除，只要它不再被使用，或被驻留在寄存器中。</p>
+<p>下面看一个典型的Rust程序长度的实现。</p>
+<p>Rust有一些可用特性：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, std::mem::size_of::&lt;<span class="type">i32</span>&gt;());</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, std::mem::<span class="title function_ invoke__">size_of_val</span>(&amp;<span class="number">12</span>));</span><br></pre></td></tr></table></figure>
+<p>结果将输出： “4 4”。</p>
+<p>第一条语句，编译器引入了标准库模块<code>std</code>，然后跟着子模块<code>mem</code>(“memory”的缩写)，接着使用它的泛型函数<code>size_of</code>。</p>
+<p>该泛型函数接受了类型参数<code>i32</code>，然后编译成对应的具体函数。该函数返回类型占用的字节数(也说“十进制的bit”)。该函数在行内调用，因此生成的代码仅是一个常数。实际上，一个32位占4个字节。</p>
+<p>第二条语句，编译器进入同样的类库模块，以及访问了泛型函数<code>size_of_val</code>(顾名思义，值的大小)。这里类型参数由具体调用的参数推断确定。</p>
+<p>当具体的生成的函数<code>size_of_val</code>被调用，会传递一个不可变的对象引用参数。然后返回对象字节大小。</p>
+<h2 id="The-use-Directive"><a class="header-anchor" href="#The-use-Directive">¶</a>The <code>use</code> Directive</h2>
+<p>在一段代码中如果要多处指定标准库函数，可以方便地使用<code>use</code>指令导入到当前范围。</p>
+<p>上一段例子可以复写为：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::mem;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, mem::size_of::&lt;<span class="type">i32</span>&gt;());</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, mem::<span class="title function_ invoke__">size_of_val</span>(&amp;<span class="number">12</span>));</span><br></pre></td></tr></table></figure>
+<p>或写成这样：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::mem::size_of;</span><br><span class="line"><span class="keyword">use</span> std::mem::size_of_val;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, size_of::&lt;<span class="type">i32</span>&gt;());</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, <span class="title function_ invoke__">size_of_val</span>(&amp;<span class="number">12</span>));</span><br></pre></td></tr></table></figure>
+<p>Rust关键字<code>use</code>的用法和C++的<code>using</code>关键字类似。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::mem::*;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, size_of::&lt;<span class="type">i32</span>&gt;());</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &quot;</span>, <span class="title function_ invoke__">size_of_val</span>(&amp;<span class="number">12</span>));</span><br></pre></td></tr></table></figure>
+<p>星号这里作为一个统配导入处理。</p>
+<h2 id="The-Sizes-of-the-Primitive-Types"><a class="header-anchor" href="#The-Sizes-of-the-Primitive-Types">¶</a>The Sizes of the Primitive Types</h2>
+<p>现在可以想象下原生类型对象的大小：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::mem::*;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>,</span><br><span class="line">	size_of::&lt;<span class="type">i8</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">u8</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">i16</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">u16</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">i32</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">u32</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">i64</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">u64</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">f32</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">f64</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">bool</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">char</span>&gt;());</span><br></pre></td></tr></table></figure>
+<p>在任何计算机，会打印输出：<code>1 1 2 2 4 4 8 8 4 8 1 4</code>。</p>
+<p>某些其它类型数据的大小，由编译器所在的硬件设备平台所决定：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::mem::*;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>,</span><br><span class="line">	size_of::&lt;<span class="type">isize</span>&gt;(),</span><br><span class="line">	size_of::&lt;<span class="type">usize</span>&gt;(),</span><br><span class="line">	size_of::&lt;&amp;<span class="type">i8</span>&gt;(),</span><br><span class="line">	size_of::&lt;&amp;<span class="type">u32</span>&gt;());</span><br></pre></td></tr></table></figure>
+<p>在一个64位系统，打印输出：<code>8 8 8 8</code>，而在32位系统，打印：<code>4 4 4 4</code>。</p>
+<p>后两个打印的是一个引用值。独立于所引用的对象，一个引用(又名“指针”)拥有内存地址大小。</p>
+<h2 id="The-Representation-of-Primitive-Types"><a class="header-anchor" href="#The-Representation-of-Primitive-Types">¶</a>The Representation of Primitive Types</h2>
+<p>Rust不鼓励访问内部对象的表述，同时也难于做到。但有一个技巧可以做到这点。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">as_bytes</span>&lt;T&gt;(o: &amp;T) <span class="punctuation">-&gt;</span> &amp;[<span class="type">u8</span>] &#123;</span><br><span class="line">	<span class="keyword">unsafe</span> &#123;</span><br><span class="line">		std::slice::<span class="title function_ invoke__">from_raw_parts</span>(</span><br><span class="line">			o <span class="keyword">as</span> *<span class="keyword">const</span> _ <span class="keyword">as</span> * <span class="keyword">const</span> <span class="type">u8</span>,</span><br><span class="line">			std::mem::size_of::&lt;T&gt;())</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, <span class="title function_ invoke__">as_bytes</span>(&amp;<span class="number">1i8</span>));</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, <span class="title function_ invoke__">as_bytes</span>(&amp;<span class="number">2i16</span>));</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, <span class="title function_ invoke__">as_bytes</span>(&amp;<span class="number">3i32</span>));</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, <span class="title function_ invoke__">as_bytes</span>(&amp;(<span class="number">4i64</span> + <span class="number">5</span> * <span class="number">256</span> + <span class="number">6</span> * <span class="number">256</span> * <span class="number">256</span>)));</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, <span class="title function_ invoke__">as_bytes</span>(&amp;<span class="string">&#x27;A&#x27;</span>));</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, <span class="title function_ invoke__">as_bytes</span>(&amp;<span class="literal">true</span>));</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, <span class="title function_ invoke__">as_bytes</span>(&amp;&amp;<span class="number">1i8</span>));</span><br></pre></td></tr></table></figure>
+<p>在x86_64架构系统中，可能会打印：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[1]</span><br><span class="line">[2, 0]</span><br><span class="line">[3, 0, 0, 0]</span><br><span class="line">[4, 5, 6, 0, 0, 0, 0, 0]</span><br><span class="line">[65, 0, 0, 0]</span><br><span class="line">[1]</span><br><span class="line">[129, 165, 54, 102, 23, 86, 0, 0]</span><br></pre></td></tr></table></figure>
+<p>泛型函数<code>as_bytes</code>使用了某些我们没见过的Rust结构，这里不解析，目前的知识还不足以理解它的用法。简单来说，它接受一个任意类型的参数引用，并返回该所引用的对象的字节序列表述。打印任意对象的字节序列后发现，这些对象序列被存储在内存中。</p>
+<p>首先，一个<code>i8</code>的值1存储一个字节，在其他任何硬件架构也是一样。</p>
+<p>然后，一个<code>i16</code>的值2存储两个字节，第一个字节是2，第二个字节是0。除目前任何32位或64位处理器都一样，但仅限于“低位优先(little-endian)”硬件架构，会将多字节的数放在低位。相反，“大头优先(big-endian)”的存储顺序方式的硬件架构会打印<code>[0, 2]</code>。</p>
+<p>类似地行为出现在接下来的打印行。</p>
+<p>注意，一个<code>char</code>作为32位数字存储，包含Unicode码。<code>bool</code>作为单个字节存储，即1位<code>true</code>，0位<code>false</code>。</p>
+<p>最后，最后一条语句打印一个<code>i8</code>数字的地址。在64位处理器，该地址包含8个字节。</p>
+<h2 id="Location-of-Bytes-in-Memory"><a class="header-anchor" href="#Location-of-Bytes-in-Memory">¶</a>Location of Bytes in Memory</h2>
+<p>你也可以发现任何对象的虚拟内存的位置，即它的地址：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">b1</span> = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b2</span> = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b3</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>,</span><br><span class="line">	&amp;b1 <span class="keyword">as</span> *<span class="keyword">const</span> <span class="type">bool</span> <span class="keyword">as</span> <span class="type">usize</span>,</span><br><span class="line">	&amp;b2 <span class="keyword">as</span> *<span class="keyword">const</span> <span class="type">bool</span> <span class="keyword">as</span> <span class="type">usize</span>,</span><br><span class="line">	&amp;b3 <span class="keyword">as</span> *<span class="keyword">const</span> <span class="type">bool</span> <span class="keyword">as</span> <span class="type">usize</span>)</span><br></pre></td></tr></table></figure>
+<p>在64位系统，将会输出三个巨大的数，像<code>140727116566237 140727116566238 140727116566239</code>。相反，在32位系统，输出三个小于5百万的数。</p>
+<p>下面是这三个对象的地址表述：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Absolute address</th>
+<th style="text-align:left">Binary value</th>
+<th style="text-align:left">Variable name</th>
+<th style="text-align:right">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>140727116566237</code></td>
+<td style="text-align:left"><code>0000_0000</code></td>
+<td style="text-align:left"><code>b3</code></td>
+<td style="text-align:right"><code>bool</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>140727116566238</code></td>
+<td style="text-align:left"><code>0000_0001</code></td>
+<td style="text-align:left"><code>b2</code></td>
+<td style="text-align:right"><code>bool</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>140727116566239</code></td>
+<td style="text-align:left"><code>0000_0001</code></td>
+<td style="text-align:left"><code>b1</code></td>
+<td style="text-align:right"><code>bool</code></td>
+</tr>
+</tbody>
+</table>
+<p>三个对象中每个对象仅占一个字节。最先打印的数是变量<code>b1</code>的地址；变量<code>b2</code>的地址；变量<code>b3</code>的地址。如其所示，这三个数是连续的，意味着这三个数被连续地分配在虚拟内存地址上。</p>
+<p>你会发现三个地址按照降序排列，意味着对象的分配，以越来越低位的方式。这些对象分配在栈上，因此看到栈从低位增长。</p>
+<p>第一个数包含<code>true</code>值，由1字节表示。它由一个7位全为0的以及1位为1的值表示。类似地，第二个值也一样。第三个值<code>false</code>，则由全为0的8位值表示。</p>
+<p>几乎所有现代处理器要求基础数据要有特定的内存位置，因此Rust放置这些对象在内存，以方便实现处理器的访问。</p>
+<p>典型地对齐规则是：“每个原生类型的对象，必须要有一个地址，该地址是它自身大小的倍数”。</p>
+<p>因此，占一个字节的对象，可能会放置在任何地方，占两个字节的对象，仅可以放置在偶数位地址，占四个字节的对象，仅可以放置在以4为倍数的地址，以及占8个字节的对象，仅可以放置在以8位倍数的地址。</p>
+<p>另外，大对象通常有一个16倍的地址。</p>
+<p>因此，这种对齐规则会创建无用的空间，称之为“填充(padding)”。</p>
+<h2 id="Sizes-of-Composite-Data-Types"><a class="header-anchor" href="#Sizes-of-Composite-Data-Types">¶</a>Sizes of Composite Data Types</h2>
+<p>当有一个组合对象序列时，出现结构填充(padding)的效果：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">E1</span> &#123; E1a, E1b &#125;;</span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">E2</span> &#123; E2a, <span class="title function_ invoke__">E2b</span>(<span class="type">f64</span>) &#125;;</span><br><span class="line"><span class="keyword">use</span> std::mem::*;</span><br><span class="line"><span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>,</span><br><span class="line">	<span class="title function_ invoke__">size_of_val</span>(&amp;[<span class="number">0i16</span>; <span class="number">80</span>]),</span><br><span class="line">	<span class="title function_ invoke__">size_of_val</span>(&amp;(<span class="number">0i16</span>, <span class="number">0i64</span>)),</span><br><span class="line">	<span class="title function_ invoke__">size_of_val</span>(&amp;[(<span class="number">0i16</span>, <span class="number">0i64</span>); <span class="number">100</span>]),</span><br><span class="line">	<span class="title function_ invoke__">size_of_val</span>(&amp;E1::E1a),</span><br><span class="line">	<span class="title function_ invoke__">size_of_val</span>(&amp;E2::E2a),</span><br><span class="line">	<span class="title function_ invoke__">size_of_val</span>(&amp;<span class="built_in">vec!</span>[(<span class="number">0i16</span>, <span class="number">0i64</span>); <span class="number">100</span>]));</span><br></pre></td></tr></table></figure>
+<p>结果打印输出：“<code>160 16 1600 1 16 24</code>”。</p>
+<p>这意味着：</p>
+<ul>
+<li>一个80长度的16位数组占160字节，即是 <code>80 * 2</code>，这里没有出现浪费；</li>
+<li>一个由16位和64位数组成的tuple占16个字节，如果两个数将占8个字节，则额外增加6个字节padding。</li>
+<li>一个100长度的16位tuple占1600字节，数组之间不会有padding，但数组条目之间的padding会随数组长度增加；</li>
+<li>一个不带数据的字段的enum，总是仅占一个字节；</li>
+<li>一个带有8字节数据字段的enum，占16个字节，即使当前值没有数据，它有7字节的padding。</li>
+<li>一个100长度的16位tuple的Vector，看起来占24字节，但由于当前测量方式遗漏了一部分。</li>
+</ul>
+<p>所以，接下来仅看Vector的情况。</p>
+<p>存放于栈空间的数据，在编译期必须知道其大小，因此数组可以完全地分配在栈空间上，而对于固定大小的vector来说，仅将header放在栈空间，剩余的数据必须放在堆空间。</p>
+<h2 id="Vector-Allocation"><a class="header-anchor" href="#Vector-Allocation">¶</a>Vector Allocation</h2>
+<p>我们看到向量必须实现两种结构：header固定大小的栈分配，buffer变量长度的堆分配。</p>
+<p>理论上有很多方式实现一个向量数据结构。</p>
+<p>一种方式是在头中保留指向缓冲区的指针。</p>
+<p>这种方式的缺点是，每次获取一个数组长度时，需要一个间接的方式。数组的长度经常在显式地或隐式地用到，所以最好的方式是将信息保留在header中。</p>
+<p>一个幼稚的实现缓冲的方式是令其足够大。例如，如果是一个9个i32条目的向量，在堆中分配一个<code>9 * 4</code>字节的缓冲区。</p>
+<p>当有新的条目<code>pushed</code>进来时，缓冲区的大小必须重新分配，以及堆的分配和回收是很耗费资源的。而且，还需要将旧缓冲区内容拷贝到新缓冲区。</p>
+<p>如果一个空的向量，以1000次的<code>push</code>方法来构造成为一个1000条目的向量，将会有1000次的堆空间分配，999次的堆回收，以及<code>1000 * 999 / 2 == 499_500</code>次的条目拷贝。</p>
+<p>为了证实这个糟糕的性能，可能会有一个大的缓冲区被分配，仅当该缓冲区空间不够触发再分配。</p>
+<p>因此有必要跟踪分配的缓冲区的地址数目，以及该缓冲区被使用的数据。</p>
+<p>分配的缓冲区的地址数目通常叫容量(<code>capacity</code>)，它也是访问这个数据的函数名。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">0</span>; <span class="number">0</span>];</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, v.<span class="title function_ invoke__">len</span>(), v.<span class="title function_ invoke__">capacity</span>());</span><br><span class="line">v.<span class="title function_ invoke__">push</span>(<span class="number">11</span>);</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, v.<span class="title function_ invoke__">len</span>(), v.<span class="title function_ invoke__">capacity</span>());</span><br><span class="line">v.<span class="title function_ invoke__">push</span>(<span class="number">22</span>);</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, v.<span class="title function_ invoke__">len</span>(), v.<span class="title function_ invoke__">capacity</span>());</span><br><span class="line">v.<span class="title function_ invoke__">push</span>(<span class="number">33</span>);</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, v.<span class="title function_ invoke__">len</span>(), v.<span class="title function_ invoke__">capacity</span>());</span><br><span class="line">v.<span class="title function_ invoke__">push</span>(<span class="number">44</span>);</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, v.<span class="title function_ invoke__">len</span>(), v.<span class="title function_ invoke__">capacity</span>());</span><br><span class="line">v.<span class="title function_ invoke__">push</span>(<span class="number">55</span>);</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125;&quot;</span>, v.<span class="title function_ invoke__">len</span>(), v.<span class="title function_ invoke__">capacity</span>());</span><br></pre></td></tr></table></figure>
+<p>结果将输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">0 0</span><br><span class="line">1 4</span><br><span class="line">2 4</span><br><span class="line">3 4</span><br><span class="line">4 4</span><br><span class="line">5 8</span><br></pre></td></tr></table></figure>
+<p>当一个空向量被创建，它包含0个条目，所以没有分配任何堆缓冲区，所以它的容量是0。</p>
+<p>当添加第一个记录时，向量对象被分配在一个缓冲区容量32位(16字节缓冲区)的堆空间，因此它的容量是4，由于它包含一条记录，因此它的长度是1。</p>
+<p>当其它三个条目被添加到向量，不再需要分配内存，因为预分配的缓冲区已经足够大容纳。</p>
+<p>但当第5条记录被添加到向量，需要再重新分配一个大的缓冲区。新的缓冲区的容量为8。</p>
+<p>因此，<code>vec</code>对象存储了三个子对象在栈空间：一个是指向堆缓冲区的指针，它是一个内存地址；一个是缓冲区的容量(capacity)大小，它是一个<code>usize</code>；一个是vector的条目的长度，它是一个<code>usize</code>值，小于或等于容量(capacity)大小。</p>
+<p>基于这个原因，任何vector的header在64位系统占<code>3 * 8 == 24</code>字节，在32位系统占<code>3 * 4 == 12</code>字节。</p>
+<p>让我们看看，如果添加一千个条目到一个32位的vector会发生什么：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">0</span>; <span class="number">0</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">prev_capacity</span> = std::<span class="type">usize</span>::MAX;</span><br><span class="line"><span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">1_000</span> &#123;</span><br><span class="line">	<span class="keyword">let</span> <span class="variable">cap</span> = v.<span class="title function_ invoke__">capacity</span>();</span><br><span class="line">	<span class="keyword">if</span> cap != prev_capacity &#123;</span><br><span class="line">		<span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; &#123;&#125; &#123;&#125;&quot;</span>, i, v.<span class="title function_ invoke__">len</span>(), cap);</span><br><span class="line">		prev_capacity = cap;</span><br><span class="line">	&#125;</span><br><span class="line">	v.<span class="title function_ invoke__">push</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可能的输出结果是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">0 0 0</span><br><span class="line">1 1 4</span><br><span class="line">5 5 8</span><br><span class="line">9 9 16</span><br><span class="line">17 17 32</span><br><span class="line">33 33 64</span><br><span class="line">65 65 128</span><br><span class="line">129 129 256</span><br><span class="line">257 257 512</span><br><span class="line">513 513 1024</span><br></pre></td></tr></table></figure>
+<p>对于其它类型的vector，输出结果也一样。</p>
+<p>变量<code>cap</code>存储了当前向量的容量；变量<code>prev_capacity</code>存储上一份的容量，它初始化了一个巨大的值。</p>
+<p>对于每次迭代，在向vector添加记录之前，会检测容量是否改变。每次capacity的改变，都会打印当前容量和插入记录。</p>
+<p>这里显示了容量的大小总是2的次方。这里发生了9次分配，8次再分配，以及<code>4 + 8 + 16 + 32 + 64 + 128 + 256 + 512 == 1020</code>次拷贝，所以真实的算法比开头描述的幼稚那个版本要高效得多。</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2023/01/12/rust/beginning/chapter12_Data Implementation/';
+var disqus_title = 'rust基础入门[12] - Data Implementation';
+var disqus_url = 'https://galudisu.info/2023/01/12/rust/beginning/chapter12_Data Implementation/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Circuit Breaker</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Circuit Breaker</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2017-12-29</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/circuit-breaker-reactivemanifesto/">circuit-breaker, reactivemanifesto</a></p></div><div class="article-content"><p>熔断器(circuit breaker)包含在电路设备中，用于防止过载或短路的组件。常见于洗衣机、电热水壶、烤机等。今天所讲的比这个稍微复杂一些。</p>
+<span id="more"></span>
+<p><img src="/img/philosophy/circuit-breaker/circuit_breaker_state_diagram.gif" alt="circuit-breaker"></p>
+<p>一个熔断器包含下面的功能：</p>
+<ul>
+<li>当所有情况正常，它的状态为<code>closed</code>，让电流(electricity)或数据(data)流通。</li>
+<li>当探测到过载(overload)或短路(short circuit)，熔断器跳闸(<code>trips</code>)进入<code>open</code>状态，不让任何东西流通。</li>
+<li>一段时间后，熔断器会自动进入<code>half-open</code>状态，探测(probing)是否恢复正常。如果电流(或数据流)正常，熔断器进入<code>open</code>状态。</li>
+</ul>
+<p>因为远程调用和内存(in-memory)调用不同，远程调用会出现超时和挂掉的情况。软件服务间需要提供一种响应式的设计。Michael Nygard 发表了一篇文章阐述了<code>Circuit Breaker pattern</code>来防护这种灾难性的级联发生。</p>
+<p>和电路上的熔断器又些许不同，熔断器模式包含下面状态改变的规则：</p>
+<ul>
+<li>在<code>closed</code>状态，熔断器统计失败的次数或 事先定义好的<code>callTimeout</code>的次数。如果失败的次数到达设定的阈值(maxFailures or thresholds)，跳闸。任何调用都应该在计数(counter)重置为0时才能成功访问。</li>
+<li>在<code>open</code>状态，熔断器闲置(idles until)执行到配置的<code>resetTimeout</code>时间，随后进入<code>half-open</code>状态。</li>
+<li>在<code>half-open</code>状态，如果第一次尝试调用仍然失败，它重新跳闸到<code>open</code>状态；如果第一次调用成功了，熔断器重置为<code>closed</code>状态， <code>restTimeout</code>被重置。</li>
+</ul>
+<p><img src="/img/philosophy/circuit-breaker/state.png" alt="图例"></p>
+<h2 id="Reactive-Design"><a class="header-anchor" href="#Reactive-Design">¶</a>Reactive Design</h2>
+<p>最早的响应式宣言宣布于2013年6月。它是响应式应用的软件架构描述。它包含下面4个特点：</p>
+<ul>
+<li><em>Responsive</em> —— React to users			(快速检测并高效处理问题)</li>
+<li><em>Scalable(Elastic)</em> —— React to load		(弹性控制，大部分实现依赖于硬件和软件平台)</li>
+<li><em>Resilient</em> —— React to failure			(有回复，受控制，隔离，委派)</li>
+<li><em>Event-driven</em> —— React to events			(异步消息，确保松耦合，隔离，位置透明。非阻塞的交互服务)</li>
+</ul>
+<p>一些实现方式：</p>
+<ol>
+<li>请求回复链路：</li>
+</ol>
+<p><img src="/img/philosophy/circuit-breaker/chain.png" alt="RRC"></p>
+<ol start="2">
+<li>我们的设计：</li>
+</ol>
+<p><img src="/img/philosophy/circuit-breaker/%E7%9B%91%E7%AE%A1%E7%AD%96%E7%95%A5.png" alt="supervisor"></p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2017/12/29/philosophy/circuit-breaker/';
+var disqus_title = 'Circuit Breaker';
+var disqus_url = 'https://galudisu.info/2017/12/29/philosophy/circuit-breaker/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

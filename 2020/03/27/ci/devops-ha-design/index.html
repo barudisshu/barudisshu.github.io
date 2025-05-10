@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>简单构建的自动化devOps方案</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">简单构建的自动化devOps方案</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2020-03-27</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/gitlab/">gitlab<span class="tag">, </span></a><a class="tag-link" href="/tags/k8s/">k8s<span class="tag">, </span></a><a class="tag-link" href="/tags/jenkins/">jenkins<span class="tag">, </span></a><a class="tag-link" href="/tags/harbor/">harbor</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/devOps/">devOps</a></p></div><div class="article-content"><span id="more"></span>
+<h2 id="流程架构图"><a class="header-anchor" href="#流程架构图">¶</a>流程架构图</h2>
+<p><img src="/img/ci/devops.png" alt=""></p>
+<p>简单设计了一套自动化devOps方案，其中有两个分支：</p>
+<ul>
+<li>
+<p>jenkins分支，部署在公司内部开发服务器上。用于生产环境，由jenkins搭载一套CI/CD。开发完程序代码后，提交，触发构建、检查、单元测试、质量评估。之后推送到测试服务器，提供给测试人员进行功能测试。如果有问题，反馈给开发人员；如果功能点收集完善，通知teamcity分支。</p>
+</li>
+<li>
+<p>teamcity分支，运营和项目负责人收集到功能点后，手动触发teamcity自动构建，推送镜像到harbor。邮件通知项目实施负责人。实施负责人收集功能点、汇报信息，更新k8s服务镜像，推送服务、进行灰度发布、之后上线、若有问题、回滚…</p>
+</li>
+</ul>
+<p><img src="/img/ci/M2WIQ.png" alt=""></p>
+<h2 id="系统配置"><a class="header-anchor" href="#系统配置">¶</a>系统配置</h2>
+<p>安装系统监控</p>
+<figure class="highlight plaintext"><figcaption><span>helm</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm install --tls --name grafana --namespace monitoring -f grafana-settings.yaml -f grafana-dashboards.yaml grafana</span><br></pre></td></tr></table></figure>
+<p>安装harbor</p>
+<figure class="highlight plaintext"><figcaption><span>helm</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm install --wait --name harbor --namespace kube-system harbor/harbor --set persistence.enabled=false --set expose.type=nodePort --set externalURL=&quot;https://harbor.cplier.com&quot; --set expose.ingress.hosts.core=harbor.cplier.com --set expose.tls.enabled=false --set proxy.httpProxy=&#x27;http://harbor.cplier.com&#x27; --set proxy.httpsProxy=&#x27;https://harbor.cplier.com&#x27;</span><br></pre></td></tr></table></figure>
+<p>安装k9s，查看部署和服务情况</p>
+<p><img src="/img/ci/k9s.png" alt=""></p>
+<p>设置外部代理</p>
+<p>nginx设置负载均衡</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">upstream harbor &#123;</span><br><span class="line">    server 192.168.0.160:30002;</span><br><span class="line">    server 192.168.0.125:30002;</span><br><span class="line">    server 192.168.0.56:30002;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name harbor.cplier.com;</span><br><span class="line">    location / &#123;</span><br><span class="line">       proxy_pass http://harbor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name harbor.cplier.com;</span><br><span class="line">    ssl_certificate cert/1_harbor.cplier.com_bundle.crt;</span><br><span class="line">    ssl_certificate_key cert/2_harbor.cplier.com.key;</span><br><span class="line">    ssl_session_timeout 5m;</span><br><span class="line">    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line">    location / &#123;</span><br><span class="line">        client_max_body_size 1000m;</span><br><span class="line">        proxy_pass http://harbor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>teamcity配置好参数后，触发构建。</p>
+<p><img src="/img/ci/teamcity.png" alt=""></p>
+<p>在k8s集群中，编写相应的service，进行部署，写pvc、配ingress、配字典… what ever…</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">run:</span> <span class="string">cplier-gateway</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">cplier-gateway</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">cplier-gateway</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">cplier-gateway</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">harbor.cplier.com/library/cplier-gateway:latest</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">cplier-gateway</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">cplier-gateway</span></span><br></pre></td></tr></table></figure>
+<p><code>image</code>为你的镜像仓储。</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2020/03/27/ci/devops-ha-design/';
+var disqus_title = '简单构建的自动化devOps方案';
+var disqus_url = 'https://galudisu.info/2020/03/27/ci/devops-ha-design/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>
