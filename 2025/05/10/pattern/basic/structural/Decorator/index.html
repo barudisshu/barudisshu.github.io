@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>装饰器模式(Decorator Pattern)</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">装饰器模式(Decorator Pattern)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/decorator-structural/">decorator,structural</a></p></div><div class="article-content"><blockquote>
+<p>若要扩展功能，装饰者提供了比集成更有弹性的替代方案，动态地将责任附加到对象上。</p>
+</blockquote>
+<img src="/assert/puml/b1d5132459b9b3f5c6e558cc337fea531b359fc17cf29f95ae35fae4080a287b.svg"/>
+<span id="more"></span>
+<h3 id="核心结构"><a class="header-anchor" href="#核心结构">¶</a>核心结构</h3>
+<p><strong>装饰器模式(Decorator Pattern)</strong> 的核心在于在不修改已有实现的前提下，对其进行增强。这里体现了一个原则：<strong>类应该对扩展开放，对修改关闭</strong>。</p>
+<h3 id="应用场景"><a class="header-anchor" href="#应用场景">¶</a>应用场景</h3>
+<ul>
+<li>当需要在不修改原有对象的前提下为其添加新功能时。</li>
+<li>当子类扩展不切实际时(比如需要多个可选功能组合的情况)。</li>
+<li>在Java IO流中大量使用了装饰器模式，例如<code>BufferedInputStream(InputStream)</code>就是对输入流的一种装饰。</li>
+</ul>
+<h3 id="需求"><a class="header-anchor" href="#需求">¶</a>需求</h3>
+<p>设计游戏的装备系统，要求可以计算出每种装备在镶嵌了各种宝石后的攻击力和描述：</p>
+<ul>
+<li>按照要求，构建如下UML类图，其中包含装备超类<code>Equip</code>、装饰超类<code>EquipDecorator</code>、游戏属性角色如下：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>装备</strong></th>
+<th>红宝石(hp+)</th>
+<th>蓝宝石(mp+)</th>
+<th>绿宝石(sp+)</th>
+<th>黄宝石(ak+)</th>
+<th>紫宝石(df+)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帽子🧢</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>上衣👔</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>护甲🧥</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>裤子👖</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>鞋子👢</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>武器🗡</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>根据属性栏，设计装备属性，有攻击、敏捷、防御、hp/mp值。其中红宝石+hp，蓝宝石+mp，绿宝石+敏捷，黄宝石+攻击力，紫宝石+防御力。</p>
+<img src="/assert/puml/581374393200909de2218f08bbc1a1f3d60f03d252d409881b8a370d3dd77b5b.svg"/>
+<p>装饰器可以多层嵌套，例如获取得到的宝石都用在武器的加点上，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Equip</span> <span class="variable">levelUpWeapon</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RedGem</span>(<span class="keyword">new</span> <span class="title class_">BlueGem</span>(<span class="keyword">new</span> <span class="title class_">YellowGem</span>(<span class="keyword">new</span> <span class="title class_">GreenGem</span>(<span class="keyword">new</span> <span class="title class_">WwaponEquip</span>()))));</span><br><span class="line"><span class="comment">// 创建剑士并穿戴该氪金武器</span></span><br><span class="line"><span class="type">Swordman</span> <span class="variable">swordman</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Swordman</span>();</span><br><span class="line">swordman.equip(levelUpWeapon);</span><br><span class="line"></span><br><span class="line">System.out.println(swordman);</span><br><span class="line"></span><br><span class="line">Swordman&#123;</span><br><span class="line">  attack=<span class="number">12</span>, </span><br><span class="line">  defense=<span class="number">0</span>, </span><br><span class="line">  speed=<span class="number">5</span>, </span><br><span class="line">  hp=<span class="number">5</span>, </span><br><span class="line">  mp=<span class="number">10</span>, </span><br><span class="line">  equipment=已装备有：🗡</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面是示例代码的部分实现：</p>
+<p>被装饰的类以及其超类，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Equip</span> &#123;</span><br><span class="line">  EquipType <span class="title function_">getType</span><span class="params">()</span>;</span><br><span class="line">  <span class="type">int</span> <span class="title function_">attack</span><span class="params">()</span>;</span><br><span class="line">  <span class="type">int</span> <span class="title function_">speed</span><span class="params">()</span>;</span><br><span class="line">  <span class="type">int</span> <span class="title function_">defense</span><span class="params">()</span>;</span><br><span class="line">  <span class="type">int</span> <span class="title function_">hp</span><span class="params">()</span>;</span><br><span class="line">  <span class="type">int</span> <span class="title function_">mp</span><span class="params">()</span>;</span><br><span class="line">  String <span class="title function_">description</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WeaponEquip</span> <span class="keyword">implements</span> <span class="title class_">Equip</span> &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> EquipType <span class="title function_">getType</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> EquipType.WEAPON;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">attack</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">speed</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">defense</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">hp</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">mp</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">description</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;🗡&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现其装饰器，可以为<code>interface</code>或<code>abstract</code>，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">EquipDecorator</span> <span class="keyword">implements</span> <span class="title class_">Equip</span> &#123;</span><br><span class="line">  <span class="keyword">protected</span> Equip equip;</span><br><span class="line">  <span class="keyword">protected</span> <span class="title function_">EquipDecorator</span><span class="params">(Equip equip)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.equip = equip;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">attack</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> equip.attack();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">speed</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> equip.speed();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">defense</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> equip.defense();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">hp</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> equip.hp();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">mp</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> equip.mp();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">description</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> equip.description();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按照定义，<strong>装饰器模式(decorator pattern)</strong> 在不改变已有类的前提下，对其实现增强。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BlueGemEquipDecorator</span> <span class="keyword">extends</span> <span class="title class_">EquipDecorator</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">BlueGemEquipDecorator</span><span class="params">(Equip equip)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(equip);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">mp</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> equip.mp() + <span class="number">10</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>开闭原则： 不修改已有的类。</li>
+<li>组合优于继承：更灵活，可以无限叠加</li>
+<li>运行时可变： 可以在运行时添加或删除功能</li>
+<li>高内聚低耦合： 每个装饰器只关注自己的增强逻辑</li>
+</ul>
+<h3 id="装饰器模式与代理模式的区别"><a class="header-anchor" href="#装饰器模式与代理模式的区别">¶</a>装饰器模式与代理模式的区别</h3>
+<ol>
+<li>目的不同： 装饰器模式是作 <strong>增强功能</strong>；代理模式则是实现 <strong>控制访问</strong>。</li>
+<li>实现方式相同： 都是通过组合+接口一致性方式，都继承了目标的接口。</li>
+<li>关注点不同： 装饰器模式是“添加职责”；代理模式是“封装访问“。</li>
+<li>是否透明： 前者透明并增强；后者控制访问减少透明度</li>
+</ol>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+var disqus_identifier = '2025/05/10/pattern/basic/structural/Decorator/';
+var disqus_title = '装饰器模式(Decorator Pattern)';
+var disqus_url = 'https://galudisu.info/2025/05/10/pattern/basic/structural/Decorator/';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

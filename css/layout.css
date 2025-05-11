@@ -1804,6 +1804,9 @@ body blockquote {
 body .dom-ready {
   display: none;
 }
+body h3 {
+  scroll-margin-top: 4rem;
+}
 .base-menu {
   position: fixed;
   top: 0;
