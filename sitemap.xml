@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://galudisu.info/2018/04/16/scala-exercises/shapeless-hlist/</loc>
+    
+    <lastmod>2025-05-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2018/07/11/scala-exercises/type-level-in-scala/</loc>
+    
+    <lastmod>2025-05-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/2025/05/10/pattern/basic/creational/Prototype/</loc>
     
     <lastmod>2025-05-11</lastmod>
@@ -318,24 +336,6 @@
   
   <url>
     <loc>https://galudisu.info/2016/10/27/scala/09-scala-concurrency/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/2018/04/16/scala-exercises/shapeless-hlist/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/2018/07/11/scala-exercises/type-level-in-scala/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1739,20 +1739,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/scala-shapeless-typeclass/</loc>
-    <lastmod>2025-05-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/scala-type-level/</loc>
-    <lastmod>2025-05-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/tags/slick/</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -1992,6 +1978,27 @@
   
   <url>
     <loc>https://galudisu.info/tags/proxy/</loc>
+    <lastmod>2025-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/shapeless/</loc>
+    <lastmod>2025-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/typeclass/</loc>
+    <lastmod>2025-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/type-level/</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
