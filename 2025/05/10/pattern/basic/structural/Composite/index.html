@@ -4,7 +4,82 @@
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
-</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">组合模式(Composite Pattern)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/structural/">structural<span class="tag">, </span></a><a class="tag-link" href="/tags/composite/">composite</a></p></div><div class="article-content"></div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">组合模式(Composite Pattern)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/structural/">structural<span class="tag">, </span></a><a class="tag-link" href="/tags/composite/">composite</a></p></div><div class="article-content"><blockquote>
+<p>又叫部分整体模式，是用于把一组相似的对象当作一个单一的对象。组合模式依据<strong>树形结构</strong>来组合对象，用来表示”整体-部分“层次。这种模式使得客户端可以统一处理单个对象和组合对象，而无需关心它们的具体实现。</p>
+</blockquote>
+<img src="/assert/puml/22f0c50b3b853734516cc232fff2b8220df083e4655e5faa0b28d330d9081478.svg"/>
+<span id="more"></span>
+<h3 id="核心角色"><a class="header-anchor" href="#核心角色">¶</a>核心角色</h3>
+<table>
+<thead>
+<tr>
+<th><strong>角色</strong></th>
+<th><strong>职责</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Component</td>
+<td>定义所有叶子和组合的公共接口，通常是抽象类或接口</td>
+</tr>
+<tr>
+<td>Leaf</td>
+<td>表示没有子节点的对象，实现基本操作</td>
+</tr>
+<tr>
+<td>Composite</td>
+<td>包含子组件的对象，实现容器行为，如添加、删除子组件等</td>
+</tr>
+</tbody>
+</table>
+<h3 id="适用场景"><a class="header-anchor" href="#适用场景">¶</a>适用场景</h3>
+<ul>
+<li>需要表示“整体-部分”关系的结构(如文件系统目录与文件、学校组织、管理层级)</li>
+<li>希望客户端 <em>以一致方式处理单个对象和组合对象</em>。</li>
+<li>结构具有层级性，并且可能动态变化。</li>
+</ul>
+<h3 id="真实案例"><a class="header-anchor" href="#真实案例">¶</a>真实案例</h3>
+<p>对于某OA系统，中秋节安排了统一假期，但某些部门中秋节必须轮班，但可以节后进行调休申请。另外针对个别人员，比如电工、安防等个别对象需要派一到两个人留守，在节前申报了坚守岗位的名单后，office boy在OA系统上通过拖拽的方式，统一调整的内部员工的假期。</p>
+<img src="/assert/puml/b7c3e9305ac1a7fbd7630176145966f8add3faf0604b9d280b45f1184c618df0.svg"/>
+<p>设计如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>角色</strong></th>
+<th><strong>实例</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Component</td>
+<td>AttendanceComponent</td>
+<td>考勤</td>
+</tr>
+<tr>
+<td>Leaf</td>
+<td>EmployeeLeaf</td>
+<td>员工个人的考勤</td>
+</tr>
+<tr>
+<td>Composite</td>
+<td>DepartmentComposite</td>
+<td>整个部门的考勤</td>
+</tr>
+</tbody>
+</table>
+<p>组合模式(Composite Pattern)和企业级设计模式的“对象-关系”映射相对应，但这里只讨论代码层面的映射关系，设计如下</p>
+<img src="/assert/puml/d9edde97f8418133667e001cd4e9f485cdd0389d979df1b0ef8352bcba66507d.svg"/>
+<p>其中要求<code>DepartmentComposite</code>将描述为一种树结构，下面是部分代码实现，</p>
+<p>Component接口，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">AttendanceComponent</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">punchIn</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">punchOut</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当日工时</span></span><br><span class="line">  <span class="type">long</span> <span class="title function_">getAttendance</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Leaf叶子节点，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmployeeLeaf</span> <span class="keyword">implements</span> <span class="title class_">AttendanceComponent</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="type">long</span> <span class="variable">attendance</span> <span class="operator">=</span> <span class="number">0L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> OffsetDateTime punchInTime;</span><br><span class="line">  <span class="keyword">private</span> OffsetDateTime punchOutTime;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">punchIn</span><span class="params">()</span> &#123;</span><br><span class="line">    punchInTime = OffsetDateTime.now();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">punchOut</span><span class="params">()</span> &#123;</span><br><span class="line">    punchOutTime = OffsetDateTime.now();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getAttendance</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (attendance == <span class="number">0</span> &amp;&amp; (punchOutTime != <span class="literal">null</span> &amp;&amp; punchInTime != <span class="literal">null</span>)) &#123;</span><br><span class="line">      attendance = Duration.between(punchInTime, punchOutTime).toMinutes();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> attendance;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Composite组合类，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DepartmentComposite</span> <span class="keyword">implements</span> <span class="title class_">AttendanceComponent</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Set&lt;AttendanceComponent&gt; components = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">punchIn</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (AttendanceComponent component : components) &#123;</span><br><span class="line">      component.punchIn();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">punchOut</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (AttendanceComponent component : components) &#123;</span><br><span class="line">      component.punchOut();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getAttendance</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> components.stream().mapToLong(AttendanceComponent::getAttendance).sum();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(AttendanceComponent component)</span> &#123;</span><br><span class="line">    components.add(component);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">remove</span><span class="params">(AttendanceComponent component)</span> &#123;</span><br><span class="line">    components.remove(component);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
+<p><strong>组合模式(Composite Pattern)</strong> 通过继承保持了单一职责原则，通过集合操作实现了“整体-部分”的一致性操作。</p>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2025/05/10/pattern/basic/structural/Composite/';
 var disqus_title = '组合模式(Composite Pattern)';
 var disqus_url = 'https://galudisu.info/2025/05/10/pattern/basic/structural/Composite/';

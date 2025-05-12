@@ -4,7 +4,130 @@
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
-</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">代理模式(Proxy Pattern)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/structural/">structural<span class="tag">, </span></a><a class="tag-link" href="/tags/proxy/">proxy</a></p></div><div class="article-content"></div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">代理模式(Proxy Pattern)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/structural/">structural<span class="tag">, </span></a><a class="tag-link" href="/tags/proxy/">proxy</a></p></div><div class="article-content"><blockquote>
+<p>一个类代表另一个类的功能。在代理模式中，我们创建具有现有对象的对象，以便向外界提供功能接口。可以理解为内存中没有这个对象就创建，有就直接返回这个对象。</p>
+</blockquote>
+<img src="/assert/puml/ad121bfbedb1b584aa4e204d4c03c0baebf11c5faf26fbcaff2fab9db54314ab.svg"/>
+<span id="more"></span>
+<p><strong>代理模式(Proxy Pattern)</strong> 在面向对象系统中，有些对象由于某些原因(比如对象创建开销很大，某些操作需要安全控制)，直接访问会给使用者或系统结构带来很多麻烦，我们可以在访问此对象时加上一个该对象的访问层。</p>
+<blockquote>
+<p>⚠️ <strong>注意</strong><br>
+代理模式和委派模式比较容易混淆：</p>
+<p>代理模式是结构模式、委托模式是行为模式。</p>
+<ul>
+<li><strong>代理</strong> = 包裹 + 控制： 像快递员，帮你拿包裹，顺便检查一下。</li>
+<li><strong>委托</strong> = 包裹 + 转发： 像邮局柜台，你交给他，他转手就交给快递公司。</li>
+<li></li>
+</ul>
+<p>快递送货上门是代理，他要对包裹负责，并且要确定送给你；你晚上要加班不方便，让家人帮你去取快递是委托，家人拿了就丢那放着，也可能家人都不一定去拿。</p>
+</blockquote>
+<h3 id="功能角度分类"><a class="header-anchor" href="#功能角度分类">¶</a>功能角度分类</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>类型</strong></th>
+<th style="text-align:left"><strong>场景</strong></th>
+<th style="text-align:left"><strong>示例</strong></th>
+<th style="text-align:left"><strong>特点</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">远程代理(Remote Proxy)</td>
+<td style="text-align:left">访问不同地址空间的对象、远程服务通信</td>
+<td style="text-align:left">RMI、gRPC、</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">虚拟代理(Virtual Proxy)</td>
+<td style="text-align:left">创建真实对象的成本较高时，延迟加载(Lazy Load)<br/> 只有在真正需要时才创建目标对象</td>
+<td style="text-align:left">图片加载<br/>大文件读取</td>
+<td style="text-align:left">减少资源浪费<br/>提升相应速度</td>
+</tr>
+<tr>
+<td style="text-align:left">保护代理(Protection Proxy)</td>
+<td style="text-align:left">权限控制</td>
+<td style="text-align:left">鉴权</td>
+<td style="text-align:left">增强安全性<br/>细颗粒度控制</td>
+</tr>
+</tbody>
+</table>
+<h3 id="根据实现技术分类-Java常见"><a class="header-anchor" href="#根据实现技术分类-Java常见">¶</a>根据实现技术分类(Java常见)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>类型</strong></th>
+<th style="text-align:left"><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">静态代理(Static Proxy)</td>
+<td style="text-align:left">手动编写代理类，编译时确定</td>
+</tr>
+<tr>
+<td style="text-align:left">动态代理(Dynamic Proxy)</td>
+<td style="text-align:left">运行时生成代理类，使用<code>java.lang.reflect.Proxy</code></td>
+</tr>
+<tr>
+<td style="text-align:left">CGLIB代理</td>
+<td style="text-align:left">基于字节玛增强技术，适用于没有接口的类</td>
+</tr>
+</tbody>
+</table>
+<h3 id="代理实现方法"><a class="header-anchor" href="#代理实现方法">¶</a>代理实现方法</h3>
+<ul>
+<li>静态代理</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">request</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RealSubject</span> <span class="keyword">implements</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">request</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Proxy</span> <span class="keyword">implements</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> Subject realSubject;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">request</span><span class="params">()</span> &#123;</span><br><span class="line">    realSubject.request();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>动态代理</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Proxy</span> <span class="keyword">implements</span> <span class="title class_">InvocationHandler</span> &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  pubilc Object <span class="title function_">invoke</span><span class="params">(Method method, Object[] args, Object proxy)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>CBLIB代理(字节增强)</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Proxy</span> <span class="keyword">implements</span> <span class="title class_">MethodInterceptor</span> &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> Object <span class="title function_">intercept</span><span class="params">(Object obj, Method method, MethodProxy proxy)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> proxy.invokeSuper(obj, args);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">Enhancer</span> <span class="variable">enhancer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Enhancer</span>();</span><br><span class="line">enhancer.setSuperclass(RealSubject.class);</span><br><span class="line">enhancer.setCallback(<span class="keyword">new</span> <span class="title class_">Proxy</span>());</span><br><span class="line"><span class="type">RealSubject</span> <span class="variable">proxy</span> <span class="operator">=</span> enhancer.create();</span><br><span class="line">proxy.request();</span><br></pre></td></tr></table></figure>
+<p><strong>差异对别</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>类型</strong></th>
+<th style="text-align:left"><strong>是否需要接口</strong></th>
+<th style="text-align:left"><strong>是否手动写代理类</strong></th>
+<th style="text-align:left"><strong>技术基础</strong></th>
+<th style="text-align:left"><strong>应用场景</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">静态代理</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">接口/抽象类</td>
+<td style="text-align:left">简单封装、学习</td>
+</tr>
+<tr>
+<td style="text-align:left">JDK动态代理</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">反射+<code>Proxy</code></td>
+<td style="text-align:left">AOP、Spring(可选)</td>
+</tr>
+<tr>
+<td style="text-align:left">CGLIB代理</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">ASM字节玛增强</td>
+<td style="text-align:left">无接口代理、Spring(默认)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
+<blockquote>
+<p>代理模式从<strong>功能角度</strong>可以分为： 远程代理、虚拟代理、保护代理；从<strong>实现技术角度</strong>可分为： 静态代理、动态代理(JDK)、CGLIB代理。</p>
+</blockquote>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2025/05/10/pattern/basic/structural/Proxy/';
 var disqus_title = '代理模式(Proxy Pattern)';
 var disqus_url = 'https://galudisu.info/2025/05/10/pattern/basic/structural/Proxy/';

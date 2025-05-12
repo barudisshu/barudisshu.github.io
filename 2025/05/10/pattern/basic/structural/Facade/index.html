@@ -4,7 +4,45 @@
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
-</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">外观模式(Facade Pattern)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/structural/">structural<span class="tag">, </span></a><a class="tag-link" href="/tags/facade/">facade</a></p></div><div class="article-content"></div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">外观模式(Facade Pattern)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/structural/">structural<span class="tag">, </span></a><a class="tag-link" href="/tags/facade/">facade</a></p></div><div class="article-content"><blockquote>
+<p>提供了一个统一的接口，用来访问子系统中的一群接口，外观定义了一个高层的接口，让子系统更容易使用。<strong>其实就是为了方便客户的使用，把一群操作，封装成一个方法</strong>。</p>
+</blockquote>
+<img src="/assert/puml/fcabf988403ace7972cf5031702aca934b86568740864ad48f49021f7aa7fcce.svg"/>
+<span id="more"></span>
+<p>外观模式，就是“method”层面上的组合模式，上个章节的<a href="/2025/05/10/pattern/basic/structural/Composite">组合模式</a>是多个类，而外观模式就是多个方法。</p>
+<h3 id="场景描述"><a class="header-anchor" href="#场景描述">¶</a>场景描述</h3>
+<p>你有一个家庭影院系统，包含以下设备：</p>
+<ul>
+<li>影碟机(DVD Player)</li>
+<li>投影仪(Projector)</li>
+<li>音响(Sound System)</li>
+<li>灯光(Lights)</li>
+</ul>
+<p>每次想要看电影时，你需要手动做以下操作：</p>
+<ol>
+<li>关灯</li>
+<li>打开投影仪</li>
+<li>启动音响</li>
+<li>播放DVD</li>
+</ol>
+<p>看完电影后又要一次关闭这些设备。</p>
+<img src="/assert/puml/27983651be2688e8b78c367be911e4ce0f6a3a26a4d97369d9a809bca3607b3d.svg"/>
+<p>这个过程非常繁琐，而<strong>外观模式</strong>可以封装这些复杂逻辑，对外提供一个简单接口，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeTheaterFacade</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">watchMovie</span><span class="params">(String movie)</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Get ready to watch a movie...&quot;</span>);</span><br><span class="line">    lights.dim(<span class="number">10</span>);</span><br><span class="line">    projector.on();</span><br><span class="line">    projector.setInput(dvdPlayer);</span><br><span class="line">    amplifier.on();</span><br><span class="line">    amplifier.setVolume(<span class="number">75</span>);</span><br><span class="line">    amplifier.setInput(dvdPlayer);</span><br><span class="line">    dvdPlayer.on();</span><br><span class="line">    dvdPlayer.play(movie);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">endMovie</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Shutting movie theater down...&quot;</span>);</span><br><span class="line">    dvdPlayer.stop();</span><br><span class="line">    dvdPlayer.off();</span><br><span class="line">    amplifier.off();</span><br><span class="line">    projector.off();</span><br><span class="line">    lights.off();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我只需要“一键”观影即可。</p>
+<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>简化接口，不需要了解每个子系统的细节</li>
+<li>解耦，客户端只依赖外观类，不与具体子系统耦合</li>
+<li>提高维护性，子系统的变化，只需要修改外观类，不影响客户端</li>
+</ul>
+<p><strong>其它常见应用示例</strong></p>
+<ol>
+<li>编译器/解析器，将词法分析、语法分析、语义分析处理封装成一个<code>Compiler</code>外观</li>
+<li>支付系统中对接多个支付渠道(微信、支付宝、银联),统一调用接口</li>
+</ol>
+</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2025/05/10/pattern/basic/structural/Facade/';
 var disqus_title = '外观模式(Facade Pattern)';
 var disqus_url = 'https://galudisu.info/2025/05/10/pattern/basic/structural/Facade/';
