@@ -4,49 +4,49 @@
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
-</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><div class="post-list-wrapper"><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/09/rust/beginning/chapter09_Defining%20Functions">rust基础入门[09] - Defining Functions</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-09</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><div class="post-list-wrapper"><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/19/rust/beginning/chapter19_Object-Oriented%20Programming">rust基础入门[19] - Object-Oriented Programming</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-19</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
 <ul>
-<li>如何定义程序/函数,如何调用</li>
-<li>同名函数</li>
-<li>函数的参数如何传递，by-value还是by-reference</li>
-<li>函数的返回值</li>
-<li>如何提前退出一个函数</li>
-<li>对象的引用如何控制</li>
-</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/09/rust/beginning/chapter09_Defining%20Functions/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/08/rust/beginning/chapter08_Using%20Heterogeneous%20Data%20Structures">rust基础入门[08] - Using Heterogeneous Data Structures</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-08</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
-<p>异构数据结构(Heterogeneous Data Structures, 也叫复合数据结构)，就是不同类型的组合，包括有，</p>
+<li>不使用trait，继承方式实现关联类型的函数</li>
+<li>Rust面向对象和C++面向对象的区别</li>
+<li>那些trait可以实现哪些type，哪些不能</li>
+<li>如何指定一个方法更改对象</li>
+<li>构造对象的一些约定方法</li>
+<li>为什么Rust不适用数据继承</li>
+<li>什么是静态派遣，什么是动态派遣，如何实现，如何使用</li>
+</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/19/rust/beginning/chapter19_Object-Oriented%20Programming/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/18/rust/beginning/chapter18_Using%20Traits">rust基础入门[18] - Using Traits</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-18</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
 <ul>
-<li>Tuples</li>
-<li>Structs</li>
-<li>Tuple-Structs</li>
-</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/08/rust/beginning/chapter08_Using%20Heterogeneous%20Data%20Structures/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/07/rust/beginning/chapter07_Enumerating%20%20Cases">rust基础入门[07] - Enumerating Cases</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-07</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
+<li><code>traits</code>如何避免在泛型函数调用中的不能理解的编译错误信息</li>
+<li>泛型参数的边界如何被单子化(monolithic)，或如何分解为几个traits</li>
+<li>如何创建函数体返回内的traits</li>
+<li>如何简单地使用<code>self</code>关键字，通过&quot;点，dot notation&quot;操作来创建函数</li>
+<li>如何迭代一个trait</li>
+<li>如何定义类型别名</li>
+<li>如何定义泛型迭代器</li>
+<li>如何使用关联类型来简化泛型迭代器的使用</li>
+<li>如何定义字节的迭代器</li>
+</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/18/rust/beginning/chapter18_Using%20Traits/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/17/rust/beginning/chapter17_IO%20and%20Error%20Handling">rust基础入门[17] - IO and Error Handling</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-17</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
 <ul>
-<li>如何从有限集定义枚举变量</li>
-<li>如何用枚举实现组合类型</li>
-<li>如何用<code>match</code>模式匹配处理枚举</li>
-<li>如何用<code>match</code>处理其他数据类型，诸如整数、字符、字符串</li>
-<li>如何用布尔值泛化<code>match</code>结构</li>
-</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/07/rust/beginning/chapter07_Enumerating%20%20Cases/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/06/rust/beginning/chapter06_Using%20Primitive%20Types">rust基础入门[06] - Using Primitive Types</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-06</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
+<li>如何通过命令行参数启动程序</li>
+<li>如何给操作系统返回一个状态码</li>
+<li>如何获取和设置进程环境变量</li>
+<li>如何处理运行时错误</li>
+<li>如何在控制台读取键盘输入信息并打印输出</li>
+<li>原生类型如何转换为字符串</li>
+<li>如何读写二进制文件</li>
+<li>如何按行读取文本文件</li>
+</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/17/rust/beginning/chapter17_IO%20and%20Error%20Handling/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/16/rust/beginning/chapter16_Using%20Iterators">rust基础入门[16] - Using Iterators</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-16</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
 <ul>
-<li>如何编写16进制、10进制、2进制字面量</li>
-<li>使用下划线的数字字面量</li>
-<li>如何使用指数计数法表示超大或超小的数</li>
-<li>10个原生类型、两个浮点类型；以及它们的范围；使用场景</li>
-<li>如何指定数字字面量的具体类型和非约束类型(以<code>u</code>开头）</li>
-<li>如何将一个数字类型转换为另一个数字类型</li>
-<li>其他原生类型： 布尔、字符、元组(tuple)</li>
-<li>类型推导是如何工作的</li>
-<li>如何表述数组(array)和向量(vector)的类型</li>
-<li>如何指派名字到编译期的常亮</li>
-<li>如何用编译器发现表达式的类型</li>
-</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/06/rust/beginning/chapter06_Using%20Primitive%20Types/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/05/rust/beginning/chapter05_Using%20Data%20Sequences">rust基础入门[05] - Using Data Sequences</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-05</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
+<li>字符串如何存储字符，为什么不能直接访问</li>
+<li>如何用iterators读取字符串字符或字符串字节</li>
+<li>如何使用可变iterators修改slices，arrays，vectors</li>
+<li>如何使用适配器：<code>filter</code>，<code>map</code>和<code>enumerate</code></li>
+<li>如何使用消费者：<code>any</code>，<code>all</code>，<code>count</code>，<code>sum</code>，<code>min</code>，<code>max</code>和<code>collect</code></li>
+<li>惰性处理的概念</li>
+</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/16/rust/beginning/chapter16_Using%20Iterators/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/15/rust/beginning/chapter15_Ranges%20and%20Slices">rust基础入门[15] - Ranges and Slices</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-15</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
 <ul>
-<li>如何定义相同类型的序列，包含固定长度(arrays)和可变长度(vectors)</li>
-<li>如何初始化arrays和vector</li>
-<li>如何向arrays和vector写和读</li>
-<li>如何向一个vector添加条目或删除条目</li>
-<li>如何创建多维数组</li>
-<li>如何打印或复制整个数组或向量</li>
-</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/05/rust/beginning/chapter05_Using%20Data%20Sequences/">Read more</a></div></article></div><nav class="pagination-wrapper"><a class="extend prev" rel="prev" href="/page/6/">&lt;&lt;</a><a class="page-number" href="/">1</a><span class="space">...</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">...</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/8/">&gt;&gt;</a></nav><div id="base-discus"></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<li>如何使用closed ranges和open-ended ranges</li>
+<li>如何用slice处理array或vector的portions</li>
+</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/15/rust/beginning/chapter15_Ranges%20and%20Slices/">Read more</a></div></article></div><nav class="pagination-wrapper"><a class="extend prev" rel="prev" href="/page/6/">&lt;&lt;</a><a class="page-number" href="/">1</a><span class="space">...</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">...</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/8/">&gt;&gt;</a></nav><div id="base-discus"></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2025 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
