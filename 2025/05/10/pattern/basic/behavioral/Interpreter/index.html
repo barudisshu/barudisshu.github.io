@@ -4,7 +4,63 @@
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
-</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">解析器模式(Interpreter Pattern)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/behavioral/">behavioral<span class="tag">, </span></a><a class="tag-link" href="/tags/interpreter/">interpreter</a></p></div><div class="article-content"><span id="more"></span>
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">解析器模式(Interpreter Pattern)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/behavioral/">behavioral<span class="tag">, </span></a><a class="tag-link" href="/tags/interpreter/">interpreter</a></p></div><div class="article-content"><blockquote>
+<p>提供了评估语言的语法或表达式的方式，它属于行为模式。这种模式实现了一个表达式接口，该接口解析一个特定的上下文。这种模式被用在SQL解析、符号处理引擎等。</p>
+</blockquote>
+<img src="/assert/puml/eeeda54ce800ba61aefb338c64054da718595063750afc7be99501c6bc9bbece.svg"/>
+<span id="more"></span>
+<h3 id="核心思想"><a class="header-anchor" href="#核心思想">¶</a>核心思想</h3>
+<ul>
+<li>将语言中的每个语法规则映射为一个类。</li>
+<li>构建抽象语法树(AST)，由这些类的实例组成。</li>
+<li>使用递归调用解释整个表达式。</li>
+</ul>
+<h3 id="角色组成"><a class="header-anchor" href="#角色组成">¶</a>角色组成</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>角色</strong></th>
+<th style="text-align:left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>AbstractExpression</code></td>
+<td style="text-align:left">定义解释操作的公共接口</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TerminalExpression</code></td>
+<td style="text-align:left">实现文法中与终结符相关的解释操作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>NonterminalExpression</code></td>
+<td style="text-align:left">实现文法中与非终结符相关的解释操作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Context</code></td>
+<td style="text-align:left">包含解释器所需的全局信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Client</code></td>
+<td style="text-align:left">构建表示某一句子的抽象语法树并调用解释方法</td>
+</tr>
+</tbody>
+</table>
+<h3 id="适用场景"><a class="header-anchor" href="#适用场景">¶</a>适用场景</h3>
+<ul>
+<li>需要解释执行某种小型语言或表达式(如数学表达式、规则引擎中的条件判断)。</li>
+<li>文法规则相对稳定且不复杂。</li>
+<li>开发脚本引擎、DSL解析器、配置规则解释器等。</li>
+</ul>
+<h3 id="代码示例：布尔表达式解释器"><a class="header-anchor" href="#代码示例：布尔表达式解释器">¶</a>代码示例：布尔表达式解释器</h3>
+<p>抽象表达式<code>Expression</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">  <span class="type">boolean</span> <span class="title function_">interpret</span><span class="params">(String context)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>终结符表达式<code>TerminalExpression</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TerminalExpression</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> String data;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">TerminalExpression</span><span class="params">(String data)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.data = data;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">interpret</span><span class="params">(String context)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> context.contains(data);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>非终结符表达式<code>AndExpression</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AndExpression</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> Expresion expr1;</span><br><span class="line">  <span class="keyword">private</span> Expression expr2;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">AndExpression</span><span class="params">(Expression expr1, Expression expr2)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.expr1 = expr1;</span><br><span class="line">    <span class="built_in">this</span>.expr2 = expr2;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">interpret</span><span class="params">(String context)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> expr1.interpret(context) &amp;&amp; expr2.interpret(context);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>客户端使用</p>
+<figure class="highlight kt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> context = <span class="string">&quot;John is happy today.&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> john = TerminalExpression(<span class="string">&quot;John&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> happy = TerminalExpression(<span class="string">&quot;happy&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> expression = AndExpression(john, happy)</span><br><span class="line"></span><br><span class="line">expression.interpret(context))</span><br></pre></td></tr></table></figure>
 </div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2025/05/10/pattern/basic/behavioral/Interpreter/';
 var disqus_title = '解析器模式(Interpreter Pattern)';
