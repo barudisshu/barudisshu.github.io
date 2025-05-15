@@ -308,7 +308,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2023/10/26/termius/cracked/</loc>
+    <loc>https://galudisu.info/2018/10/21/spark/spark-zookeeper-2/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -317,7 +317,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2018/10/21/spark/spark-zookeeper-2/</loc>
+    <loc>https://galudisu.info/2023/10/26/termius/cracked/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -353,6 +353,15 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/2016/10/27/scala/01-scala-conception/</loc>
+    
+    <lastmod>2025-04-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/2016/10/27/scala/02-getting-started/</loc>
     
     <lastmod>2025-04-27</lastmod>
@@ -363,6 +372,15 @@
   
   <url>
     <loc>https://galudisu.info/2016/10/27/scala/03-scala-oop/</loc>
+    
+    <lastmod>2025-04-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2016/10/27/scala/07-fp-database/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -389,7 +407,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2016/10/27/scala/01-scala-conception/</loc>
+    <loc>https://galudisu.info/2016/10/27/scala/08-scala-components/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -399,24 +417,6 @@
   
   <url>
     <loc>https://galudisu.info/2016/10/27/scala/06-functional-webapp/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/2016/10/27/scala/07-fp-database/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/2016/10/27/scala/08-scala-components/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -443,7 +443,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2016/10/27/scala/12-akka-app/</loc>
+    <loc>https://galudisu.info/2016/10/27/scala/11-jvm-integrate/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -452,7 +452,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2016/10/27/scala/11-jvm-integrate/</loc>
+    <loc>https://galudisu.info/2016/10/27/scala/12-akka-app/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -596,7 +596,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2019/11/27/react-ts/chapter_a_Interacting_with_GraphQL_APIs/</loc>
+    <loc>https://galudisu.info/2019/11/27/react-ts/chapter_9_Interacting_with_RESTful_APIs/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -605,7 +605,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2019/11/27/react-ts/chapter_9_Interacting_with_RESTful_APIs/</loc>
+    <loc>https://galudisu.info/2019/11/27/react-ts/chapter_a_Interacting_with_GraphQL_APIs/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -686,7 +686,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2023/01/06/rust/beginning/chapter06_Using%20Primitive%20Types/</loc>
+    <loc>https://galudisu.info/2023/01/09/rust/beginning/chapter09_Defining%20Functions/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -695,7 +695,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2023/01/09/rust/beginning/chapter09_Defining%20Functions/</loc>
+    <loc>https://galudisu.info/2023/01/06/rust/beginning/chapter06_Using%20Primitive%20Types/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -722,7 +722,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2023/01/13/rust/beginning/chapter13_Defining%20Closures/</loc>
+    <loc>https://galudisu.info/2023/01/12/rust/beginning/chapter12_Data%20Implementation/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -731,7 +731,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2023/01/14/rust/beginning/chapter14_Using%20Changeable%20Strings/</loc>
+    <loc>https://galudisu.info/2023/01/13/rust/beginning/chapter13_Defining%20Closures/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -749,7 +749,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2023/01/12/rust/beginning/chapter12_Data%20Implementation/</loc>
+    <loc>https://galudisu.info/2023/01/16/rust/beginning/chapter16_Using%20Iterators/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -767,7 +767,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2023/01/16/rust/beginning/chapter16_Using%20Iterators/</loc>
+    <loc>https://galudisu.info/2023/01/14/rust/beginning/chapter14_Using%20Changeable%20Strings/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -821,15 +821,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2016/04/27/miscellaneous/git-branch/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/2016/04/27/miscellaneous/hello-world/</loc>
     
     <lastmod>2025-04-27</lastmod>
@@ -839,7 +830,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2016/04/27/miscellaneous/stack-edit/</loc>
+    <loc>https://galudisu.info/2016/04/27/miscellaneous/git-branch/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -866,7 +857,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2018/10/31/mongo/mongo-cluster-sharding/</loc>
+    <loc>https://galudisu.info/2016/04/27/miscellaneous/stack-edit/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -884,7 +875,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2020/07/30/musics/%E7%BF%B1%E7%BF%94%E5%A4%A9%E9%99%85%E3%81%AE%E4%BA%BA/</loc>
+    <loc>https://galudisu.info/2018/10/31/mongo/mongo-cluster-sharding/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -893,7 +884,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2024/06/13/pekko/pekko-in-kubernetes-for-coap/</loc>
+    <loc>https://galudisu.info/2020/07/30/musics/%E7%BF%B1%E7%BF%94%E5%A4%A9%E9%99%85%E3%81%AE%E4%BA%BA/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -912,6 +903,15 @@
   
   <url>
     <loc>https://galudisu.info/2017/11/06/philosophy/cap-theorem/</loc>
+    
+    <lastmod>2025-04-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2024/06/13/pekko/pekko-in-kubernetes-for-coap/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -956,7 +956,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2019/01/24/postgresql/postgresql-relational-databases-on-centos-7/</loc>
+    <loc>https://galudisu.info/2017/05/01/postgresql/ubuntu-install-postgresql/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -965,7 +965,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2017/05/01/postgresql/ubuntu-install-postgresql/</loc>
+    <loc>https://galudisu.info/2019/01/24/postgresql/postgresql-relational-databases-on-centos-7/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1082,7 +1082,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2017/04/28/docker/docker-learning/</loc>
+    <loc>https://galudisu.info/2020/03/04/flink/installation/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1091,7 +1091,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2020/03/04/flink/installation/</loc>
+    <loc>https://galudisu.info/2017/04/28/docker/docker-learning/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1118,6 +1118,15 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/2020/03/04/hadoop/installation/</loc>
+    
+    <lastmod>2025-04-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/2018/10/26/ideal/ideal-reference/</loc>
     
     <lastmod>2025-04-27</lastmod>
@@ -1128,15 +1137,6 @@
   
   <url>
     <loc>https://galudisu.info/2018/12/23/ideal/using-intellij-bookmarks/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/2020/03/04/hadoop/installation/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1181,7 +1181,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2021/07/29/kotlin/02_defining_and_calling_functions/</loc>
+    <loc>https://galudisu.info/2021/12/09/kotlin/04_programming_with_lambdas/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1199,25 +1199,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2021/12/09/kotlin/04_programming_with_lambdas/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/2021/12/10/kotlin/05_the_kotlin_type_system/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/2021/12/17/kotlin/06_operator_overloading_and_other_convertions/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1235,6 +1217,24 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/2021/07/29/kotlin/02_defining_and_calling_functions/</loc>
+    
+    <lastmod>2025-04-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2021/12/17/kotlin/06_operator_overloading_and_other_convertions/</loc>
+    
+    <lastmod>2025-04-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/2022/01/07/kotlin/08_generics/</loc>
     
     <lastmod>2025-04-27</lastmod>
@@ -1244,7 +1244,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2019/02/03/kubernetes/kubernetes-01-centos-installation/</loc>
+    <loc>https://galudisu.info/2022/01/28/kotlin/09_annotations_and_reflection/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1253,7 +1253,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2022/01/28/kotlin/09_annotations_and_reflection/</loc>
+    <loc>https://galudisu.info/2019/02/03/kubernetes/kubernetes-01-centos-installation/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1307,6 +1307,15 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/2020/06/23/certificate/generate-server-client-pk/</loc>
+    
+    <lastmod>2025-04-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/2020/03/27/ci/devops-ha-design/</loc>
     
     <lastmod>2025-04-27</lastmod>
@@ -1334,33 +1343,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2020/06/23/certificate/generate-server-client-pk/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/2018/06/06/akka/ddata/Akka-Distributed-Data-Deep-Dive/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/2017/05/23/akka/future/future-and-execute/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/2017/05/18/akka/http/spray-to-akka-http/</loc>
     
     <lastmod>2025-04-27</lastmod>
@@ -1371,6 +1353,15 @@
   
   <url>
     <loc>https://galudisu.info/2017/07/26/akka/http/writing-an-api-client-with-akka-http/</loc>
+    
+    <lastmod>2025-04-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/2018/06/06/akka/ddata/Akka-Distributed-Data-Deep-Dive/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1397,7 +1388,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2020/01/03/akka/typed/akka-typed/</loc>
+    <loc>https://galudisu.info/2017/05/23/akka/future/future-and-execute/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1406,7 +1397,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2018/07/24/algorithm/ga/genetic-algorithm/</loc>
+    <loc>https://galudisu.info/2020/01/03/akka/typed/akka-typed/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1424,6 +1415,15 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/2017/08/04/auth/auth-oauth2/oauth2-authentication-models/</loc>
+    
+    <lastmod>2025-04-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/2019/02/26/algorithm/probabilistic/birthday-paradox-problem/</loc>
     
     <lastmod>2025-04-27</lastmod>
@@ -1433,7 +1433,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/2017/08/04/auth/auth-oauth2/oauth2-authentication-models/</loc>
+    <loc>https://galudisu.info/2018/07/24/algorithm/ga/genetic-algorithm/</loc>
     
     <lastmod>2025-04-27</lastmod>
     
@@ -1459,6 +1459,20 @@
   
   <url>
     <loc>https://galudisu.info/tags/ceph/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/certificate/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/ssl/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1501,20 +1515,6 @@
   
   <url>
     <loc>https://galudisu.info/tags/fibers-coroutine-goroutine/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/certificate/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/ssl/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1605,6 +1605,13 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/tags/hadoop/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/tags/ideal/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -1613,13 +1620,6 @@
   
   <url>
     <loc>https://galudisu.info/tags/idea/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/hadoop/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1661,13 +1661,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/git/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/tags/highlight/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -1675,7 +1668,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/hexo/</loc>
+    <loc>https://galudisu.info/tags/git/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1703,6 +1696,13 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/tags/hexo/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/tags/audio/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -1724,6 +1724,20 @@
   </url>
   
   <url>
+    <loc>https://galudisu.info/tags/5g/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/cap/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://galudisu.info/tags/pekko/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -1739,20 +1753,6 @@
   
   <url>
     <loc>https://galudisu.info/tags/IIoT/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/5g/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/cap/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1864,13 +1864,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/termius/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/tags/spark/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -1879,6 +1872,13 @@
   
   <url>
     <loc>https://galudisu.info/tags/zookeeper/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/termius/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1913,14 +1913,14 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/ga-ml-scala/</loc>
+    <loc>https://galudisu.info/tags/pid/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/pid/</loc>
+    <loc>https://galudisu.info/tags/auth/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1934,7 +1934,7 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/auth/</loc>
+    <loc>https://galudisu.info/tags/ga-ml-scala/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2088,34 +2088,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/tags/builder/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/factory/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/prototype/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/tags/singleton/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/tags/adapter/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -2164,7 +2136,42 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://galudisu.info/tags/builder/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/factory/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/prototype/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/tags/singleton/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
+  
+  <url>
+    <loc>https://galudisu.info/categories/k8s/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>https://galudisu.info/categories/devOps/</loc>
@@ -2175,13 +2182,6 @@
   
   <url>
     <loc>https://galudisu.info/categories/ci/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://galudisu.info/categories/k8s/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2209,14 +2209,14 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/categories/git/</loc>
+    <loc>https://galudisu.info/categories/beginning/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://galudisu.info/categories/beginning/</loc>
+    <loc>https://galudisu.info/categories/git/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2258,13 +2258,6 @@
   </url>
   
   <url>
-    <loc>https://galudisu.info/categories/future/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://galudisu.info/categories/akka-http/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -2280,6 +2273,13 @@
   
   <url>
     <loc>https://galudisu.info/categories/akka/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://galudisu.info/categories/future/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
