@@ -149,7 +149,7 @@ Factory Actor是个工厂，它会产生很多factor，至于factor做什么跟�
 <p>这种Actor特性和设计思想，与微服务的理念无疑是“天工巧夺”。但同时要明白，微服务的设计，大多是面向容器的，除此之外，还有基于<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Function_as_a_service">FaaS</a>。有兴趣的可以了解下。</p>
 <h2 id="DDD与微服务"><a class="header-anchor" href="#DDD与微服务">¶</a>DDD与微服务</h2>
 <p>理想情况下，界限上下文与微服务可以一一对应，在实际项目中，有些调整，比如根据业务的相关度和变化频率，有时候我们会将多个界限上下文进行合并；另外微服务在开发，测试，部署，发布和运维等等时，相比单体应用而言，它面临了所有分布式系统面临的问题，带来了额外的复杂度和开销，所以将微服务粒度拆分过细反而是一种反模式，需要考虑需要解决问题的复杂度，将相对简单的服务合并在一起；在微服务拆分的时候，也要注意：“聚合是服务的最小单元”（一个界限上下文可以包括多个聚合），打破聚合，就很有可能破坏事务一致性和业务约束。</p>
-</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+</div></article><nav class="article-nav"><div class="article-nav-prev">🔙<a href="/2018/12/23/ideal/using-intellij-bookmarks/">在IntelliJ创建标签</a></div><div class="article-nav-next">🔜<a href="/2018/11/19/react/react-redux-tutorial-beginners/">React Redux Tutorial for Beginners - The Definitive Guide(2018)</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2018/12/21/pattern/ddd/event-sourcing-feedback/';
 var disqus_title = '关于Akka在事件溯源的若干思考';
 var disqus_url = 'https://galudisu.info/2018/12/21/pattern/ddd/event-sourcing-feedback/';

@@ -13,7 +13,7 @@
 <p>然后通过以下命令创建容器：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name keycloak -d -p 443:443 -p 9990:9990 -p 8080:8080 \</span><br><span class="line">--link postgres:postgres -e POSTGRES_DATABASE=keycloak \</span><br><span class="line">-e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=keycloakxxxx \</span><br><span class="line">-e TZ=Asia/Shanghai -v /etc/localtime:/etc/localtime \</span><br><span class="line">--restart=always jboss/keycloak:3.3.0.Final</span><br></pre></td></tr></table></figure>
 <p>其中指定了数据库，时区等参数。</p>
-</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+</div></article><nav class="article-nav"><div class="article-nav-prev">🔙<a href="/2018/10/20/docker/docker-elk/">基于docker部署ELK</a></div><div class="article-nav-next">🔜<a href="/2018/10/20/docker/docker-kafka/">基于docker环境下的zookeeper和kafka部署</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2018/10/20/docker/docker-keycloak/';
 var disqus_title = '基于docker安装配置keycloak';
 var disqus_url = 'https://galudisu.info/2018/10/20/docker/docker-keycloak/';

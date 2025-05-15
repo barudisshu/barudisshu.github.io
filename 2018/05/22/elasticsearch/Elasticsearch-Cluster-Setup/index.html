@@ -62,7 +62,7 @@ max number of threads [1024] for user [elasticsearch] is too low, increase to at
 <p>但是, 此时一个节点挂了, 则整个集群挂了(无法选举主节点了)</p>
 <p>所以, 要再加一个节点, 这个节点只要保证稳定即可, 对cpu和磁盘要求不高. 这个es节点的配置同其他节点的区别node.data: false, 不存储索引数据.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">split</span> brain prevent</span></span><br><span class="line">node.data: false</span><br></pre></td></tr></table></figure>
-</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+</div></article><nav class="article-nav"><div class="article-nav-prev">🔙<a href="/2018/06/06/akka/ddata/Akka-Distributed-Data-Deep-Dive/">Akka Distributed Data Deep Dive</a></div><div class="article-nav-next">🔜<a href="/2018/05/06/docker/Modifying-an-Existing-Docker-Image/">Modifying an Existing Docker Image</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2018/05/22/elasticsearch/Elasticsearch-Cluster-Setup/';
 var disqus_title = 'Elasticsearch集群安装配置';
 var disqus_url = 'https://galudisu.info/2018/05/22/elasticsearch/Elasticsearch-Cluster-Setup/';

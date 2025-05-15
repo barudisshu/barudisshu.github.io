@@ -1988,10 +1988,35 @@ body h3 {
   width: 51rem;
   margin: 0 auto;
 }
+.base-content .base-content-main .article-nav {
+  margin-top: 3.4rem;
+  display: flex;
+  justify-content: space-between;
+}
+.base-content .base-content-main .article-nav .article-nav-prev {
+  text-align: left;
+  flex: 1;
+}
+.base-content .base-content-main .article-nav .article-nav-next {
+  text-align: right;
+  flex: 1;
+}
 @media (max-width: 51rem) {
   .base-content .base-content-main {
     width: auto;
     padding: 0 1rem;
+  }
+  .base-content .base-content-main .article-nav {
+    display: flex;
+    justify-content: space-between;
+  }
+  .base-content .base-content-main .article-nav .article-nav-prev {
+    text-align: left;
+    flex: 1;
+  }
+  .base-content .base-content-main .article-nav .article-nav-next {
+    text-align: right;
+    flex: 1;
   }
 }
 .base-footer {

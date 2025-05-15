@@ -258,7 +258,7 @@
 <p>在这两个版本中，函数<code>f</code>都会接收<code>i1</code>和<code>j1</code>的引用，首先返回变量<code>r</code>存储的值，然后分别地初始化<code>i2</code>和<code>j2</code>变量。</p>
 <p>在第一个版本中，第一个参数和返回值的第一个字段拥有相同的lifetime specifier，这导致了<code>i2</code>必须存活少于<code>i1</code>。类似地，<code>j2</code>必须存活少于<code>j1</code>。实际上，变量的声明顺序需要满足这些要求。</p>
 <p>第二个版本，由于只有一个lifetime specifier，所以<code>i2</code>和<code>j2</code>必须存活少于<code>i1</code>和<code>j1</code>。实际上，<code>i2</code>被声明在<code>j1</code>前，不能满足这些要求。</p>
-</div></article><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
+</div></article><nav class="article-nav"><div class="article-nav-prev">🔙<a href="/2023/01/23/rust/beginning/chapter23_More%20About%20Lifetimes/">rust基础入门[23] - More About Lifetimes</a></div><div class="article-nav-next">🔜<a href="/2023/01/21/rust/beginning/chapter21_Drops,%20Moves,%20and%20Copies/">rust基础入门[21] - Drops, Moves, and Copies</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
 var disqus_identifier = '2023/01/22/rust/beginning/chapter22_Borrowing and Lifetimes/';
 var disqus_title = 'rust基础入门[22] - Borrowing and Lifetimes';
 var disqus_url = 'https://galudisu.info/2023/01/22/rust/beginning/chapter22_Borrowing and Lifetimes/';
