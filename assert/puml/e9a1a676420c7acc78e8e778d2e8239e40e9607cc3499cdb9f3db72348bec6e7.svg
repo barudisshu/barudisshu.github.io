@@ -1,1 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" data-diagram-type="CLASS" height="278px" preserveAspectRatio="none" style="width:239px;height:278px;" version="1.1" viewBox="0 0 239 278" width="239px" zoomAndPan="magnify"><defs/><g><!--class Product--><g class="entity" data-entity="Product" data-source-line="5" data-uid="ent0002" id="entity_Product"><rect fill="#F1F1F1" height="48" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="85.71" x="76.79" y="115"/><ellipse cx="91.79" cy="131" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1;"/><path d="M87.7119,126.7656 L87.7119,124.6094 L95.1025,124.6094 L95.1025,126.7656 L92.6338,126.7656 L92.6338,134.8438 L95.1025,134.8438 L95.1025,137 L87.7119,137 L87.7119,134.8438 L90.1806,134.8438 L90.1806,126.7656 L87.7119,126.7656 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="53.71" x="105.79" y="135.8467">Product</text><line style="stroke:#181818;stroke-width:0.5;" x1="77.79" x2="161.5" y1="147" y2="147"/><line style="stroke:#181818;stroke-width:0.5;" x1="77.79" x2="161.5" y1="155" y2="155"/></g><!--class ProductA--><g class="entity" data-entity="ProductA" data-source-line="6" data-uid="ent0003" id="entity_ProductA"><rect fill="#F1F1F1" height="48" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="95.2871" x="7" y="223"/><ellipse cx="22" cy="239" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1;"/><path d="M24.9688,244.6406 Q24.3906,244.9375 23.75,245.0781 Q23.1094,245.2344 22.4063,245.2344 Q19.9063,245.2344 18.5781,243.5938 Q17.2656,241.9375 17.2656,238.8125 Q17.2656,235.6875 18.5781,234.0313 Q19.9063,232.375 22.4063,232.375 Q23.1094,232.375 23.75,232.5313 Q24.4063,232.6875 24.9688,232.9844 L24.9688,235.7031 Q24.3438,235.125 23.75,234.8594 Q23.1563,234.5781 22.5313,234.5781 Q21.1875,234.5781 20.5,235.6563 Q19.8125,236.7188 19.8125,238.8125 Q19.8125,240.9063 20.5,241.9844 Q21.1875,243.0469 22.5313,243.0469 Q23.1563,243.0469 23.75,242.7813 Q24.3438,242.5 24.9688,241.9219 L24.9688,244.6406 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63.2871" x="36" y="243.8467">ProductA</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="101.2871" y1="255" y2="255"/><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="101.2871" y1="263" y2="263"/></g><!--class ProductB--><g class="entity" data-entity="ProductB" data-source-line="7" data-uid="ent0004" id="entity_ProductB"><rect fill="#F1F1F1" height="48" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="95.3145" x="136.99" y="223"/><ellipse cx="151.99" cy="239" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1;"/><path d="M154.9588,244.6406 Q154.3806,244.9375 153.74,245.0781 Q153.0994,245.2344 152.3963,245.2344 Q149.8963,245.2344 148.5681,243.5938 Q147.2556,241.9375 147.2556,238.8125 Q147.2556,235.6875 148.5681,234.0313 Q149.8963,232.375 152.3963,232.375 Q153.0994,232.375 153.74,232.5313 Q154.3963,232.6875 154.9588,232.9844 L154.9588,235.7031 Q154.3338,235.125 153.74,234.8594 Q153.1463,234.5781 152.5213,234.5781 Q151.1775,234.5781 150.49,235.6563 Q149.8025,236.7188 149.8025,238.8125 Q149.8025,240.9063 150.49,241.9844 Q151.1775,243.0469 152.5213,243.0469 Q153.1463,243.0469 153.74,242.7813 Q154.3338,242.5 154.9588,241.9219 L154.9588,244.6406 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63.3145" x="165.99" y="243.8467">ProductB</text><line style="stroke:#181818;stroke-width:0.5;" x1="137.99" x2="231.3045" y1="255" y2="255"/><line style="stroke:#181818;stroke-width:0.5;" x1="137.99" x2="231.3045" y1="263" y2="263"/></g><!--class SimpleFactory--><g class="entity" data-entity="SimpleFactory" data-source-line="8" data-uid="ent0005" id="entity_SimpleFactory"><rect fill="#F1F1F1" height="48" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="132.2285" x="53.53" y="7"/><ellipse cx="68.53" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1;"/><path d="M71.4988,28.6406 Q70.9206,28.9375 70.28,29.0781 Q69.6394,29.2344 68.9363,29.2344 Q66.4363,29.2344 65.1081,27.5938 Q63.7956,25.9375 63.7956,22.8125 Q63.7956,19.6875 65.1081,18.0313 Q66.4363,16.375 68.9363,16.375 Q69.6394,16.375 70.28,16.5313 Q70.9363,16.6875 71.4988,16.9844 L71.4988,19.7031 Q70.8738,19.125 70.28,18.8594 Q69.6863,18.5781 69.0613,18.5781 Q67.7175,18.5781 67.03,19.6563 Q66.3425,20.7188 66.3425,22.8125 Q66.3425,24.9063 67.03,25.9844 Q67.7175,27.0469 69.0613,27.0469 Q69.6863,27.0469 70.28,26.7813 Q70.8738,26.5 71.4988,25.9219 L71.4988,28.6406 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="100.2285" x="82.53" y="27.8467">SimpleFactory</text><line style="stroke:#181818;stroke-width:0.5;" x1="54.53" x2="184.7585" y1="39" y2="39"/><line style="stroke:#181818;stroke-width:0.5;" x1="54.53" x2="184.7585" y1="47" y2="47"/></g><!--link SimpleFactory to Product--><g class="link" data-entity-1="SimpleFactory" data-entity-2="Product" data-source-line="10" data-uid="lnk6" id="link_SimpleFactory_Product"><path codeLine="10" d="M119.64,55.24 C119.64,73.02 119.64,91.08 119.64,108.84" fill="none" id="SimpleFactory-to-Product" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="119.64,114.84,123.64,105.84,119.64,109.84,115.64,105.84,119.64,114.84" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="91.4253" x="27.64" y="81.1069">createProduct</text></g><!--reverse link Product to ProductA--><g class="link" data-entity-1="Product" data-entity-2="ProductA" data-source-line="11" data-uid="lnk7" id="link_Product_ProductA"><path codeLine="11" d="M89.54,181.24 C89.54,199.02 89.54,205.08 89.54,222.84" fill="none" id="Product-backto-ProductA" style="stroke:#181818;stroke-width:1;"/><polygon fill="none" points="89.54,163.24,83.54,181.24,95.54,181.24,89.54,163.24" style="stroke:#181818;stroke-width:1;"/></g><!--reverse link Product to ProductB--><g class="link" data-entity-1="Product" data-entity-2="ProductB" data-source-line="12" data-uid="lnk8" id="link_Product_ProductB"><path codeLine="12" d="M149.74,181.24 C149.74,199.02 149.74,205.08 149.74,222.84" fill="none" id="Product-backto-ProductB" style="stroke:#181818;stroke-width:1;"/><polygon fill="none" points="149.74,163.24,143.74,181.24,155.74,181.24,149.74,163.24" style="stroke:#181818;stroke-width:1;"/></g><!--SRC=[RSr12i9030NG_PmY5vWBY0XMS2ruWfX67JfDXaowA7Xu5JfAeQlmyZz97P8KD1pXXZGyJ2VfJvhLm0sbVY8M3_NNoadOvy9GDCzVR6Lg_jGGaZZR7OdXOjfFv84orjfqNBDRU4rZoNn6ShKvX1KXnaFhxu2CqRdTNYRiNp7-NsnjkpS0]--></g></svg>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Origin Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        h1 {
+            color: #5ca731;
+            text-align: left;
+            margin-left: 20px;
+        }
+        .error-info {
+            text-align: left;
+            margin-left: 20px;
+        }
+        .error-info p:first-child {
+            margin-bottom: 75px;
+        }
+        footer {
+            position: absolute;
+            bottom: 10px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <h1>Origin Unreachable</h1>
+    <div class="error-info">
+        <p>Sorry, we are unable to reach the origin server at the moment. Please try again later.</p>
+        <p><strong>Error ID</strong>: f7bf4799-cf25-4118-a41f-3ae7a9464c63</p>
+        <p><strong>Timestamp</strong>: 2025-05-23 01:51:25</p>
+        
+    </div>
+    <footer>Powered by Ezoic</footer>
+</body>
+</html>
