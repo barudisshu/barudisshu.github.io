@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/css/main.css">
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
-<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">rust基础入门[08] - Using Heterogeneous Data Structures</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-08</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-content"><p>本章覆盖有：</p>
 <p>异构数据结构(Heterogeneous Data Structures, 也叫复合数据结构)，就是不同类型的组合，包括有，</p>
 <ul>
@@ -81,17 +81,16 @@
 <li>类型的名称由应用代码或标准库定义，枚举变量的名称由一组关联词汇粘合，要求命名首字母大写。</li>
 <li>其它(诸如关键字<code>let</code>、原生类型<code>u8</code>)名称则由小写字母，下划线划分词组。</li>
 </ul>
-</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2023/01/09/rust/beginning/chapter09_Defining%20Functions/">rust基础入门[09] - Defining Functions</a></div><div class="article-nav-next"><a href="/2023/01/07/rust/beginning/chapter07_Enumerating%20%20Cases/">rust基础入门[07] - Enumerating Cases</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
-var disqus_identifier = '2023/01/08/rust/beginning/chapter08_Using Heterogeneous Data Structures/';
-var disqus_title = 'rust基础入门[08] - Using Heterogeneous Data Structures';
-var disqus_url = 'https://galudisu.info/2023/01/08/rust/beginning/chapter08_Using Heterogeneous Data Structures/';
+</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2023/01/09/rust/beginning/chapter09_Defining%20Functions/">rust基础入门[09] - Defining Functions</a></div><div class="article-nav-next"><a href="/2023/01/07/rust/beginning/chapter07_Enumerating%20%20Cases/">rust基础入门[07] - Enumerating Cases</a></div></nav><div id="base-discus"><div class="ds-thread" data-thread-key="2023/01/08/rust/beginning/chapter08_Using Heterogeneous Data Structures/" data-title="rust基础入门[08] - Using Heterogeneous Data Structures" data-url="https://galudisu.info/2023/01/08/rust/beginning/chapter08_Using%20Heterogeneous%20Data%20Structures/" data-author-key="1"></div><script>var duoshuoQuery = {short_name: "chemnk"};
 (function () {
-  var dsq = document.createElement('script');
-  dsq.type = 'text/javascript';
-  dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';
+  ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0]
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/css/main.css">
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
-<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">rust基础入门[11] - Allocating Memory</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-11</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-content"><p>本章覆盖有：</p>
 <ul>
 <li>各种各样的内存分配，性能特性，局限性</li>
@@ -335,17 +335,16 @@
 <h2 id="Register-Allocation"><a class="header-anchor" href="#Register-Allocation">¶</a>Register Allocation</h2>
 <p>在汇编语言(assembly language)，有时也包括C语言，会用到“寄存器分配(processor register allocation)”的概念。在Rust中没有这个概念，因为它约束于具体的计算机硬件架构。然而，代码优化器可以将栈分配的对象地址，转移到寄存器，只要程序得出的结果等价即可。因此，源码层面上出现的是栈对象的分配，在机器码层面上可能是对象在寄存器的分配。这当然依赖于目标的架构，因为寄存器越多，指派到寄存上的变量也就越多。</p>
 <p>寄存器分配通常跟开发者无瓜葛。但如果使用源码级调试高度优化程序的内存时，你会发现寄存器分配的变量不见了。因此，当调试时，你应该告知编译器生成非优化的(non-optimized)执行代码，除非你想直接调试机器码。</p>
-</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2023/01/12/rust/beginning/chapter12_Data%20Implementation/">rust基础入门[12] - Data Implementation</a></div><div class="article-nav-next"><a href="/2023/01/10/rust/beginning/chapter10_Defining%20Generic%20Functions%20and%20Structs/">rust基础入门[10] - Defining Generic Functions and Structs</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
-var disqus_identifier = '2023/01/11/rust/beginning/chapter11_Allocating Memory/';
-var disqus_title = 'rust基础入门[11] - Allocating Memory';
-var disqus_url = 'https://galudisu.info/2023/01/11/rust/beginning/chapter11_Allocating Memory/';
+</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2023/01/12/rust/beginning/chapter12_Data%20Implementation/">rust基础入门[12] - Data Implementation</a></div><div class="article-nav-next"><a href="/2023/01/10/rust/beginning/chapter10_Defining%20Generic%20Functions%20and%20Structs/">rust基础入门[10] - Defining Generic Functions and Structs</a></div></nav><div id="base-discus"><div class="ds-thread" data-thread-key="2023/01/11/rust/beginning/chapter11_Allocating Memory/" data-title="rust基础入门[11] - Allocating Memory" data-url="https://galudisu.info/2023/01/11/rust/beginning/chapter11_Allocating%20Memory/" data-author-key="1"></div><script>var duoshuoQuery = {short_name: "chemnk"};
 (function () {
-  var dsq = document.createElement('script');
-  dsq.type = 'text/javascript';
-  dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';
+  ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0]
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

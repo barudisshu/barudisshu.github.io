@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/css/main.css">
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
-<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">责任链模式(Chain of responsibility Pattern)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/behavioral/">behavioral<span class="tag">, </span></a><a class="tag-link" href="/tags/chain-of-responsibility/">chain of responsibility</a></p></div><div class="article-content"><blockquote>
 <p>责任链模式(Chain of Responsibility Pattern)为请求创建了一个接受者对象的链。这种模式给予请求的类型，对请求的发送者和接受者进行解耦。<strong>在这种模式中，通常每个接受者都包含对另一个接受者的引用。如果一个对象不能处理该请求，那么它会把相同的请求传给下一个接收者，以此类推</strong>。</p>
 </blockquote>
@@ -44,17 +44,16 @@
 <li><code>日志框架(如Log4j)</code>： 根据日志级别决定是否记录。</li>
 <li><code>异常处理链</code>： 不同层级尝试捕获和处理异常。</li>
 </ul>
-</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2025/05/10/pattern/basic/behavioral/Visitor/">访问者模式(Visitor Pattern)</a></div><div class="article-nav-next"><a href="/2025/05/10/pattern/basic/behavioral/Strategy/">策略模式(Strategy Pattern)</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
-var disqus_identifier = '2025/05/10/pattern/basic/behavioral/ChainOfResponsibility/';
-var disqus_title = '责任链模式(Chain of responsibility Pattern)';
-var disqus_url = 'https://galudisu.info/2025/05/10/pattern/basic/behavioral/ChainOfResponsibility/';
+</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2025/05/10/pattern/basic/behavioral/Visitor/">访问者模式(Visitor Pattern)</a></div><div class="article-nav-next"><a href="/2025/05/10/pattern/basic/behavioral/Strategy/">策略模式(Strategy Pattern)</a></div></nav><div id="base-discus"><div class="ds-thread" data-thread-key="2025/05/10/pattern/basic/behavioral/ChainOfResponsibility/" data-title="责任链模式(Chain of responsibility Pattern)" data-url="https://galudisu.info/2025/05/10/pattern/basic/behavioral/ChainOfResponsibility/" data-author-key="1"></div><script>var duoshuoQuery = {short_name: "chemnk"};
 (function () {
-  var dsq = document.createElement('script');
-  dsq.type = 'text/javascript';
-  dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';
+  ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0]
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

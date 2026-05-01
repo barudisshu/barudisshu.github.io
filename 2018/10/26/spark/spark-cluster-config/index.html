@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/css/main.css">
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
-<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">CentOS 7 搭建Spark2.3.1分布式集群</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-10-26</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/spark/">spark</a></p></div><div class="article-content"><span id="more"></span>
 <h2 id="下载安装包"><a class="header-anchor" href="#下载安装包">¶</a>下载安装包</h2>
 <ol>
@@ -282,17 +282,16 @@
 <p>spark-node2:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Spark, Lightning-fast unified analytics engine</span><br><span class="line">After=network.target remote-fs.target nss-lookup.target network-online.target</span><br><span class="line">Requires=network-online.target</span><br><span class="line">Wants=hadoop.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">User=galudisu</span><br><span class="line">Group=galudisu</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/opt/spark/sbin/start-master.sh &amp;</span><br><span class="line">ExecStop=/opt/spark/sbin/stop-master.sh &amp;</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">Environment=SPARK_HOME=/opt/spark</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
 <p>又或者单独编写一个脚本执行。</p>
-</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2018/10/26/ideal/ideal-reference/">Akka技术架构的一些架构建议</a></div><div class="article-nav-next"><a href="/2018/10/22/spark/spark-hadoop-1/">Hadoop集群配置</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
-var disqus_identifier = '2018/10/26/spark/spark-cluster-config/';
-var disqus_title = 'CentOS 7 搭建Spark2.3.1分布式集群';
-var disqus_url = 'https://galudisu.info/2018/10/26/spark/spark-cluster-config/';
+</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2018/10/26/ideal/ideal-reference/">Akka技术架构的一些架构建议</a></div><div class="article-nav-next"><a href="/2018/10/22/spark/spark-hadoop-1/">Hadoop集群配置</a></div></nav><div id="base-discus"><div class="ds-thread" data-thread-key="2018/10/26/spark/spark-cluster-config/" data-title="CentOS 7 搭建Spark2.3.1分布式集群" data-url="https://galudisu.info/2018/10/26/spark/spark-cluster-config/" data-author-key="1"></div><script>var duoshuoQuery = {short_name: "chemnk"};
 (function () {
-  var dsq = document.createElement('script');
-  dsq.type = 'text/javascript';
-  dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';
+  ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0]
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

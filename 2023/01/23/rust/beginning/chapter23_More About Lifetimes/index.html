@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/css/main.css">
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
-<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">rust基础入门[23] - More About Lifetimes</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-23</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-content"><p>本章覆盖有：</p>
 <ul>
 <li>简单、自由(free)函数和方法需要避免写入生命周期指示器(lifetime specifiers)，因为它们是被推断的</li>
@@ -113,17 +113,16 @@
 <p>在第一行，<code>T</code>类型参数被界限在<code>'a</code>，意味着不管这个类型是什么，会包含一个引用，并租借这个lifetime specifier注解的对象，即整个结构对象自己。</p>
 <p>在第二行，<code>S</code>结构体被<code>bool</code>初始化。实际上，原生类型不包含任何引用，所以这里用<code>'static</code>限界即可。</p>
 <p>对于第三行，<code>S</code>结构体由<code>S&lt;bool&gt;</code>初始化。该类型包含一个non-static引用，用<code>'a</code>限界。</p>
-</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2023/10/26/termius/cracked/">Termius Cracked</a></div><div class="article-nav-next"><a href="/2023/01/22/rust/beginning/chapter22_Borrowing%20and%20Lifetimes/">rust基础入门[22] - Borrowing and Lifetimes</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
-var disqus_identifier = '2023/01/23/rust/beginning/chapter23_More About Lifetimes/';
-var disqus_title = 'rust基础入门[23] - More About Lifetimes';
-var disqus_url = 'https://galudisu.info/2023/01/23/rust/beginning/chapter23_More About Lifetimes/';
+</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2023/10/26/termius/cracked/">Termius Cracked</a></div><div class="article-nav-next"><a href="/2023/01/22/rust/beginning/chapter22_Borrowing%20and%20Lifetimes/">rust基础入门[22] - Borrowing and Lifetimes</a></div></nav><div id="base-discus"><div class="ds-thread" data-thread-key="2023/01/23/rust/beginning/chapter23_More About Lifetimes/" data-title="rust基础入门[23] - More About Lifetimes" data-url="https://galudisu.info/2023/01/23/rust/beginning/chapter23_More%20About%20Lifetimes/" data-author-key="1"></div><script>var duoshuoQuery = {short_name: "chemnk"};
 (function () {
-  var dsq = document.createElement('script');
-  dsq.type = 'text/javascript';
-  dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';
+  ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0]
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/css/main.css">
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
-<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">基于docker环境下的zookeeper和kafka部署</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-10-20</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/docker/">docker</a></p></div><div class="article-content"><h2 id="Kafka-简单介绍"><a class="header-anchor" href="#Kafka-简单介绍">¶</a>Kafka 简单介绍</h2>
 <p><code>kafka</code>是 <em>LinkedIn</em> 开源的一种高吞吐量的分布式发布订阅消息系统，kafka的诞生就是为了处理海量日志数据，所以kafka处理消息的效率非常高，即使是非常普通的硬件也可以支持每秒数百万的消息。</p>
 <p><code>kafka</code>天然支持集群负载均衡，使用 <em>zookeeper</em> 进行分布式协调管理。不支持事务，有一定概率丢失消息。</p>
@@ -29,17 +29,16 @@
 <p><strong>kafka</strong> 环境已经搭建完成，接下来我们要对之前的工程进行改造，使用log4j2的kafka appender把日志统一输出到 <strong>kafka</strong> 日志中间件。</p>
 <p>日志导入 <strong>kafka</strong> 之后，接下来的处理就比较灵活了，可以用不同功能的消费者订阅感兴趣的 topic，进行日志分析。例如：使用 kafka 作为 storm 的数据来源 spout，进行流式处理；订阅 kafka 中需要做离线统计处理的 topic，把数据保存到数据库，一般是 mongodb 或 hbase 这种数据结构松散的 nosql 数据库；又或者可以使用 flume 或 logstash 这种管道工具，把数据导入到其他的系统，比如 elasticsearch、 solr 等。<br>
 <strong>kafka</strong> 作为最常用的日志中间件，可以把分散的日志集中到一处，并做缓冲处理，再和其他开源工具进行集成，对数据做进一步处理，是日志统计系统的基础组件。</p>
-</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2018/10/20/docker/docker-keycloak/">基于docker安装配置keycloak</a></div><div class="article-nav-next"><a href="/2018/09/27/gitlab/gitlab-ce-zh/">Docker 安装汉化版Gitlab</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
-var disqus_identifier = '2018/10/20/docker/docker-kafka/';
-var disqus_title = '基于docker环境下的zookeeper和kafka部署';
-var disqus_url = 'https://galudisu.info/2018/10/20/docker/docker-kafka/';
+</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2018/10/20/docker/docker-keycloak/">基于docker安装配置keycloak</a></div><div class="article-nav-next"><a href="/2018/09/27/gitlab/gitlab-ce-zh/">Docker 安装汉化版Gitlab</a></div></nav><div id="base-discus"><div class="ds-thread" data-thread-key="2018/10/20/docker/docker-kafka/" data-title="基于docker环境下的zookeeper和kafka部署" data-url="https://galudisu.info/2018/10/20/docker/docker-kafka/" data-author-key="1"></div><script>var duoshuoQuery = {short_name: "chemnk"};
 (function () {
-  var dsq = document.createElement('script');
-  dsq.type = 'text/javascript';
-  dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';
+  ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0]
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

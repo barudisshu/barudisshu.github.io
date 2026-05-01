@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/css/main.css">
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
-<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">非阻塞方式处理迭代Future问题</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2018-04-10</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/scala-future/">scala, future</a></p></div><div class="article-content"><p>Scala的Future实现是非常cool的，它很容易并行处理代码，除此之外易于组合，因为它是一个<code>monad</code>实现。</p>
 <span id="more"></span>
 <p>我们在创建一个Future的同时，它被切分为多个线程执行：</p>
@@ -23,17 +23,16 @@
 <p><img src="/img/pattern/non-blocking/1_wMSQADz5K35nCeOAuwx9fA.png" alt=""></p>
 <p>由于<code>Broadcast</code>使用back-pressure机制，执行时需要等待上游的完成才进行下一步操作，因此也是按照顺序执行的，该方式跟<code>Future.foldLeft</code>的实现是等价的。我们还是希望可以各个Future异步地调用处理，并快速失败。但这并不符合响应式设计，因为如果异步地不按顺序执行，我们并不知哪个快哪个慢，这是一种严重的内存消耗、硬件消耗！！</p>
 <p>如果一定要实现性能最优，我们可能需要额外的<code>GraphStage</code>，并赋予因子<code>factor</code>，用于记录上一次下游向上游拉取所用的时间，并进行决策。</p>
-</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2018/04/16/scala-exercises/shapeless-hlist/">Shapeless</a></div><div class="article-nav-next"><a href="/2018/01/10/cassandra/cassandra-beginning/">Cassandra 安装入门</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
-var disqus_identifier = '2018/04/10/pattern/futures/Execute-Scala-Futures-in-serial-one-after-the-other-non-blocking/';
-var disqus_title = '非阻塞方式处理迭代Future问题';
-var disqus_url = 'https://galudisu.info/2018/04/10/pattern/futures/Execute-Scala-Futures-in-serial-one-after-the-other-non-blocking/';
+</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2018/04/16/scala-exercises/shapeless-hlist/">Shapeless</a></div><div class="article-nav-next"><a href="/2018/01/10/cassandra/cassandra-beginning/">Cassandra 安装入门</a></div></nav><div id="base-discus"><div class="ds-thread" data-thread-key="2018/04/10/pattern/futures/Execute-Scala-Futures-in-serial-one-after-the-other-non-blocking/" data-title="非阻塞方式处理迭代Future问题" data-url="https://galudisu.info/2018/04/10/pattern/futures/Execute-Scala-Futures-in-serial-one-after-the-other-non-blocking/" data-author-key="1"></div><script>var duoshuoQuery = {short_name: "chemnk"};
 (function () {
-  var dsq = document.createElement('script');
-  dsq.type = 'text/javascript';
-  dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';
+  ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0]
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

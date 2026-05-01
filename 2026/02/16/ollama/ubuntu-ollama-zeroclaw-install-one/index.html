@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/css/main.css">
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
-<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
 </head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Ubuntu 安装ollama 在本地执行 zeroclaw 助手服务(一)</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2026-02-16</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/ollama/">ollama<span class="tag">, </span></a><a class="tag-link" href="/tags/llama3/">llama3<span class="tag">, </span></a><a class="tag-link" href="/tags/openclaw/">openclaw<span class="tag">, </span></a><a class="tag-link" href="/tags/zeroclaw/">zeroclaw</a></p></div><div class="article-content"><blockquote>
 <p>现在的AI技术发展真是一日千里，在目前企业庞大的资金博弈的前提下，拼的是谁的能耗成本更低、速度更快、效率更高、迭代更友好，谁率先打破摩尔定律，谁将会成为事实上的标准。作为普通程序员只能被动作为旁观者参与其中。先让子弹飞一会。</p>
 </blockquote>
@@ -48,17 +48,16 @@
 <p><img src="/img/ollama/NIM.png" alt="NIM.png"></p>
 <p>可以由如下命令查看云服务器下GPU的编排资源情况：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --run --runtime=nvidia --gpus all ubuntu nvidia-smi</span><br></pre></td></tr></table></figure>
-</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2026/02/16/ollama/ubuntu-ollama-zeroclaw-install-two/">Ubuntu 安装ollama 在本地执行 zeroclaw 助手服务(二)</a></div><div class="article-nav-next"><a href="/2025/05/10/pattern/basic/behavioral/Visitor/">访问者模式(Visitor Pattern)</a></div></nav><div id="base-discus"><div id="disqus_thread"></div><script>var disqus_shortname = 'barudisshu-github-io';
-var disqus_identifier = '2026/02/16/ollama/ubuntu-ollama-zeroclaw-install-one/';
-var disqus_title = 'Ubuntu 安装ollama 在本地执行 zeroclaw 助手服务(一)';
-var disqus_url = 'https://galudisu.info/2026/02/16/ollama/ubuntu-ollama-zeroclaw-install-one/';
+</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2026/02/16/ollama/ubuntu-ollama-zeroclaw-install-two/">Ubuntu 安装ollama 在本地执行 zeroclaw 助手服务(二)</a></div><div class="article-nav-next"><a href="/2025/05/10/pattern/basic/behavioral/Visitor/">访问者模式(Visitor Pattern)</a></div></nav><div id="base-discus"><div class="ds-thread" data-thread-key="2026/02/16/ollama/ubuntu-ollama-zeroclaw-install-one/" data-title="Ubuntu 安装ollama 在本地执行 zeroclaw 助手服务(一)" data-url="https://galudisu.info/2026/02/16/ollama/ubuntu-ollama-zeroclaw-install-one/" data-author-key="1"></div><script>var duoshuoQuery = {short_name: "chemnk"};
 (function () {
-  var dsq = document.createElement('script');
-  dsq.type = 'text/javascript';
-  dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async>  </script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';
+  ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0]
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
