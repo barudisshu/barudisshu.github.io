@@ -4,52 +4,85 @@
 
 <link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
 <link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
-</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><div class="post-list-wrapper"><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/21/rust/beginning/chapter21_Drops,%20Moves,%20and%20Copies">rust基础入门[21] - Drops, Moves, and Copies</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-21</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
-<ul>
-<li>为什么决定性的(deterministic)、隐式(implicit)的对象销毁是Rust的一大亮点</li>
-<li>对象所有者(ownership)的概念</li>
-<li>为什么自定义销毁可能有用，怎么创建</li>
-<li>三种赋值语义：共享(share)、拷贝(copy)、移动(move)</li>
-<li>为什么隐式共享对软件正确性是糟糕的</li>
-<li>为什么对象的移动(move semantics)比起拷贝(copy semantics)可能有更好的性能</li>
-<li>为什么某些类型需要拷贝(copy semantics)，某些不需要，怎么区分</li>
-<li>为什么某些类型需要是不可复制的(non-cloneable)，怎么区分</li>
-</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/21/rust/beginning/chapter21_Drops,%20Moves,%20and%20Copies/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/20/rust/beginning/chapter20_Standard%20Library%20Collections">rust基础入门[20] - Standard Library Collections</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-20</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
-<ul>
-<li>如何度量运行部分代码所花费的时间</li>
-<li>基于性能因素，如何使用哪种类型的集合</li>
-<li>集合中的各种操作中哪个更好：顺序扫描(sequential scan)、两端插入和删除(insertion and removal of items at both ends)、删除最大项(removal of the largest item)、搜索(search)、键搜索(search by key)、保持顺序(keeping items sorted)</li>
-</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/20/rust/beginning/chapter20_Standard%20Library%20Collections/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/19/rust/beginning/chapter19_Object-Oriented%20Programming">rust基础入门[19] - Object-Oriented Programming</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-19</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
-<ul>
-<li>不使用trait，继承方式实现关联类型的函数</li>
-<li>Rust面向对象和C++面向对象的区别</li>
-<li>那些trait可以实现哪些type，哪些不能</li>
-<li>如何指定一个方法更改对象</li>
-<li>构造对象的一些约定方法</li>
-<li>为什么Rust不适用数据继承</li>
-<li>什么是静态派遣，什么是动态派遣，如何实现，如何使用</li>
-</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/19/rust/beginning/chapter19_Object-Oriented%20Programming/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/18/rust/beginning/chapter18_Using%20Traits">rust基础入门[18] - Using Traits</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-18</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
-<ul>
-<li><code>traits</code>如何避免在泛型函数调用中的不能理解的编译错误信息</li>
-<li>泛型参数的边界如何被单子化(monolithic)，或如何分解为几个traits</li>
-<li>如何创建函数体返回内的traits</li>
-<li>如何简单地使用<code>self</code>关键字，通过&quot;点，dot notation&quot;操作来创建函数</li>
-<li>如何迭代一个trait</li>
-<li>如何定义类型别名</li>
-<li>如何定义泛型迭代器</li>
-<li>如何使用关联类型来简化泛型迭代器的使用</li>
-<li>如何定义字节的迭代器</li>
-</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/18/rust/beginning/chapter18_Using%20Traits/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2023/01/17/rust/beginning/chapter17_IO%20and%20Error%20Handling">rust基础入门[17] - IO and Error Handling</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2023-01-17</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tag"> </i><a class="tag-link" href="/tags/rust/">rust</a></p><p class="meta-item meta-category"><span class="meta-item-title"></span><i class="icon-bookmark"> </i><a class="category-link" href="/categories/learning/">learning</a></p></div><div class="article-excerpt"><p>本章覆盖有：</p>
-<ul>
-<li>如何通过命令行参数启动程序</li>
-<li>如何给操作系统返回一个状态码</li>
-<li>如何获取和设置进程环境变量</li>
-<li>如何处理运行时错误</li>
-<li>如何在控制台读取键盘输入信息并打印输出</li>
-<li>原生类型如何转换为字符串</li>
-<li>如何读写二进制文件</li>
-<li>如何按行读取文本文件</li>
-</ul></div><div class="article-read-more"><a class="read-more-link" href="/2023/01/17/rust/beginning/chapter17_IO%20and%20Error%20Handling/">Read more</a></div></article></div><nav class="pagination-wrapper"><a class="extend prev" rel="prev" href="/page/6/">&lt;&lt;</a><a class="page-number" href="/">1</a><span class="space">...</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">...</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/8/">&gt;&gt;</a></nav><nav class="article-nav"><div class="article-nav-prev"><a href="/"></a></div><div class="article-nav-next"><a href="/"></a></div></nav><div id="base-discus"></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><div class="post-list-wrapper"><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2025/05/02/algorithm/leetcode/number-of-ways-of-cutting-a-pizza">Number of Ways of Cutting a Pizza</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-02</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/leetcode/">leetcode<span class="tag">, </span></a><a class="tag-link" href="/tags/number-of-ways-of-cutting-a-pizza/">number-of-ways-of-cutting-a-pizza</a></p></div><div class="article-excerpt"><p>Given a rectangular pizza represented as a <code>rows x cols</code> matrix containing the following characters: <code>'A'</code>(an apple) and <code>'.'</code>(empty cell) and given the integer <code>k</code>. You have to cut the pizza into <code>k</code> pieces using <code>k-1</code> cuts.</p>
+<p>For each cut you choose the direction: vertical or horizontal, then you choose a cut position at the cell boundary and cut the pizza into two pieces. If you cut the pizza verticaully, give the left part of the pizza to a person. If you cut the pizza horizontally, give the upper part of the pizza to a person. Give the last piece of pizza to the last person.</p>
+<p><strong>Return the number of ways of cutting the pizza such that each piece contains <strong>at least</strong> one apple</strong>. Since the anser can be a huge number, return this modulo 10^9+7.</p>
+<p>给你一个<code>rows x cols</code>大小的矩形批萨和一个整数<code>k</code>，矩形包含两种字符：<code>'A'</code>(表示苹果)和<code>'.'</code>(表示空格子)。你需要切批萨<code>k-1</code>次，得到<code>k</code>块批萨并送给别人。</p>
+<p>切披萨的每一刀，先要选择是向垂直还是水平方向切，再在矩形的边界上选一个切的位置，将披萨一分为二。如果垂直地切披萨，那么需要把左边的部分送给一个人，如果水平地切，那么需要把上面的部分送给一个人。在切完最后一刀后，需要把剩下来的一块送给最后一个人。</p>
+<p>请你返回确保每一块披萨包含 至少 一个苹果的切披萨方案数。由于答案可能是个很大的数字，请你返回它对 10^9 + 7 取余的结果。</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="/img/algorithm/leetcode/number-of-ways-of-cutting-a-pizza.png" alt="number-of-ways-of-cutting-a-pizza.png"></p>
+<blockquote>
+<p>Input: pizza = [“A…”,“AAA”,“…”], k = 3<br>
+Output: 3<br>
+Explanation: The figure above shows the three ways to cut the pizza. Note that pieces must contain at least one apple.</p>
+</blockquote>
+<p><strong>Example 2:</strong></p>
+<blockquote>
+<p>Input: pizza = [“A…”,“AA.”,“…”], k = 3<br>
+Output: 1</p>
+</blockquote>
+<p><strong>Example 3:</strong></p>
+<blockquote>
+<p>Input: pizza = [“A…”,“A…”,“…”], k = 1<br>
+Output: 1</p>
+</blockquote></div><div class="article-read-more"><a class="read-more-link" href="/2025/05/02/algorithm/leetcode/number-of-ways-of-cutting-a-pizza/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2025/05/02/algorithm/leetcode/reducing-dishes">Reducing Dishes</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-02</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/leetcode/">leetcode<span class="tag">, </span></a><a class="tag-link" href="/tags/reducing-dishes/">reducing-dishes</a></p></div><div class="article-excerpt"><p>A chef has collected data on the <code>satisfaction</code> level of this <code>n</code> dishes. Chef can cook any dish in 1 unit of time.</p>
+<p><strong>Like-time coefficient</strong> of a dish is defined as the time taken to cook that dish including previous dishes multiplied by its satisfaction level i.e. <code>time[i] * satisfaction[i]</code>.</p>
+<p>Return the maximum sum of <strong>like-time coefficient</strong> that the chef can obtain after preparing some amount of dishes.</p>
+<p>Dishes can be prepared in <strong>any</strong> order and the chef can discard some dishes to get this maximum value.</p>
+<p>一个厨师收集了他<code>n</code>道菜的满意程度<code>satisfaction</code>，这个厨师做出每道菜的时间都是1单位时间。</p>
+<p>一道菜的<strong>like-time系数</strong>定义为烹饪这道菜结束的时间(包含之前每道菜所花费的时间)乘以这道菜的满意程度，也就是<code>time[i] * satisfaction[i]</code>。</p>
+<p>返回厨师在准备了一定数量的菜肴后可以获得的<strong>最大 like-time系数</strong>总和。</p>
+<p>你可以按 <strong>任意</strong> 顺序安排做菜的顺序，你也可以选择放弃做某些菜来获得更大的总和。</p>
+<p><strong>Example 1:</strong></p>
+<blockquote>
+<p>Input: satisfaction = [-1,-8,0,5,-9]<br>
+Output: 14<br>
+Explanation: After Removing the second and last dish, the maximum total like-time coefficient will be equal to (-1<em>1 + 0</em>2 + 5*3 = 14).<br>
+Each dish is prepared in one unit of time.</p>
+</blockquote>
+<p><strong>Example 2:</strong></p>
+<blockquote>
+<p>Input: satisfaction = [4,3,2]<br>
+Output: 20<br>
+Explanation: Dishes can be prepared in any order, (2<em>1 + 3</em>2 + 4*3 = 20)</p>
+</blockquote>
+<p><strong>Example 3:</strong></p>
+<blockquote>
+<p>Input: satisfaction = [-1,-4,-5]<br>
+Output: 0<br>
+Explanation: People do not like the dishes. No dish is prepared.</p>
+</blockquote></div><div class="article-read-more"><a class="read-more-link" href="/2025/05/02/algorithm/leetcode/reducing-dishes/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2025/05/02/algorithm/leetcode/russian-doll-envelopes">Russian Doll Envelopes</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-02</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/leetcode/">leetcode<span class="tag">, </span></a><a class="tag-link" href="/tags/russian-doll-envelopes/">russian-doll-envelopes</a></p></div><div class="article-excerpt"><p>You are given a 2D array of integers <code>envelopes</code> where <code>envelopes[i] = [wi, hi]</code> represents the width and the height of an envelope.</p>
+<p>One envelope can fit into another if and only if both the width and height of one envelope are greater than the other envelope’s width and height.</p>
+<p>Return the <strong>maximum number of envelopes you can Russin doll (i.e., put one inside the other).</strong></p>
+<p><strong>Note</strong>: You cannot rotate an envelope.</p>
+<p>给你一个二维数组<code>envelopes</code>，其中<code>envelopes[i] = [wi, hi]</code>, 表示第<code>i</code>个信封的宽度和高度。</p>
+<p>当另一个信封的宽度和高度都比这个信封大的时候，这个信封就可以放进另一个信封里，如同俄罗斯套娃一样。</p>
+<p>请计算<strong>最多能有多少个</strong>信封能组成一组**&quot;俄罗斯套娃“**信封(即可以把一个信封放到另一个信封里面)。</p>
+<p><strong>Example 1:</strong><br>
+Input: envelopes = [[5,4],[6,4],[6,7],[2,3]]<br>
+Output: 3<br>
+Explanation: The maximum number of envelopes you can Russian doll is 3 ([2,3] =&gt; [5,4] =&gt; [6,7]).</p>
+<p><strong>Example 2:</strong><br>
+Input: envelopes = [[1,1],[1,1],[1,1]]<br>
+Output: 1</p></div><div class="article-read-more"><a class="read-more-link" href="/2025/05/02/algorithm/leetcode/russian-doll-envelopes/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2025/05/02/algorithm/leetcode/shortest-path-visiting-all-nodes">Shortest Path Visiting all Nodes</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-02</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/leetcode/">leetcode<span class="tag">, </span></a><a class="tag-link" href="/tags/shortest-path-visiting-all-nodes/">shortest-path-visiting-all-nodes</a></p></div><div class="article-excerpt"><p>You have an undirected, connected graph of <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>. You are given an array <code>graph</code> where <code>graph[i]</code> is a list of all the nodes connected with node <code>i</code> by an edge.</p>
+<p>Return <strong>the length of the shortest path that visits every node</strong>. You may start and stop at any node, you may revisit nodes multiple times, and you may reuse edges.</p>
+<p><strong>Example 1</strong>:</p>
+<p><img src="/img/algorithm/leetcode/shortest-path-visiting-all-nodes-1.png" alt="shortest-path-visiting-all-nodes-1.png"></p>
+<blockquote>
+<p>Input: graph = [[1,2,3],[0],[0],[0]]<br>
+Output: 4<br>
+Explanation: One possible path is [1,0,2,0,3]</p>
+</blockquote>
+<p><strong>Example 2</strong>:</p>
+<p><img src="/img/algorithm/leetcode/shortest-path-visiting-all-nodes-1.png" alt="shortest-path-visiting-all-nodes-1.png"></p>
+<blockquote>
+<p>Input: graph = [[1],[0,2,4],[1,3,4],[2],[1,2]]<br>
+Output: 4<br>
+Explanation: One possible path is [0,1,4,2,3]</p>
+</blockquote></div><div class="article-read-more"><a class="read-more-link" href="/2025/05/02/algorithm/leetcode/shortest-path-visiting-all-nodes/">Read more</a></div></article><article class="article-item"><h2 class="article-title-wrapper"><a class="title-link" href="/2025/05/02/algorithm/leetcode/trapping-rain-water">Trapping Rain Water</a></h2><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-02</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/leetcode/">leetcode<span class="tag">, </span></a><a class="tag-link" href="/tags/trapping-rain-water/">trapping_rain_water</a></p></div><div class="article-excerpt"><p>Given <code>n</code> non-negative integers representing an elevation map where the width of each bar is <code>1</code>, compute how much water it can trap after raining.</p>
+<p>给定<code>n</code>个非负整数表示每个宽度为<code>1</code>的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。</p>
+<p><img src="/img/algorithm/leetcode/trapping_rain_water.png" alt="trapping_rain_water.png"></p></div><div class="article-read-more"><a class="read-more-link" href="/2025/05/02/algorithm/leetcode/trapping-rain-water/">Read more</a></div></article></div><nav class="pagination-wrapper"><a class="extend prev" rel="prev" href="/page/6/">&lt;&lt;</a><a class="page-number" href="/">1</a><span class="space">...</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">...</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/8/">&gt;&gt;</a></nav><nav class="article-nav"><div class="article-nav-prev"><a href="/"></a></div><div class="article-nav-next"><a href="/"></a></div></nav><div id="base-discus"></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>

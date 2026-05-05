@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>Unique Binary Search</title>
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="/css/vendors/rabbit-lyrics.css">
+<link rel="shortcut icon" href="/img/favicon.ico"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="简单易懂の现代魔法" type="application/atom+xml">
+</head><body><header class="base-menu"><div class="menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav></div></header><header class="base-mobile-menu"><div class="mobile-menu-wrapper"><div class="menu-layout-bg"></div><nav class="menu-content"><ul class="menu-list"><li class="menu-item"><a class="menu-link" href="/">简单易懂の现代魔法</a></li><li class="menu-item"><a class="menu-link" href="/maths/">Maths</a></li><li class="menu-item"><a class="menu-link" href="/projects/">Projects</a></li><li class="menu-item"><a class="menu-link" href="/documents/">Documents</a></li><li class="menu-item"><a class="menu-link" href="/archives/">Archives</a></li><li class="menu-item"><a class="menu-link" target="_blank" rel="noopener" href="http://weibo.com/u/2360401155">Weibo</a></li><li class="menu-item"><a class="menu-link" href="/about">About</a></li><li class="menu-item"><a class="menu-link" href="/atom.xml">Rss</a></li></ul></nav><div class="toggle-menu" id="mobile-menu-toggle"><span class="menu-bar"></span><span class="menu-bar"> </span><span class="menu-bar"></span></div></div></header><div class="base-content"><div class="base-content-main"><article class="article-main"><h1 class="article-title">Unique Binary Search</h1><div class="article-meta"><p class="meta-item meta-time"><span class="meta-item-title"></span><i class="icon-calendar"> </i>2025-05-02</p><p class="meta-item meta-tag"><span class="meta-item-title"></span><i class="icon-tags"> </i><a class="tag-link" href="/tags/leetcode/">leetcode<span class="tag">, </span></a><a class="tag-link" href="/tags/unique-binary-search/">unique_binary_search</a></p></div><div class="article-content"><p>Given an integer <code>n</code>, return the number of structurally unique **BST’**s (binary search trees) which has exctly <code>n</code> nodes unique values from <code>1</code> to <code>n</code>.</p>
+<p>给你一个证书<code>n</code>，求恰由<code>n</code>个节点组成且节点值从<code>1</code>到<code>n</code>互不相同的<strong>二叉搜索树</strong>有多少种？返回满足题意的二叉搜索树的种数。</p>
+<p><img src="/img/algorithm/leetcode/unique-binary-search.png" alt="unique_binary_search.png"></p>
+<span id="more"></span>
+<blockquote>
+<p><strong>二叉搜索树</strong>(Binary Search Tree, BST)数据结构</p>
+<p>定义：</p>
+<ul>
+<li>对于每个节点，其左子树中的所有节点值均小于该节点值。</li>
+<li>对于每个节点，其右子树中的所有节点值均大于该节点值。</li>
+<li>左右子树本身也必须是二叉搜索树。</li>
+</ul>
+<p>特性：</p>
+<ul>
+<li>中序遍历有序：对BST进行中序遍历，得到的节点值是递增的。</li>
+<li>查找效率高：在理想情况下(平衡的)，查找、插入、删除的时间复杂度为<code>O(log n)</code>。</li>
+</ul>
+</blockquote>
+<p>图示中，当<code>n</code>为3时，以<code>1</code>为根节点有2种；以<code>2</code>为根节点有1种；以<code>3</code>为根节点有3种。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">numTrees</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n + <span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">1</span>;  <span class="comment">// 空树</span></span><br><span class="line">        dp[<span class="number">1</span>] = <span class="number">1</span>;  <span class="comment">// 只有一个节点</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt;=i; j++) &#123;</span><br><span class="line">                dp[i] += dp[j - <span class="number">1</span>] * dp [i - j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>从数学的归纳法分析：<br>
+当<code>n=0</code>时为空树，<code>G(0)=1</code><br>
+当<code>n=1</code>时只有一个节点，<code>G(1)=1</code><br>
+当<code>n=2</code>时，截取图示中的结果，<code>G(2)=2</code><br>
+当<code>n=3</code>时，<img src="https://math.now.sh?inline=G%283%29%3D%20G(0)%20%5Ccdot%20G(2)%20%2B%20G(1)%20%5Ccdot%20G(1)%20%2B%20G(2)%20%5Ccdot%20G(0)%20%3D1%5Ccdot%202%20%2B%201%20%5Ccdot%201%20%2B%202%20%5Ccdot%201%20%3D%205" style="filter: opacity(90%);transform:scale(0.85);text-align:center;display:inline-block;margin: 0;"/></p>
+</blockquote>
+</div></article><nav class="article-nav"><div class="article-nav-prev"><a href="/2025/05/02/algorithm/leetcode/trapping-rain-water/">Trapping Rain Water</a></div><div class="article-nav-next"><a href="/2024/06/13/pekko/pekko-in-kubernetes-for-coap/">Pekko in Kubernetes, application level solution for Digital Transformation</a></div></nav><div id="base-discus"><div class="ds-thread" data-thread-key="2025/05/02/algorithm/leetcode/unique-binary-search/" data-title="Unique Binary Search" data-url="https://galudisu.info/2025/05/02/algorithm/leetcode/unique-binary-search/" data-author-key="1"></div><script>var duoshuoQuery = {short_name: "chemnk"};
+(function () {
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';
+  ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0]
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></div></div><footer class="base-footer"><div class="footer-wrapper"><span>©2016 - 2026 <a href="https://galudisu.info">barudisshu</a>, unless otherwise noted.</span></div></footer><div class="dom-ready">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-flash.min.css">
+
+<script src="/js/base.js"></script>
+
+<script src="/js/rabbit-lyrics.js"></script>
+</div></body></html>

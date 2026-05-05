@@ -13,6 +13,26 @@ p pre {
   box-sizing: border-box;
   border: 1px solid #ddd;
 }
+.article-item .article-excerpt > table {
+  border: 1px solid #dedede;
+  text-align: center;
+}
+.article-item .article-excerpt > table th,
+.article-item .article-excerpt > table td {
+  border: 1px solid #dedede;
+  padding: 0 1rem;
+}
+.article-item .article-excerpt > table th {
+  font-weight: bold;
+  background-color: rgba(158, 188, 226, 0.2);
+  white-space: nowrap;
+}
+.article-item .article-excerpt > table tbody tr:nth-child(2n) {
+  background: rgba(158, 188, 226, 0.12);
+}
+.article-item .article-excerpt > table tbody tr:hover {
+  background: #efefef;
+}
 .article-main .article-content > table {
   border: 1px solid #dedede;
   text-align: center;
